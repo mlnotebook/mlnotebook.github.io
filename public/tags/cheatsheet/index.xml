@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cheatsheet on Machine Learning Notebook</title>
+    <link>/tags/cheatsheet/index.xml</link>
+    <description>Recent content in Cheatsheet on Machine Learning Notebook</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="/tags/cheatsheet/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>MLNotebook First Post</title>
+      <link>/post/my-first-post/</link>
+      <pubDate>Wed, 01 Mar 2017 10:38:47 +0000</pubDate>
+      
+      <guid>/post/my-first-post/</guid>
+      <description>&lt;p&gt;This is the first post on the Machine Learning Notebook (MLN)!&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m a n00b when it comes to Github Pages and relatively new to working with Github at all! It took me a while to decide what platform to use for creating this humble resource. I was initially looking at writing everything in iPython notebooks, but it was confusing to figure out how to keep the scripts live rather than coverting them to static sites.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve read several blogs, but &lt;a href=&#34;http://bruceeckel.github.io/2014/11/19/using-github-pages/&#34; title=&#34;Using Github Pages&#34;&gt;this one&lt;/a&gt; seemed to be written to my liking and was pretty much a document of trail and error, but perhaps more imporantly, &lt;strong&gt;solutions&lt;/strong&gt;. I&amp;rsquo;m actually writing this first post after reading &lt;a href=&#34;https://www.smashingmagazine.com/2014/08/build-blog-jekyll-github-pages/&#34; title=&#34;Build a Blog with Jekyll and Github Pages&#34;&gt;this&lt;/a&gt; where I&amp;rsquo;ve settled on using Jekyll. Though I must say that I was initially pushed away from this idea after seeing that Jekyll was written for Ruby (in which I have no experience). But here it goes - hopefully it&amp;rsquo;ll be straight-forward.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/em&gt;: Scratch that - after playing around with &lt;a href=&#34;https://gohugo.io/&#34; title=&#34;Hugo Homepage&#34;&gt;Hugo&lt;/a&gt; and reading the &amp;lsquo;start from scratch&amp;rsquo; post &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-hugo-a-static-site-generator-on-ubuntu-14-04#adjusting-the-initial-configuration-for-your-site&#34; title=&#34;Quickstart Hugo&#34;&gt;here&lt;/a&gt; I think I&amp;rsquo;m a hugo-convert!&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m (still) going to have to play about with writing in markdown just to get used to the command structure. Luckily, I found a good cheatsheet over &lt;a href=&#34;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&#34; title=&#34;Markdown Cheatsheet&#34;&gt;here&lt;/a&gt; and another &lt;a href=&#34;https://sourceforge.net/p/hugo-generator/wiki/markdown_syntax/&#34; title=&#34;Sourceforge Markdown&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Eventually, I want this site to build up into small sampling of what I&amp;rsquo;ve been learning to do whilst learning Python and applying it to Machine Learning problems. It may at times become quite specialised with my research in medical imaging, but the general processes (I hope) should benefit at least one other person in the world.&lt;/p&gt;
+
+&lt;p&gt;Here goes!&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/em&gt;: Just to test out the code-block highlighting&amp;hellip;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;hello_world&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;():&lt;/span&gt;
+    &lt;span style=&#34;color: #66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Hello there!&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
