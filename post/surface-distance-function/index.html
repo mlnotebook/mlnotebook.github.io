@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Performing segmentation evaluation with surface distances is a good way of measuring the overall accuracy of the segmentation. This function is written in Python to help with just that!">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>Surface Distance Function &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/androidstudio.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/jupyter.css">
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Surface Distance Function</h1>
+  <h2>Performing segmentation evaluation with surface distances is a good way of measuring the overall accuracy of the segmentation. This function is written in Python to help with just that!</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>01 Mar 2017, 19:27</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/segmentation">segmentation</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/segmentation">segmentation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/evaluation">evaluation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/surface-distance">surface distance</a>
+    
+  </div>
+  
+  
+
+</div>
+
+  
+
+<h2 id="background">Background</h2>
+
+<p>Recently, I have been doing a <strong>lot</strong> of segmentation evaluation - seeing how good a segmentation done by a machine compares with one that&rsquo;s done manual, a &lsquo;ground truth&rsquo; (GT). Traditionally, such verification is done by comparing the overlap between the two e.g. Dice Simlarity Coefficient (DSC) [1]. There are a few different calculations that can be done (there&rsquo;ll be a longer post on just that) and &lsquo;surface distance&rsquo; calculations are one of them.</p>
+
+<h2 id="method">Method</h2>
+
+<p>For this calculation, we need to be able to find the outline of the segmentation and compare it to the outline of the GT. We can then take measurements of how far each segmentation pixel is from its corresponding pixel in the GT outline.</p>
+
+<p>Now I&rsquo;ve seen MATLAB code that can do this, though often its not entirely accurate. Plus I wanted to do this calculation on-the-fly as part of my program which was written in Python. So I came up with this function:</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span style="color: #f92672">import</span> <span style="color: #f8f8f2">numpy</span> <span style="color: #f92672">as</span> <span style="color: #f8f8f2">np</span>
+<span style="color: #f92672">from</span> <span style="color: #f8f8f2">scipy.ndimage</span> <span style="color: #f92672">import</span> <span style="color: #f8f8f2">morphology</span>
+
+<span style="color: #66d9ef">def</span> <span style="color: #a6e22e">surfd</span><span style="color: #f8f8f2">(input1,</span> <span style="color: #f8f8f2">input2,</span> <span style="color: #f8f8f2">sampling</span><span style="color: #f92672">=</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">,</span> <span style="color: #f8f8f2">connectivity</span><span style="color: #f92672">=</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">):</span>
+    
+    <span style="color: #f8f8f2">input_1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">atleast_1d(input1</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">astype(np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">bool))</span>
+    <span style="color: #f8f8f2">input_2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">atleast_1d(input2</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">astype(np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">bool))</span>
+    
+
+    <span style="color: #f8f8f2">conn</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">generate_binary_structure(input_1</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">ndim,</span> <span style="color: #f8f8f2">connectivity)</span>
+
+    <span style="color: #f8f8f2">input1_border</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">input_1</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">binary_erosion(input_1,</span> <span style="color: #f8f8f2">conn)</span>
+    <span style="color: #f8f8f2">input2_border</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">input_2</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">binary_erosion(input_2,</span> <span style="color: #f8f8f2">conn)</span>
+
+    
+    <span style="color: #f8f8f2">dta</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">distance_transform_edt(</span><span style="color: #f92672">~</span><span style="color: #f8f8f2">input1_border,sampling)</span>
+    <span style="color: #f8f8f2">dtb</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">distance_transform_edt(</span><span style="color: #f92672">~</span><span style="color: #f8f8f2">input2_border,sampling)</span>
+    
+    <span style="color: #f8f8f2">sds</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">concatenate([np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">ravel(dta[input2_border</span><span style="color: #f92672">!=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">]),</span> \
+    	  <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">ravel(dtb[input1_border</span><span style="color: #f92672">!=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">])])</span>
+       
+    
+    <span style="color: #66d9ef">return</span> <span style="color: #f8f8f2">sds</span>
+</pre></div>
+
+
+<p>Lets go through it bit-by-bit. The function <em>surfd</em> is defined to take in four variables:</p>
+
+<ul>
+<li><em>input1</em> - the segmentation that has been created. It can be a multi-class segmentation, but this function will make the image binary. We&rsquo;ll talk about how to use this function on individual classes later.</li>
+<li><em>input2</em> - the GT segmentation against which we wish to compare <em>input1</em></li>
+<li><em>sampling</em> - the pixel resolution or pixel size. This is entered as an <em>n</em>-vector where <em>n</em> is equal to the number of dimensions in the segmentation i.e. 2D or 3D. The default value is 1 which means pixels (or rather voxels) are 1 x 1 x 1 mm in size.</li>
+<li><em>connectivity</em> - creates either a 2D (3 x 3) or 3D (3 x 3 x 3) matrix defining the neighbourhood around which the function looks for neighbouring pixels. Typically, this is defined as a six-neighbour kernel which is the default behaviour of this function.</li>
+</ul>
+
+<p>First we&rsquo;ll be making use of simple numpy operations, but we&rsquo;ll also need the <em>morphology</em> module from <em>scipy</em>&rsquo;s <em>dnimage</em> package. These are imported first. More information on this module can be found <a href="https://docs.scipy.org/doc/scipy-0.18.1/reference/ndimage.html" title="Scipy _ndimage_ package">here</a></p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span style="color: #f92672">import</span> <span style="color: #f8f8f2">numpy</span> <span style="color: #f92672">as</span> <span style="color: #f8f8f2">np</span>
+<span style="color: #f92672">from</span> <span style="color: #f8f8f2">scipy.ndimage</span> <span style="color: #f92672">import</span> <span style="color: #f8f8f2">morphology</span>
+</pre></div>
+
+
+<p>The two inputs are checked for their size and made binary. Any value greater than zero is made 1 (true).</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">    <span style="color: #f8f8f2">input_1</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">atleast_1d(input1</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">astype(np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">bool))</span>
+    <span style="color: #f8f8f2">input_2</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">atleast_1d(input2</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">astype(np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">bool))</span>
+</pre></div>
+
+
+<p>We use the the <em>morphology.generate_binary_structure</em> function, along with the number of dimensions of the segmentation, to create the kernel that will be used to detect the edges of the segmentations. This could be done just by hard-coding the kernel itself: <code>[[0 0 0],[0 1 0],[0 0 0]; [0 1 0], [1 1 1], [0 1 0]; [0 0 0], [0 1 0], [0 0 0]]</code>. This kernel &lsquo;<em>conn</em>&rsquo; is supplied to the <em>morphology.binary_erosion</em> function which strips the outermost pixel from the edge of the segmentation. Subtracting this result from the segmentation itself leaves only the single-pixel-wide surface.</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">    <span style="color: #f8f8f2">conn</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">generate_binary_structure(input_1</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">ndim,</span> <span style="color: #f8f8f2">connectivity)</span>
+
+    <span style="color: #f8f8f2">input1_border</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">input_1</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">binary_erosion(input_1,</span> <span style="color: #f8f8f2">conn)</span>
+    <span style="color: #f8f8f2">input2_border</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">input_2</span> <span style="color: #f92672">-</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">binary_erosion(input_2,</span> <span style="color: #f8f8f2">conn)</span>
+</pre></div>
+
+
+<p>Next we again use the <em>morphology</em> module. This time we give the <em>distance_transform_edt</em> function our pixel-size (<em>samping</em>) and also the inverted surface-image. The inversion is used such that the surface itself is given the value of zero i.e. any pixel at this location, will have zero surface-distance. The transform increases the value/error/penalty of the remaining pixels with increasing distance away from the surface.</p>
+
+<p>Each pixel of the opposite segmentation-surface is then laid upon this &lsquo;map&rsquo; of penalties and both results are concatenated into a vector which is as long as the number of pixels in the surface of each segmentation. This vector of <em>surface distances</em> is returned. Note that this is technically the <em>symmetric</em> surface distance as we are not assuming that just doing this for <em>one</em> of the surfaces is enough. It may be that the distance between a pixel in A and in B is not the same as between the pixel in B and in A.</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">    <span style="color: #f8f8f2">dta</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">distance_transform_edt(</span><span style="color: #f92672">~</span><span style="color: #f8f8f2">input1_border,sampling)</span>
+    <span style="color: #f8f8f2">dtb</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">morphology</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">distance_transform_edt(</span><span style="color: #f92672">~</span><span style="color: #f8f8f2">input2_border,sampling)</span>
+    
+    <span style="color: #f8f8f2">sds</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">concatenate([np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">ravel(dta[input2_border</span><span style="color: #f92672">!=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">]),</span> \
+    	  <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">ravel(dtb[input1_border</span><span style="color: #f92672">!=</span><span style="color: #ae81ff">0</span><span style="color: #f8f8f2">])])</span>
+        
+    <span style="color: #66d9ef">return</span> <span style="color: #f8f8f2">sds</span>
+</pre></div>
+
+
+<h2 id="how-is-it-used">How is it used?</h2>
+
+<p>The function example below takes two segmentations (which both have multiple classes). The sampling vector is a typical pixel-size from an MRI scan and the 1 indicated I&rsquo;d like a 6 neighbour (cross-shaped) kernel for finding the edges.</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">    <span style="color: #f8f8f2">surface_distance</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">surfd(test_seg,</span> <span style="color: #f8f8f2">GT_seg,</span> <span style="color: #f8f8f2">[</span><span style="color: #ae81ff">1.25</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">1.25</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">10</span><span style="color: #f8f8f2">],</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span>
+</pre></div>
+
+
+<p>By specifcing the value of the voxel-label I&rsquo;m interested in (assuming we&rsquo;re talking about classes which are contiguous and not spread out), we can find the surface accuracy of that class.</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">    <span style="color: #f8f8f2">surface_distance</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">surfd(test_seg(test_seg</span><span style="color: #f92672">==</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">),</span> \
+    		       <span style="color: #f8f8f2">GT_seg(GT_seg</span><span style="color: #f92672">==</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">),</span> <span style="color: #f8f8f2">[</span><span style="color: #ae81ff">1.25</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">1.25</span><span style="color: #f8f8f2">,</span> <span style="color: #ae81ff">10</span><span style="color: #f8f8f2">],</span><span style="color: #ae81ff">1</span><span style="color: #f8f8f2">)</span>
+</pre></div>
+
+
+<h2 id="what-do-the-results-mean">What do the results mean?</h2>
+
+<p>The returned surface distances can be used to calculate:</p>
+
+<ul>
+<li><em>Mean Surface Distance (MSD)</em> - the mean of the vector is taken. This tell us how much, on average, the surface varies between the segmentation and the GT (in mm).</li>
+<li><em>Residual Mean Square Distance (RMS)</em> - as it says, the mean is taken from each of the points in the vector, these residuals are squared (to remove negative signs), summated, weighted by the mean and then the square-root is taken. Measured in mm.</li>
+<li><em>Hausdorff Distance (HD)</em> - the maximum of the vector. The largest difference between the surface distances. Also measured in mm.</li>
+</ul>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%">    <span style="color: #f8f8f2">msd</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">surface_distance</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">mean()</span>
+    <span style="color: #f8f8f2">rms</span> <span style="color: #f92672">=</span> <span style="color: #f8f8f2">np</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">sqrt((surface_distance</span><span style="color: #f92672">**</span><span style="color: #ae81ff">2</span><span style="color: #f8f8f2">)</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">mean())</span>
+    <span style="color: #f8f8f2">hd</span>  <span style="color: #f92672">=</span> <span style="color: #f8f8f2">(surface_distance</span><span style="color: #f92672">.</span><span style="color: #f8f8f2">max())</span>
+</pre></div>
+
+
+<hr />
+
+<h3 id="references">References</h3>
+
+<p>[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. <a href="https://doi.org/10.2307/1932409">https://doi.org/10.2307/1932409</a></p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/my-first-post/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/my-first-post/">MLNotebook First Post</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+
+</body>
+</html>
+
