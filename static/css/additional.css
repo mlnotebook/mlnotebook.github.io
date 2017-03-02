@@ -32,7 +32,7 @@ input {
 
 textarea {
 	height: 200px;
-	padding-left: 10px;
+	padding-left: 0px;
 }
 
 input, textarea::-webkit-input-placeholder {
@@ -52,3 +52,25 @@ img {
 	max-width: 100%;
 	max-height: 100%;
 }
+
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+  padding-left:5px;
+}
+
+ul.share-buttons .sr-only {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+	

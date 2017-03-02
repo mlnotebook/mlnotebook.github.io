@@ -1,10 +1,10 @@
 +++
 date = "2017-03-01T19:27:27Z"
 title = "Surface Distance Function"
-description = "Performing segmentation evaluation with surface distances is a good way of measuring the overall accuracy of the segmentation. This function is written in Python to help with just that!"
-topics = ["segmentation"]
+description = "Surface distance evaluation function in Python"
+topics = ["python"]
 tags = ["python", "segmentation","evaluation","surface distance"]
-
+social=true
 +++
 
 ## Background

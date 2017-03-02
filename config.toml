@@ -20,7 +20,7 @@ paginate = 5
   # Shown in the home page
   subtitle = "A resource for machine learning with Python"
   brand = "MLNotebook"
-  # googleAnalytics =
+  googleAnalytics = "UA-92930264-1"
   disqus = "mlnotebook-1"
   # CSS name for highlight.js
   highlightjs = "androidstudio"
@@ -28,7 +28,7 @@ paginate = 5
   # Include any custom CSS and/or JS files
   # (relative to /static folder)
   custom_css = ["css/additional.css","css/jupyter.css"]
-  #  custom_js = ["js/my.js"]
+  custom_js = ["js/share.js"]
 
 [menu]
   # Shown in the side menu.
@@ -62,14 +62,14 @@ paginate = 5
 
   # SNS microblogging
   twitter = "mlnotebook"
-#  facebook = "*"
+  facebook = "machineln"
 
   # SNS photo/video sharing
-#  youtube = "*"
+# youtube = "*"
 # slideshare = "*"
 
   # SNS career oriented
-#  linkedin = "*"
+  linkedin = "robdrobinson"
 
   # Techie
   github = "mlnotebook"

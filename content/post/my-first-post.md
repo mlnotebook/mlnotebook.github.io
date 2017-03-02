@@ -4,7 +4,7 @@ topics = ["updates"]
 tags = ["markdown", "hugo", "jekyll", "github", "github-pages", "cheatsheet"]
 description = "First post on MLNotebook (plus an edit)"
 date = "2017-03-01T10:38:47Z"
-
+social=true
 +++
 
 This is the first post on the Machine Learning Notebook (MLN)!
