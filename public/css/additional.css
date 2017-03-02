@@ -57,3 +57,25 @@ img.social {
 	width:auto;
 	height:30px;
 }
+
+.twitter-share-button{
+	display:inline;
+	float:left;
+
+	}
+	
+.fb-like {
+	float:left;
+	padding-left: 5px;
+	transform: scale(1.35);
+	-ms-transform: scale(1.35);
+	-webkit-transform: scale(1.35);
+	-o-transform: scale(1.35);
+	-moz-transform: scale(1.35);
+	transform-origin: top left;
+	-ms-transform-origin: top left;
+	-webkit-transform-origin: top left;
+	-moz-transform-origin: top left;
+	-webkit-transform-origin: top left;
+
+	}
