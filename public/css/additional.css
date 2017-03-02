@@ -53,29 +53,24 @@ img {
 	max-height: 100%;
 }
 
-img.social {
-	width:auto;
-	height:30px;
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
 }
 
-.twitter-share-button{
-	display:inline;
-	float:left;
+ul.share-buttons li{
+  display: inline;
+  padding-left:5px;
+}
 
-	}
+ul.share-buttons .sr-only {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
 	
-.fb-like {
-	float:left;
-	padding-left: 5px;
-	transform: scale(1.35);
-	-ms-transform: scale(1.35);
-	-webkit-transform: scale(1.35);
-	-o-transform: scale(1.35);
-	-moz-transform: scale(1.35);
-	transform-origin: top left;
-	-ms-transform-origin: top left;
-	-webkit-transform-origin: top left;
-	-moz-transform-origin: top left;
-	-webkit-transform-origin: top left;
-
-	}
