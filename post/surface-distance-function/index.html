@@ -52,6 +52,8 @@
     <link rel="stylesheet" href="/css/jupyter.css">
   
   
+    <script src="/js/share.js"></script>
+  
 
 </head>
 
@@ -255,18 +257,10 @@
   
 
   
-  <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-  <div>
-<script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=58b8300ab5b25f0011bebb18&product=sticky-share-buttons"></script>
-  <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=58b8300ab5b25f0011bebb18&product=inline-share-buttons"></script>
-  <div class="sharethis-inline-share-buttons"></div>
+	<div id="fbShare" class="social" onclick="socialShare();">Facebook</div>
+	<div id="linkedinShare" class="social" onclick="socialShare();">Linked In</div>
+	<div id="twitterShare" class="social" onclick="socialShare();">Twitter</div>
+	
   
 </div>
 
