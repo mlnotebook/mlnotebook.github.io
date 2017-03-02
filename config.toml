@@ -1,0 +1,76 @@
+languageCode = "en-us"
+newContentEditor = "remarkable"
+canonifyurls = true
+
+
+title = "Machine Learning Notebook"
+baseURL = "/"
+
+theme = "blackburn-master"
+pygmentStyle = "native"
+
+author = "Rob Robinson"
+paginate = 5
+
+[indexes]
+  tag = "tags"
+  topic = "topics"
+
+[params]
+  # Shown in the home page
+  subtitle = "A resource for machine learning with Python"
+  brand = "MLNotebook"
+  # googleAnalytics =
+  disqus = "mlnotebook-1"
+  # CSS name for highlight.js
+  highlightjs = "androidstudio"
+  dateFormat = "02 Jan 2006, 15:04"
+  # Include any custom CSS and/or JS files
+  # (relative to /static folder)
+  custom_css = ["css/additional.css","css/jupyter.css"]
+  #  custom_js = ["js/my.js"]
+
+[menu]
+  # Shown in the side menu.
+  [[menu.main]]
+    name = "Home"
+    pre = "<i class='fa fa-home fa-fw'></i>"
+    weight = 0
+    identifier = "home"
+    url = "/"
+  [[menu.main]]
+    name = "Posts"
+    pre = "<i class='fa fa-list fa-fw'></i>"
+    weight = 1
+    identifier = "post"
+    url = "/post/"
+  [[menu.main]]
+    name = "About"
+    pre = "<i class='fa fa-user fa-fw'></i>"
+    weight = 2
+    identifier = "about"
+    url = "/about/"
+  [[menu.main]]
+    name = "Contact"
+    pre = "<i class='fa fa-phone fa-fw'></i>"
+    weight = 3
+    url = "/contact/"
+
+[social]
+  # Link your social networking accounts to the side menu
+  # by entering your username or ID.
+
+  # SNS microblogging
+  twitter = "mlnotebook"
+#  facebook = "*"
+
+  # SNS photo/video sharing
+#  youtube = "*"
+# slideshare = "*"
+
+  # SNS career oriented
+#  linkedin = "*"
+
+  # Techie
+  github = "mlnotebook"
+#  bitbucket = "*"

@@ -1,0 +1,54 @@
+
+input[type=text], input[type=email], textarea {
+	display: inline-block;
+  	border: 1px solid transparent;
+  	border-top: none;
+  	border-bottom: 1px solid #DDD;
+  	box-shadow: inset 0 1px 2px rgba(0,0,0,.39), 0 -1px 1px #FFF, 0 1px 0 #FFF;
+	border-radius: 4px;
+	margin: 2px 2px 2px 2px;
+	resize:none;
+	float: left;
+	width: 100%;
+}
+
+textarea, input {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+	width: 100%;
+}
+
+.center {
+	margin:auto;
+}
+
+input {
+	height:50px;
+}
+
+textarea {
+	height: 200px;
+	padding-left: 10px;
+}
+
+input, textarea::-webkit-input-placeholder {
+   padding-left: 10px;
+}
+  
+
+label{
+	display: inline-block;
+	float: left;
+	clear: left;
+	width: 250px;
+	text-align: right;
+	}
+	
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
