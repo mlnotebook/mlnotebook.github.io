@@ -22,6 +22,10 @@ fi
 msg() {
     printf "\033[1;32m :: %s\n\033[0m" "$1"
 }
+msg "Commiting changes to \`$SOURCE\` branch"
+git add .
+git commit -m "$MESSAGE"
+git push origin "$SOURCE"
 
 msg "Pulling down the \`master\` branch into \`public\` to help avoid merge conflicts"
 git subtree pull --prefix=public \
