@@ -7,7 +7,8 @@ title = "Machine Learning Notebook"
 baseURL = "/"
 
 theme = "blackburn-master"
-pygmentStyle = "native"
+pygmentsUseClasses= "false"
+pygmentStyle = "borland"
 
 author = "Rob Robinson"
 paginate = 5
@@ -27,7 +28,7 @@ paginate = 5
   dateFormat = "02 Jan 2006, 15:04"
   # Include any custom CSS and/or JS files
   # (relative to /static folder)
-  custom_css = ["css/additional.css","css/jupyter.css"]
+  custom_css = ["css/additional.css","css/jupyter.css","css/borland.css"]
   custom_js = ["js/share.js"]
 
 [menu]

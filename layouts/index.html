@@ -5,18 +5,24 @@
   <h2>{{ .Site.Params.subtitle }}</h2>
 </div>
 
-<br>
-<div align="center">
-  <img title="pixabay:geralt" height="200" width="50%" src="/img/banner.jpg">
+
+<div id="container">
+<div id="left_content">
+	<div class="content">
+		<div align="center">
+		  <img title="pixabay:geralt" class="banner" src="/img/banner.jpg">
+		</div>
+
+	  {{ range ( .Paginate (where .Data.Pages "Type" "post")).Pages }}
+	    {{ .Render "summary"}}
+	  {{ end }}
+
+	  {{ partial "pagination.html" . }}
+	</div>
 </div>
-
-<div class="content">
-  {{ range ( .Paginate (where .Data.Pages "Type" "post")).Pages }}
-    {{ .Render "summary"}}
-  {{ end }}
-
-  {{ partial "pagination.html" . }}
-
+<div id="right_content">
+	{{ partial "twitterfeed.html" . }}
+</div>
 </div>
 
 {{ partial "footer.html" . }}
