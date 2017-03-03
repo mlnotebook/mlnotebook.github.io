@@ -92,7 +92,7 @@ ul.share-buttons .sr-only {
 float:right;
 overflow:hidden;
 display:inline-block;
-margin:auto;
+padding-right:10px;
 }
 
 #left_content {
