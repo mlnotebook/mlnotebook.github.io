@@ -85,24 +85,43 @@ ul.share-buttons .sr-only {
 
 #container {
 	position: relative;
-	width:100%;
+	width:auto;
+
 }
 
 #right_content {
-float:right;
+float:left;
 overflow:hidden;
-display:inline-block;
-padding-right:10px;
+display:block;
+padding-right:1%;
+
 }
 
 #left_content {
 float:left;
 	width:80%;
-	display:inline-block;
+	display:block;
 	margin:auto;
 	min-width=600px;
+
 }
 
 
+@media screen and (max-width: 1000px) {
 
+#left_content {
+	width: 100%;
+	}
+	
+	.content {
+	max-width:100%;
+	}
+
+
+
+#right_content {
+	width:100%;
+}
+
+}
 	
