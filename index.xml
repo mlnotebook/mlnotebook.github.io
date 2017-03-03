@@ -234,7 +234,7 @@
 
 &lt;br&gt;
 &lt;div align=&#34;center&#34;&gt;
-  &lt;img title=&#34;pixabay:geralt&#34; height=&#34;200&#34; width=&#34;50%&#34; src=&#34;/images/banner.jpg&#34;&gt;
+  &lt;img title=&#34;pixabay:geralt&#34; class=&#34;banner&#34; src=&#34;/images/banner.jpg&#34;&gt;
 &lt;/div&gt;
 
 &lt;div class=&#34;content&#34;&gt;
