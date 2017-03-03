@@ -23,7 +23,7 @@ input[type=submit] {
 }
 
 .center {
-	margin:auto;
+	margin: auto;
 }
 
 input {
@@ -83,35 +83,25 @@ ul.share-buttons .sr-only {
   overflow: hidden;
 }
 
-#left_content {
-	width: 80%;
-	float:left;
-	padding-top: 1em;
-	margin-bottom: 1em;
-	display: block;
-}
-
-#right_content {
-	float:right;
-	display: block;
-	margin-right: 2em;
-}
-
-@media screen and (min-width: 20em) and (max-width: 30em) {
-
-#left_content {
-	width: 100%;
-}
-
-#right_content {
-	width: 100%;
-}
-}
-
 #container {
-
+	position: relative;
+	width:100%;
 }
 
+#right_content {
+float:right;
+overflow:hidden;
+display:inline-block;
+margin:auto;
+}
+
+#left_content {
+float:left;
+	width:auto;
+	display:inline-block;
+	margin:auto;
+	min-width=600px;
+}
 
 
 
