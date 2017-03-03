@@ -19,6 +19,5 @@ Whilst a lot of my work will remain the intellectual property of my current orga
 
 ## Copyright and Intellectual Property
 Whilst I'm writing my tutorials and code snippets for my own benefit and providing them on an opensource platform, it would be nice to see my name or webaddress where others have found use for them. Equally, anything I use on this stie I will try to properly credit and cite.
- 
-![CC Image](https://pixabay.com/get/e833b80a2cf3043ed1584d05fb0938c9bd22ffd41db919429df6c57baf/binary-1695475_1280.jpg)
-<p style="text-align: right">[_pixabay:geralt_](https://pixabay.com/en/users/geralt-9301/)</p>
+
+<img class="banner" src="/img/banner.jpg" title="CCImage" <p style="text-align: right">[_pixabay:geralt_](https://pixabay.com/en/users/geralt-9301/)</p>
