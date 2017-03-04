@@ -106,6 +106,9 @@ float:left;
 
 }
 
+pre > code {
+	font-size:11pt;
+}
 
 @media screen and (max-width: 1000px) {
 
@@ -123,5 +126,8 @@ float:left;
 	width:100%;
 }
 
+pre > code {
+	font-size:8pt;
 }
-	
+
+}
