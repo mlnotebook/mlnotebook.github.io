@@ -15,8 +15,8 @@ For this calculation, we need to be able to find the outline of the segmentation
 
 Now I've seen MATLAB code that can do this, though often its not entirely accurate. Plus I wanted to do this calculation on-the-fly as part of my program which was written in Python. So I came up with this function:
 
-{{< highlight python >}}
-import numpy as np
+<pre><code class="python"
+>import numpy as np
 from scipy.ndimage import morphology
 
 def surfd(input1, input2, sampling=1, connectivity=1):
@@ -34,12 +34,11 @@ def surfd(input1, input2, sampling=1, connectivity=1):
     dta = morphology.distance_transform_edt(~input1_border,sampling)
     dtb = morphology.distance_transform_edt(~input2_border,sampling)
     
-    sds = np.concatenate([np.ravel(dta[input2_border!=0]), \
-    	  np.ravel(dtb[input1_border!=0])])
+    sds = np.concatenate([np.ravel(dta[input2_border!=0]), np.ravel(dtb[input1_border!=0])])
        
     
     return sds
-{{< /highlight >}}
+</code></pre>
 
 Lets go through it bit-by-bit. The function _surfd_ is defined to take in four variables:
 
@@ -50,54 +49,54 @@ Lets go through it bit-by-bit. The function _surfd_ is defined to take in four v
 
 First we'll be making use of simple numpy operations, but we'll also need the _morphology_ module from _scipy_'s _dnimage_ package. These are imported first. More information on this module can be found [here](https://docs.scipy.org/doc/scipy-0.18.1/reference/ndimage.html "Scipy _ndimage_ package")
 
-{{< highlight python >}}
-import numpy as np
+<pre><code class="python"
+>import numpy as np
 from scipy.ndimage import morphology
-{{< /highlight >}}
+</code></pre>
 
 The two inputs are checked for their size and made binary. Any value greater than zero is made 1 (true).
 
-{{< highlight python >}}
-    input_1 = np.atleast_1d(input1.astype(np.bool))
+<pre><code class="python"
+>    input_1 = np.atleast_1d(input1.astype(np.bool))
     input_2 = np.atleast_1d(input2.astype(np.bool))
-{{< /highlight >}}
+</code></pre>
 
 We use the the _morphology.generate\_binary\_structure_ function, along with the number of dimensions of the segmentation, to create the kernel that will be used to detect the edges of the segmentations. This could be done just by hard-coding the kernel itself: `[[0 0 0],[0 1 0],[0 0 0]; [0 1 0], [1 1 1], [0 1 0]; [0 0 0], [0 1 0], [0 0 0]]`. This kernel '_conn_' is supplied to the _morphology.binary\_erosion_ function which strips the outermost pixel from the edge of the segmentation. Subtracting this result from the segmentation itself leaves only the single-pixel-wide surface.
 
-{{< highlight python >}}
-    conn = morphology.generate_binary_structure(input_1.ndim, connectivity)
+<pre><code class="python"
+>    conn = morphology.generate_binary_structure(input_1.ndim, connectivity)
 
     input1_border = input_1 - morphology.binary_erosion(input_1, conn)
     input2_border = input_2 - morphology.binary_erosion(input_2, conn)
-{{< /highlight >}}
+</code></pre>
 
 Next we again use the _morphology_ module. This time we give the _distance\_transform\_edt_ function our pixel-size (_samping_) and also the inverted surface-image. The inversion is used such that the surface itself is given the value of zero i.e. any pixel at this location, will have zero surface-distance. The transform increases the value/error/penalty of the remaining pixels with increasing distance away from the surface.
 
 Each pixel of the opposite segmentation-surface is then laid upon this 'map' of penalties and both results are concatenated into a vector which is as long as the number of pixels in the surface of each segmentation. This vector of _surface distances_ is returned. Note that this is technically the _symmetric_ surface distance as we are not assuming that just doing this for _one_ of the surfaces is enough. It may be that the distance between a pixel in A and in B is not the same as between the pixel in B and in A.
 
-{{< highlight python >}}
-    dta = morphology.distance_transform_edt(~input1_border,sampling)
+<pre><code class="python"
+>    dta = morphology.distance_transform_edt(~input1_border,sampling)
     dtb = morphology.distance_transform_edt(~input2_border,sampling)
     
     sds = np.concatenate([np.ravel(dta[input2_border!=0]), \
     	  np.ravel(dtb[input1_border!=0])])
         
     return sds
-{{< /highlight >}}
+</code></pre>
 
 ## How is it used?
 The function example below takes two segmentations (which both have multiple classes). The sampling vector is a typical pixel-size from an MRI scan and the 1 indicated I'd like a 6 neighbour (cross-shaped) kernel for finding the edges.
 
-{{< highlight python >}}
-    surface_distance = surfd(test_seg, GT_seg, [1.25, 1.25, 10],1)
-{{< /highlight >}}
+<pre><code class="python"
+>    surface_distance = surfd(test_seg, GT_seg, [1.25, 1.25, 10],1)
+</code></pre>
 
 By specifcing the value of the voxel-label I'm interested in (assuming we're talking about classes which are contiguous and not spread out), we can find the surface accuracy of that class.
 
-{{< highlight python >}}
-    surface_distance = surfd(test_seg(test_seg==1), \
+<pre><code class="python"
+>    surface_distance = surfd(test_seg(test_seg==1), \
     		       GT_seg(GT_seg==1), [1.25, 1.25, 10],1)
-{{< /highlight >}}
+</code></pre>
 
 ## What do the results mean?
 The returned surface distances can be used to calculate:
@@ -106,11 +105,11 @@ The returned surface distances can be used to calculate:
 * _Residual Mean Square Distance (RMS)_ - as it says, the mean is taken from each of the points in the vector, these residuals are squared (to remove negative signs), summated, weighted by the mean and then the square-root is taken. Measured in mm.
 * _Hausdorff Distance (HD)_ - the maximum of the vector. The largest difference between the surface distances. Also measured in mm.
 
-{{< highlight python >}}
-    msd = surface_distance.mean()
+<pre><code class="python"
+>    msd = surface_distance.mean()
     rms = np.sqrt((surface_distance**2).mean())
     hd  = (surface_distance.max())
-{{< /highlight >}}
+</code></pre>
 
 ---
 ### References

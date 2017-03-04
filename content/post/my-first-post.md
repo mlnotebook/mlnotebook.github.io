@@ -22,8 +22,8 @@ Eventually, I want this site to build up into small sampling of what I've been l
 Here goes!
 
 _**Edit**_: Just to test out the code-block highlighting...
-{{< highlight python >}}
-def hello_world():
+<pre><code class="python"
+>def hello_world():
     print "Hello there!"
-{{< /highlight >}}
+</code></pre>
 
