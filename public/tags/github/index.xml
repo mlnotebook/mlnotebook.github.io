@@ -29,10 +29,10 @@
 &lt;p&gt;Here goes!&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/em&gt;: Just to test out the code-block highlighting&amp;hellip;
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #a6e22e&#34;&gt;hello_world&lt;/span&gt;&lt;span style=&#34;color: #f8f8f2&#34;&gt;():&lt;/span&gt;
-    &lt;span style=&#34;color: #66d9ef&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;color: #e6db74&#34;&gt;&amp;quot;Hello there!&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;python&#34;
+&gt;def hello_world():
+    print &amp;ldquo;Hello there!&amp;rdquo;
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
 </description>
     </item>
     
