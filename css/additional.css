@@ -110,6 +110,15 @@ pre > code {
 	font-size:11pt;
 }
 
+code.has-jax {
+	font: inherit;
+	font-size: 100%;
+	background: inherit;
+	border: inherit;
+	color: #515151;
+}
+              
+
 @media screen and (max-width: 1000px) {
 
 #left_content {
