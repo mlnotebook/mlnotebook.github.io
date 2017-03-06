@@ -4,10 +4,10 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
+  <meta name="description" content="Understanding the maths of Neural Networks">
   <meta name="generator" content="Hugo 0.19" />
 
-  <title>Tags &middot; Machine Learning Notebook</title>
+  <title>Simple Neural Network - Mathematics &middot; Machine Learning Notebook</title>
 
   
   
@@ -36,8 +36,6 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 
   
-  
-  <link rel="alternate" type="application/rss+xml" title="Machine Learning Notebook" href="/tags/index.xml" />
   
 
   
@@ -109,10 +107,6 @@
   <div class="pure-menu social">
   <ul class="pure-menu-list">
 
-    
-    <li class="pure-menu-item">
-      <a class="pure-menu-link" href="/tags/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
-    </li>
     
 
     
@@ -220,108 +214,136 @@
 
 
 <div class="header">
-  <h1>Tags</h1>
+  <h1>Simple Neural Network - Mathematics</h1>
+  <h2>Understanding the maths of Neural Networks</h2>
 </div>
 <div class="content">
-  <ul>
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>06 Mar 2017, 17:04</time>
+  </div>
+
+  
+
   
   
-    <li>
-      <a href="hugo">hugo</a>
-      <span>&#40;2&#41;</span>
-    </li>
   
-    <li>
-      <a href="back-propagation">back-propagation</a>
-      <span>&#40;1&#41;</span>
-    </li>
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorials">tutorials</a>
+    
+  </div>
   
-    <li>
-      <a href="cheatsheet">cheatsheet</a>
-      <span>&#40;1&#41;</span>
-    </li>
   
-    <li>
-      <a href="css">css</a>
-      <span>&#40;1&#41;</span>
-    </li>
+
   
-    <li>
-      <a href="div">div</a>
-      <span>&#40;1&#41;</span>
-    </li>
   
-    <li>
-      <a href="evaluation">evaluation</a>
-      <span>&#40;1&#41;</span>
-    </li>
   
-    <li>
-      <a href="github">github</a>
-      <span>&#40;1&#41;</span>
-    </li>
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/neural-network">neural network</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/back-propagation">back propagation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/machine-learning">machine learning</a>
+    
+  </div>
   
-    <li>
-      <a href="github-pages">github-pages</a>
-      <span>&#40;1&#41;</span>
-    </li>
   
-    <li>
-      <a href="highlight.js">highlight.js</a>
-      <span>&#40;1&#41;</span>
-    </li>
   
-    <li>
-      <a href="jekyll">jekyll</a>
-      <span>&#40;1&#41;</span>
-    </li>
+
   
-    <li>
-      <a href="machine-learning">machine-learning</a>
-      <span>&#40;1&#41;</span>
-    </li>
+</div>
+
+
+  <p>Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&rsquo;ll give you a good unserstanding of what&rsquo;s going on. First though, lets take a look at what a NN looks like.</p>
+
+<h2 id="transferFunction"> Transfer Function </h2>
+
+<div id="eqsigmoidFunction">$$ \sigma ( x ) = \frac{1}{1 + e^{-x}}  $$</div>
+
+<div>
+$$
+\begin{align*}
+\frac{d}{dx}\sigma ( x ) &= \frac{d}{dx} \left( 1 + e^{ -x }\right)^{-1}\\
+&=  -1 \times -e^{-x} \times \left(1 + e^{-x}\right)^{-2}= \frac{ e^{-x} }{ \left(1 + e^{-x}\right)^{2} } \\
+&= \frac{\left(1 + e^{-x}\right) - 1}{\left(1 + e^{-x}\right)^{2}} 
+= \frac{\left(1 + e^{-x}\right) }{\left(1 + e^{-x}\right)^{2}} - \frac{1}{\left(1 + e^{-x}\right)^{2}} 
+= \frac{1}{\left(1 + e^{-x}\right)} - \left( \frac{1}{\left(1 + e^{-x}\right)} \right)^{2} \\[0.5em]
+&= \sigma ( x ) - \sigma ( x ) ^ {2}
+\end{align*}
+$$</div>
+
+<div id="eqdsigmoid">$$ \sigma^{\prime}( x ) = \sigma (x ) \left( 1 - \sigma ( x ) \right) $$</div>
+
+<h2 id="error"> Error </h2>
+
+<div id="eqerror">$$ \text{E} = \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2} $$</div>
+
+<div>$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{\partial{}}{\partial{W_{jk}}}  \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$</div>
+
+<p><h2id="backPropagation"></h2>
+<div>$$ $$</div></p>
+
+<div>$$ $$</div>
+
+<div>$$ $$</div>
+
+<div>$$ $$</div>
+
+
   
-    <li>
-      <a href="markdown">markdown</a>
-      <span>&#40;1&#41;</span>
-    </li>
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/webdesign/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/webdesign/">Web Design Wisdom</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
   
-    <li>
-      <a href="mathjax">mathjax</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="neural-network">neural-network</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="python">python</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="segmentation">segmentation</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="social-media">social-media</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="surface-distance">surface-distance</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-    <li>
-      <a href="syntax">syntax</a>
-      <span>&#40;1&#41;</span>
-    </li>
-  
-  </ul>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
 </div>
 
 </div>
@@ -372,3 +394,4 @@ MathJax.Hub.Config({
 
 </body>
 </html>
+

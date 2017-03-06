@@ -64,6 +64,45 @@ $ git clone https://github.com/yoshiharuyamashita/blackburn.git
 &amp;lt;/ul&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;h3 id=&#34;githubPages&#34;&gt; Hosting on Peronal Github Pages &lt;/h3&gt;
+
+&lt;p&gt;Again, some of the tutorials out there aren&amp;rsquo;t great at properly explaining how to get your pages hosted on your &lt;strong&gt;personal&lt;/strong&gt; Github pages, rather than project ones (i.e. &lt;code&gt;https://&amp;lt;your username&amp;gt;.github.io&lt;/code&gt;) I&amp;rsquo;ll try to give you another version here.&lt;/p&gt;
+
+&lt;p&gt;Firstly, login to Github and create the repository &lt;code&gt;&amp;lt;your username&amp;gt;.github.io&lt;/code&gt;. This is important as the master branch will be used to locate your website at exactly &lt;code&gt;https://&amp;lt;your username&amp;gt;.github.io&lt;/code&gt;. Initialise it with the &lt;code&gt;README.md&lt;/code&gt;. Create a new branch called &lt;code&gt;hugo&lt;/code&gt; and initialise this with the &lt;code&gt;README.md&lt;/code&gt; too.&lt;/p&gt;
+
+&lt;p&gt;In your &lt;code&gt;./newsite&lt;/code&gt; directory you&amp;rsquo;ll need to build the site, initialise the git respository and add the remote:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ hugo
+$
+$ git init
+$ git remote add origin git@github.com:&amp;lt;username&amp;gt;/&amp;lt;username&amp;gt;.github.io.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you&amp;rsquo;re having trouble adding the remote because of &lt;em&gt;permissions&lt;/em&gt; it could be that you&amp;rsquo;re using a different Git account for your website than normal. Have a look at the &lt;code&gt;git config&lt;/code&gt; options to change the username/password. If that fails, it could be that you need to sort an &lt;code&gt;ssh&lt;/code&gt; key - instructions for that are on your account settings page.&lt;/p&gt;
+
+&lt;p&gt;From here, I managed to find and adapt two scripts from &lt;a href=&#34;https://hjdskes.github.io/blog/deploying-hugo-on-personal-gh-pages/&#34; title=&#34;hjdskes&#34;&gt;here&lt;/a&gt;. The first is &lt;code&gt;setup.sh&lt;/code&gt; (&lt;a href=&#34;(No page found with path or logical name &#34;docs/setup.sh&#34;.
+&#34; title=&#34;setup.sh&amp;quot;&#34;&gt;download&lt;/a&gt;) and only needs to be executed once. It does the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Deletes the master branch (perfectly safe)&lt;/li&gt;
+&lt;li&gt;Creates a new orphaned master branch&lt;/li&gt;
+&lt;li&gt;Takes the &lt;code&gt;README.md&lt;/code&gt; from &lt;code&gt;hugo&lt;/code&gt; and makes an initial commit to &lt;code&gt;master&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Changes back to &lt;code&gt;hugo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Removes the existing &lt;code&gt;./public&lt;/code&gt; folder&lt;/li&gt;
+&lt;li&gt;Sets the &lt;code&gt;master&lt;/code&gt; branch as a subtree for the &lt;code&gt;./public&lt;/code&gt; folder&lt;/li&gt;
+&lt;li&gt;Pulls the commited &lt;code&gt;master&lt;/code&gt; back into &lt;code&gt;./public&lt;/code&gt; to stop merge conflicts.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&#34;warn&#34;&gt;Make sure that you edit the `USERNAME` field in `setup.sh` before executing.&lt;/div&gt;
+
+&lt;p&gt;After that, whenever you want to upload your site, just run the second script &lt;code&gt;deploy.sh&lt;/code&gt; which I&amp;rsquo;ve altered slightly (&lt;a href=&#34;/static/docs/deploy.sh&#34; title=&#34;deploy.sh&#34;&gt;download&lt;/a&gt;) with an optional argument which will be your commit message: missing out the argument submits a default message.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;deploy.sh&lt;/code&gt; commits and pushes all of your changes to the &lt;code&gt;hugo&lt;/code&gt; source branch before putting the &lt;code&gt;./public&lt;/code&gt; folder on &lt;code&gt;master&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&#34;warn&#34;&gt;Make sure that you edit the `USERNAME` field in `deploy.sh` before executing&lt;/div&gt;
+
+&lt;p&gt;And that&amp;rsquo;s it! If the website doesn&amp;rsquo;t load when you go to &lt;code&gt;https://&amp;lt;your username&amp;gt;.github.io&lt;/code&gt; you may need to hit &lt;code&gt;settings&lt;/code&gt; in your repo (top right of the menu bar), scroll down to &amp;ldquo;Github Pages&amp;rdquo; and select &lt;code&gt;master&lt;/code&gt; as your source.&lt;/p&gt;
+
 &lt;h2 id=&#34;htmlCss&#34;&gt;HTML / CSS&lt;/h2&gt;
 
 &lt;h3 id=&#34;contactForm&#34;&gt;Contact Form&lt;/h3&gt;

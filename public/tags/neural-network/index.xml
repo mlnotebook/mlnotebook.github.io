@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neural Network on Machine Learning Notebook</title>
+    <link>/tags/neural-network/index.xml</link>
+    <description>Recent content in Neural Network on Machine Learning Notebook</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="/tags/neural-network/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Simple Neural Network - Mathematics</title>
+      <link>/post/neuralnetwork/</link>
+      <pubDate>Mon, 06 Mar 2017 17:04:53 +0000</pubDate>
+      
+      <guid>/post/neuralnetwork/</guid>
+      <description>&lt;p&gt;Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&amp;rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&amp;rsquo;ll give you a good unserstanding of what&amp;rsquo;s going on. First though, lets take a look at what a NN looks like.&lt;/p&gt;
+
+&lt;h2 id=&#34;transferFunction&#34;&gt; Transfer Function &lt;/h2&gt;
+
+&lt;div id=&#34;eqsigmoidFunction&#34;&gt;$$ \sigma ( x ) = \frac{1}{1 + e^{-x}}  $$&lt;/div&gt;
+
+&lt;div&gt;
+$$
+\begin{align*}
+\frac{d}{dx}\sigma ( x ) &amp;= \frac{d}{dx} \left( 1 + e^{ -x }\right)^{-1}\\
+&amp;=  -1 \times -e^{-x} \times \left(1 + e^{-x}\right)^{-2}= \frac{ e^{-x} }{ \left(1 + e^{-x}\right)^{2} } \\
+&amp;= \frac{\left(1 + e^{-x}\right) - 1}{\left(1 + e^{-x}\right)^{2}} 
+= \frac{\left(1 + e^{-x}\right) }{\left(1 + e^{-x}\right)^{2}} - \frac{1}{\left(1 + e^{-x}\right)^{2}} 
+= \frac{1}{\left(1 + e^{-x}\right)} - \left( \frac{1}{\left(1 + e^{-x}\right)} \right)^{2} \\[0.5em]
+&amp;= \sigma ( x ) - \sigma ( x ) ^ {2}
+\end{align*}
+$$&lt;/div&gt;
+
+&lt;div id=&#34;eqdsigmoid&#34;&gt;$$ \sigma^{\prime}( x ) = \sigma (x ) \left( 1 - \sigma ( x ) \right) $$&lt;/div&gt;
+
+&lt;h2 id=&#34;error&#34;&gt; Error &lt;/h2&gt;
+
+&lt;div id=&#34;eqerror&#34;&gt;$$ \text{E} = \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2} $$&lt;/div&gt;
+
+&lt;div&gt;$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{\partial{}}{\partial{W_{jk}}}  \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$&lt;/div&gt;
+
+&lt;p&gt;&lt;h2id=&#34;backPropagation&#34;&gt;&lt;/h2&gt;
+&lt;div&gt;$$ $$&lt;/div&gt;&lt;/p&gt;
+
+&lt;div&gt;$$ $$&lt;/div&gt;
+
+&lt;div&gt;$$ $$&lt;/div&gt;
+
+&lt;div&gt;$$ $$&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

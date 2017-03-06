@@ -62,6 +62,43 @@ I spend a while trying to figure out how to get my social media buttons to actua
 </ul>
 ```
 
+<h3 id="githubPages"> Hosting on Peronal Github Pages </h3>
+
+Again, some of the tutorials out there aren't great at properly explaining how to get your pages hosted on your **personal** Github pages, rather than project ones (i.e. `https://<your username>.github.io`) I'll try to give you another version here.
+
+Firstly, login to Github and create the repository `<your username>.github.io`. This is important as the master branch will be used to locate your website at exactly `https://<your username>.github.io`. Initialise it with the `README.md`. Create a new branch called `hugo` and initialise this with the `README.md` too.
+
+In your `./newsite` directory you'll need to build the site, initialise the git respository and add the remote:
+
+```bash
+$ hugo
+$
+$ git init
+$ git remote add origin git@github.com:<username>/<username>.github.io.git
+```
+If you're having trouble adding the remote because of _permissions_ it could be that you're using a different Git account for your website than normal. Have a look at the `git config` options to change the username/password. If that fails, it could be that you need to sort an `ssh` key - instructions for that are on your account settings page.
+
+From here, I managed to find and adapt two scripts from [here](https://hjdskes.github.io/blog/deploying-hugo-on-personal-gh-pages/ "hjdskes"). The first is `setup.sh` ([download](/docs/setup.sh "setup.sh")) and only needs to be executed once. It does the following:
+
+
+* Deletes the master branch (perfectly safe)
+* Creates a new orphaned master branch
+* Takes the `README.md` from `hugo` and makes an initial commit to `master`
+* Changes back to `hugo`
+* Removes the existing `./public` folder
+* Sets the `master` branch as a subtree for the `./public` folder
+* Pulls the commited `master` back into `./public` to stop merge conflicts.
+
+<div class="warn">Make sure that you edit the `USERNAME` field in `setup.sh` before executing.</div>
+
+After that, whenever you want to upload your site, just run the second script `deploy.sh` which I've altered slightly ([download](/docs/deploy.sh "deploy.sh")) with an optional argument which will be your commit message: missing out the argument submits a default message.
+
+`deploy.sh` commits and pushes all of your changes to the `hugo` source branch before putting the `./public` folder on `master`.
+
+<div class="warn">Make sure that you edit the `USERNAME` field in `deploy.sh` before executing</div>
+
+And that's it! If the website doesn't load when you go to `https://<your username>.github.io` you may need to hit `settings` in your repo (top right of the menu bar), scroll down to "Github Pages" and select `master` as your source.
+
 <h2 id="htmlCss">HTML / CSS</h2>
 
 <h3 id="contactForm">Contact Form</h3>

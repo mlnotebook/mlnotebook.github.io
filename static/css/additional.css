@@ -1,4 +1,11 @@
 
+.warn {
+	color: white;
+	font-weight: bold;
+	background: red;
+	text-align: center;
+}
+
 input[type=text], input[type=email], textarea {
 	display: inline-block;
   	border: 1px solid transparent;
