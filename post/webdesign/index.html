@@ -335,8 +335,7 @@ $ git remote add origin git@github.com:&lt;username&gt;/&lt;username&gt;.github.
 
 <p>If you&rsquo;re having trouble adding the remote because of <em>permissions</em> it could be that you&rsquo;re using a different Git account for your website than normal. Have a look at the <code>git config</code> options to change the username/password. If that fails, it could be that you need to sort an <code>ssh</code> key - instructions for that are on your account settings page.</p>
 
-<p>From here, I managed to find and adapt two scripts from <a href="https://hjdskes.github.io/blog/deploying-hugo-on-personal-gh-pages/" title="hjdskes">here</a>. The first is <code>setup.sh</code> (<a href="(No page found with path or logical name "docs/setup.sh".
-" title="setup.sh&quot;">download</a>) and only needs to be executed once. It does the following:</p>
+<p>From here, I managed to find and adapt two scripts from <a href="https://hjdskes.github.io/blog/deploying-hugo-on-personal-gh-pages/" title="hjdskes">here</a>. The first is <code>setup.sh</code> (<a href="/docs/setup.sh" title="setup.sh">download</a>) and only needs to be executed once. It does the following:</p>
 
 <ul>
 <li>Deletes the master branch (perfectly safe)</li>
@@ -350,7 +349,7 @@ $ git remote add origin git@github.com:&lt;username&gt;/&lt;username&gt;.github.
 
 <div class="warn">Make sure that you edit the `USERNAME` field in `setup.sh` before executing.</div>
 
-<p>After that, whenever you want to upload your site, just run the second script <code>deploy.sh</code> which I&rsquo;ve altered slightly (<a href="/static/docs/deploy.sh" title="deploy.sh">download</a>) with an optional argument which will be your commit message: missing out the argument submits a default message.</p>
+<p>After that, whenever you want to upload your site, just run the second script <code>deploy.sh</code> which I&rsquo;ve altered slightly (<a href="/docs/deploy.sh" title="deploy.sh">download</a>) with an optional argument which will be your commit message: missing out the argument submits a default message.</p>
 
 <p><code>deploy.sh</code> commits and pushes all of your changes to the <code>hugo</code> source branch before putting the <code>./public</code> folder on <code>master</code>.</p>
 
@@ -577,14 +576,8 @@ MathJax.Hub.Config({
   </div>
   <div class="pure-u-10-24">
     
-    <nav class="next">
-      <a href="/post/neuralnetwork/">Simple Neural Network - Mathematics</a>
-    </nav>
-    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
-    
-    <a href="/post/neuralnetwork/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
