@@ -269,89 +269,78 @@
 </div>
 
 
-  <article>
-
-I thought I'd give an overview of some of the wisdom I've gained from creating MLNotebook - my adventures in markdown... and the rest!
-
-<div class="all-questions">
+  <p>I thought I&rsquo;d give an overview of some of the wisdom I&rsquo;ve gained from creating MLNotebook - my adventures in markdown&hellip; and the rest!</p>
 
 <h2 id="hugo"> Hugo </h2>
 
 <h3 id="hugoSetup"> Setup </h3>
 
-Hugo was relatively easy to setup, but I think some of the guides around could be a lot clearer particularly when it comes to hosting on Githib Pages. Firstly, make sure that you download Hugo [here](https://github.com/spf13/hugo/releases "Hugo Github") and extract it to `/usr/local/bin`. I renamed mine to "hugo". Check whether its properly installed with the command:
+<p>Hugo was relatively easy to setup, but I think some of the guides around could be a lot clearer particularly when it comes to hosting on Githib Pages. Firstly, make sure that you download Hugo <a href="https://github.com/spf13/hugo/releases" title="Hugo Github">here</a> and extract it to <code>/usr/local/bin</code>. I renamed mine to &ldquo;hugo&rdquo;. Check whether its properly installed with the command:</p>
 
-```bash
-$ hugo -v
-```
+<pre><code class="language-bash">$ hugo -v
+</code></pre>
 
-This will provide the version number. If not, add `/usr/local/bin` to your system path:
+<p>This will provide the version number. If not, add <code>/usr/local/bin</code> to your system path:</p>
 
-```bash
-$ PATH=$PATH:/usr/local/bin
-```
+<pre><code class="language-bash">$ PATH=$PATH:/usr/local/bin
+</code></pre>
 
-Creating a new site called "newsite" from scratch is the easy bit:
+<p>Creating a new site called &ldquo;newsite&rdquo; from scratch is the easy bit:</p>
 
-```bash
-$ hugo new site ./newsite
-```
+<pre><code class="language-bash">$ hugo new site ./newsite
+</code></pre>
 
 <h3 id="themeAndOverrides">Theme and overrides </h3>
 
-To get my theme to work, I simply cloned the repository (as shown [here](https://themes.gohugo.io/blackburn/ "Blackburn theme")) directly into ./newsite/themes/blackburn. Be sure to copy the `config.toml` file to `./newsite`. That's all there is to it!
+<p>To get my theme to work, I simply cloned the repository (as shown <a href="https://themes.gohugo.io/blackburn/" title="Blackburn theme">here</a>) directly into ./newsite/themes/blackburn. Be sure to copy the <code>config.toml</code> file to <code>./newsite</code>. That&rsquo;s all there is to it!</p>
 
-```bash
-$ mkdir themes
+<pre><code class="language-bash">$ mkdir themes
 $ cd themes
 $ git clone https://github.com/yoshiharuyamashita/blackburn.git
-```
+</code></pre>
 
-Customising this theme was really easy as it is mostly done in config.toml. What I wish I knew about Hugo straight off the bat is that the tree structure is important. So anything in the "themes" folder is a fall-back for anything that **isn't** present in the root folder of the site. That means if you have your own template for a post in `./newsite/layouts/single.html` it will be used instead of the themes one in `./newsite/themes/layouts/single.html`. Thus if you want to edit the layout, copy the theme's one into your sites layout folder and edit it from there.
+<p>Customising this theme was really easy as it is mostly done in config.toml. What I wish I knew about Hugo straight off the bat is that the tree structure is important. So anything in the &ldquo;themes&rdquo; folder is a fall-back for anything that <strong>isn&rsquo;t</strong> present in the root folder of the site. That means if you have your own template for a post in <code>./newsite/layouts/single.html</code> it will be used instead of the themes one in <code>./newsite/themes/layouts/single.html</code>. Thus if you want to edit the layout, copy the theme&rsquo;s one into your sites layout folder and edit it from there.</p>
 
-The index page is the same deal, just copy it to your sites root and it will take precident over the default theme's one.
+<p>The index page is the same deal, just copy it to your sites root and it will take precident over the default theme&rsquo;s one.</p>
 
 <h3 id="partials">Partials</h3>
 
-The partials bit can be a little confusing if you're not too familiar with how the site is put together. Effectively, the page you're loooking at right now is made up of lots of different parts (partials) that have been edited separately, put through a parser, turned into HTML and pasted together into a single HTML page. The head and footer don't have much in them but are important for adding calls to Javascripts as they are stitched into each and every page on the website. Don't confuse the head.html and header.html files, the latter is the actual title/banner at the top of the homepage (it is another partial that is stitched into index.html.
+<p>The partials bit can be a little confusing if you&rsquo;re not too familiar with how the site is put together. Effectively, the page you&rsquo;re loooking at right now is made up of lots of different parts (partials) that have been edited separately, put through a parser, turned into HTML and pasted together into a single HTML page. The head and footer don&rsquo;t have much in them but are important for adding calls to Javascripts as they are stitched into each and every page on the website. Don&rsquo;t confuse the head.html and header.html files, the latter is the actual title/banner at the top of the homepage (it is another partial that is stitched into index.html.</p>
 
 <h3 id="socialMediaButtons">Social Media Buttons</h3>
 
-I spend a while trying to figure out how to get my social media buttons to actually take the url of the page they were on and share that exact post. I tried a hosted service which gave me a script that pulled down the buttons from them and allowed me to edit them via their interface, but it wasn't content-specific. To dynamically get the url and get some nice-looking icons, I actually used the site [Simple Sharing Buttons](https://simplesharingbuttons.com/ "Simple Sharing Buttons"), chose the sites I wanted and theyprovided the icons along with the HTML. In comparisson to other sites and methods, this seems to work the best (except for the reddit one really).
+<p>I spend a while trying to figure out how to get my social media buttons to actually take the url of the page they were on and share that exact post. I tried a hosted service which gave me a script that pulled down the buttons from them and allowed me to edit them via their interface, but it wasn&rsquo;t content-specific. To dynamically get the url and get some nice-looking icons, I actually used the site <a href="https://simplesharingbuttons.com/" title="Simple Sharing Buttons">Simple Sharing Buttons</a>, chose the sites I wanted and theyprovided the icons along with the HTML. In comparisson to other sites and methods, this seems to work the best (except for the reddit one really).</p>
 
-```html
-<ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
-  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
-  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li>
-</ul>
-```
+<pre><code class="language-html">&lt;ul class=&quot;share-buttons&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&amp;t=&quot; title=&quot;Share on Facebook&quot; target=&quot;_blank&quot; onclick=&quot;window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&amp;t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;&quot;&gt;&lt;img alt=&quot;Share on facebook&quot; src=&quot;/img/facebook.png&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&amp;text=:%20https%3A%2F%2Fmlnotebook.github.io&amp;via=mlnotebook&quot; target=&quot;_blank&quot; title=&quot;Tweet&quot; onclick=&quot;window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;&quot;&gt;&lt;img alt=&quot;Tweet&quot; src=&quot;/img/twitter.png&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&amp;title=&quot; target=&quot;_blank&quot; title=&quot;Submit to Reddit&quot; onclick=&quot;window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&amp;title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;&quot;&gt;&lt;img alt=&quot;Submit to Reddit&quot; src=&quot;/img/reddit.png&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fmlnotebook.github.io&amp;title=&amp;summary=&amp;source=https%3A%2F%2Fmlnotebook.github.io&quot; target=&quot;_blank&quot; title=&quot;Share on LinkedIn&quot; onclick=&quot;window.open('http://www.linkedin.com/shareArticle?mini=true&amp;url=' + encodeURIComponent(document.URL) + '&amp;title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;&quot;&gt;&lt;img alt=&quot;Share on LinkedIn&quot; src=&quot;/img/linkedin.png&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
 
 <h2 id="htmlCss">HTML / CSS</h2>
 
 <h3 id="contactForm">Contact Form</h3>
 
-The first part of the site I altered was the contant page. I added a contact form which largely involves `html` formatted with `css`. The magic that makes it work comes from the free service called [Formspree](https://formspree.io/ "Formspree"). Essentially, the submit button sends the information to formspree and they forward it on to me directly. It uses a hidden field to give the forwarded emails the same subject, this makes for easy filtering. It also provides a free "I'm not a robot" page after clicking submit.
+<p>The first part of the site I altered was the contant page. I added a contact form which largely involves <code>html</code> formatted with <code>css</code>. The magic that makes it work comes from the free service called <a href="https://formspree.io/" title="Formspree">Formspree</a>. Essentially, the submit button sends the information to formspree and they forward it on to me directly. It uses a hidden field to give the forwarded emails the same subject, this makes for easy filtering. It also provides a free &ldquo;I&rsquo;m not a robot&rdquo; page after clicking submit.</p>
 
-```html
-<div id="contactform" class="center">
-<form action="https://formspree.io/your@email.com method="POST" name="sentMessage" id="contactForm" novalidate>
-	<input type="text" name="name" placeholder="Name" id="name" required data-validation-required-message="Please enter your name."><br>
-	<input type="email" name="_replyto" placeholder="Email Address" id="email" required data-validation-required-message="Please enter your email address." ><br>
+<pre><code class="language-html">&lt;div id=&quot;contactform&quot; class=&quot;center&quot;&gt;
+&lt;form action=&quot;https://formspree.io/your@email.com method=&quot;POST&quot; name=&quot;sentMessage&quot; id=&quot;contactForm&quot; novalidate&gt;
+	&lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Name&quot; id=&quot;name&quot; required data-validation-required-message=&quot;Please enter your name.&quot;&gt;&lt;br&gt;
+	&lt;input type=&quot;email&quot; name=&quot;_replyto&quot; placeholder=&quot;Email Address&quot; id=&quot;email&quot; required data-validation-required-message=&quot;Please enter your email address.&quot; &gt;&lt;br&gt;
 
-	<input type="hidden"  name="_subject" value="Message from MLNotebook">
-	<input type="text" name="_gotcha" style="display:none" />
-	<textarea rows="10" name="message" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea><br>
-	<input type="submit" value="Send">
-</form>
-</div>
-```
+	&lt;input type=&quot;hidden&quot;  name=&quot;_subject&quot; value=&quot;Message from MLNotebook&quot;&gt;
+	&lt;input type=&quot;text&quot; name=&quot;_gotcha&quot; style=&quot;display:none&quot; /&gt;
+	&lt;textarea rows=&quot;10&quot; name=&quot;message&quot; class=&quot;form-control&quot; placeholder=&quot;Message&quot; id=&quot;message&quot; required data-validation-required-message=&quot;Please enter a message.&quot;&gt;&lt;/textarea&gt;&lt;br&gt;
+	&lt;input type=&quot;submit&quot; value=&quot;Send&quot;&gt;
+&lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
 
-The formatting was a pain as I'd never used the box-size argument before - this is what I found made the boxes all the same size and have the same alignment. I added for all browsers too.
+<p>The formatting was a pain as I&rsquo;d never used the box-size argument before - this is what I found made the boxes all the same size and have the same alignment. I added for all browsers too.</p>
 
-```css
-
+<pre><code class="language-css">
 input[type=text], input[type=email], textarea {
 	display: inline-block;
   	border: 1px solid transparent;
@@ -401,35 +390,33 @@ input, textarea:-moz-placeholder {
    padding-left: 10px;
 }
   
-  ```
+</code></pre>
 
 <h3 id="resizing">Resizing for Small Screens</h3>
 
-One of my final hurdles in getting the site setup was making the homepage a little more friendly that just showing the recent posts. So I decided to add my [twitter](https://twitter.com/mlnotebook "@MLNotebook") feed to the side. Twitter has an easy code to embed this, and I just put it into its own partial in `layouts/partials/twitterfeed.html`.
+<p>One of my final hurdles in getting the site setup was making the homepage a little more friendly that just showing the recent posts. So I decided to add my <a href="https://twitter.com/mlnotebook" title="@MLNotebook">twitter</a> feed to the side. Twitter has an easy code to embed this, and I just put it into its own partial in <code>layouts/partials/twitterfeed.html</code>.</p>
 
-My problem here though was that when I viewed my site on my phone, or resized the web-browser on the computer, the content would shrink and be almost unreadable - I wanted the feed to move below the text if the screen was below a certain size. So I created the usual `div` containers within my `index.html` file and added the shortcode to include my `twitterfeed.html` in the right-hand side.
+<p>My problem here though was that when I viewed my site on my phone, or resized the web-browser on the computer, the content would shrink and be almost unreadable - I wanted the feed to move below the text if the screen was below a certain size. So I created the usual <code>div</code> containers within my <code>index.html</code> file and added the shortcode to include my <code>twitterfeed.html</code> in the right-hand side.</p>
 
-```html
-<div id="container" class="center">
-	<div id="left_content" class="center">
-		<div class="content">
-		  {{ range ( .Paginate (where .Data.Pages "Type" "post")).Pages }}
-		    {{ .Render "summary"}}
+<pre><code class="language-html">&lt;div id=&quot;container&quot; class=&quot;center&quot;&gt;
+	&lt;div id=&quot;left_content&quot; class=&quot;center&quot;&gt;
+		&lt;div class=&quot;content&quot;&gt;
+		  {{ range ( .Paginate (where .Data.Pages &quot;Type&quot; &quot;post&quot;)).Pages }}
+		    {{ .Render &quot;summary&quot;}}
 		  {{ end }}
 
-		  {{ partial "pagination.html" . }}
-		</div>
-	</div>
-	<div id="right_content" class="center">
-		<center>{{ partial "twitterfeed.html" . }}</center>
-	</div>
-</div>
-```
+		  {{ partial &quot;pagination.html&quot; . }}
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div id=&quot;right_content&quot; class=&quot;center&quot;&gt;
+		&lt;center&gt;{{ partial &quot;twitterfeed.html&quot; . }}&lt;/center&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 
-I then used `css` to give the `div` containers their own properties for different screen sizes:
+<p>I then used <code>css</code> to give the <code>div</code> containers their own properties for different screen sizes:</p>
 
-```css
-#container {
+<pre><code class="language-css">#container {
 	position: relative;
 	width:auto;
 
@@ -452,7 +439,7 @@ I then used `css` to give the `div` containers their own properties for differen
 
 }
 
-pre > code {
+pre &gt; code {
 	font-size:11pt;
 }
 
@@ -472,36 +459,34 @@ pre > code {
 	width:100%;
 }
 
-pre > code {
+pre &gt; code {
 	font-size:8pt;
 }
 
 }
 
-```
+</code></pre>
 
-Note that this allows the size of the font in the code-snippets to shrink when the screensize is small - I find that it reads more easily.
+<p>Note that this allows the size of the font in the code-snippets to shrink when the screensize is small - I find that it reads more easily.</p>
 
 <h2 id="syntaxHighlighting">Syntax highlighting</h2>
 
-So actually getting code into the website was trickier than I thought. The in-built markdown codeblocks seem to work just fine by adding code between backticks: `` `<code here>` ``. Markdown doesn't do syntax highlightsing right out of the box though. So I'm using `highlight.js`. My theme does come with a highlight shortcode option, but I found that I couldn't customise it how I wanted - particuarly, the font size was just too big. I tried everything, even adding extra `<pre> </pre>` tags around it and using `css` to format them. In the end, I found that using `highlight.js` was much simpler - I just loaded the script straight off their server and voila! The link just needed editing to select the theme I wanted, but I opted for the standard `monokai` anyway. I placed this in my site's `head` partial.
+<p>So actually getting code into the website was trickier than I thought. The in-built markdown codeblocks seem to work just fine by adding code between backticks: <code>`&lt;code here&gt;`</code>. Markdown doesn&rsquo;t do syntax highlightsing right out of the box though. So I&rsquo;m using <code>highlight.js</code>. My theme does come with a highlight shortcode option, but I found that I couldn&rsquo;t customise it how I wanted - particuarly, the font size was just too big. I tried everything, even adding extra <code>&lt;pre&gt; &lt;/pre&gt;</code> tags around it and using <code>css</code> to format them. In the end, I found that using <code>highlight.js</code> was much simpler - I just loaded the script straight off their server and voila! The link just needed editing to select the theme I wanted, but I opted for the standard <code>monokai</code> anyway. I placed this in my site&rsquo;s <code>head</code> partial.</p>
 
-```html
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-```
+<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai.min.css&quot;&gt;
+&lt;script src=&quot;//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;
+</code></pre>
 
 <h2 id="mathsRendering">Maths Rendering</h2>
 
-Being a site on machine learning, I'm going to need to be able to include some mathematics sometimes. I'm very familiar with $\rm\LaTeX$ and I've written-up a lot of formulae already, so I looked into getting $\rm\LaTeX$ formatting into markdown/Hugo. A few math rendering engines are around, but not all are simple to implement. The best option I found was [MathJax](https://www.mathjax.org/ "MathJax") which literally required me to add these few lines to my `head` partial.
+<p>Being a site on machine learning, I&rsquo;m going to need to be able to include some mathematics sometimes. I&rsquo;m very familiar with $\rm\LaTeX$ and I&rsquo;ve written-up a lot of formulae already, so I looked into getting $\rm\LaTeX$ formatting into markdown/Hugo. A few math rendering engines are around, but not all are simple to implement. The best option I found was <a href="https://www.mathjax.org/" title="MathJax">MathJax</a> which literally required me to add these few lines to my <code>head</code> partial.</p>
 
-```javascript
-<script type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+<pre><code class="language-javascript">&lt;script type=&quot;text/javascript&quot;
+  src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;
+&lt;/script&gt;
 
-<script type="text/x-mathjax-config">
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
   tex2jax: {
     inlineMath: [['$','$'], ['\\(','\\)']],
@@ -509,31 +494,29 @@ MathJax.Hub.Config({
     processEscapes: true,
     processEnvironments: true,
     skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; },
+         extensions: [&quot;AMSmath.js&quot;, &quot;AMSsymbols.js&quot;] }
   }
 });
-</script>
-```
+&lt;/script&gt;
+</code></pre>
 
-From there, it allows me to put inline math into my websites such as $ c = \sqrt{a^{2} + b^{2}} $ by enclosing them in the normal \$ symbols like so: `\$ some math \$`. MathJax also provides display-style input with enclosing `<div>\$\$ code \$\$</div>` e.g.: 
+<p>From there, it allows me to put inline math into my websites such as $ c = \sqrt{a^{2} + b^{2}} $ by enclosing them in the normal \$ symbols like so: <code>\$ some math \$</code>. MathJax also provides display-style input with enclosing <code>&lt;div&gt;\$\$ code \$\$&lt;/div&gt;</code> e.g.:</p>
 
 <div>$$ c = \sqrt{a^{2} + b^{2}}  $$</div>
 
-The formatting is done by some css
+<p>The formatting is done by some css</p>
 
-```css
-code.has-jax {
+<pre><code class="language-css">code.has-jax {
 	font: inherit;
 	font-size: 100%;
 	background: inherit;
 	border: inherit;
 	color: #515151;
 }
-```
+</code></pre>
 
-</div>
-</article>
+<p></td></p>
 
 
   
