@@ -319,6 +319,45 @@ $ git clone https://github.com/yoshiharuyamashita/blackburn.git
 &lt;/ul&gt;
 </code></pre>
 
+<h3 id="githubPages"> Hosting on Peronal Github Pages </h3>
+
+<p>Again, some of the tutorials out there aren&rsquo;t great at properly explaining how to get your pages hosted on your <strong>personal</strong> Github pages, rather than project ones (i.e. <code>https://&lt;your username&gt;.github.io</code>) I&rsquo;ll try to give you another version here.</p>
+
+<p>Firstly, login to Github and create the repository <code>&lt;your username&gt;.github.io</code>. This is important as the master branch will be used to locate your website at exactly <code>https://&lt;your username&gt;.github.io</code>. Initialise it with the <code>README.md</code>. Create a new branch called <code>hugo</code> and initialise this with the <code>README.md</code> too.</p>
+
+<p>In your <code>./newsite</code> directory you&rsquo;ll need to build the site, initialise the git respository and add the remote:</p>
+
+<pre><code class="language-bash">$ hugo
+$
+$ git init
+$ git remote add origin git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git
+</code></pre>
+
+<p>If you&rsquo;re having trouble adding the remote because of <em>permissions</em> it could be that you&rsquo;re using a different Git account for your website than normal. Have a look at the <code>git config</code> options to change the username/password. If that fails, it could be that you need to sort an <code>ssh</code> key - instructions for that are on your account settings page.</p>
+
+<p>From here, I managed to find and adapt two scripts from <a href="https://hjdskes.github.io/blog/deploying-hugo-on-personal-gh-pages/" title="hjdskes">here</a>. The first is <code>setup.sh</code> (<a href="(No page found with path or logical name "docs/setup.sh".
+" title="setup.sh&quot;">download</a>) and only needs to be executed once. It does the following:</p>
+
+<ul>
+<li>Deletes the master branch (perfectly safe)</li>
+<li>Creates a new orphaned master branch</li>
+<li>Takes the <code>README.md</code> from <code>hugo</code> and makes an initial commit to <code>master</code></li>
+<li>Changes back to <code>hugo</code></li>
+<li>Removes the existing <code>./public</code> folder</li>
+<li>Sets the <code>master</code> branch as a subtree for the <code>./public</code> folder</li>
+<li>Pulls the commited <code>master</code> back into <code>./public</code> to stop merge conflicts.</li>
+</ul>
+
+<div class="warn">Make sure that you edit the `USERNAME` field in `setup.sh` before executing.</div>
+
+<p>After that, whenever you want to upload your site, just run the second script <code>deploy.sh</code> which I&rsquo;ve altered slightly (<a href="/static/docs/deploy.sh" title="deploy.sh">download</a>) with an optional argument which will be your commit message: missing out the argument submits a default message.</p>
+
+<p><code>deploy.sh</code> commits and pushes all of your changes to the <code>hugo</code> source branch before putting the <code>./public</code> folder on <code>master</code>.</p>
+
+<div class="warn">Make sure that you edit the `USERNAME` field in `deploy.sh` before executing</div>
+
+<p>And that&rsquo;s it! If the website doesn&rsquo;t load when you go to <code>https://&lt;your username&gt;.github.io</code> you may need to hit <code>settings</code> in your repo (top right of the menu bar), scroll down to &ldquo;Github Pages&rdquo; and select <code>master</code> as your source.</p>
+
 <h2 id="htmlCss">HTML / CSS</h2>
 
 <h3 id="contactForm">Contact Form</h3>
@@ -538,8 +577,14 @@ MathJax.Hub.Config({
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="/post/neuralnetwork/">Simple Neural Network - Mathematics</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/post/neuralnetwork/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
