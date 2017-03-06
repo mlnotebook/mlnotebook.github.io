@@ -2,7 +2,6 @@ languageCode = "en-us"
 newContentEditor = "remarkable"
 canonifyurls = true
 
-
 title = "Machine Learning Notebook"
 baseURL = "/"
 
@@ -28,8 +27,8 @@ paginate = 5
   dateFormat = "02 Jan 2006, 15:04"
   # Include any custom CSS and/or JS files
   # (relative to /static folder)
-  custom_css = ["css/additional.css","css/jupyter.css","css/borland.css"]
-  custom_js = ["js/share.js"]
+  custom_css = ["css/additional.css","css/toc.css"]
+  custom_js = ["js/toc.js"]
 
 [menu]
   # Shown in the side menu.
