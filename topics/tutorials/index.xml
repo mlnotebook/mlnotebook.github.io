@@ -14,11 +14,59 @@
       <pubDate>Mon, 06 Mar 2017 17:04:53 +0000</pubDate>
       
       <guid>/post/neuralnetwork/</guid>
-      <description>&lt;p&gt;Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&amp;rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&amp;rsquo;ll give you a good unserstanding of what&amp;rsquo;s going on. First though, lets take a look at what a NN looks like.&lt;/p&gt;
+      <description>&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
-&lt;h2 id=&#34;transferFunction&#34;&gt; Transfer Function &lt;/h2&gt;
+&lt;p&gt;Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&amp;rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&amp;rsquo;ll give you a good unserstanding of what&amp;rsquo;s going on. &lt;strong&gt;Please&lt;/strong&gt; let me know if any of the notation is incorrect or there are any mistakes - either comment or use the contact page on the left.&lt;/p&gt;
 
-&lt;div id=&#34;eqsigmoidFunction&#34;&gt;$$ \sigma ( x ) = \frac{1}{1 + e^{-x}}  $$&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#nnarchitecture&#34;&gt;Neural Network Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferFunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#feedforward&#34;&gt;Feed-forward&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#error&#34;&gt;Error&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backPropagationGrads&#34;&gt;Back Propagation - the Gradients&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bias&#34;&gt;Bias&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backPropagationAlgorithm&#34;&gt;Back Propagaton - the Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;nnarchitecture&#34;&gt;1. Neural Network Architecture &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;By now, you may well have come across diagrams which look very similar to the one below. It shows some input node, connected to some output node via an intermediate node in what is called a &amp;lsquo;hidden layer&amp;rsquo; - &amp;lsquo;hidden&amp;rsquo; because in the use of NN only the input and output is of concern to the user, the &amp;lsquo;under-the-hood&amp;rsquo; stuff may not be interesting to them. In real, high-performing NN there are usually more hidden layers.&lt;/p&gt;
+
+&lt;div class=&#34;container&#34;&gt;
+    &lt;div class=&#34;figure_container&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; style=&#34;width:80%&#34; class=&#34;figure_img&#34; src=&#34;/img/simpleNN/simpleNN.png&#34;&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: A simple 2-layer NN with 2 features in the input layer, 3 nodes in the hidden layer and two nodes in the output layer.
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When we train our network, the nodes in the hidden layer each perform a calculation using the values from the input nodes. The output of this is passed on the nodes of the next layer. When the output hits the final layer, the &amp;lsquo;output layer&amp;rsquo;, the results are compared to the real, known outputs and some tweaking of the network is done to make the output more similar to the real results. This is usually done with an algorithm called &lt;em&gt;back propagation&lt;/em&gt;. Before we get there, lets take a closer look at these calculations being done by the nodes.&lt;/p&gt;
+
+&lt;h2 id=&#34;transferFunction&#34;&gt;2. Transfer Function &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;At each node in the hidden and output layers of the NN, an &lt;em&gt;activation&lt;/em&gt; or &lt;em&gt;transfer&lt;/em&gt; function is executed. This function takes in the output of the previous node, and multiplies it by some &lt;em&gt;weight&lt;/em&gt;. These weights are the lines which connect the nodes. The weights that come out of one node can all be different, that is they will &lt;em&gt;activate&lt;/em&gt; different neurons. There can be many forms of the transfer function, we will first look at the &lt;em&gt;sigmoid&lt;/em&gt; transfer function as it seems traditional.&lt;/p&gt;
+
+&lt;div class=&#34;container&#34;&gt;
+    &lt;div class=&#34;figure_container&#34;&gt;
+        &lt;img title=&#34;The sigmoid function&#34; class=&#34;figure_img&#34; src=&#34;/img/simpleNN/sigmoid.png&#34;&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The sigmoid function.
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As you can see from the figure, the sigmoid function takes any real-valued number and maps it to a real number in the range $(0 \ 1)$ - i.e. between, but not equal to, 0 and 1. We can think of this almost like saying &amp;lsquo;if the value we have maps to an output near 1, this node fires, if it maps to an output near 0, the node does not fire&amp;rsquo;. The equation for this sigmoid function is:&lt;/p&gt;
+
+&lt;div id=&#34;eqsigmoidFunction&#34;&gt;$$
+\sigma ( x ) = \frac{1}{1 + e^{-x}}
+$$&lt;/div&gt;
+
+&lt;p&gt;We need to have the derivative of this transfer function so that we can perform back propagation later on. This is the process where by the connections in the network are updated to tune the performance of the NN. We&amp;rsquo;ll talk about this in more detail later, but let&amp;rsquo;s find the derivative now.&lt;/p&gt;
 
 &lt;div&gt;
 $$
@@ -32,22 +80,335 @@ $$
 \end{align*}
 $$&lt;/div&gt;
 
-&lt;div id=&#34;eqdsigmoid&#34;&gt;$$ \sigma^{\prime}( x ) = \sigma (x ) \left( 1 - \sigma ( x ) \right) $$&lt;/div&gt;
+&lt;p&gt;Therefore, we can write the derivative of the sigmoid function as:&lt;/p&gt;
 
-&lt;h2 id=&#34;error&#34;&gt; Error &lt;/h2&gt;
+&lt;div id=&#34;eqdsigmoid&#34;&gt;$$
+\sigma^{\prime}( x ) = \sigma (x ) \left( 1 - \sigma ( x ) \right)
+$$&lt;/div&gt;
+
+&lt;p&gt;The sigmoid function has the nice property that its derivative is very simple: a bonus when we want to hard-code this into our NN later on. Now that we have our activation or transfer function selected, what do we do with it?&lt;/p&gt;
+
+&lt;h2 id=&#34;feedforward&#34;&gt;3. Feed-forward &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;During a feed-forward pass, the network takes in the input values and gives us some output values. To see how this is done, let&amp;rsquo;s first consider a 2-layer neural network with two input features connected to a hidden layer with three nodes and which gives a single output. To keep this clear, lets get some notation together:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;$i$ - the $i^{\text{th}}$ node of the input layer $I$&lt;/li&gt;
+&lt;li&gt;$j$ - the $j^{\text{th}}$ node of the hidden layer $J$&lt;/li&gt;
+&lt;li&gt;$k$ - the $k^{\text{th}}$ node of the input layer $K$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The activation function at a node $j$ in the hidden layer takes the value:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+x_{j} &amp;= \xi_{1} w_{1j} + \xi_{2} w_{2j} \\[0.5em]
+&amp;= \sum_{i \in I} \xi_{i} w_{i j}
+
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;where $\xi_{i}$ is the value of the $i^{\text{th}}$ input node and $w_{i j}$ is the weight of the connection between $i^{\text{th}}$ input node and the $j^{\text{th}}$ hidden node. &lt;strong&gt;In short:&lt;/strong&gt; at each hidden layer node, multiply each input value by the connection received by that node and add them together. This is simplified  in matrix notation, where the sum of the products is just the scalar or &amp;lsquo;dot&amp;rsquo; product between the input values $\xi$ and the matrix of weights between the inputs and $j^{\text{th}}$ hidden node $W_{ij}$:&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{j} = \xi \cdot W_{ij}
+$$&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the weights are initisliased when the network is setup. Sometimes they are all set to 1, or often they&amp;rsquo;re set to some small random value.&lt;/p&gt;
+
+&lt;p&gt;We apply activation function on $x_{j}$ at the $j^{\text{th}}$ hidden node and get:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\mathcal{O}_{j} &amp;= \sigma(x_{j}) \\
+&amp;= \sigma( \xi \cdot W_{ij} )
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;$\mathcal{O}_{j}$ is the output of the $j^{\text{th}}$ hidden node. This is calculated for each of the $j$ nodes in the hidden layer. The resulting outputs now become the input for the next layer in the network. In our case, this is the final output later. So for each of the $k$ nodes in $K$:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\mathcal{O}_{k} &amp;= \sigma(x_{k}) \\
+&amp;= \sigma( \xi \cdot W_{jk} )
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;As we&amp;rsquo;ve reached the end of the network, this is also the end of the feed-foward pass. So how well did our network do at getting the correct result. This is the training phase of our network, so the true results will be known.&lt;/p&gt;
+
+&lt;h2 id=&#34;error&#34;&gt;4. Error &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We measure error at the end of each foward pass. This allows us to quantify how well our network has performed in getting the correct output. Let&amp;rsquo;s define $t_{k}$ as the expected or &lt;em&gt;target&lt;/em&gt; value of the $k^{\text{th}}$ node of the input layer $K$. Then the error $E$ on the entire output is:&lt;/p&gt;
 
 &lt;div id=&#34;eqerror&#34;&gt;$$ \text{E} = \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2} $$&lt;/div&gt;
 
+&lt;p&gt;Dont&amp;rsquo; be put off by the random &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;2&lt;/sub&gt; in front there, it&amp;rsquo;s been manufactured that way to make the upcoming maths easier. The rest of this should be easy enough: get the residual (difference between the target and output values), square this to get rid of any negatives and sum this over all of the nodes in the output layer.&lt;/p&gt;
+
+&lt;p&gt;Good! Now how does this help us? Our aim here is to find a way to tune our network such that when we do a forward pass of the input data, the output is exactly what we know it should be. But we can&amp;rsquo;t change the input data, so there are only two other things we can change:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;the weights going into the activation function&lt;/li&gt;
+&lt;li&gt;the activation function itself&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We will indeed consider the second case in another post, but the magic of NN is all about the &lt;em&gt;weights&lt;/em&gt;. Getting each weight i.e. each connection between nodes, to be just the perfect value, is what back propagation is all about. The back propagation algorithm we will look at in the next section, but lets go ahead and set it up by considering the following: how much of this error $E$ has come from each of the weights in the network?&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re asking, what is the proportion of the error coming from each of the $W_{jk}$ connections between the nodes in layer $J$ and the output layer $K$. Or in mathematical terms:&lt;/p&gt;
+
 &lt;div&gt;$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{\partial{}}{\partial{W_{jk}}}  \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$&lt;/div&gt;
 
-&lt;p&gt;&lt;h2id=&#34;backPropagation&#34;&gt;&lt;/h2&gt;
-&lt;div&gt;$$ $$&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re not concerned with getting the derivative, skip this highlighted section:&lt;/p&gt;
 
-&lt;div&gt;$$ $$&lt;/div&gt;
+&lt;div class=&#34;highlight_section&#34;&gt;
+To tackle this we can use the following bits of knowledge:
 
-&lt;div&gt;$$ $$&lt;/div&gt;
+* the derivative of the sum is equal to the sum of the derivatives i.e. we can move the derivative term inside of the summation:
 
-&lt;div&gt;$$ $$&lt;/div&gt;
+&lt;div&gt;$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{1}{2} \sum_{k \in K} \frac{\partial{}}{\partial{W_{jk}}} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the weight $w_{1k}$ does not affect connection $w_{2k}$ therefore the change in $W_{jk}$ with respect to any node other than the current $k$ is zero. Thus the summation goes away:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div&gt;$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{1}{2} \frac{\partial{}}{\partial{W_{jk}}}  \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;apply the power rule knowing that $t_{k}$ is a constant:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div&gt;$$ 
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{jk}}} &amp;=  \frac{1}{2} \times 2 \times \left( \mathcal{O}_{k} - t_{k} \right) \frac{\partial{}}{\partial{W_{jk}}}  \left( \mathcal{O}_{k}\right) \\
+ &amp;=  \left( \mathcal{O}_{k} - t_{k} \right) \frac{\partial{}}{\partial{W_{jk}}}  \left( \mathcal{O}_{k}\right)
+\end{align}
+$$&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the leftover derivative is the chage in the output values with respect to the weights. Substituting $ \mathcal{O}_{k} = \sigma(x_{k}) $ and the sigmoid derivative $\sigma^{\prime}( x ) = \sigma (x ) \left( 1 - \sigma ( x ) \right)$:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div&gt;$$ 
+\frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \left( \mathcal{O}_{k} - t_{k} \right) \sigma (x ) \left( 1 - \sigma ( x ) \right) \frac{\partial{}}{\partial{W_{jk}}}  \left( x_{k}\right)
+$$&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the final derivative, the input value $x_{k}$ is just $\mathcal{O}_{j} W_{jk}$ i.e. output of the previous layer times the weight to this layer. So the change in  $\mathcal{O}_{j} w_{jk}$ with respect to $w_{jk}$ just gives us the output value of the previous layer $ \mathcal{O}_{j} $ and so the full derivative becomes:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div&gt;$$ 
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{jk}}}  &amp;=  \left( \mathcal{O}_{k} - t_{k} \right) \sigma (x ) \left( 1 - \sigma ( x ) \right) \frac{\partial{}}{\partial{W_{jk}}}  \left( \mathcal{O}_{j} W_{jk} \right) \\[0.5em]
+&amp;=\left( \mathcal{O}_{k} - t_{k} \right) \sigma (x )  \left( 1 - \mathcal{O}_{k}  \right) \mathcal{O}_{j} 
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;We can replace the sigmoid function with the output of the layer
+&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;The derivative of the error function with respect to the weights is then:&lt;/p&gt;
+
+&lt;div id=&#34;derror&#34;&gt;$$ 
+\frac{\partial{\text{E}}}{\partial{W_{jk}}}  =\left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k}  \left( 1 - \mathcal{O}_{k}  \right) \mathcal{O}_{j}
+$$&lt;/div&gt;
+
+&lt;p&gt;We group the terms involving $k$ and define:&lt;/p&gt;
+
+&lt;div&gt;$$
+\delta_{k} = \mathcal{O}_{k}  \left( 1 - \mathcal{O}_{k}  \right)  \left( \mathcal{O}_{k} - t_{k} \right)
+$$&lt;/div&gt;
+
+&lt;p&gt;And therefore:&lt;/p&gt;
+
+&lt;div id=&#34;derrorjk&#34;&gt;$$ 
+\frac{\partial{\text{E}}}{\partial{W_{jk}}}  = \mathcal{O}_{j} \delta_{k} 
+$$&lt;/div&gt;
+
+&lt;p&gt;So we have an expression for the amount of error, called &amp;lsquo;deta&amp;rsquo; ($\delta_{k}$), on the weights from the nodes in $J$ to each node $k$ in $K$. But how does this help us to improve out network? We need to back propagate the error.&lt;/p&gt;
+
+&lt;h2 id=&#34;backPropagationGrads&#34;&gt;5. Back Propagation - the gradients&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Back propagation takes the error function we found in the previous section, uses it to calculate the error on the current layer and updates the weights to that layer by some amount.&lt;/p&gt;
+
+&lt;p&gt;So far we&amp;rsquo;ve only looked at the error on the output layer, what about the hidden layer? This also has an error, but the error here depends on the output layer&amp;rsquo;s error too (because this is where the difference between the target $t_{k}$ and output $\mathcal{O}_{k}$ can be calculated). Lets have a look at the error on the weights of the hidden layer $W_{ij}$:&lt;/p&gt;
+
+&lt;div&gt;$$ \frac{\partial{\text{E}}}{\partial{W_{ij}}} =  \frac{\partial{}}{\partial{W_{ij}}}  \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$&lt;/div&gt;
+
+&lt;p&gt;Now, unlike before, we cannot just drop the summation as the derivative is not directly acting on a subscript $k$ in the summation. We should be careful to note that the output from every node in $J$ is actually connected to each of the nodes in $K$ so the summation should stay. But we can still use the same tricks as before: lets use the power rule again and move the derivative inside (because the summation is finite):&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{ij}}} &amp;=  \frac{1}{2} \times 2 \times  \frac{\partial{}}{\partial{W_{ij}}}   \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)  \mathcal{O}_{k} \\
+&amp;= \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \frac{\partial{}}{\partial{W_{ij}}} \mathcal{O}_{k}
+ \end{align}
+ $$&lt;/div&gt;
+ 
+
+&lt;p&gt;Again, we substitute $\mathcal{O}_{k} = \sigma( x_{k})$ and its derivative and revert back to our output notation:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{ij}}} &amp;= \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \frac{\partial{}}{\partial{W_{ij}}} (\sigma(x_{k}) )\\
+&amp;= \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \sigma(x_{k}) \left( 1 - \sigma(x_{k}) \right) \frac{\partial{}}{\partial{W_{ij}}} (x_{k}) \\
+&amp;= \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k} \left( 1 - \mathcal{O}_{k} \right) \frac{\partial{}}{\partial{W_{ij}}} (x_{k})
+ \end{align}
+ $$&lt;/div&gt;
+ 
+
+&lt;p&gt;This still looks familar from the output layer derivative, but now we&amp;rsquo;re struggling with the derivative of the input to $k$ i.e. $x_{k}$ with respect to the weights from $I$ to $J$. Let&amp;rsquo;s use the chain rule to break apart this derivative in terms of the output from $J$:&lt;/p&gt;
+
+&lt;div&gt; $$
+\frac{\partial{ x_{k}}}{\partial{W_{ij}}} = \frac{\partial{ x_{k}}}{\partial{\mathcal{O}_{j}}}\frac{\partial{\mathcal{O}_{j}}}{\partial{W_{ij}}}
+$$&lt;/div&gt;
+
+&lt;p&gt;The change of the input to the $k^{\text{th}}$ node with respect to the output from the $j^{\text{th}}$ node is down to a product with the weights, therefore this derivative just becomes the weights $W_{jk}$. The final derivative has nothing to do with the subscript $k$ anymore, so we&amp;rsquo;re free to move this around - lets put it at the beginning:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{ij}}} &amp;= \frac{\partial{\mathcal{O}_{j}}}{\partial{W_{ij}}}  \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k} \left( 1 - \mathcal{O}_{k} \right) W_{jk}
+ \end{align}
+ $$&lt;/div&gt;
+ 
+
+&lt;p&gt;Lets finish the derivatives, remembering that the output of the node $j$ is just $\mathcal{O}_{j} = \sigma(x_{j}) $ and we know the derivative of this function too:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{ij}}} &amp;= \frac{\partial{}}{\partial{W_{ij}}}\sigma(x_{j})  \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k} \left( 1 - \mathcal{O}_{k} \right) W_{jk} \\
+&amp;= \sigma(x_{j}) \left( 1 - \sigma(x_{j}) \right)  \frac{\partial{x_{j} }}{\partial{W_{ij}}} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k} \left( 1 - \mathcal{O}_{k} \right) W_{jk} \\
+&amp;= \mathcal{O}_{j} \left( 1 - \mathcal{O}_{j} \right)  \frac{\partial{x_{j} }}{\partial{W_{ij}}} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k} \left( 1 - \mathcal{O}_{k} \right) W_{jk}
+ \end{align}
+ $$&lt;/div&gt;
+ 
+
+&lt;p&gt;The final derivative is straightforward too, the derivative of the input to $j$ with repect to the weights is just the previous input, which in our case is $\mathcal{O}_{i}$,&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{ij}}} &amp;= \mathcal{O}_{j} \left( 1 - \mathcal{O}_{j} \right)  \mathcal{O}_{i} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right) \mathcal{O}_{k} \left( 1 - \mathcal{O}_{k} \right) W_{jk}
+ \end{align}
+ $$&lt;/div&gt;
+ 
+
+&lt;p&gt;Almost there! Recall that we defined $\delta_{k}$ earlier, lets sub that in:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\frac{\partial{\text{E}}}{\partial{W_{ij}}} &amp;= \mathcal{O}_{j} \left( 1 - \mathcal{O}_{j} \right)  \mathcal{O}_{i} \sum_{k \in K} \delta_{k} W_{jk}
+ \end{align}
+ $$&lt;/div&gt;
+ 
+
+&lt;p&gt;To clean this up, we now define the &amp;lsquo;delta&amp;rsquo; for our hidden layer:&lt;/p&gt;
+
+&lt;div&gt;$$
+\delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
+$$&lt;/div&gt;
+
+&lt;p&gt;Thus, the amount of error on each of the weights going into our hidden layer:&lt;/p&gt;
+
+&lt;div id=&#34;derrorij&#34;&gt;$$ 
+\frac{\partial{\text{E}}}{\partial{W_{ij}}}  = \mathcal{O}_{i} \delta_{j} 
+$$&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the reason for the name &lt;em&gt;back&lt;/em&gt; propagation is that we must calculate the errors at the far end of the network and work backwards to be able to calculate the weights at the front.&lt;/p&gt;
+
+&lt;h2 id=&#34;bias&#34;&gt;6.  Bias &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Lets remind ourselves what happens inside our hidden layer nodes:&lt;/p&gt;
+
+&lt;div class=&#34;container&#34;&gt;
+    &lt;div class=&#34;figure_container&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34;  class=&#34;figure_img&#34; src=&#34;/img/simpleNN/nodeInsideNoBias.png&#34;&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The insides of a hidden layer node, $j$.
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Each feature $\xi_{i}$ from the input layer $I$ is multiplied by some weight $w_{ij}$&lt;/li&gt;
+&lt;li&gt;These are added together to get $x_{i}$ the total, weighted input from the nodes in $I$&lt;/li&gt;
+&lt;li&gt;$x_{i}$ is passed through the activation, or transfer, function $\sigma(x_{i})$&lt;/li&gt;
+&lt;li&gt;This gives the output $\mathcal{O}_{j}$ for each of the $j$ nodes in hidden layer $J$&lt;/li&gt;
+&lt;li&gt;$\mathcal{O}_{j}$ from each of the $J$ nodes becomes $\xi_{j}$ for the next layer&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;When we talk about the &lt;em&gt;bias&lt;/em&gt; term in NN, we are talking about an additional parameter that is inluded in the summation of step 2 above. The bias term is usually denoted with the symbol $\theta$ (theta). It&amp;rsquo;s function is to act as a threshold for the activation (transfer) function. It is given the value of 1 and is not connected to anything else. As such, this means that any derivative of the node&amp;rsquo;s output with respect to the bias term would just give a constant, 1. This allows us to just think of the bias term as an output from the node with the value of 1. This will be updated later during backpropagation to change the threshold at which the node fires.&lt;/p&gt;
+
+&lt;p&gt;Lets update the equation for $x_{i}$ put it on the diagram:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+x_{i} &amp;= \xi_{1j} w_{1j} + \xi_{2j} w_{2j} + \theta_{j} \\[0.5em]
+\sigma( x_{i} ) &amp;= \sigma \left( \sum_{i \in I} \left( \xi_{ij} w_{ij} \right) + \theta_{j} \right)
+\end{align}
+$$&lt;/div&gt;
+
+&lt;div class=&#34;container&#34;&gt;
+    &lt;div class=&#34;figure_container&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34;  class=&#34;figure_img&#34; src=&#34;/img/simpleNN/nodeInside.png&#34;&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 4&lt;/font&gt;: The insides of a hidden layer node, $j$ including the bias term.
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;backPropagationAlgorithm&#34;&gt;7. Back Propagation - the algorithm&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we have all of the pieces! We&amp;rsquo;ve got the initial outputs after our feed-forward, we have the equations for the delta terms (the amount by which the error is based on the different weights) and we know we need to update our bias term too. So what does it look like:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Input the data into the network and feed-forward&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;For each of the &lt;em&gt;output&lt;/em&gt; nodes calculate:&lt;/p&gt;
+
+&lt;div&gt;$$
+\delta_{k} = \mathcal{O}_{k}  \left( 1 - \mathcal{O}_{k}  \right)  \left( \mathcal{O}_{k} - t_{k} \right)
+$$&lt;/div&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;For each of the &lt;em&gt;hidden layer&lt;/em&gt; nodes calculate:&lt;/p&gt;
+
+&lt;div&gt;$$
+\delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
+$$&lt;/div&gt;
+    &lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Calculate the changes that need to be made to the weights and bias terms:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+\Delta W &amp;= -\eta \ \delta_{l} \ \mathcal{O}_{l-1} \\
+\Delta\theta &amp;= -\eta \ \delta_{l}
+\end{align}
+$$&lt;/div&gt;
+    &lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Update the weights and biases across the network:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+W + \Delta W &amp;\rightarrow W \\
+\theta + \Delta\theta &amp;\rightarrow \theta
+\end{align}
+$$&lt;/div&gt;
+    &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here, $\eta$ is just a small number that limit the size of the deltas that we compute: we don&amp;rsquo;t want the network jumping around everywhere. The $l$ subscript denotes the deltas and output for that layer $l$. That is, we compute the delta for each of the nodes in a layer and vectorise them. Thus we can compute the element-wise product with the output values of the previous layer and get our update $\Delta W$ for the weights of the current later. Similarly with the bias term.&lt;/p&gt;
+
+&lt;p&gt;This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &amp;lsquo;epoch&amp;rsquo; or run through of this algorithm.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Some of the ideas notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 </description>
     </item>
     
