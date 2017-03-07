@@ -4,7 +4,7 @@ description = "Understanding the maths of Neural Networks"
 topics = ["tutorials"]
 tags = ["neural network","back propagation", "machine learning"]
 date = "2017-03-06T17:04:53Z"
-
+social=true
 +++
 
 <div id="toctop"></div>
