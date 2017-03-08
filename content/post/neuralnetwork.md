@@ -42,7 +42,7 @@ By now, you may well have come across diagrams which look very similar to the on
 	</div>
 </div>
 
-When we train our network, the nodes in the hidden layer each perform a calculation using the values from the input nodes. The output of this is passed on the nodes of the next layer. When the output hits the final layer, the 'output layer', the results are compared to the real, known outputs and some tweaking of the network is done to make the output more similar to the real results. This is usually done with an algorithm called _back propagation_. Before we get there, lets take a closer look at these calculations being done by the nodes.
+When we train our network, the nodes in the hidden layer each perform a calculation using the values from the input nodes. The output of this is passed on to the nodes of the next layer. When the output hits the final layer, the 'output layer', the results are compared to the real, known outputs and some tweaking of the network is done to make the output more similar to the real results. This is done with an algorithm called _back propagation_. Before we get there, lets take a closer look at these calculations being done by the nodes.
 
 <h2 id="transferFunction">2. Transfer Function </h2>
 
@@ -59,7 +59,7 @@ At each node in the hidden and output layers of the NN, an _activation_ or _tran
 	</div>
 </div>
 
-As you can see from the figure, the sigmoid function takes any real-valued number and maps it to a real number in the range $(0 \ 1)$ - i.e. between, but not equal to, 0 and 1. We can think of this almost like saying 'if the value we have maps to an output near 1, this node fires, if it maps to an output near 0, the node does not fire'. The equation for this sigmoid function is:
+As you can see from the figure, the sigmoid function takes any real-valued input and maps it to a real number in the range $(0 \ 1)$ - i.e. between, but not equal to, 0 and 1. We can think of this almost like saying 'if the value we have maps to an output near 1, this node fires, if it maps to an output near 0, the node does not fire'. The equation for this sigmoid function is:
 
 <div id="eqsigmoidFunction">$$
 \sigma ( x ) = \frac{1}{1 + e^{-x}}
@@ -91,7 +91,7 @@ The sigmoid function has the nice property that its derivative is very simple: a
 
 [To contents][100]
 
-During a feed-forward pass, the network takes in the input values and gives us some output values. To see how this is done, let's first consider a 2-layer neural network with two input features connected to a hidden layer with three nodes and which gives a single output. To keep this clear, lets get some notation together:
+During a feed-forward pass, the network takes in the input values and gives us some output values. To see how this is done, let's first consider a 2-layer neural network like the one in Figure 1. Here we are going to refer to:
 
 * $i$ - the $i^{\text{th}}$ node of the input layer $I$
 * $j$ - the $j^{\text{th}}$ node of the hidden layer $J$
@@ -107,41 +107,39 @@ x_{j} &= \xi_{1} w_{1j} + \xi_{2} w_{2j} \\[0.5em]
 \end{align}
 $$</div>
 
-where $\xi\_{i}$ is the value of the $i^{\text{th}}$ input node and $w\_{i j}$ is the weight of the connection between $i^{\text{th}}$ input node and the $j^{\text{th}}$ hidden node. **In short:** at each hidden layer node, multiply each input value by the connection received by that node and add them together. This is simplified  in matrix notation, where the sum of the products is just the scalar or 'dot' product between the input values $\xi$ and the matrix of weights between the inputs and $j^{\text{th}}$ hidden node $W_{ij}$:
-
-<div>$$
-x_{j} = \xi \cdot W_{ij}
-$$</div>
+where $\xi\_{i}$ is the value of the $i^{\text{th}}$ input node and $w\_{i j}$ is the weight of the connection between $i^{\text{th}}$ input node and the $j^{\text{th}}$ hidden node. **In short:** at each hidden layer node, multiply each input value by the connection received by that node and add them together. 
 
 **Note:** the weights are initisliased when the network is setup. Sometimes they are all set to 1, or often they're set to some small random value.
 
-We apply activation function on $x_{j}$ at the $j^{\text{th}}$ hidden node and get:
+We apply the activation function on $x\_{j}$ at the $j^{\text{th}}$ hidden node and get:
 
 <div>$$
 \begin{align}
 \mathcal{O}_{j} &= \sigma(x_{j}) \\
-&= \sigma( \xi \cdot W_{ij} )
+&= \sigma(  \xi_{1} w_{1j} + \xi_{2} w_{2j})
 \end{align}
 $$</div>
 
-$\mathcal{O}_{j}$ is the output of the $j^{\text{th}}$ hidden node. This is calculated for each of the $j$ nodes in the hidden layer. The resulting outputs now become the input for the next layer in the network. In our case, this is the final output later. So for each of the $k$ nodes in $K$:
+$\mathcal{O}\_{j}$ is the output of the $j^{\text{th}}$ hidden node. This is calculated for each of the $j$ nodes in the hidden layer. The resulting outputs now become the input for the next layer in the network. In our case, this is the final output later. So for each of the $k$ nodes in $K$:
 
 <div>$$
 \begin{align}
 \mathcal{O}_{k} &= \sigma(x_{k}) \\
-&= \sigma( \xi \cdot W_{jk} )
+&= \sigma \left( \sum_{j \in J}  \mathcal{O}_{j} w_{jk}  \right)
 \end{align}
 $$</div>
 
-As we've reached the end of the network, this is also the end of the feed-foward pass. So how well did our network do at getting the correct result. This is the training phase of our network, so the true results will be known.
+As we've reached the end of the network, this is also the end of the feed-foward pass. So how well did our network do at getting the correct result $\mathcal{O}\_{k}$? As this is the training phase of our network, the true results will be known an we cal calculate the error.
 
 <h2 id="error">4. Error </h2>
 
 [To contents][100]
 
-We measure error at the end of each foward pass. This allows us to quantify how well our network has performed in getting the correct output. Let's define $t\_{k}$ as the expected or _target_ value of the $k^{\text{th}}$ node of the input layer $K$. Then the error $E$ on the entire output is:
+We measure error at the end of each foward pass. This allows us to quantify how well our network has performed in getting the correct output. Let's define $t\_{k}$ as the expected or _target_ value of the $k^{\text{th}}$ node of the output layer $K$. Then the error $E$ on the entire output is:
 
-<div id="eqerror">$$ \text{E} = \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2} $$</div>
+<div id="eqerror">$$
+\text{E} = \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}
+$$</div>
 
 Dont' be put off by the random 1/2 in front there, it's been manufactured that way to make the upcoming maths easier. The rest of this should be easy enough: get the residual (difference between the target and output values), square this to get rid of any negatives and sum this over all of the nodes in the output layer.
 
@@ -152,16 +150,17 @@ Good! Now how does this help us? Our aim here is to find a way to tune our netwo
 
 We will indeed consider the second case in another post, but the magic of NN is all about the _weights_. Getting each weight i.e. each connection between nodes, to be just the perfect value, is what back propagation is all about. The back propagation algorithm we will look at in the next section, but lets go ahead and set it up by considering the following: how much of this error $E$ has come from each of the weights in the network?
 
-We're asking, what is the proportion of the error coming from each of the $W_{jk}$ connections between the nodes in layer $J$ and the output layer $K$. Or in mathematical terms:
+We're asking, what is the proportion of the error coming from each of the $W\_{jk}$ connections between the nodes in layer $J$ and the output layer $K$. Or in mathematical terms:
 
-<div>$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{\partial{}}{\partial{W_{jk}}}  \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$</div>
+<div>$$
+\frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{\partial{}}{\partial{W_{jk}}}  \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}
+$$</div>
 
-If you're not concerned with getting the derivative, skip this highlighted section:
+If you're not concerned with working out the derivative, skip this highlighted section.
 
 <div class="highlight_section">
-To tackle this we can use the following bits of knowledge:
 
-* the derivative of the sum is equal to the sum of the derivatives i.e. we can move the derivative term inside of the summation:
+To tackle this we can use the following bits of knowledge: the derivative of the sum is equal to the sum of the derivatives i.e. we can move the derivative term inside of the summation:
 
 <div>$$ \frac{\partial{\text{E}}}{\partial{W_{jk}}} =  \frac{1}{2} \sum_{k \in K} \frac{\partial{}}{\partial{W_{jk}}} \left( \mathcal{O}_{k} - t_{k} \right)^{2}$$</div>
 
