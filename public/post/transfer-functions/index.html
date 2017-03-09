@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An insight into various activation functions">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>Transfer Functions &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Transfer Functions</h1>
+  <h2>An insight into various activation functions</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>08 Mar 2017, 10:43</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorials">tutorials</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/neural-network">neural network</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/transfer">transfer</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/activation">activation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/gaussian">gaussian</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/sigmoid">sigmoid</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/linear">linear</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/tanh">tanh</a>
+    
+  </div>
+  
+  
+  
+
+  
+
+<ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li>
+</ul>
+	
+  
+</div>
+
+
+  
+
+<h2 id="linear-identity-function">Linear (Identity) Function</h2>
+
+<h3 id="what-does-it-look-like">What does it look like?</h3>
+
+<div  id="fig1" class="figure_container">
+        <div class="figure_images">
+        <img title="Simple NN" src="/img/transferFunctions/linear.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dlinear.png" width="50%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 1</font>: The sigmoid function (left) and its derivative (right)
+        </div>
+</div>
+
+<h3 id="formulae">Formulae</h3>
+
+<div>$$
+f \left( x_{i} \right) = x_{i}
+$$</div>
+
+<h3 id="python-code">Python Code</h3>
+
+<pre><code class="language-python">def linear(x, Derivative=False):
+    if not Derivative:
+        return x
+    else:
+        return 1.0
+</code></pre>
+
+<h3 id="why-is-it-used">Why is it used?</h3>
+
+<p>If there&rsquo;s a situation where we want a node to give its output without applying any thresholds, then the identity (or linear) function is the way to go.</p>
+
+<p>Hopefully you can see why it is used in the final output layer nodes as we only want these nodes to do the $ \text{input} \times \text{weight}$ operations before giving us its answer without any further modifications.</p>
+
+<p><br></p>
+
+<hr />
+
+<h2 id="the-sigmoid-or-fermi-function">The Sigmoid (or Fermi) Function</h2>
+
+<h3 id="what-does-it-look-like-1">What does it look like?</h3>
+
+<div  id="fig1" class="figure_container">
+        <div class="figure_images">
+        <img title="Simple NN" src="/img/transferFunctions/sigmoid.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dsigmoid.png" width="50%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 1</font>: The sigmoid function (left) and its derivative (right)
+        </div>
+</div>
+
+<h3 id="formulae-1">Formulae</h3>
+
+<div >$$
+f\left(x_{i} \right) = \frac{1}{1 + e^{  - x_{i}  }}, \ \
+f^{\prime}\left( x_{i} \right) = \sigma(x_{i}) \left( 1 -  \sigma(x_{i}) \right)
+$$</div>
+
+<h3 id="python-code-1">Python Code</h3>
+
+<pre><code class="language-python">def sigmoid(x,Derivative=False):
+    if not Derivative:
+        return 1 / (1 + np.exp (-x))
+    else:
+        out = sigmoid(x)
+        return out * (1 - out)
+</code></pre>
+
+<h3 id="why-is-it-used-1">Why is it used?</h3>
+
+<p>This function maps the input to a value between 0 and 1 (but not equal to 0 or 1). This means the output from the node will be a high signal (if the input is positive) or a low one (if the input is negative). This function is often chosen as it is one of the easiest to hard-code in terms of its derivative. The simplicity of its derivative allows us to efficiently perform back propagation without using any fancy packages or approximations.</p>
+
+<p>The sigmoid&rsquo;s natural threshold is 0.5, meaning that any input that maps to a value above 0.5 will be considered high (or 1) in binary terms.</p>
+
+<p><br></p>
+
+<hr />
+
+<h2 id="hyperbolic-tangent-function-tanh-x">Hyperbolic Tangent Function ( $\tanh(x)$ )</h2>
+
+<h3 id="what-does-it-look-like-2">What does it look like?</h3>
+
+<div  id="fig1" class="figure_container">
+        <div class="figure_images">
+        <img title="Simple NN" src="/img/transferFunctions/tanh.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dtanh.png" width="50%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 1</font>: The sigmoid function (left) and its derivative (right)
+        </div>
+</div>
+
+<h3 id="formulae-2">Formulae</h3>
+
+<div >$$
+f\left(x_{i} \right) = \tanh\left(x_{i}\right),
+f^{\prime}\left(x_{i} \right) = 1 - \tanh\left(x_{i}\right)^{2}
+$$</div>
+
+<h3 id="why-is-it-used-2">Why is it used?</h3>
+
+<p>This is a very similar function to the previous sigmoid function and has much of the same properties: even its derivative is straight forward to compute. However, this function allows us to map the input to any value between -1 and 1 (but not inclusive of those). In effect, this allows us to apply a plenalty to the node (negative) rather than just have the node not fire at all. It also gives us a larger range of output to play with in the positive end of the scale meaning finer adjustments can be made.</p>
+
+<p>This function has a natural threshold of 0, meaning that any input which maps to a value greater than 0 is considered high (or 1) in binary terms.</p>
+
+<p><br></p>
+
+<hr />
+
+<h2 id="gaussian-function">Gaussian Function</h2>
+
+<h3 id="what-does-it-look-like-3">What does it look like?</h3>
+
+<div  id="fig1" class="figure_container">
+        <div class="figure_images">
+        <img title="Simple NN" src="/img/transferFunctions/gaussian.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dgaussian.png" width="50%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 1</font>: The sigmoid function (left) and its derivative (right)
+        </div>
+</div>
+
+<h3 id="formulae-3">Formulae</h3>
+
+<div >$$
+f\left( x_{i}\right ) = e^{ -x_{i}^{2}}, \ \
+f^{\prime}\left( x_{i}\right ) = - 2x e^{ - x_{i}^{2}}
+$$</div>
+
+<h3 id="python-code-2">Python Code</h3>
+
+<pre><code class="language-python">def gaussian(x, Derivative=False):
+    if not Derivative:
+        return np.exp(-x**2)
+    else:
+        return -2 * x * np.exp(-x**2)
+</code></pre>
+
+<h3 id="why-is-it-used-3">Why is it used?</h3>
+
+<p>The gaussian function is an even function, thus is gives the same output for equally positive and negative values of input. It gives its maximal output when there is no input and has decreasing output with increasing distance from zero. We can perhaps imagine this function is used in a node where the input feature is less likely to contribute to the final result.</p>
+
+<p><br></p>
+
+<hr />
+
+<h2 id="step-or-heaviside-function">Step (or Heaviside) Function</h2>
+
+<h3 id="what-does-it-look-like-4">What does it look like?</h3>
+
+<h3 id="formulae-4">Formulae</h3>
+
+<div>$$
+    f(x)= 
+\begin{cases}
+\begin{align}
+    0  \ &: \ x_{i} \leq T\\
+    1 \ &: \ x_{i} > T\\
+    \end{align}
+\end{cases}
+$$</div>
+
+<h3 id="why-is-it-used-4">Why is it used?</h3>
+
+<p>Some cases call for a function which applies a hard thresold: either the output is precisely a single value, or not. The other functions we&rsquo;ve looked at have an intrinsic probablistic output to them i.e. a higher output in decimal format implying a greater probability of being 1 (or a high output). The step function does away with this opting for a definite high or low output depending on some threshold on the input $T$.</p>
+
+<p>Imagine classifying 2D images as either colour or monochromatic - this only requires a hard threshold on the number of dimensions the image has, any number greater than 1 on the third dimension is a definitive indicator of a colour image in 2D.</p>
+
+<p><br></p>
+
+<hr />
+
+<h2 id="ramp-function">Ramp Function</h2>
+
+<h3 id="what-does-it-look-like-5">What does it look like?</h3>
+
+<div  id="fig1" class="figure_container">
+        <div class="figure_images">
+        <img title="Simple NN" src="/img/transferFunctions/ramp.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dramp.png" width="50%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 1</font>: The sigmoid function (left) and its derivative (right)
+        </div>
+</div>
+
+<h3 id="formulae-5">Formulae</h3>
+
+<div>$$
+    f(x)= 
+\begin{cases}
+\begin{align}
+    0 \ &: \ x_{i} \leq T_{1}\\[0.5em]
+    \frac{\left( x_{i} - T_{1} \right)}{\left( T_{2} - T_{1} \right)} \ &: \ T_{1} \leq x_{i} \leq T_{2}\\[0.5em]
+    1 \ &: \ x_{i} > T_{2}\\
+    \end{align}
+\end{cases}
+$$</div>
+
+<h3 id="why-is-it-used-5">Why is it used?</h3>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/neuralnetwork/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/neuralnetwork/">Simple Neural Network - Mathematics</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

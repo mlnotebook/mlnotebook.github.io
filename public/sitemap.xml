@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/post/transfer-functions/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/neuralnetwork/</loc>
     <lastmod>2017-03-06T17:04:53+00:00</lastmod>
   </url>
@@ -36,6 +41,12 @@
   </url>
   
   <url>
+    <loc>/tags/activation/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/back-propagation/</loc>
     <lastmod>2017-03-06T17:04:53+00:00</lastmod>
     <priority>0</priority>
@@ -62,6 +73,12 @@
   <url>
     <loc>/tags/evaluation/</loc>
     <lastmod>2017-03-01T19:27:27+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/gaussian/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -96,6 +113,12 @@
   </url>
   
   <url>
+    <loc>/tags/linear/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/machine-learning/</loc>
     <lastmod>2017-03-06T17:04:53+00:00</lastmod>
     <priority>0</priority>
@@ -103,7 +126,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-03-06T17:04:53+00:00</lastmod>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -121,13 +144,13 @@
   
   <url>
     <loc>/tags/neural-network/</loc>
-    <lastmod>2017-03-06T17:04:53+00:00</lastmod>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2017-03-06T17:04:53+00:00</lastmod>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -146,6 +169,12 @@
   <url>
     <loc>/tags/segmentation/</loc>
     <lastmod>2017-03-01T19:27:27+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sigmoid/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -173,13 +202,25 @@
   </url>
   
   <url>
+    <loc>/tags/tanh/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/topics/</loc>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>/tags/transfer/</loc>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/topics/tutorials/</loc>
-    <lastmod>2017-03-06T17:04:53+00:00</lastmod>
+    <lastmod>2017-03-08T10:43:07+00:00</lastmod>
     <priority>0</priority>
   </url>
   

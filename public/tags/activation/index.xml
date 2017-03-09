@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Activation on Machine Learning Notebook</title>
+    <link>/tags/activation/index.xml</link>
+    <description>Recent content in Activation on Machine Learning Notebook</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="/tags/activation/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Transfer Functions</title>
+      <link>/post/transfer-functions/</link>
+      <pubDate>Wed, 08 Mar 2017 10:43:07 +0000</pubDate>
+      
+      <guid>/post/transfer-functions/</guid>
+      <description>
+
+&lt;h2 id=&#34;linear-identity-function&#34;&gt;Linear (Identity) Function&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-does-it-look-like&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/linear.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dlinear.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;formulae&#34;&gt;Formulae&lt;/h3&gt;
+
+&lt;div&gt;$$
+f \left( x_{i} \right) = x_{i}
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;python-code&#34;&gt;Python Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def linear(x, Derivative=False):
+    if not Derivative:
+        return x
+    else:
+        return 1.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;why-is-it-used&#34;&gt;Why is it used?&lt;/h3&gt;
+
+&lt;p&gt;If there&amp;rsquo;s a situation where we want a node to give its output without applying any thresholds, then the identity (or linear) function is the way to go.&lt;/p&gt;
+
+&lt;p&gt;Hopefully you can see why it is used in the final output layer nodes as we only want these nodes to do the $ \text{input} \times \text{weight}$ operations before giving us its answer without any further modifications.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;the-sigmoid-or-fermi-function&#34;&gt;The Sigmoid (or Fermi) Function&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-does-it-look-like-1&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/sigmoid.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dsigmoid.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;formulae-1&#34;&gt;Formulae&lt;/h3&gt;
+
+&lt;div &gt;$$
+f\left(x_{i} \right) = \frac{1}{1 + e^{  - x_{i}  }}, \ \
+f^{\prime}\left( x_{i} \right) = \sigma(x_{i}) \left( 1 -  \sigma(x_{i}) \right)
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;python-code-1&#34;&gt;Python Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def sigmoid(x,Derivative=False):
+    if not Derivative:
+        return 1 / (1 + np.exp (-x))
+    else:
+        out = sigmoid(x)
+        return out * (1 - out)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;why-is-it-used-1&#34;&gt;Why is it used?&lt;/h3&gt;
+
+&lt;p&gt;This function maps the input to a value between 0 and 1 (but not equal to 0 or 1). This means the output from the node will be a high signal (if the input is positive) or a low one (if the input is negative). This function is often chosen as it is one of the easiest to hard-code in terms of its derivative. The simplicity of its derivative allows us to efficiently perform back propagation without using any fancy packages or approximations.&lt;/p&gt;
+
+&lt;p&gt;The sigmoid&amp;rsquo;s natural threshold is 0.5, meaning that any input that maps to a value above 0.5 will be considered high (or 1) in binary terms.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;hyperbolic-tangent-function-tanh-x&#34;&gt;Hyperbolic Tangent Function ( $\tanh(x)$ )&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-does-it-look-like-2&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/tanh.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dtanh.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;formulae-2&#34;&gt;Formulae&lt;/h3&gt;
+
+&lt;div &gt;$$
+f\left(x_{i} \right) = \tanh\left(x_{i}\right),
+f^{\prime}\left(x_{i} \right) = 1 - \tanh\left(x_{i}\right)^{2}
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;why-is-it-used-2&#34;&gt;Why is it used?&lt;/h3&gt;
+
+&lt;p&gt;This is a very similar function to the previous sigmoid function and has much of the same properties: even its derivative is straight forward to compute. However, this function allows us to map the input to any value between -1 and 1 (but not inclusive of those). In effect, this allows us to apply a plenalty to the node (negative) rather than just have the node not fire at all. It also gives us a larger range of output to play with in the positive end of the scale meaning finer adjustments can be made.&lt;/p&gt;
+
+&lt;p&gt;This function has a natural threshold of 0, meaning that any input which maps to a value greater than 0 is considered high (or 1) in binary terms.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;gaussian-function&#34;&gt;Gaussian Function&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-does-it-look-like-3&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/gaussian.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dgaussian.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;formulae-3&#34;&gt;Formulae&lt;/h3&gt;
+
+&lt;div &gt;$$
+f\left( x_{i}\right ) = e^{ -x_{i}^{2}}, \ \
+f^{\prime}\left( x_{i}\right ) = - 2x e^{ - x_{i}^{2}}
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;python-code-2&#34;&gt;Python Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def gaussian(x, Derivative=False):
+    if not Derivative:
+        return np.exp(-x**2)
+    else:
+        return -2 * x * np.exp(-x**2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;why-is-it-used-3&#34;&gt;Why is it used?&lt;/h3&gt;
+
+&lt;p&gt;The gaussian function is an even function, thus is gives the same output for equally positive and negative values of input. It gives its maximal output when there is no input and has decreasing output with increasing distance from zero. We can perhaps imagine this function is used in a node where the input feature is less likely to contribute to the final result.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;step-or-heaviside-function&#34;&gt;Step (or Heaviside) Function&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-does-it-look-like-4&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;h3 id=&#34;formulae-4&#34;&gt;Formulae&lt;/h3&gt;
+
+&lt;div&gt;$$
+    f(x)= 
+\begin{cases}
+\begin{align}
+    0  \ &amp;: \ x_{i} \leq T\\
+    1 \ &amp;: \ x_{i} &gt; T\\
+    \end{align}
+\end{cases}
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;why-is-it-used-4&#34;&gt;Why is it used?&lt;/h3&gt;
+
+&lt;p&gt;Some cases call for a function which applies a hard thresold: either the output is precisely a single value, or not. The other functions we&amp;rsquo;ve looked at have an intrinsic probablistic output to them i.e. a higher output in decimal format implying a greater probability of being 1 (or a high output). The step function does away with this opting for a definite high or low output depending on some threshold on the input $T$.&lt;/p&gt;
+
+&lt;p&gt;Imagine classifying 2D images as either colour or monochromatic - this only requires a hard threshold on the number of dimensions the image has, any number greater than 1 on the third dimension is a definitive indicator of a colour image in 2D.&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;ramp-function&#34;&gt;Ramp Function&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-does-it-look-like-5&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/ramp.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dramp.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;formulae-5&#34;&gt;Formulae&lt;/h3&gt;
+
+&lt;div&gt;$$
+    f(x)= 
+\begin{cases}
+\begin{align}
+    0 \ &amp;: \ x_{i} \leq T_{1}\\[0.5em]
+    \frac{\left( x_{i} - T_{1} \right)}{\left( T_{2} - T_{1} \right)} \ &amp;: \ T_{1} \leq x_{i} \leq T_{2}\\[0.5em]
+    1 \ &amp;: \ x_{i} &gt; T_{2}\\
+    \end{align}
+\end{cases}
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;why-is-it-used-5&#34;&gt;Why is it used?&lt;/h3&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -33,14 +33,16 @@ Tutorials on neural networks (NN) can be found all over the internet. Though man
 
 By now, you may well have come across diagrams which look very similar to the one below. It shows some input node, connected to some output node via an intermediate node in what is called a 'hidden layer' - 'hidden' because in the use of NN only the input and output is of concern to the user, the 'under-the-hood' stuff may not be interesting to them. In real, high-performing NN there are usually more hidden layers.
 
-<div class="container">
-	<div class="figure_container">
-		<img title="Simple NN" style="width:80%" class="figure_img" src="/img/simpleNN/simpleNN.png">
-		<div class="figure_caption">
-			<font color="blue">Figure 1</font>: A simple 2-layer NN with 2 features in the input layer, 3 nodes in the hidden layer and two nodes in the output layer.
-		</div>
+
+<div class="figure_container">
+	<div class="figure_images">
+		<img title="Simple NN" width=40% src="/img/simpleNN/simpleNN.png">
+	</div>
+	<div class="figure_caption">
+		<font color="blue">Figure 1</font>: A simple 2-layer NN with 2 features in the input layer, 3 nodes in the hidden layer and two nodes in the output layer.
 	</div>
 </div>
+
 
 When we train our network, the nodes in the hidden layer each perform a calculation using the values from the input nodes. The output of this is passed on to the nodes of the next layer. When the output hits the final layer, the 'output layer', the results are compared to the real, known outputs and some tweaking of the network is done to make the output more similar to the real results. This is done with an algorithm called _back propagation_. Before we get there, lets take a closer look at these calculations being done by the nodes.
 
@@ -50,14 +52,16 @@ When we train our network, the nodes in the hidden layer each perform a calculat
 
 At each node in the hidden and output layers of the NN, an _activation_ or _transfer_ function is executed. This function takes in the output of the previous node, and multiplies it by some _weight_. These weights are the lines which connect the nodes. The weights that come out of one node can all be different, that is they will _activate_ different neurons. There can be many forms of the transfer function, we will first look at the _sigmoid_ transfer function as it seems traditional.
 
-<div class="container">
-	<div class="figure_container">
-		<img title="The sigmoid function" class="figure_img" src="/img/simpleNN/sigmoid.png">
-		<div class="figure_caption">
-			<font color="blue">Figure 2</font>: The sigmoid function.
-		</div>
+
+<div class="figure_container">
+	<div class="figure_images">
+		<img title="The sigmoid function" width=50% src="/img/simpleNN/sigmoid.png">
+	</div>
+	<div class="figure_caption">
+		<font color="blue">Figure 2</font>: The sigmoid function.
 	</div>
 </div>
+
 
 As you can see from the figure, the sigmoid function takes any real-valued input and maps it to a real number in the range $(0 \ 1)$ - i.e. between, but not equal to, 0 and 1. We can think of this almost like saying 'if the value we have maps to an output near 1, this node fires, if it maps to an output near 0, the node does not fire'. The equation for this sigmoid function is:
 
@@ -304,14 +308,16 @@ $$</div>
 
 Lets remind ourselves what happens inside our hidden layer nodes:
 
-<div class="container">
-	<div class="figure_container">
-		<img title="Simple NN"  class="figure_img" src="/img/simpleNN/nodeInsideNoBias.png">
-		<div class="figure_caption">
-			<font color="blue">Figure 3</font>: The insides of a hidden layer node, $j$.
-		</div>
+
+<div class="figure_container">
+	<div class="figure_images">
+	<img title="Simple NN"  width=50% src="/img/simpleNN/nodeInsideNoBias.png">
+	</div>
+	<div class="figure_caption">
+		<font color="blue">Figure 3</font>: The insides of a hidden layer node, $j$.
 	</div>
 </div>
+
 
 1. Each feature $\xi\_{i}$ from the input layer $I$ is multiplied by some weight $w\_{ij}$
 2. These are added together to get $x\_{i}$ the total, weighted input from the nodes in $I$
@@ -321,7 +327,7 @@ Lets remind ourselves what happens inside our hidden layer nodes:
 
 When we talk about the _bias_ term in NN, we are talking about an additional parameter that is inluded in the summation of step 2 above. The bias term is usually denoted with the symbol $\theta$ (theta). It's function is to act as a threshold for the activation (transfer) function. It is given the value of 1 and is not connected to anything else. As such, this means that any derivative of the node's output with respect to the bias term would just give a constant, 1. This allows us to just think of the bias term as an output from the node with the value of 1. This will be updated later during backpropagation to change the threshold at which the node fires.
 
-Lets update the equation for $x\_{i}$ put it on the diagram:
+Lets update the equation for $x\_{i}$:
 
 <div>$$
 \begin{align}
@@ -330,12 +336,14 @@ x_{i} &= \xi_{1j} w_{1j} + \xi_{2j} w_{2j} + \theta_{j} \\[0.5em]
 \end{align}
 $$</div>
 
-<div class="container">
-	<div class="figure_container">
-		<img title="Simple NN"  class="figure_img" src="/img/simpleNN/nodeInside.png">
-		<div class="figure_caption">
-			<font color="blue">Figure 4</font>: The insides of a hidden layer node, $j$ including the bias term.
-		</div>
+and put it on the diagram:
+
+<div class="figure_container">
+	<div class="figure_images">
+	<img title="Simple NN"  width=50% src="/img/simpleNN/nodeInside.png">
+	</div>
+	<div class="figure_caption">
+		<font color="blue">Figure 3</font>: The insides of a hidden layer node, $j$.
 	</div>
 </div>
 
