@@ -17,7 +17,26 @@
       <guid>/post/transfer-functions/</guid>
       <description>
 
-&lt;h2 id=&#34;linear-identity-function&#34;&gt;Linear (Identity) Function&lt;/h2&gt;
+&lt;p&gt;As promised in the previous post, we&amp;rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again &lt;strong&gt;please&lt;/strong&gt; let me know if there&amp;rsquo;s anything I&amp;rsquo;ve gotten totally wrong - I&amp;rsquo;m very much learning too.&lt;/p&gt;
+
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#linear&#34;&gt;Linear Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sigmoid&#34;&gt;Sigmoid Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#tanh&#34;&gt;Hyperbolic Tangent Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#gaussian&#34;&gt;Gaussian Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#step&#34;&gt;Heaviside (step) Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#ramp&#34;&gt;Ramp Function&lt;/a&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#relu&#34;&gt;Rectified Linear Unit (ReLU)&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;linear&#34;&gt; Linear (Identity) Function &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;what-does-it-look-like&#34;&gt;What does it look like?&lt;/h3&gt;
 
@@ -26,7 +45,7 @@
         &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/linear.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dlinear.png&#34; width=&#34;50%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The linear function (left) and its derivative (right)
         &lt;/div&gt;
 &lt;/div&gt;
 
@@ -51,20 +70,28 @@ $$&lt;/div&gt;
 
 &lt;p&gt;Hopefully you can see why it is used in the final output layer nodes as we only want these nodes to do the $ \text{input} \times \text{weight}$ operations before giving us its answer without any further modifications.&lt;/p&gt;
 
+&lt;p&gt;&lt;font color=&#34;blue&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The linear function is not used in the hidden layers. We must use non-linear transfer functions in the hidden layer nodes or else the output will only ever end up being a linearly separable solution.&lt;/p&gt;
+
+&lt;p&gt;&lt;/font&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;the-sigmoid-or-fermi-function&#34;&gt;The Sigmoid (or Fermi) Function&lt;/h2&gt;
+&lt;h2 id=&#34;sigmoid&#34;&gt; The Sigmoid (or Fermi) Function &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;what-does-it-look-like-1&#34;&gt;What does it look like?&lt;/h3&gt;
 
-&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+&lt;div  id=&#34;fig2&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
         &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/sigmoid.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dsigmoid.png&#34; width=&#34;50%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+            &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
         &lt;/div&gt;
 &lt;/div&gt;
 
@@ -87,7 +114,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;why-is-it-used-1&#34;&gt;Why is it used?&lt;/h3&gt;
 
-&lt;p&gt;This function maps the input to a value between 0 and 1 (but not equal to 0 or 1). This means the output from the node will be a high signal (if the input is positive) or a low one (if the input is negative). This function is often chosen as it is one of the easiest to hard-code in terms of its derivative. The simplicity of its derivative allows us to efficiently perform back propagation without using any fancy packages or approximations.&lt;/p&gt;
+&lt;p&gt;This function maps the input to a value between 0 and 1 (but not equal to 0 or 1). This means the output from the node will be a high signal (if the input is positive) or a low one (if the input is negative). This function is often chosen as it is one of the easiest to hard-code in terms of its derivative. The simplicity of its derivative allows us to efficiently perform back propagation without using any fancy packages or approximations. The fact that this function is smooth, continuous (differentiable), monotonic and bounded means that back propagation will work well.&lt;/p&gt;
 
 &lt;p&gt;The sigmoid&amp;rsquo;s natural threshold is 0.5, meaning that any input that maps to a value above 0.5 will be considered high (or 1) in binary terms.&lt;/p&gt;
 
@@ -95,16 +122,18 @@ $$&lt;/div&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;hyperbolic-tangent-function-tanh-x&#34;&gt;Hyperbolic Tangent Function ( $\tanh(x)$ )&lt;/h2&gt;
+&lt;h2 id=&#34;tanh&#34;&gt; Hyperbolic Tangent Function ( $\tanh(x)$ ) &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;what-does-it-look-like-2&#34;&gt;What does it look like?&lt;/h3&gt;
 
-&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+&lt;div  id=&#34;fig3&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
         &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/tanh.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dtanh.png&#34; width=&#34;50%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+            &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The hyperbolic tangent function (left) and its derivative (right)
         &lt;/div&gt;
 &lt;/div&gt;
 
@@ -121,20 +150,29 @@ $$&lt;/div&gt;
 
 &lt;p&gt;This function has a natural threshold of 0, meaning that any input which maps to a value greater than 0 is considered high (or 1) in binary terms.&lt;/p&gt;
 
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;Again, the fact that this function is smooth, continuous (differentiable), monotonic and bounded means that back propagation will work well. The subsequent functions don&amp;rsquo;t all have these properties which makes them more difficult to use in back propagation (though it is done).
+&lt;br&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;gaussian-function&#34;&gt;Gaussian Function&lt;/h2&gt;
+&lt;h2 id=&#34;what-s-the-difference-between-the-sigmoid-and-hyperbolic-tangent&#34;&gt;What&amp;rsquo;s the difference between the sigmoid and hyperbolic tangent?&lt;/h2&gt;
+
+&lt;p&gt;They both achieve a similar mapping, are both continuous, smooth, monotonic and differentiable, but give out different values. For a sigmoid function, a large negative input generates an almost zero output. This lack of output will affect all subsequent weights in the network which may not be desirable - effectively stopping the next nodes from learning. In contrast, the $\tanh$ function supplies -1 for negative values, maintaining the output of the node and allowing subsequent nodes to learn from it.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;gaussian&#34;&gt; Gaussian Function &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;what-does-it-look-like-3&#34;&gt;What does it look like?&lt;/h3&gt;
 
-&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+&lt;div  id=&#34;fig4&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
         &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/gaussian.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dgaussian.png&#34; width=&#34;50%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+            &lt;font color=&#34;blue&#34;&gt;Figure 4&lt;/font&gt;: The gaussian function (left) and its derivative (right)
         &lt;/div&gt;
 &lt;/div&gt;
 
@@ -162,9 +200,20 @@ $$&lt;/div&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;step-or-heaviside-function&#34;&gt;Step (or Heaviside) Function&lt;/h2&gt;
+&lt;h2 id=&#34;step&#34;&gt; Step (or Heaviside) Function &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;what-does-it-look-like-4&#34;&gt;What does it look like?&lt;/h3&gt;
+
+&lt;div  id=&#34;fig5&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/step.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 5&lt;/font&gt;: The Heaviside function (left) and its derivative (right)
+        &lt;/div&gt;
+&lt;/div&gt;
 
 &lt;h3 id=&#34;formulae-4&#34;&gt;Formulae&lt;/h3&gt;
 
@@ -182,22 +231,24 @@ $$&lt;/div&gt;
 
 &lt;p&gt;Some cases call for a function which applies a hard thresold: either the output is precisely a single value, or not. The other functions we&amp;rsquo;ve looked at have an intrinsic probablistic output to them i.e. a higher output in decimal format implying a greater probability of being 1 (or a high output). The step function does away with this opting for a definite high or low output depending on some threshold on the input $T$.&lt;/p&gt;
 
-&lt;p&gt;Imagine classifying 2D images as either colour or monochromatic - this only requires a hard threshold on the number of dimensions the image has, any number greater than 1 on the third dimension is a definitive indicator of a colour image in 2D.&lt;/p&gt;
+&lt;p&gt;However, the step-function is discontinuous and therefore non-differentiable (its derivative is the Dirac-delta function). Therefore use of this function in practice is not done with back-propagation.&lt;/p&gt;
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;ramp-function&#34;&gt;Ramp Function&lt;/h2&gt;
+&lt;h2 id=&#34;ramp&#34;&gt; Ramp Function &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;what-does-it-look-like-5&#34;&gt;What does it look like?&lt;/h3&gt;
 
-&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+&lt;div  id=&#34;fig6&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
         &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/ramp.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dramp.png&#34; width=&#34;50%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
+            &lt;font color=&#34;blue&#34;&gt;Figure 6&lt;/font&gt;: The ramp function (left) and its derivative (right) with $T1=-2$ and $T2=3$.
         &lt;/div&gt;
 &lt;/div&gt;
 
@@ -214,7 +265,48 @@ $$&lt;/div&gt;
 \end{cases}
 $$&lt;/div&gt;
 
+&lt;h3 id=&#34;python-code-3&#34;&gt;Python Code&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def ramp(x, Derivative=False, T1=0, T2=np.max(x)):
+    out = np.ones(x.shape)
+    ids = ((x &amp;lt; T1) | (x &amp;gt; T2))
+    if not Derivative:
+        out = ((x - T1)/(T2-T1))
+        out[(x &amp;lt; T1)] = 0
+        out[(x &amp;gt; T2)] = 1
+        return out
+    else:
+        out[ids]=0
+        return out
+&lt;/code&gt;&lt;/pre&gt;
+
 &lt;h3 id=&#34;why-is-it-used-5&#34;&gt;Why is it used?&lt;/h3&gt;
+
+&lt;p&gt;The ramp function is a truncated version of the linear function. From its shape, the ramp function looks like a more definitive version of the sigmoid function in that its maps a range of inputs to outputs over the range (0 1) but this time with definitive cut off points $T1$ and $T2$. This gives the function the ability to fire the node very definitively above a threshold, but still have some uncertainty in the lower regions. It may not be common to see $T1$ in the negative region unless the ramp is equally distributed about $0$.&lt;/p&gt;
+
+&lt;h3 id=&#34;relu&#34;&gt; 6.1 Rectified Linear Unit (ReLU) &lt;/h3&gt;
+
+&lt;p&gt;There is a popular, special case of the ramp function in use in the powerful &lt;em&gt;convolutional neural network&lt;/em&gt; (CNN) architecture called a &lt;em&gt;&lt;strong&gt;Re&lt;/strong&gt;ctifying &lt;strong&gt;L&lt;/strong&gt;inear &lt;strong&gt;U&lt;/strong&gt;nit&lt;/em&gt; (ReLU). In a ReLU, $T1=0$ and $T2$ is the maximum of the input giving a linear function with no negative values as below:&lt;/p&gt;
+
+&lt;div  id=&#34;fig7&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/relu.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/drelu.png&#34; width=&#34;50%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 7&lt;/font&gt;: The Rectified Linear Unit (ReLU) (left) with its derivative (right).
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;and in Python:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def relu(x, Derivative=False):
+    if not Derivative:
+        return np.maximum(0,x)
+    else:
+        out = np.ones(x.shape)
+        out[(x &amp;lt; 0)]=0
+        return out
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
