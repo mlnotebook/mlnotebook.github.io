@@ -35,7 +35,7 @@ As promised in the previous post, we'll take a look at some of the different act
 
 <div  id="fig1" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/linear.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dlinear.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/linear.png" width="90%"><img title="Simple NN" src="/img/transferFunctions/dlinear.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 1</font>: The linear function (left) and its derivative (right)
@@ -84,7 +84,7 @@ Hopefully you can see why it is used in the final output layer nodes as we only 
 
 <div  id="fig2" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/sigmoid.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dsigmoid.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/sigmoid.png" width="90%"><img title="Simple NN" src="/img/transferFunctions/dsigmoid.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 2</font>: The sigmoid function (left) and its derivative (right)
@@ -130,7 +130,7 @@ The sigmoid's natural threshold is 0.5, meaning that any input that maps to a va
 
 <div  id="fig3" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/tanh.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dtanh.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/tanh.png" width="90%"><img title="Simple NN" src="/img/transferFunctions/dtanh.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 3</font>: The hyperbolic tangent function (left) and its derivative (right)
@@ -169,7 +169,7 @@ They both achieve a similar mapping, are both continuous, smooth, monotonic and 
 
 <div  id="fig4" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/gaussian.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dgaussian.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/gaussian.png" width="90%"><img title="Simple NN" src="/img/transferFunctions/dgaussian.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 4</font>: The gaussian function (left) and its derivative (right)
@@ -209,7 +209,7 @@ The gaussian function is an even function, thus is gives the same output for equ
 
 <div  id="fig5" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/step.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/step.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 5</font>: The Heaviside function (left) and its derivative (right)
@@ -246,7 +246,7 @@ However, the step-function is discontinuous and therefore non-differentiable (it
 
 <div  id="fig6" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/ramp.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/dramp.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/ramp.png" width="90%"><img title="Simple NN" src="/img/transferFunctions/dramp.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 6</font>: The ramp function (left) and its derivative (right) with $T1=-2$ and $T2=3$.
@@ -293,7 +293,7 @@ There is a popular, special case of the ramp function in use in the powerful _co
 
 <div  id="fig7" class="figure_container">
 		<div class="figure_images">
-		<img title="Simple NN" src="/img/transferFunctions/relu.png" width="50%"><img title="Simple NN" src="/img/transferFunctions/drelu.png" width="50%">
+		<img title="Simple NN" src="/img/transferFunctions/relu.png" width="90%"><img title="Simple NN" src="/img/transferFunctions/drelu.png" width="90%">
 		</div>
 		<div class="figure_caption">
 			<font color="blue">Figure 7</font>: The Rectified Linear Unit (ReLU) (left) with its derivative (right).
