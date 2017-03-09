@@ -119,20 +119,24 @@ float:left;
 }
 
 .figure_container {
-	width:40%;
+	width:80%;
 	margin: auto;	
 	text-align:center;
+
 }
 
-.figure_img {
+.figure_images {
 	width:100%;
+	margin:auto;
 	display: inline-block;
-	margin: auto;
 
 }
+
+
 
 .figure_caption {
-	text-align: left;
+	width: auto;
+	text-align: center;
 
 }
 

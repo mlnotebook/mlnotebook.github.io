@@ -34,12 +34,12 @@
 
 &lt;p&gt;By now, you may well have come across diagrams which look very similar to the one below. It shows some input node, connected to some output node via an intermediate node in what is called a &amp;lsquo;hidden layer&amp;rsquo; - &amp;lsquo;hidden&amp;rsquo; because in the use of NN only the input and output is of concern to the user, the &amp;lsquo;under-the-hood&amp;rsquo; stuff may not be interesting to them. In real, high-performing NN there are usually more hidden layers.&lt;/p&gt;
 
-&lt;div class=&#34;container&#34;&gt;
-    &lt;div class=&#34;figure_container&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; style=&#34;width:80%&#34; class=&#34;figure_img&#34; src=&#34;/img/simpleNN/simpleNN.png&#34;&gt;
-        &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: A simple 2-layer NN with 2 features in the input layer, 3 nodes in the hidden layer and two nodes in the output layer.
-        &lt;/div&gt;
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; width=40% src=&#34;/img/simpleNN/simpleNN.png&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: A simple 2-layer NN with 2 features in the input layer, 3 nodes in the hidden layer and two nodes in the output layer.
     &lt;/div&gt;
 &lt;/div&gt;
 
@@ -51,12 +51,12 @@
 
 &lt;p&gt;At each node in the hidden and output layers of the NN, an &lt;em&gt;activation&lt;/em&gt; or &lt;em&gt;transfer&lt;/em&gt; function is executed. This function takes in the output of the previous node, and multiplies it by some &lt;em&gt;weight&lt;/em&gt;. These weights are the lines which connect the nodes. The weights that come out of one node can all be different, that is they will &lt;em&gt;activate&lt;/em&gt; different neurons. There can be many forms of the transfer function, we will first look at the &lt;em&gt;sigmoid&lt;/em&gt; transfer function as it seems traditional.&lt;/p&gt;
 
-&lt;div class=&#34;container&#34;&gt;
-    &lt;div class=&#34;figure_container&#34;&gt;
-        &lt;img title=&#34;The sigmoid function&#34; class=&#34;figure_img&#34; src=&#34;/img/simpleNN/sigmoid.png&#34;&gt;
-        &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The sigmoid function.
-        &lt;/div&gt;
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;The sigmoid function&#34; width=50% src=&#34;/img/simpleNN/sigmoid.png&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The sigmoid function.
     &lt;/div&gt;
 &lt;/div&gt;
 
@@ -323,12 +323,12 @@ $$&lt;/div&gt;
 
 &lt;p&gt;Lets remind ourselves what happens inside our hidden layer nodes:&lt;/p&gt;
 
-&lt;div class=&#34;container&#34;&gt;
-    &lt;div class=&#34;figure_container&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34;  class=&#34;figure_img&#34; src=&#34;/img/simpleNN/nodeInsideNoBias.png&#34;&gt;
-        &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The insides of a hidden layer node, $j$.
-        &lt;/div&gt;
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+    &lt;img title=&#34;Simple NN&#34;  width=50% src=&#34;/img/simpleNN/nodeInsideNoBias.png&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The insides of a hidden layer node, $j$.
     &lt;/div&gt;
 &lt;/div&gt;
 
@@ -342,7 +342,7 @@ $$&lt;/div&gt;
 
 &lt;p&gt;When we talk about the &lt;em&gt;bias&lt;/em&gt; term in NN, we are talking about an additional parameter that is inluded in the summation of step 2 above. The bias term is usually denoted with the symbol $\theta$ (theta). It&amp;rsquo;s function is to act as a threshold for the activation (transfer) function. It is given the value of 1 and is not connected to anything else. As such, this means that any derivative of the node&amp;rsquo;s output with respect to the bias term would just give a constant, 1. This allows us to just think of the bias term as an output from the node with the value of 1. This will be updated later during backpropagation to change the threshold at which the node fires.&lt;/p&gt;
 
-&lt;p&gt;Lets update the equation for $x_{i}$ put it on the diagram:&lt;/p&gt;
+&lt;p&gt;Lets update the equation for $x_{i}$:&lt;/p&gt;
 
 &lt;div&gt;$$
 \begin{align}
@@ -351,12 +351,14 @@ x_{i} &amp;= \xi_{1j} w_{1j} + \xi_{2j} w_{2j} + \theta_{j} \\[0.5em]
 \end{align}
 $$&lt;/div&gt;
 
-&lt;div class=&#34;container&#34;&gt;
-    &lt;div class=&#34;figure_container&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34;  class=&#34;figure_img&#34; src=&#34;/img/simpleNN/nodeInside.png&#34;&gt;
-        &lt;div class=&#34;figure_caption&#34;&gt;
-            &lt;font color=&#34;blue&#34;&gt;Figure 4&lt;/font&gt;: The insides of a hidden layer node, $j$ including the bias term.
-        &lt;/div&gt;
+&lt;p&gt;and put it on the diagram:&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+    &lt;img title=&#34;Simple NN&#34;  width=50% src=&#34;/img/simpleNN/nodeInside.png&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The insides of a hidden layer node, $j$.
     &lt;/div&gt;
 &lt;/div&gt;
 
