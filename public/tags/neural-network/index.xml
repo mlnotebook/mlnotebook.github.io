@@ -41,7 +41,7 @@
 
 &lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/linear.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dlinear.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/linear.png&#34; width=&#34;90%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dlinear.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The linear function (left) and its derivative (right)
@@ -87,7 +87,7 @@ $$&lt;/div&gt;
 
 &lt;div  id=&#34;fig2&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/sigmoid.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dsigmoid.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/sigmoid.png&#34; width=&#34;90%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dsigmoid.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The sigmoid function (left) and its derivative (right)
@@ -129,7 +129,7 @@ $$&lt;/div&gt;
 
 &lt;div  id=&#34;fig3&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/tanh.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dtanh.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/tanh.png&#34; width=&#34;90%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dtanh.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The hyperbolic tangent function (left) and its derivative (right)
@@ -168,7 +168,7 @@ $$&lt;/div&gt;
 
 &lt;div  id=&#34;fig4&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/gaussian.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dgaussian.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/gaussian.png&#34; width=&#34;90%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dgaussian.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 4&lt;/font&gt;: The gaussian function (left) and its derivative (right)
@@ -207,7 +207,7 @@ $$&lt;/div&gt;
 
 &lt;div  id=&#34;fig5&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/step.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/step.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 5&lt;/font&gt;: The Heaviside function (left) and its derivative (right)
@@ -244,7 +244,7 @@ $$&lt;/div&gt;
 
 &lt;div  id=&#34;fig6&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/ramp.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dramp.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/ramp.png&#34; width=&#34;90%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/dramp.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 6&lt;/font&gt;: The ramp function (left) and its derivative (right) with $T1=-2$ and $T2=3$.
@@ -289,7 +289,7 @@ $$&lt;/div&gt;
 
 &lt;div  id=&#34;fig7&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/relu.png&#34; width=&#34;50%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/drelu.png&#34; width=&#34;50%&#34;&gt;
+        &lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/relu.png&#34; width=&#34;90%&#34;&gt;&lt;img title=&#34;Simple NN&#34; src=&#34;/img/transferFunctions/drelu.png&#34; width=&#34;90%&#34;&gt;
         &lt;/div&gt;
         &lt;div class=&#34;figure_caption&#34;&gt;
             &lt;font color=&#34;blue&#34;&gt;Figure 7&lt;/font&gt;: The Rectified Linear Unit (ReLU) (left) with its derivative (right).
