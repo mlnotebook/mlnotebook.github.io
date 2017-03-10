@@ -12,6 +12,7 @@ pygmentStyle = "borland"
 author = "Rob Robinson"
 paginate = 5
 
+
 [indexes]
   tag = "tags"
   topic = "topics"
@@ -74,3 +75,5 @@ paginate = 5
   # Techie
   github = "mlnotebook"
 #  bitbucket = "*"
+
+enableRobotsTXT = "true"
