@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.19" />
 
-  <title>Tutorials &middot; Machine Learning Notebook</title>
+  <title>Matrix &middot; Machine Learning Notebook</title>
 
   
   
@@ -37,7 +37,7 @@
 
   
   
-  <link rel="alternate" type="application/rss+xml" title="Machine Learning Notebook" href="/topics/tutorials/index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Machine Learning Notebook" href="/tags/matrix/index.xml" />
   
 
   
@@ -113,7 +113,7 @@
 
     
     <li class="pure-menu-item">
-      <a class="pure-menu-link" href="/topics/tutorials/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      <a class="pure-menu-link" href="/tags/matrix/index.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
     </li>
     
 
@@ -222,20 +222,20 @@
 
 
 <div class="header">
-  <h1>Tutorials</h1>
+  <h1>Matrix</h1>
 </div>
 
 <div class="content">
   
     <article>
   <header>
-    <h2><a href="/post/transfer-functions/">A Simple Neural Network - Transfer Functions</a></h2>
+    <h2><a href="/post/nn-more-maths/">A Simple Neural Network - Vectorisation</a></h2>
 
     <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
-    <time>08 Mar 2017, 10:43</time>
+    <time>13 Mar 2017, 10:33</time>
   </div>
 
   
@@ -246,73 +246,7 @@
   <div>
     <i class="fa fa-folder fa-fw"></i>
     
-      <a class="post-taxonomy-topic" href="/topics/tutorials">tutorials</a>
-    
-  </div>
-  
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/neural-network">neural network</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/transfer">transfer</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/activation">activation</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/gaussian">gaussian</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/sigmoid">sigmoid</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/linear">linear</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/tanh">tanh</a>
-    
-  </div>
-  
-  
-</div>
-
-
-  </header>
-
-  <p>
-  As promised in the previous post, we&rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again please let me know if there&rsquo;s anything I&rsquo;ve gotten totally wrong - I&rsquo;m very much learning too.
-  Linear Function Sigmoid Function Hyperbolic Tangent Function Gaussian Function Heaviside (step) Function Ramp Function  Rectified Linear Unit (ReLU)   Linear (Identity) Function  To contents
-  </p>
-
-  
-  <footer>
-    <a href="/post/transfer-functions/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-  
-    <article>
-  <header>
-    <h2><a href="/post/neuralnetwork/">A Simple Neural Network - Mathematics</a></h2>
-
-    <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>06 Mar 2017, 17:04</time>
-  </div>
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-folder fa-fw"></i>
-    
-      <a class="post-taxonomy-topic" href="/topics/tutorials">tutorials</a>
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
     
   </div>
   
@@ -328,7 +262,11 @@
     
       <a class="post-taxonomy-tag" href="/tags/back-propagation">back propagation</a>&nbsp;&#47;
     
-      <a class="post-taxonomy-tag" href="/tags/machine-learning">machine learning</a>
+      <a class="post-taxonomy-tag" href="/tags/maths">maths</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/vector">vector</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/matrix">matrix</a>
     
   </div>
   
@@ -339,12 +277,14 @@
   </header>
 
   <p>
-  Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&rsquo;ll give you a good unserstanding of what&rsquo;s going on.
+  So we&rsquo;ve been through the maths of a neural network (NN) using back propagation and taken a look at the different activation functions that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!
+Forward Propagation  Let&rsquo;s remimnd ourselves of our notation from our 2 layer network in the maths tutorial:
+ I is our input layer J is our hidden layer $w_{ij}$ is the weight connecting the $i^{\text{th}}$ node in in $I$ to the $j^{\text{th}}$ node in $J$ $x_{j}$ is the total input to the $j^{\text{th}}$ node in $J$  So, assuming that we have three features (nodes) in the input layer, the input to the first node in the hidden layer is given by:
   </p>
 
   
   <footer>
-    <a href="/post/neuralnetwork/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+    <a href="/post/nn-more-maths/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>

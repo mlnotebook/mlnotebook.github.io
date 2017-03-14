@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simplifying the NN maths ready for coding">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>A Simple Neural Network - Vectorisation &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>A Simple Neural Network - Vectorisation</h1>
+  <h2>Simplifying the NN maths ready for coding</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>13 Mar 2017, 10:33</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/neural-network">neural network</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/back-propagation">back propagation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/maths">maths</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/vector">vector</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/matrix">matrix</a>
+    
+  </div>
+  
+  
+  
+
+  
+
+<ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li>
+</ul>
+	
+  
+</div>
+
+
+  <p>So we&rsquo;ve <a href="/post/neuralnetwork">been through the maths</a> of a neural network (NN) using back propagation and taken a look at the <a href="/post/transfer-functions">different activation functions</a> that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!</p>
+
+<h2 id="forwardprop"> Forward Propagation </h2>
+
+<p>Let&rsquo;s remimnd ourselves of our notation from our 2 layer network in the <a href="/post/neuralnetwork">maths tutorial</a>:</p>
+
+<ul>
+<li>I is our input layer</li>
+<li>J is our hidden layer</li>
+<li>$w_{ij}$ is the weight connecting the $i^{\text{th}}$ node in in $I$ to the $j^{\text{th}}$ node in $J$</li>
+<li>$x_{j}$ is the total input to the $j^{\text{th}}$ node in $J$</li>
+</ul>
+
+<p>So, assuming that we have three features (nodes) in the input layer, the input to the first node in the hidden layer is given by:</p>
+
+<div>$$
+x_{1} = \mathcal{O}_{1}^{I} w_{11} + \mathcal{O}_{2}^{I} w_{21} + \mathcal{O}_{3}^{I} w_{31}
+$$</div>
+
+<p>Lets generalise this for any connected nodes in any layer: the input to node $j$ in layer $l$ is:</p>
+
+<div>$$
+x_{j} = \mathcal{O}_{1}^{l-1} w_{1j} + \mathcal{O}_{2}^{l-1} w_{2j} + \mathcal{O}_{3}^{l-1} w_{3j}
+$$</div>
+
+<p>But we need to be careful and remember to put in our <em>bias</em> term $\theta$. In our maths tutorial, we said that the bias term was always equal to 1; now we can try to understand why.</p>
+
+<p>We could just add the bias term onto the end of the previous equation to get:</p>
+
+<div>$$
+x_{j} = \mathcal{O}_{1}^{l-1} w_{1j} + \mathcal{O}_{2}^{l-1} w_{2j} + \mathcal{O}_{3}^{l-1} w_{3j} + \theta_{i}
+$$</div>
+
+<p>If we think more carefully about this, what we are really saying is that &ldquo;an extra node in the previous layer, which always outputs the value 1, is connected to the node $j$ in the current layer by some weight $w_{4j}$&ldquo;. i.e. $1 \cdot w_{4j}$:</p>
+
+<div>$$
+x_{j} = \mathcal{O}_{1}^{l-1} w_{1j} + \mathcal{O}_{2}^{l-1} w_{2j} + \mathcal{O}_{3}^{l-1} w_{3j} + 1 \cdot w_{4j}
+$$</div>
+
+<p>By the magic of matrix multiplication, we should be able to convince ourselves that:</p>
+
+<div>$$
+x_{j} = \begin{pmatrix} w_{1j} &w_{2j} &w_{3j} &w_{4j} \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+
+$$</div>
+
+<p>Now, lets be a little more explicit, consider the input $x$ to the first two nodes of the layer $J$:</p>
+
+<div>$$
+\begin{align}
+x_{1} &= \begin{pmatrix} w_{11} &w_{21} &w_{31} &w_{41} \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+\\[0.5em]
+x_{2} &= \begin{pmatrix} w_{12} &w_{22} &w_{32} &w_{42} \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+\end{align}
+$$</div>
+
+<p>Note that the second matrix is constant between the input calculations as it is only the output values of the previous layer (including the bias term). This means (again by the magic of matrix multiplication) that we can construct a single vector containing the input values $x$ to the current layer:</p>
+
+<div> $$
+\begin{pmatrix} x_{1} \\ x_{2} \end{pmatrix}
+= \begin{pmatrix}   w_{11} & w_{21} & w_{31} & w_{41} \\
+                    w_{12} & w_{22} & w_{32} & w_{42} 
+                    \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+$$</div>
+
+<p>This is an $\left(n \times m+1 \right)$ matrix multiplied with an $\left(m +1 \times  1 \right)$ where:</p>
+
+<ul>
+<li>$n$ is the number of nodes in the current layer $l$</li>
+<li>$m$ is the number of nodes in the previous layer $l-1$</li>
+</ul>
+
+<p>Lets generalise - the vector of inputs to the $n$ nodes in the current layer from the nodes $m$ in the previous layer is:</p>
+
+<div> $$
+\begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n} \end{pmatrix}
+= \begin{pmatrix}   w_{11} & w_{21} & \cdots & w_{(m+1)1} \\
+                    w_{12} & w_{22} & \cdots & w_{(m+1)2} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    w_{1n} & w_{2n} & \cdots & w_{(m+1)n} \\
+                    \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+$$</div>
+
+<p>or:</p>
+
+<div>$$
+\mathbf{x_{J}} = \mathbf{W_{IJ}} \mathbf{\vec{\mathcal{O}}_{I}}
+$$</div>
+
+<p>In this notation, the output from the current layer $J$ is easily written as:</p>
+
+<div>$$
+\mathbf{\vec{\mathcal{O}}_{J}} = \sigma \left( \mathbf{W_{IJ}} \mathbf{\vec{\mathcal{O}}_{I}} \right)
+$$</div>
+
+<p>Where $\sigma$ is the activation or transfer function chosen for this layer which is applied elementwise to the product of the matrices.</p>
+
+<p>This notation allows us to very efficiently calculate the output of a layer which reduces computation time. Additionally, we are now able to extend this efficiency by making out network consider <strong>all</strong> of our input examples at once.</p>
+
+<p>Remember that our network requires training (many epochs of forward propagation followed by back propagation) and as such needs training data (preferably a lot of it!). Rather than consider each training example individually, we vectorise each example into a large matrix of inputs.</p>
+
+<p>Our weights $\mathbf{W_{IJ}}$ connecting the layer $l$ to layer $J$ are the same no matter which input example we put into the network: this is fundamental as we expect that the network would act the same way for similar inputs i.e. we expect the same neurons (nodes) to fire based on the similar features in the input.</p>
+
+<p>If 2 input examples gave the outputs $ \mathbf{\vec{\mathcal{O}}_{I_{1}}} $ and $ \mathbf{\vec{\mathcal{O}}_{I_{2}}} $  from the nodes in layer $I$ to a layer $J$ then the outputs from layer $J$ , $\mathbf{\vec{\mathcal{O}}_{J_{1}}}$ and $\mathbf{\vec{\mathcal{O}}_{J_{1}}}$ can be written:</p>
+
+<div>$$
+\begin{pmatrix}
+    \mathbf{\vec{\mathcal{O}}_{J_{1}}} \\
+    \mathbf{\vec{\mathcal{O}}_{J_{2}}}
+\end{pmatrix}
+=
+\sigma \left(\mathbf{W_{IJ}}\begin{pmatrix}
+        \mathbf{\vec{\mathcal{O}}_{I_{1}}} &
+        \mathbf{\vec{\mathcal{O}}_{I_{2}}}  
+    \end{pmatrix}
+    \right)
+=
+\sigma \left(\mathbf{W_{IJ}}\begin{pmatrix}
+        \begin{bmatrix}\mathcal{O}_{I_{1}}^{1} \\ \vdots \\ \mathcal{O}_{I_{1}}^{m}
+        \end{bmatrix}
+        \begin{bmatrix}\mathcal{O}_{I_{2}}^{1} \\ \vdots \\ \mathcal{O}_{I_{2}}^{m}
+        \end{bmatrix}   
+    \end{pmatrix}
+        \right)
+=   \sigma \left(\begin{pmatrix} \mathbf{W_{IJ}}\begin{bmatrix}\mathcal{O}_{I_{1}}^{1} \\ \vdots \\ \mathcal{O}_{I_{1}}^{m}
+        \end{bmatrix} & 
+    \mathbf{W_{IJ}}     \begin{bmatrix}\mathcal{O}_{I_{2}}^{1} \\ \vdots \\ \mathcal{O}_{I_{2}}^{m}
+        \end{bmatrix}
+    \end{pmatrix}
+        \right)
+
+$$</div>
+
+<p>For the $m$ nodes in the input layer. Which may look hideous, but the point is that all of the training examples that are input to the network can be dealt with simultaneously because each example becomes another column in the input vector and a corresponding column in the output vector.</p>
+
+<div class="highlight_section">
+
+In summary, for forward propagation:
+
+<uo>
+<li> All $n$ training examples with $m$ features (input nodes) are put into column vectors to build the input matrix $I$, taking care to add the bias term to the end of each.</li>
+
+<li> All weight vectors that connect $m +1$ nodes in the layer $I$ to the $n$ nodes in layer $J$ are put together in a weight-matrix</li>
+
+<div>$$
+\mathbf{I} =    \left(
+    \begin{bmatrix}
+        \mathcal{O}_{I_{1}}^{1} \\ \vdots \\ \mathcal{O}_{I_{1}}^{m} \\ 1 \end{bmatrix}
+    \begin{bmatrix}
+        \mathcal{O}_{I_{2}}^{1} \\ \vdots \\ \mathcal{O}_{I_{2}}^{m} \\ 1
+    \end{bmatrix}
+        \begin{bmatrix}
+    \cdots \\ \cdots \\ \ddots \\ \cdots
+        \end{bmatrix}
+    \begin{bmatrix}
+        \mathcal{O}_{I_{n}}^{1} \\ \vdots \\ \mathcal{O}_{I_{n}}^{m} \\ 1
+
+    \end{bmatrix}
+    \right)
+
+\ \ \ \ 
+
+
+\mathbf{W_{IJ}} = 
+\begin{pmatrix}     w_{11} & w_{21} & \cdots & w_{(m+1)1} \\
+                    w_{12} & w_{22} & \cdots & w_{(m+1)2} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    w_{1n} & w_{2n} & \cdots & w_{(m+1)n} \\
+                    \end{pmatrix}
+$$</div>
+
+<p><li> We perform $ \mathbf{W_{IJ}} \mathbf{I}$ to get the vector $\mathbf{\vec{\mathcal{O}}_{J}}$ which is the output from each of the $m$ nodes in layer $J$ </li>
+</ul>
+</div></p>
+
+<h2 id="backprop"> Back Propagation </h2>
+
+<p>To perform back propagation there are a couple of things that we need to vectorise. The first is the error on the weights when we compare the output of the network $\mathbf{\vec{\mathcal{O}}_{K}}$ with the known target values:</p>
+
+<div>$$
+\mathbf{T_{K}} = \begin{bmatrix} t_{1} \\ \vdots \\ t_{k} \end{bmatrix}
+$$</div>
+
+<p>A reminder of the formulae:</p>
+
+<div>$$
+
+    \delta_{k} = \mathcal{O}_{k}  \left( 1 - \mathcal{O}_{k}  \right)  \left( \mathcal{O}_{k} - t_{k} \right), 
+    \ \ \ \
+    \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
+
+$$</div>
+    
+
+<p>Where $\delta_{k}$ is the error on the weights to the output layer and $\delta_{j}$ is the error on the weights to the hidden layers. We also need to vectorise the update formulae for the weights and bias:</p>
+
+<div>$$
+    W + \Delta W \rightarrow W, \ \ \ \
+    \theta + \Delta\theta \rightarrow \theta
+$$</div>
+
+<h3 id="outputdeltas">  Vectorising the Output Layer Deltas </h3>
+
+<p>Lets look at the output layer delta: we need a subtraction between the outputs and the target which is multiplied by the derivative of the transfer function (sigmoid). Well, the subtraction between two matrices is straight forward:</p>
+
+<div>$$
+\mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}
+$$</div>
+
+<p>but we need to consider the derivative. Remember that the output of the final layer is:</p>
+
+<div>$$
+\mathbf{\vec{\mathcal{O}}_{K}}  = \sigma \left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}}  \right)
+$$</div>
+
+<p>and the derivative can be written:</p>
+
+<div>$$
+ \sigma ^{\prime} \left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}}  \right) =   \mathbf{\vec{\mathcal{O}}_{K}}\left( 1 - \mathbf{\vec{\mathcal{O}}_{K}}  \right) 
+$$</div>
+
+<p><strong>Note</strong>: This is the derivative of the sigmoid as evaluated at each of the nodes in the layer $K$. It is acting <em>elementwise</em> on the inputs to layer $K$. Thus it is a column vector with the same length as the number of nodes in layer $K$.</p>
+
+<p>Put the derivative and subtraction terms together and we get:</p>
+
+<div class="highlight_section">$$
+\mathbf{\vec{\delta}_{K}} = \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right)
+$$</div>
+
+<p>Again, the derivatives are being multiplied elementwise with the results of the subtration. Now we have a vector of deltas for the output layer $K$! Things aren&rsquo;t so straight forward for the detlas in the hidden layers.</p>
+
+<p>Lets visualise what we&rsquo;ve seen:</p>
+
+<div  id="fig1" class="figure_container">
+        <div class="figure_images">
+        <img img title="NN Vectorisation" src="/img/simpleNN/nn_vectors1.png" width="30%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 1</font>: NN showing the weights and outputs in vector form along with the target values for layer $K$
+        </div>
+</div>
+
+<h3 id="hiddendeltas"> Vectorising the Hidden Layer Deltas </h3>
+
+<p>We need to vectorise:</p>
+
+<div>$$
+    \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
+$$</div>
+
+<p>Let&rsquo;s deal with the summation. We&rsquo;re multipying each of the deltas $\delta_{k}$ in the output layer (or more generally, the subsequent layer could be another hidden layer) by the weight $w_{jk}$ that pulls them back to the node $j$ in the current layer before adding the results. For the first node in the hidden layer:</p>
+
+<div>$$
+\sum_{k \in K} \delta_{k} W_{jk} = \delta_{k}^{1}w_{11} + \delta_{k}^{2}w_{12} + \delta_{k}^{3}w_{13}
+
+= \begin{pmatrix} w_{11} & w_{12} & w_{13} \end{pmatrix}  \begin{pmatrix} \delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3}\end{pmatrix}
+$$</div>
+
+<p>Notice the weights? They pull the delta from each output layer node back to the first node of the hidden layer. In forward propagation, these we consider multiple nodes going out to a single node, rather than this way of receiving multiple nodes at a single node.</p>
+
+<p>Combine this summation with the multiplication by the activation function derivative:</p>
+
+<div>$$
+\delta_{j}^{1} = \sigma^{\prime} \left(  x_{j}^{1} \right)
+\begin{pmatrix} w_{11} & w_{12} & w_{13} \end{pmatrix}  \begin{pmatrix} \delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3} \end{pmatrix}
+$$</div>
+
+<p>remembering that the input to the $\text{1}^\text{st}$ node in the layer $J$</p>
+
+<div>$$
+x_{j}^{1} = \mathbf{W_{I1}}\mathbf{\vec{\mathcal{O}}_{I}}
+$$</div>
+
+<p>What about the $\text{2}^\text{nd}$ node in the hidden layer?</p>
+
+<div>$$
+\delta_{j}^{2} = \sigma^{\prime} \left(  x_{j}^{2} \right)
+\begin{pmatrix} w_{21} & w_{22} & w_{23} \end{pmatrix}  \begin{pmatrix}  \delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3} \end{pmatrix}
+$$</div>
+
+<p>This is looking familiar, hopefully we can be confident based upon what we&rsquo;ve done before to say that:</p>
+
+<div>$$
+\begin{pmatrix}
+    \delta_{j}^{1} \\ \delta_{j}^{2}
+\end{pmatrix}
+ = 
+ \begin{pmatrix}
+     \sigma^{\prime} \left(  x_{j}^{1} \right) \\ \sigma^{\prime} \left(  x_{j}^{2} \right)
+ \end{pmatrix}
+ *
+  \begin{pmatrix}
+    w_{11} & w_{12} & w_{13} \\
+    w_{21} & w_{22} & w_{23} 
+ \end{pmatrix}
+ 
+ \begin{pmatrix}\delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3}  \end{pmatrix}
+
+$$</div>
+
+<p>We&rsquo;ve seen a version of this weights matrix before when we did the forward propagation vectorisation. In this case though, look carefully - as we mentioned, the weights are not in the same places, in fact, the weight matrix has been <em>transposed</em> from the one we used in forward propagation. This makes sense because we&rsquo;re going backwards through the network now! This is useful because it means there is very little extra calculation needed here - the matrix we need is already available from the forward pass, but just needs transposing. We can call the weights in back propagation here $ \mathbf{ W_{KJ}} $ as we&rsquo;re pulling the deltas from $K$ to $J$.</p>
+
+<div>$$
+\begin{align}
+    \mathbf{W_{KJ}} &=
+    \begin{pmatrix}
+    w_{11} & w_{12} & \cdots & w_{1n} \\
+    w_{21} & w_{22} & \cdots & w_{23}  \\
+    \vdots & \vdots & \ddots & \vdots \\
+    w_{(m+1)1} & w_{(m+1)2} & \cdots & w_{(m+1)n}
+    \end{pmatrix} , \ \ \
+    
+    \mathbf{W_{JK}} = 
+    \begin{pmatrix}     w_{11} & w_{21} & \cdots & w_{(m+1)1} \\
+                    w_{12} & w_{22} & \cdots & w_{(m+1)2} \\
+                    \vdots & \vdots & \ddots & \vdots \\
+                    w_{1n} & w_{2n} & \cdots & w_{(m+1)n} \\
+                    \end{pmatrix} \\[0.5em]
+                        
+\mathbf{W_{KJ}} &= \mathbf{W^{\intercal}_{JK}}
+\end{align}
+$$</div>
+
+<div class="highlight_section">
+
+And so, the vectorised equations for the output layer and hidden layer deltas are:
+
+<div>$$
+\begin{align}
+
+\mathbf{\vec{\delta}_{K}} &= \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right) \\[0.5em]
+
+\mathbf{ \vec{ \delta }_{J}} &= \sigma^{\prime} \left( \mathbf{ W_{IJ} \mathcal{O}_{I} } \right) * \mathbf{ W^{\intercal}_{JK}} \mathbf{ \vec{\delta}_{K}} 
+\end{align}
+
+$$</div>
+
+<p></div></p>
+
+<p>Lets visualise what we&rsquo;ve seen:</p>
+
+<div  id="fig2" class="figure_container">
+        <div class="figure_images">
+        <img img title="NN Vectorisation 2" src="/img/simpleNN/nn_vectors2.png" width="20%">
+        </div>
+        <div class="figure_caption">
+            <font color="blue">Figure 2</font>: The NN showing the delta vectors
+        </div>
+</div>
+
+<h3 id="updates"> Vectorising the Update Equations </h3>
+
+<p>Finally, now that we have the vectorised equations for the deltas (which required us to get the vectorised equations for the forward pass) we&rsquo;re ready to get the update equations in vector form. Let&rsquo;s recall the update equations</p>
+
+<div>$$
+\begin{align}
+    \Delta W &= -\eta \ \delta_{l} \ \mathcal{O}_{l-1} \\
+    \Delta\theta &= -\eta \ \delta_{l}
+\end{align}
+$$</div>
+
+<p>Ignoring the $-\eta$ for now, we need to get a vector form for $\delta_{l} \ \mathcal{O}_{l-1}$ in order to get the update to the weights. We have the matrix of weights:</p>
+
+<div>$$
+    
+\mathbf{W_{JK}} = 
+\begin{pmatrix}     w_{11} & w_{21}  & w_{31} \\
+                w_{12} & w_{22}  & w_{32} \\
+
+                \end{pmatrix}
+$$</div>
+
+<p>Suppose we are updating the weight $w_{21}$ in the matrix. We&rsquo;re looking to find the product of the output from the second node in $J$ with the delta from the first node in $K$.</p>
+
+<div>$$
+    \Delta w_{21} = \delta_{K}^{1} \mathcal{O}_{J}^{2} 
+$$</div>
+
+<p>Considering this example, we can write the matrix for the weight updates as:</p>
+
+<div>$$
+    
+\Delta \mathbf{W_{JK}} = 
+\begin{pmatrix}     \delta_{K}^{1} \mathcal{O}_{J}^{1} & \delta_{K}^{1}  \mathcal{O}_{J}^{2}  & \delta_{K}^{1} \mathcal{O}_{J}^{3}  \\
+                \delta_{K}^{2} \mathcal{O}_{J}^{1} & \delta_{K}^{2} \mathcal{O}_{J}^{2}  & \delta_{K}^{2} \mathcal{O}_{J}^{3} 
+
+                \end{pmatrix}
+ = 
+
+\begin{pmatrix}  \delta_{K}^{1} \\ \delta_{K}^{2}\end{pmatrix}
+
+\begin{pmatrix}     \mathcal{O}_{J}^{1} & \mathcal{O}_{J}^{2}& \mathcal{O}_{J}^{3}
+
+\end{pmatrix}
+
+$$</div>
+
+<p>Generalising this into vector notation and including the <em>learning rate</em> $\eta$, the update for the weights in layer $J$ is:</p>
+
+<div>$$
+    
+\Delta \mathbf{W_{JK}} = -\eta \mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}}
+
+$$</div>
+
+<p>Similarly, we have the update to the bias term. If:</p>
+
+<div>$$
+\Delta \vec{\theta} = -\eta \mathbf{ \vec{ \delta }_{K}} 
+$$</div>
+
+<p>So the bias term is updated just by taking the deltas straight from the nodes in the subsequent layer (with the negative factor of learning rate).</p>
+
+<div class="highlight_section">
+
+In summary, for back propagation, the equations we need in vector form are:
+
+<div>$$
+\begin{align}
+
+\mathbf{\vec{\delta}_{K}} &= \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right) \\[0.5em]
+
+\mathbf{ \vec{ \delta }_{J}} &= \sigma^{\prime} \left( \mathbf{ W_{IJ} \mathcal{O}_{I} } \right) * \mathbf{ W^{\intercal}_{JK}} \mathbf{ \vec{\delta}_{K}}
+
+\end{align}
+$$</div>
+
+<div>$$
+\begin{align}
+
+\mathbf{W_{JK}} + \Delta \mathbf{W_{JK}} &\rightarrow \mathbf{W_{JK}}, \ \ \ \Delta \mathbf{W_{JK}} = -\eta \mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}} \\[0.5em]
+
+\vec{\theta}  + \Delta \vec{\theta}  &\rightarrow \vec{\theta}, \ \ \ \Delta \vec{\theta} = -\eta \mathbf{ \vec{ \delta }_{K}} 
+
+\end{align}
+$$</div>
+
+<p>With $*$ representing an elementwise multiplication between the matrices.</p>
+
+<p></div></p>
+
+<h2 id="nextsteps"> What's next? </h2>
+
+<p>Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/transfer-functions/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/transfer-functions/">A Simple Neural Network - Transfer Functions</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
