@@ -1,6 +1,6 @@
 +++
 date = "2017-03-08T10:43:07Z"
-title = "Transfer Functions"
+title = "A Simple Neural Network - Transfer Functions"
 description = "An insight into various activation functions"
 topics = ["tutorials"]
 tags = ["neural network", "transfer", "activation", "gaussian", "sigmoid", "linear", "tanh"]

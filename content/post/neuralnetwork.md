@@ -1,5 +1,5 @@
 +++
-title = "Simple Neural Network - Mathematics"
+title = "A Simple Neural Network - Mathematics"
 description = "Understanding the maths of Neural Networks"
 topics = ["tutorials"]
 tags = ["neural network","back propagation", "machine learning"]
