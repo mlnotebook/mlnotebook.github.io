@@ -6,11 +6,489 @@
     <description>Recent content on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 Mar 2017 10:43:07 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Mar 2017 10:33:08 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Transfer Functions</title>
+      <title>A Simple Neural Network - Vectorisation</title>
+      <link>/post/nn-more-maths/</link>
+      <pubDate>Mon, 13 Mar 2017 10:33:08 +0000</pubDate>
+      
+      <guid>/post/nn-more-maths/</guid>
+      <description>&lt;p&gt;So we&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;been through the maths&lt;/a&gt; of a neural network (NN) using back propagation and taken a look at the &lt;a href=&#34;/post/transfer-functions&#34;&gt;different activation functions&lt;/a&gt; that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!&lt;/p&gt;
+
+&lt;h2 id=&#34;forwardprop&#34;&gt; Forward Propagation &lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s remimnd ourselves of our notation from our 2 layer network in the &lt;a href=&#34;/post/neuralnetwork&#34;&gt;maths tutorial&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I is our input layer&lt;/li&gt;
+&lt;li&gt;J is our hidden layer&lt;/li&gt;
+&lt;li&gt;$w_{ij}$ is the weight connecting the $i^{\text{th}}$ node in in $I$ to the $j^{\text{th}}$ node in $J$&lt;/li&gt;
+&lt;li&gt;$x_{j}$ is the total input to the $j^{\text{th}}$ node in $J$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, assuming that we have three features (nodes) in the input layer, the input to the first node in the hidden layer is given by:&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{1} = \mathcal{O}_{1}^{I} w_{11} + \mathcal{O}_{2}^{I} w_{21} + \mathcal{O}_{3}^{I} w_{31}
+$$&lt;/div&gt;
+
+&lt;p&gt;Lets generalise this for any connected nodes in any layer: the input to node $j$ in layer $l$ is:&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{j} = \mathcal{O}_{1}^{l-1} w_{1j} + \mathcal{O}_{2}^{l-1} w_{2j} + \mathcal{O}_{3}^{l-1} w_{3j}
+$$&lt;/div&gt;
+
+&lt;p&gt;But we need to be careful and remember to put in our &lt;em&gt;bias&lt;/em&gt; term $\theta$. In our maths tutorial, we said that the bias term was always equal to 1; now we can try to understand why.&lt;/p&gt;
+
+&lt;p&gt;We could just add the bias term onto the end of the previous equation to get:&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{j} = \mathcal{O}_{1}^{l-1} w_{1j} + \mathcal{O}_{2}^{l-1} w_{2j} + \mathcal{O}_{3}^{l-1} w_{3j} + \theta_{i}
+$$&lt;/div&gt;
+
+&lt;p&gt;If we think more carefully about this, what we are really saying is that &amp;ldquo;an extra node in the previous layer, which always outputs the value 1, is connected to the node $j$ in the current layer by some weight $w_{4j}$&amp;ldquo;. i.e. $1 \cdot w_{4j}$:&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{j} = \mathcal{O}_{1}^{l-1} w_{1j} + \mathcal{O}_{2}^{l-1} w_{2j} + \mathcal{O}_{3}^{l-1} w_{3j} + 1 \cdot w_{4j}
+$$&lt;/div&gt;
+
+&lt;p&gt;By the magic of matrix multiplication, we should be able to convince ourselves that:&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{j} = \begin{pmatrix} w_{1j} &amp;w_{2j} &amp;w_{3j} &amp;w_{4j} \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+
+$$&lt;/div&gt;
+
+&lt;p&gt;Now, lets be a little more explicit, consider the input $x$ to the first two nodes of the layer $J$:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+x_{1} &amp;= \begin{pmatrix} w_{11} &amp;w_{21} &amp;w_{31} &amp;w_{41} \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+\\[0.5em]
+x_{2} &amp;= \begin{pmatrix} w_{12} &amp;w_{22} &amp;w_{32} &amp;w_{42} \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;Note that the second matrix is constant between the input calculations as it is only the output values of the previous layer (including the bias term). This means (again by the magic of matrix multiplication) that we can construct a single vector containing the input values $x$ to the current layer:&lt;/p&gt;
+
+&lt;div&gt; $$
+\begin{pmatrix} x_{1} \\ x_{2} \end{pmatrix}
+= \begin{pmatrix}   w_{11} &amp; w_{21} &amp; w_{31} &amp; w_{41} \\
+                    w_{12} &amp; w_{22} &amp; w_{32} &amp; w_{42} 
+                    \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;This is an $\left(n \times m+1 \right)$ matrix multiplied with an $\left(m +1 \times  1 \right)$ where:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;$n$ is the number of nodes in the current layer $l$&lt;/li&gt;
+&lt;li&gt;$m$ is the number of nodes in the previous layer $l-1$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lets generalise - the vector of inputs to the $n$ nodes in the current layer from the nodes $m$ in the previous layer is:&lt;/p&gt;
+
+&lt;div&gt; $$
+\begin{pmatrix} x_{1} \\ x_{2} \\ \vdots \\ x_{n} \end{pmatrix}
+= \begin{pmatrix}   w_{11} &amp; w_{21} &amp; \cdots &amp; w_{(m+1)1} \\
+                    w_{12} &amp; w_{22} &amp; \cdots &amp; w_{(m+1)2} \\
+                    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+                    w_{1n} &amp; w_{2n} &amp; \cdots &amp; w_{(m+1)n} \\
+                    \end{pmatrix}
+     \begin{pmatrix}    \mathcal{O}_{1}^{l-1} \\
+                    \mathcal{O}_{2}^{l-1} \\
+                    \mathcal{O}_{3}^{l-1} \\
+                    1
+        \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;or:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{x_{J}} = \mathbf{W_{IJ}} \mathbf{\vec{\mathcal{O}}_{I}}
+$$&lt;/div&gt;
+
+&lt;p&gt;In this notation, the output from the current layer $J$ is easily written as:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{\vec{\mathcal{O}}_{J}} = \sigma \left( \mathbf{W_{IJ}} \mathbf{\vec{\mathcal{O}}_{I}} \right)
+$$&lt;/div&gt;
+
+&lt;p&gt;Where $\sigma$ is the activation or transfer function chosen for this layer which is applied elementwise to the product of the matrices.&lt;/p&gt;
+
+&lt;p&gt;This notation allows us to very efficiently calculate the output of a layer which reduces computation time. Additionally, we are now able to extend this efficiency by making out network consider &lt;strong&gt;all&lt;/strong&gt; of our input examples at once.&lt;/p&gt;
+
+&lt;p&gt;Remember that our network requires training (many epochs of forward propagation followed by back propagation) and as such needs training data (preferably a lot of it!). Rather than consider each training example individually, we vectorise each example into a large matrix of inputs.&lt;/p&gt;
+
+&lt;p&gt;Our weights $\mathbf{W_{IJ}}$ connecting the layer $l$ to layer $J$ are the same no matter which input example we put into the network: this is fundamental as we expect that the network would act the same way for similar inputs i.e. we expect the same neurons (nodes) to fire based on the similar features in the input.&lt;/p&gt;
+
+&lt;p&gt;If 2 input examples gave the outputs $ \mathbf{\vec{\mathcal{O}}_{I_{1}}} $ and $ \mathbf{\vec{\mathcal{O}}_{I_{2}}} $  from the nodes in layer $I$ to a layer $J$ then the outputs from layer $J$ , $\mathbf{\vec{\mathcal{O}}_{J_{1}}}$ and $\mathbf{\vec{\mathcal{O}}_{J_{1}}}$ can be written:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{pmatrix}
+    \mathbf{\vec{\mathcal{O}}_{J_{1}}} \\
+    \mathbf{\vec{\mathcal{O}}_{J_{2}}}
+\end{pmatrix}
+=
+\sigma \left(\mathbf{W_{IJ}}\begin{pmatrix}
+        \mathbf{\vec{\mathcal{O}}_{I_{1}}} &amp;
+        \mathbf{\vec{\mathcal{O}}_{I_{2}}}  
+    \end{pmatrix}
+    \right)
+=
+\sigma \left(\mathbf{W_{IJ}}\begin{pmatrix}
+        \begin{bmatrix}\mathcal{O}_{I_{1}}^{1} \\ \vdots \\ \mathcal{O}_{I_{1}}^{m}
+        \end{bmatrix}
+        \begin{bmatrix}\mathcal{O}_{I_{2}}^{1} \\ \vdots \\ \mathcal{O}_{I_{2}}^{m}
+        \end{bmatrix}   
+    \end{pmatrix}
+        \right)
+=   \sigma \left(\begin{pmatrix} \mathbf{W_{IJ}}\begin{bmatrix}\mathcal{O}_{I_{1}}^{1} \\ \vdots \\ \mathcal{O}_{I_{1}}^{m}
+        \end{bmatrix} &amp; 
+    \mathbf{W_{IJ}}     \begin{bmatrix}\mathcal{O}_{I_{2}}^{1} \\ \vdots \\ \mathcal{O}_{I_{2}}^{m}
+        \end{bmatrix}
+    \end{pmatrix}
+        \right)
+
+$$&lt;/div&gt;
+
+&lt;p&gt;For the $m$ nodes in the input layer. Which may look hideous, but the point is that all of the training examples that are input to the network can be dealt with simultaneously because each example becomes another column in the input vector and a corresponding column in the output vector.&lt;/p&gt;
+
+&lt;div class=&#34;highlight_section&#34;&gt;
+
+In summary, for forward propagation:
+
+&lt;uo&gt;
+&lt;li&gt; All $n$ training examples with $m$ features (input nodes) are put into column vectors to build the input matrix $I$, taking care to add the bias term to the end of each.&lt;/li&gt;
+
+&lt;li&gt; All weight vectors that connect $m +1$ nodes in the layer $I$ to the $n$ nodes in layer $J$ are put together in a weight-matrix&lt;/li&gt;
+
+&lt;div&gt;$$
+\mathbf{I} =    \left(
+    \begin{bmatrix}
+        \mathcal{O}_{I_{1}}^{1} \\ \vdots \\ \mathcal{O}_{I_{1}}^{m} \\ 1 \end{bmatrix}
+    \begin{bmatrix}
+        \mathcal{O}_{I_{2}}^{1} \\ \vdots \\ \mathcal{O}_{I_{2}}^{m} \\ 1
+    \end{bmatrix}
+        \begin{bmatrix}
+    \cdots \\ \cdots \\ \ddots \\ \cdots
+        \end{bmatrix}
+    \begin{bmatrix}
+        \mathcal{O}_{I_{n}}^{1} \\ \vdots \\ \mathcal{O}_{I_{n}}^{m} \\ 1
+
+    \end{bmatrix}
+    \right)
+
+\ \ \ \ 
+
+
+\mathbf{W_{IJ}} = 
+\begin{pmatrix}     w_{11} &amp; w_{21} &amp; \cdots &amp; w_{(m+1)1} \\
+                    w_{12} &amp; w_{22} &amp; \cdots &amp; w_{(m+1)2} \\
+                    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+                    w_{1n} &amp; w_{2n} &amp; \cdots &amp; w_{(m+1)n} \\
+                    \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;&lt;li&gt; We perform $ \mathbf{W_{IJ}} \mathbf{I}$ to get the vector $\mathbf{\vec{\mathcal{O}}_{J}}$ which is the output from each of the $m$ nodes in layer $J$ &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;backprop&#34;&gt; Back Propagation &lt;/h2&gt;
+
+&lt;p&gt;To perform back propagation there are a couple of things that we need to vectorise. The first is the error on the weights when we compare the output of the network $\mathbf{\vec{\mathcal{O}}_{K}}$ with the known target values:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{T_{K}} = \begin{bmatrix} t_{1} \\ \vdots \\ t_{k} \end{bmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;A reminder of the formulae:&lt;/p&gt;
+
+&lt;div&gt;$$
+
+    \delta_{k} = \mathcal{O}_{k}  \left( 1 - \mathcal{O}_{k}  \right)  \left( \mathcal{O}_{k} - t_{k} \right), 
+    \ \ \ \
+    \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
+
+$$&lt;/div&gt;
+    
+
+&lt;p&gt;Where $\delta_{k}$ is the error on the weights to the output layer and $\delta_{j}$ is the error on the weights to the hidden layers. We also need to vectorise the update formulae for the weights and bias:&lt;/p&gt;
+
+&lt;div&gt;$$
+    W + \Delta W \rightarrow W, \ \ \ \
+    \theta + \Delta\theta \rightarrow \theta
+$$&lt;/div&gt;
+
+&lt;h3 id=&#34;outputdeltas&#34;&gt;  Vectorising the Output Layer Deltas &lt;/h3&gt;
+
+&lt;p&gt;Lets look at the output layer delta: we need a subtraction between the outputs and the target which is multiplied by the derivative of the transfer function (sigmoid). Well, the subtraction between two matrices is straight forward:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}
+$$&lt;/div&gt;
+
+&lt;p&gt;but we need to consider the derivative. Remember that the output of the final layer is:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{\vec{\mathcal{O}}_{K}}  = \sigma \left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}}  \right)
+$$&lt;/div&gt;
+
+&lt;p&gt;and the derivative can be written:&lt;/p&gt;
+
+&lt;div&gt;$$
+ \sigma ^{\prime} \left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}}  \right) =   \mathbf{\vec{\mathcal{O}}_{K}}\left( 1 - \mathbf{\vec{\mathcal{O}}_{K}}  \right) 
+$$&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This is the derivative of the sigmoid as evaluated at each of the nodes in the layer $K$. It is acting &lt;em&gt;elementwise&lt;/em&gt; on the inputs to layer $K$. Thus it is a column vector with the same length as the number of nodes in layer $K$.&lt;/p&gt;
+
+&lt;p&gt;Put the derivative and subtraction terms together and we get:&lt;/p&gt;
+
+&lt;div class=&#34;highlight_section&#34;&gt;$$
+\mathbf{\vec{\delta}_{K}} = \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right)
+$$&lt;/div&gt;
+
+&lt;p&gt;Again, the derivatives are being multiplied elementwise with the results of the subtration. Now we have a vector of deltas for the output layer $K$! Things aren&amp;rsquo;t so straight forward for the detlas in the hidden layers.&lt;/p&gt;
+
+&lt;p&gt;Lets visualise what we&amp;rsquo;ve seen:&lt;/p&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img img title=&#34;NN Vectorisation&#34; src=&#34;/img/simpleNN/nn_vectors1.png&#34; width=&#34;30%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: NN showing the weights and outputs in vector form along with the target values for layer $K$
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;hiddendeltas&#34;&gt; Vectorising the Hidden Layer Deltas &lt;/h3&gt;
+
+&lt;p&gt;We need to vectorise:&lt;/p&gt;
+
+&lt;div&gt;$$
+    \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
+$$&lt;/div&gt;
+
+&lt;p&gt;Let&amp;rsquo;s deal with the summation. We&amp;rsquo;re multipying each of the deltas $\delta_{k}$ in the output layer (or more generally, the subsequent layer could be another hidden layer) by the weight $w_{jk}$ that pulls them back to the node $j$ in the current layer before adding the results. For the first node in the hidden layer:&lt;/p&gt;
+
+&lt;div&gt;$$
+\sum_{k \in K} \delta_{k} W_{jk} = \delta_{k}^{1}w_{11} + \delta_{k}^{2}w_{12} + \delta_{k}^{3}w_{13}
+
+= \begin{pmatrix} w_{11} &amp; w_{12} &amp; w_{13} \end{pmatrix}  \begin{pmatrix} \delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3}\end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;Notice the weights? They pull the delta from each output layer node back to the first node of the hidden layer. In forward propagation, these we consider multiple nodes going out to a single node, rather than this way of receiving multiple nodes at a single node.&lt;/p&gt;
+
+&lt;p&gt;Combine this summation with the multiplication by the activation function derivative:&lt;/p&gt;
+
+&lt;div&gt;$$
+\delta_{j}^{1} = \sigma^{\prime} \left(  x_{j}^{1} \right)
+\begin{pmatrix} w_{11} &amp; w_{12} &amp; w_{13} \end{pmatrix}  \begin{pmatrix} \delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3} \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;remembering that the input to the $\text{1}^\text{st}$ node in the layer $J$&lt;/p&gt;
+
+&lt;div&gt;$$
+x_{j}^{1} = \mathbf{W_{I1}}\mathbf{\vec{\mathcal{O}}_{I}}
+$$&lt;/div&gt;
+
+&lt;p&gt;What about the $\text{2}^\text{nd}$ node in the hidden layer?&lt;/p&gt;
+
+&lt;div&gt;$$
+\delta_{j}^{2} = \sigma^{\prime} \left(  x_{j}^{2} \right)
+\begin{pmatrix} w_{21} &amp; w_{22} &amp; w_{23} \end{pmatrix}  \begin{pmatrix}  \delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3} \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;This is looking familiar, hopefully we can be confident based upon what we&amp;rsquo;ve done before to say that:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{pmatrix}
+    \delta_{j}^{1} \\ \delta_{j}^{2}
+\end{pmatrix}
+ = 
+ \begin{pmatrix}
+     \sigma^{\prime} \left(  x_{j}^{1} \right) \\ \sigma^{\prime} \left(  x_{j}^{2} \right)
+ \end{pmatrix}
+ *
+  \begin{pmatrix}
+    w_{11} &amp; w_{12} &amp; w_{13} \\
+    w_{21} &amp; w_{22} &amp; w_{23} 
+ \end{pmatrix}
+ 
+ \begin{pmatrix}\delta_{k}^{1} \\ \delta_{k}^{2} \\ \delta_{k}^{3}  \end{pmatrix}
+
+$$&lt;/div&gt;
+
+&lt;p&gt;We&amp;rsquo;ve seen a version of this weights matrix before when we did the forward propagation vectorisation. In this case though, look carefully - as we mentioned, the weights are not in the same places, in fact, the weight matrix has been &lt;em&gt;transposed&lt;/em&gt; from the one we used in forward propagation. This makes sense because we&amp;rsquo;re going backwards through the network now! This is useful because it means there is very little extra calculation needed here - the matrix we need is already available from the forward pass, but just needs transposing. We can call the weights in back propagation here $ \mathbf{ W_{KJ}} $ as we&amp;rsquo;re pulling the deltas from $K$ to $J$.&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+    \mathbf{W_{KJ}} &amp;=
+    \begin{pmatrix}
+    w_{11} &amp; w_{12} &amp; \cdots &amp; w_{1n} \\
+    w_{21} &amp; w_{22} &amp; \cdots &amp; w_{23}  \\
+    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    w_{(m+1)1} &amp; w_{(m+1)2} &amp; \cdots &amp; w_{(m+1)n}
+    \end{pmatrix} , \ \ \
+    
+    \mathbf{W_{JK}} = 
+    \begin{pmatrix}     w_{11} &amp; w_{21} &amp; \cdots &amp; w_{(m+1)1} \\
+                    w_{12} &amp; w_{22} &amp; \cdots &amp; w_{(m+1)2} \\
+                    \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+                    w_{1n} &amp; w_{2n} &amp; \cdots &amp; w_{(m+1)n} \\
+                    \end{pmatrix} \\[0.5em]
+                        
+\mathbf{W_{KJ}} &amp;= \mathbf{W^{\intercal}_{JK}}
+\end{align}
+$$&lt;/div&gt;
+
+&lt;div class=&#34;highlight_section&#34;&gt;
+
+And so, the vectorised equations for the output layer and hidden layer deltas are:
+
+&lt;div&gt;$$
+\begin{align}
+
+\mathbf{\vec{\delta}_{K}} &amp;= \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right) \\[0.5em]
+
+\mathbf{ \vec{ \delta }_{J}} &amp;= \sigma^{\prime} \left( \mathbf{ W_{IJ} \mathcal{O}_{I} } \right) * \mathbf{ W^{\intercal}_{JK}} \mathbf{ \vec{\delta}_{K}} 
+\end{align}
+
+$$&lt;/div&gt;
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;Lets visualise what we&amp;rsquo;ve seen:&lt;/p&gt;
+
+&lt;div  id=&#34;fig2&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img img title=&#34;NN Vectorisation 2&#34; src=&#34;/img/simpleNN/nn_vectors2.png&#34; width=&#34;20%&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The NN showing the delta vectors
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;updates&#34;&gt; Vectorising the Update Equations &lt;/h3&gt;
+
+&lt;p&gt;Finally, now that we have the vectorised equations for the deltas (which required us to get the vectorised equations for the forward pass) we&amp;rsquo;re ready to get the update equations in vector form. Let&amp;rsquo;s recall the update equations&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+    \Delta W &amp;= -\eta \ \delta_{l} \ \mathcal{O}_{l-1} \\
+    \Delta\theta &amp;= -\eta \ \delta_{l}
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;Ignoring the $-\eta$ for now, we need to get a vector form for $\delta_{l} \ \mathcal{O}_{l-1}$ in order to get the update to the weights. We have the matrix of weights:&lt;/p&gt;
+
+&lt;div&gt;$$
+    
+\mathbf{W_{JK}} = 
+\begin{pmatrix}     w_{11} &amp; w_{21}  &amp; w_{31} \\
+                w_{12} &amp; w_{22}  &amp; w_{32} \\
+
+                \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;Suppose we are updating the weight $w_{21}$ in the matrix. We&amp;rsquo;re looking to find the product of the output from the second node in $J$ with the delta from the first node in $K$.&lt;/p&gt;
+
+&lt;div&gt;$$
+    \Delta w_{21} = \delta_{K}^{1} \mathcal{O}_{J}^{2} 
+$$&lt;/div&gt;
+
+&lt;p&gt;Considering this example, we can write the matrix for the weight updates as:&lt;/p&gt;
+
+&lt;div&gt;$$
+    
+\Delta \mathbf{W_{JK}} = 
+\begin{pmatrix}     \delta_{K}^{1} \mathcal{O}_{J}^{1} &amp; \delta_{K}^{1}  \mathcal{O}_{J}^{2}  &amp; \delta_{K}^{1} \mathcal{O}_{J}^{3}  \\
+                \delta_{K}^{2} \mathcal{O}_{J}^{1} &amp; \delta_{K}^{2} \mathcal{O}_{J}^{2}  &amp; \delta_{K}^{2} \mathcal{O}_{J}^{3} 
+
+                \end{pmatrix}
+ = 
+
+\begin{pmatrix}  \delta_{K}^{1} \\ \delta_{K}^{2}\end{pmatrix}
+
+\begin{pmatrix}     \mathcal{O}_{J}^{1} &amp; \mathcal{O}_{J}^{2}&amp; \mathcal{O}_{J}^{3}
+
+\end{pmatrix}
+
+$$&lt;/div&gt;
+
+&lt;p&gt;Generalising this into vector notation and including the &lt;em&gt;learning rate&lt;/em&gt; $\eta$, the update for the weights in layer $J$ is:&lt;/p&gt;
+
+&lt;div&gt;$$
+    
+\Delta \mathbf{W_{JK}} = -\eta \mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}}
+
+$$&lt;/div&gt;
+
+&lt;p&gt;Similarly, we have the update to the bias term. If:&lt;/p&gt;
+
+&lt;div&gt;$$
+\Delta \vec{\theta} = -\eta \mathbf{ \vec{ \delta }_{K}} 
+$$&lt;/div&gt;
+
+&lt;p&gt;So the bias term is updated just by taking the deltas straight from the nodes in the subsequent layer (with the negative factor of learning rate).&lt;/p&gt;
+
+&lt;div class=&#34;highlight_section&#34;&gt;
+
+In summary, for back propagation, the equations we need in vector form are:
+
+&lt;div&gt;$$
+\begin{align}
+
+\mathbf{\vec{\delta}_{K}} &amp;= \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right) \\[0.5em]
+
+\mathbf{ \vec{ \delta }_{J}} &amp;= \sigma^{\prime} \left( \mathbf{ W_{IJ} \mathcal{O}_{I} } \right) * \mathbf{ W^{\intercal}_{JK}} \mathbf{ \vec{\delta}_{K}}
+
+\end{align}
+$$&lt;/div&gt;
+
+&lt;div&gt;$$
+\begin{align}
+
+\mathbf{W_{JK}} + \Delta \mathbf{W_{JK}} &amp;\rightarrow \mathbf{W_{JK}}, \ \ \ \Delta \mathbf{W_{JK}} = -\eta \mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}} \\[0.5em]
+
+\vec{\theta}  + \Delta \vec{\theta}  &amp;\rightarrow \vec{\theta}, \ \ \ \Delta \vec{\theta} = -\eta \mathbf{ \vec{ \delta }_{K}} 
+
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;With $*$ representing an elementwise multiplication between the matrices.&lt;/p&gt;
+
+&lt;p&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;nextsteps&#34;&gt; What&#39;s next? &lt;/h2&gt;
+
+&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A Simple Neural Network - Transfer Functions</title>
       <link>/post/transfer-functions/</link>
       <pubDate>Wed, 08 Mar 2017 10:43:07 +0000</pubDate>
       
@@ -311,7 +789,7 @@ $$&lt;/div&gt;
     </item>
     
     <item>
-      <title>Simple Neural Network - Mathematics</title>
+      <title>A Simple Neural Network - Mathematics</title>
       <link>/post/neuralnetwork/</link>
       <pubDate>Mon, 06 Mar 2017 17:04:53 +0000</pubDate>
       
