@@ -276,7 +276,9 @@
 </div>
 
 
-  <ol>
+  <div id="toctop"></div>
+
+<ol>
 <li><a href="#intro">Introduction</a></li>
 <li><a href="#transferfunction">Transfer Function</a></li>
 <li><a href="#backpropclass">Back Propagation Class</a>
@@ -292,7 +294,7 @@
 
 <h3 id="intro"> Introduction </h3>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>We&rsquo;ve <a href="/post/neuralnetwork">ploughed through the maths</a>, then <a href="/post/nn-more-math">some more</a>, now we&rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&hellip;) we&rsquo;re only going to use numpy!</p>
 
@@ -319,7 +321,7 @@
 
 <h2 id="transferfunction"> Transfer Function </h2>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>To begin with, we&rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a <a href="/post/transfer-functions">previous post</a> this is very easy to code up because of its simple derivative:</p>
 
@@ -340,7 +342,7 @@ $$</div>
 
 <h2 id="backpropclass"> Back Propagation Class </h2>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>I&rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of <a href="https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6">Ryan on YouTube</a>. Some of his hacks were very useful so I&rsquo;ve taken some of those on board, but i&rsquo;ve made a lot of the variables more self-explanatory.</p>
 
@@ -376,7 +378,7 @@ $$</div>
 
 <h3 id="initialisation"> Initialisation </h3>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>We&rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: <code>numNodes</code>. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.</p>
 
@@ -442,7 +444,7 @@ self._layerOutput = []
 
 <h3 id="forwardpass"> Forward Pass </h3>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>We&rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).</p>
 
@@ -516,7 +518,7 @@ self._layerOutput.append(sigmoid(layerInput))
 
 <h3 id="backprop">Back Propagation</h3>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>We&rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights <strong>and</strong> we&rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:</p>
 
@@ -648,7 +650,7 @@ for index in reversed(range(self.numLayers)):
 
 <h2 id="testing"> A Toy Example</h2>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>Believe it or not, that&rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py <a href="/docs/simpleNN.py">here</a></p>
 
@@ -680,7 +682,7 @@ for i in range(Input.shape[0]):
 
 <h2 id="iterating"> Iterating </h2>
 
-<p>[To contents][100]</p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>Iteration is very straight forward. We just tell our algorithm to repeat a maximum of <code>maxIterations</code> times or until the <code>Error</code> is below <code>minError</code> (whichever comes first). As the weights are stored internally within <code>NN</code> every time we call the <code>backProp</code> method, it uses the latest, internally stored weights and doesn&rsquo;t start again - the weights are only initialised once upon creation of <code>NN</code>.</p>
 
