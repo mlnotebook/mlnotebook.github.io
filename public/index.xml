@@ -6,8 +6,450 @@
     <description>Recent content on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Mar 2017 10:33:08 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Mar 2017 09:55:00 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>A Simple Neural Network - With Numpy in Python</title>
+      <link>/post/nn-in-python/</link>
+      <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
+      
+      <guid>/post/nn-in-python/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backpropclass&#34;&gt;Back Propagation Class&lt;/a&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#initialisation&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#forwardpass&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backprop&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#testing&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#iterating&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;intro&#34;&gt; Introduction &lt;/h3&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;ploughed through the maths&lt;/a&gt;, then &lt;a href=&#34;/post/nn-more-math&#34;&gt;some more&lt;/a&gt;, now we&amp;rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&amp;rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&amp;hellip;) we&amp;rsquo;re only going to use numpy!&lt;/p&gt;
+
+&lt;p&gt;By the end of this tutorial, we will have built an algorithm which will create a neural network with as many layers (and nodes) as we want. It will be trained by taking in multiple training examples and running the back propagation algorithm many times.&lt;/p&gt;
+
+&lt;p&gt;Here are the things we&amp;rsquo;re going to need to code:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The transfer functions&lt;/li&gt;
+&lt;li&gt;The forward pass&lt;/li&gt;
+&lt;li&gt;The back propagation algorithm&lt;/li&gt;
+&lt;li&gt;The update function&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To keep things nice and contained, the forward pass and back propagation algorithms should be coded into a class. We&amp;rsquo;re going to expect that we can build a NN by creating an instance of this class which has some internal functions (forward pass, delta calculation, back propagation, weight updates).&lt;/p&gt;
+
+&lt;p&gt;First things first&amp;hellip; lets import numpy:&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;np&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now let&amp;rsquo;s go ahead and get the first bit done:&lt;/p&gt;
+
+&lt;h2 id=&#34;transferfunction&#34;&gt; Transfer Function &lt;/h2&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;To begin with, we&amp;rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a &lt;a href=&#34;/post/transfer-functions&#34;&gt;previous post&lt;/a&gt; this is very easy to code up because of its simple derivative:&lt;/p&gt;
+
+&lt;div &gt;$$
+f\left(x_{i} \right) = \frac{1}{1 + e^{  - x_{i}  }} \ \ \ \
+f^{\prime}\left( x_{i} \right) = \sigma(x_{i}) \left( 1 -  \sigma(x_{i}) \right)
+$$&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def sigmoid(x, Derivative=False):
+	if not Derivative:
+		return 1 / (1 + np.exp (-x))
+	else:
+		out = sigmoid(x)
+		return out * (1 - out)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is a succinct expression which actually calls itself in order to get a value to use in its derivative. We&amp;rsquo;ve used numpy&amp;rsquo;s exponential function to create the sigmoid function and created an &lt;code&gt;out&lt;/code&gt; variable to hold this in the derivative. Whenever we want to use this function, we can supply the parameter &lt;code&gt;True&lt;/code&gt; to get the derivative, We can omit this, or enter &lt;code&gt;False&lt;/code&gt; to just get the output of the sigmoid. This is the same function I used to get the graphs in the &lt;a href=&#34;/post/transfer-functions&#34;&gt;post on transfer functions&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;backpropclass&#34;&gt; Back Propagation Class &lt;/h2&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of &lt;a href=&#34;https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6&#34;&gt;Ryan on YouTube&lt;/a&gt;. Some of his hacks were very useful so I&amp;rsquo;ve taken some of those on board, but i&amp;rsquo;ve made a lot of the variables more self-explanatory.&lt;/p&gt;
+
+&lt;p&gt;First we&amp;rsquo;re going to get the skeleton of the class setup. This means that whenever we create a new variable with the class of &lt;code&gt;backPropNN&lt;/code&gt;, it will be able to access all of the functions and variables within itself.&lt;/p&gt;
+
+&lt;p&gt;It looks like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class backPropNN:
+    &amp;quot;&amp;quot;&amp;quot;Class defining a NN using Back Propagation&amp;quot;&amp;quot;&amp;quot;
+    
+    # Class Members (internal variables that are accessed with backPropNN.member) 
+    numLayers = 0
+    shape = None
+    weights = []
+    
+    # Class Methods (internal functions that can be called)
+    
+    def __init__(self):
+        &amp;quot;&amp;quot;&amp;quot;Initialise the NN - setup the layers and initial weights&amp;quot;&amp;quot;&amp;quot;
+        
+    # Forward Pass method
+    def FP(self):
+    	&amp;quot;&amp;quot;&amp;quot;Get the input data and run it through the NN&amp;quot;&amp;quot;&amp;quot;
+    	 
+    # TrainEpoch method
+    def backProp(self):
+        &amp;quot;&amp;quot;&amp;quot;Get the error, deltas and back propagate to update the weights&amp;quot;&amp;quot;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We&amp;rsquo;ve not added any detail to the functions (or methods) yet, but we know there needs to be an &lt;code&gt;__init__&lt;/code&gt; method for any class, plus we&amp;rsquo;re going to want to be able to do a forward pass and then back propagate the error.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve also added a few class members, variables which can be called from an instance of the &lt;code&gt;backPropNN&lt;/code&gt; class. &lt;code&gt;numLayers&lt;/code&gt; is just that, a count of the number of layers in the network, initialised to &lt;code&gt;0&lt;/code&gt;.  The &lt;code&gt;shape&lt;/code&gt; of the network will return the size of each layer of the network in an array and the &lt;code&gt;weights&lt;/code&gt; will return an array of the weights across the network.&lt;/p&gt;
+
+&lt;h3 id=&#34;initialisation&#34;&gt; Initialisation &lt;/h3&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: &lt;code&gt;numNodes&lt;/code&gt;. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def __init__(self, numNodes):
+	&amp;quot;&amp;quot;&amp;quot;Initialise the NN - setup the layers and initial weights&amp;quot;&amp;quot;&amp;quot;
+
+	# Layer information
+	self.numLayers = len(numNodes) - 1
+	self.shape = numNodes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We&amp;rsquo;ve told our network to ignore the input layer when counting the number of layers (common practice) and that the shape of the network should be returned as the input array &lt;code&gt;numNodes&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Lets also initialise the weights. We will take the approach of initialising all of the weights to small, random numbers. To keep the code succinct, we&amp;rsquo;ll use a neat function&lt;code&gt;zip&lt;/code&gt;. &lt;code&gt;zip&lt;/code&gt; is a function which takes two vectors and pairs up the elements in corresponding locations (like a zip). For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;A = [1, 2, 3]
+B = [4, 5, 6]
+
+zip(A,B)
+[(1,4), (2,5), (3,6)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Why might this be useful? Well, when we talk about weights we&amp;rsquo;re talking about the connections between layers. Lets say we have &lt;code&gt;numNodes=(2, 2, 1)&lt;/code&gt; i.e. a 2 layer network with 2 inputs, 1 output and 2 nodes in the hidden layer. Then we need to let the algorithm know that we expect two input nodes to send weights to 2 hidden nodes. Then 2 hidden nodes to send weights to 1 output node, or &lt;code&gt;[(2,2), (2,1)]&lt;/code&gt;. Note that overall we will have 4 weights from the input to the hidden layer, and 2 weights from the hidden to the output layer.&lt;/p&gt;
+
+&lt;p&gt;What is our &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt; in the code above that will give us &lt;code&gt;[(2,2), (2,1)]&lt;/code&gt;? It&amp;rsquo;s this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;numNodes = (2,2,1)
+A = numNodes[:-1]
+B = numNodes[1:]
+
+A
+(2,2)
+B
+(2,1)
+zip(A,B)
+[(2,2), (2,1)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Great! So each pair represents the nodes between which we need initialise some weights. In fact, the shape of each pair &lt;code&gt;(2,2)&lt;/code&gt; is the clue to how many weights we are going to need between each layer e.g. between the input and hidden layers we are going to need &lt;code&gt;(2 x 2) =4&lt;/code&gt; weights.&lt;/p&gt;
+
+&lt;p&gt;so &lt;code&gt;for&lt;/code&gt; each pair &lt;code&gt;in zip(A,B)&lt;/code&gt; (hint hint) we need to &lt;code&gt;append&lt;/code&gt; some weights into that empty weight matrix we initialised earlier.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Initialise the weight arrays
+for (l1,l2) in zip(numNodes[:-1],numNodes[1:]):
+    self.weights.append(np.random.normal(scale=0.1,size=(l2,l1+1)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;self.weights&lt;/code&gt; as we&amp;rsquo;re appending to the class member initialised earlier. We&amp;rsquo;re using the numpy random number generator from a &lt;code&gt;normal&lt;/code&gt; distribution. The &lt;code&gt;scale&lt;/code&gt; just tells numpy to choose numbers around the 0.1 kind of mark and that we want a matrix of results which is the size of the tuple &lt;code&gt;(l2,l1+1)&lt;/code&gt;. Huh, &lt;code&gt;+1&lt;/code&gt;? Don&amp;rsquo;t think we&amp;rsquo;re getting away without including the &lt;em&gt;bias&lt;/em&gt; term! We want a random starting point even for the weight connecting the bias node (&lt;code&gt;=1&lt;/code&gt;) to the next layer. Ok, but why this way and not &lt;code&gt;(l1+1,l2)&lt;/code&gt;? Well, we&amp;rsquo;re looking for &lt;code&gt;l2&lt;/code&gt; connections from each of the &lt;code&gt;l1+1&lt;/code&gt; nodes in the previous layer - think of it as (number of observations x number of features). We&amp;rsquo;re creating a matrix of weights which goes across the nodes and down the weights from each node, or as we&amp;rsquo;ve seen in our maths tutorial:&lt;/p&gt;
+
+&lt;div&gt;$$
+W_{ij} = \begin{pmatrix} w_{11} &amp; w_{21} &amp; w_{31} \\ w_{12} &amp;w_{22} &amp; w_{32} \end{pmatrix}, \ \ \ \
+
+W_{jk} = \begin{pmatrix} w_{11} &amp; w_{21} &amp; w_{31} \end{pmatrix}
+$$&lt;/div&gt;
+
+&lt;p&gt;Between the first two layers, and second 2 layers respectively with node 3 being the bias node.&lt;/p&gt;
+
+&lt;p&gt;Before we move on, lets also put in some placeholders in &lt;code&gt;__init__&lt;/code&gt; for the input and output values to each layer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;self._layerInput = []
+self._layerOutput = []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;forwardpass&#34;&gt; Forward Pass &lt;/h3&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).&lt;/p&gt;
+
+&lt;p&gt;Our &lt;code&gt;FP&lt;/code&gt; function needs to have the input data. It needs to know how many training examples it&amp;rsquo;s going to have to go through, and it will need to reassign the inputs and outputs at each layer, so lets clean those at the beginning:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def FP(self,input):
+
+	numExamples = input.shape[0]
+
+	# Clean away the values from the previous layer
+	self._layerInput = []
+	self._layerOutput = []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So lets propagate. We already have a matrix of (randomly initialised) weights. We just need to know what the input is to each of the layers. We&amp;rsquo;ll separate this into the first hidden layer, and subsequent hidden layers.&lt;/p&gt;
+
+&lt;p&gt;For the first hidden layer we will write:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;layerInput = self.weights[0].dot(np.vstack([input.T, np.ones([1, numExamples])]))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s break this down:&lt;/p&gt;
+
+&lt;p&gt;Our training example inputs need to match the weights that we&amp;rsquo;ve already created. We expect that our examples will come in rows of an array with columns acting as features, something like &lt;code&gt;[(0,0), (0,1),(1,1),(1,0)]&lt;/code&gt;. As we want to consider each input example separately, we can use numpy&amp;rsquo;s &lt;code&gt;vstack&lt;/code&gt; to put each of these examples one  behind the other (along the z-direction if you like).&lt;/p&gt;
+
+&lt;p&gt;Each of the input examples is a matrix which will be multiplied by the weight matrix to get the input to the current layer:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{x_{J}} = \mathbf{W_{IJ} \vec{\mathcal{O}}_{I}}
+$$&lt;/div&gt;
+
+&lt;p&gt;where $\mathbf{x_{J}}$ are the inputs to the layer $J$ and  $\mathbf{\vec{\mathcal{O}}_{I}}$ is the output from the precious layer (the input examples in this case).&lt;/p&gt;
+
+&lt;p&gt;So given a set of $n$ input examples which is &lt;code&gt;(n x numInputNodes)&lt;/code&gt; we &lt;code&gt;vstack&lt;/code&gt; them so we just have &lt;code&gt;(1 x numInputNodes)&lt;/code&gt;. We want to transpose this, &lt;code&gt;(numInputNodes x 1)&lt;/code&gt; such that we can multiply by the weight matrix which is &lt;code&gt;(numOutputNodes x numInputNodes)&lt;/code&gt;. This gives an input to the layer which is &lt;code&gt;(numOutputNodes x 1)&lt;/code&gt; as we expect.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; we&amp;rsquo;re actually going to do the transposition first before doing the &lt;code&gt;vstack&lt;/code&gt; - this does exactly the same thing, but it also allows us to more easily add the bias nodes in to each input.&lt;/p&gt;
+
+&lt;p&gt;Bias! Lets not forget this: we add a bias node which always has the value &lt;code&gt;1&lt;/code&gt; to each input (including the input layer). So our actual method is:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Transpose the inputs &lt;code&gt;input.T&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Add a row of ones to the bottom (one bias node for each input) &lt;code&gt;[input.T, np.ones([1,numExamples])]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vstack&lt;/code&gt; this to get each example on a different level &lt;code&gt;np.vstack(...)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Multipy with the weights connecting from the previous to the current layer &lt;code&gt;self.weights[0].dot(...)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;But what about the subsequent hidden layers? We&amp;rsquo;re not using the input examples in these layers, we are using the output from the previous layer &lt;code&gt;[self._layerOutput[-1]]&lt;/code&gt; (multiplied by the weights).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for index in range(self.numLayers):
+#Get input to the layer
+if index ==0:
+        layerInput = self.weights[0].dot(np.vstack([input.T, np.ones([1, numExamples])]))
+else:
+        layerInput = self.weights[index].dot(np.vstack([self._layerOutput[-1],np.ones([1,numExamples])]))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Make sure to save this output, but also to now calculate the output of the current layer i.e.:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{ \vec{ \mathcal{O}}_{J}} = \sigma(\mathbf{x_{J}})
+$$&lt;/div&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;self._layerInput.append(layerInput)
+self._layerOutput.append(sigmoid(layerInput))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, make sure that we&amp;rsquo;re returning the data from our output layer the same way that we got it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;return self._layerOutput[-1].T
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;backprop&#34;&gt;Back Propagation&lt;/h3&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights &lt;strong&gt;and&lt;/strong&gt; we&amp;rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:&lt;/p&gt;
+
+&lt;div&gt;$$
+\begin{align}
+
+\mathbf{\vec{\delta}_{K}} &amp;= \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right) \\[0.5em]
+
+\mathbf{ \vec{ \delta }_{J}} &amp;= \sigma^{\prime} \left( \mathbf{ W_{IJ} \mathcal{O}_{I} } \right) * \mathbf{ W^{\intercal}_{JK}} \mathbf{ \vec{\delta}_{K}}
+
+\end{align}
+$$&lt;/div&gt;
+
+&lt;div&gt;$$
+\begin{align}
+
+\mathbf{W_{JK}} + \Delta \mathbf{W_{JK}} &amp;\rightarrow \mathbf{W_{JK}}, \ \ \ \Delta \mathbf{W_{JK}} = -\eta \mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}} \\[0.5em]
+
+\vec{\theta}  + \Delta \vec{\theta}  &amp;\rightarrow \vec{\theta}, \ \ \ \Delta \vec{\theta} = -\eta \mathbf{ \vec{ \delta }_{K}} 
+
+\end{align}
+$$&lt;/div&gt;
+
+&lt;p&gt;With $*$ representing an elementwise multiplication between the matrices.&lt;/p&gt;
+
+&lt;p&gt;First, lets initialise some variables and get the error on the output of the output layer. We assume that the target values have been formatted in the same way as the input values i.e. they are a row-vector per input example. In our forward propagation method, the outputs are stored as column-vectors, thus the targets have to be transposed. We will need to supply the input data, the target data and  $\eta$, the learning rate, which we will set at some small number for default. So we start back propagation by first initialising a placeholder for the deltas and getting the number of training examples before running them through the &lt;code&gt;FP&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def backProp(self, input, target, trainingRate = 0.2):
+&amp;quot;&amp;quot;&amp;quot;Get the error, deltas and back propagate to update the weights&amp;quot;&amp;quot;&amp;quot;
+
+delta = []
+numExamples = input.shape[0]
+
+# Do the forward pass
+self.FP(input)
+
+output_delta = self._layerOutput[index] - target.T
+error = np.sum(output_delta**2)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We know from previous posts that the error is squared to get rid of the negatives. From this we compute the deltas for the output layer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;delta.append(output_delta * sigmoid(self._layerInput[index], True))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We now have the error but need to know what direction to alter the weights in, thus the gradient of the inputs to the layer need to be known. So, we get the gradient of the activation function at the input to the layer and get the product with the error. Notice we&amp;rsquo;ve supplied &lt;code&gt;True&lt;/code&gt; to the sigmoid function to get its derivative.&lt;/p&gt;
+
+&lt;p&gt;This is the delta for the output layer. So this calculation is only done when we&amp;rsquo;re considering the index at the end of the network. We should be careful that when telling the algorithm that this is the &amp;ldquo;last layer&amp;rdquo; we take account of the zero-indexing in Python i.e. the last layer is &lt;code&gt;self.numLayers - 1&lt;/code&gt; i.e. in a network with 2 layers, &lt;code&gt;layer[2]&lt;/code&gt; does not exist.&lt;/p&gt;
+
+&lt;p&gt;We also need to get the deltas of the intermediate hidden layers. To do this, (according to our equations above) we have to &amp;lsquo;pull back&amp;rsquo; the delta from the output layer first. More accurately, for any hidden layer, we pull back the delta from the &lt;em&gt;next&lt;/em&gt; layer, which may well be another hidden layer. These deltas from the &lt;em&gt;next&lt;/em&gt; layer are multiplied by the weights from the &lt;em&gt;next&lt;/em&gt; layer &lt;code&gt;[index + 1]&lt;/code&gt;, before getting the product with the sigmoid derivative evaluated at the &lt;em&gt;current&lt;/em&gt; layer.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: this is &lt;em&gt;back&lt;/em&gt; propagation. We have to start at the end and work back to the beginning. We use the &lt;code&gt;reversed&lt;/code&gt; keyword in our loop to ensure that the algorithm considers the layers in reverse order.&lt;/p&gt;
+
+&lt;p&gt;Combining this into one method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Calculate the deltas
+for index in reversed(range(self.numLayers)):
+    if index == self.numLayers - 1:
+        # If the output layer, then compare to the target values
+        output_delta = self._layerOutput[index] - target.T
+        error = np.sum(output_delta**2)
+        delta.append(output_delta * sigmoid(self._layerInput[index], True))
+    else:
+        # If a hidden layer. compare to the following layer&#39;s delta
+        delta_pullback = self.weights[index + 1].T.dot(delta[-1])
+        delta.append(delta_pullback[:-1,:] * sigmoid(self._layerInput[index], True))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Pick this piece of code apart. This is an important snippet as it calculates all of the deltas for all of the nodes in the network. Be sure that we understand:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;This is a &lt;code&gt;reversed&lt;/code&gt; loop because we want to deal with the last layer first&lt;/li&gt;
+&lt;li&gt;The delta of the output layer is the residual between the output and target multiplied with the gradient (derivative) of the activation function &lt;em&gt;at the current layer&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;The delta of a hidden layer first needs the product of the &lt;em&gt;subsequent&lt;/em&gt; layer&amp;rsquo;s delta with the &lt;em&gt;subsequent&lt;/em&gt; layer&amp;rsquo;s weights. This is then multiplied with the gradient of the activation function evaluated at the &lt;em&gt;current&lt;/em&gt; layer.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Double check that this matches up with the equations above too! We can double check the matrix multiplication. For the output layer:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;output_delta&lt;/code&gt; = (numOutputNodes x 1) - (1 x numOutputNodes).T = (numOutputNodes x 1)
+&lt;code&gt;error&lt;/code&gt; = (numOutputNodes x 1) **2 = (numOutputNodes x 1)
+&lt;code&gt;delta&lt;/code&gt; = (numOutputNodes x 1) * sigmoid( (numOutputNodes x 1) ) = (numOutputNodes  x 1)&lt;/p&gt;
+
+&lt;p&gt;For the hidden layers (take the one previous to the output as example):&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;delta_pullback&lt;/code&gt; = (numOutputNodes x numHiddenNodes).T.dot(numOutputNodes x 1) = (numHiddenNodes x 1)
+&lt;code&gt;delta&lt;/code&gt; = (numHiddenNodes x 1) * sigmoid ( (numHuddenNodes x 1) ) = (numHiddenNodes x 1)&lt;/p&gt;
+
+&lt;p&gt;Hurray! We have the delta at each node in our network. We can use them to update the weights for each layer in the network. Remember, to update the weights between layer $J$ and $K$ we need to use the output of layer $J$ and the deltas of layer $K$. This means we need to keep a track of the index of the layer we&amp;rsquo;re currently working on ($J$) and the index of the delta layer ($K$) - not forgetting about the zero-indexing in Python:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for index in range(self.numLayers):
+    delta_index = self.numLayers - 1 - index
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s first get the outputs from each layer:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    if index == 0:
+        layerOutput = np.vstack([input.T, np.ones([1, numExamples])])
+    else:
+        layerOutput = np.vstack([self._layerOutput[index - 1], np.ones([1,self._layerOutput[index -1].shape[1]])])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The output of the input layer is just the input examples (which we&amp;rsquo;ve &lt;code&gt;vstack&lt;/code&gt;-ed again and the output from the other layers we take from calculation in the forward pass (making sure to add the bias term on the end).&lt;/p&gt;
+
+&lt;p&gt;For the current &lt;code&gt;index&lt;/code&gt; (layer) lets use this &lt;code&gt;layerOutput&lt;/code&gt; to get the change in weight. We will use a few neat tricks to make this succinct:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	thisWeightDelta = np.sum(\
+	    layerOutput[None,:,:].transpose(2,0,1) * delta[delta_index][None,:,:].transpose(2,1,0) \
+	    , axis = 0)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Break it down. We&amp;rsquo;re looking for $\mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}} $ so it&amp;rsquo;s the delta at &lt;code&gt;delta_index&lt;/code&gt;, the next layer along.&lt;/p&gt;
+
+&lt;p&gt;We want to be able to deal with all of the input training examples simultaneously. This requires a bit of fancy slicing and transposing of the matrices. Take a look: by calling &lt;code&gt;vstack&lt;/code&gt; we made all of the input data and bias terms live in the same matrix of a numpy array. When we slice this arraywith the &lt;code&gt;[None,:,:]&lt;/code&gt; argument, it tells Python to take all (&lt;code&gt;:&lt;/code&gt;) the data in the rows and columns and shift it to the 1st and 2nd dimensions and leave the first dimension empty (&lt;code&gt;None&lt;/code&gt;). We do this to create the three dimensions which we can now transpose into. Calling &lt;code&gt;transpose(2,0,1)&lt;/code&gt; instructs Python to move around the dimensions of the data (e.g. its rows&amp;hellip; or examples). This creates an array where each example now lives in its own plane. The same is done for the deltas of the subsequent layer, but being careful to transpost them in the opposite direction so that the matrix multiplication can occur. The &lt;code&gt;axis= 0&lt;/code&gt; is supplied to make sure that the inputs are multiplied by the correct dimension of the delta matrix.&lt;/p&gt;
+
+&lt;p&gt;This looks incredibly complicated. It an be broken down into a for-loop over the input examples, but this reduces the efficiency of the network. Taking advantage of the numpy array like this keeps our calculations fast. In reality, if you&amp;rsquo;re struggling with this particular part, just copy and paste it, forget about it and be happy with yourself for understanding the maths behind back propagation, even if this random bit of Python is perplexing.&lt;/p&gt;
+
+&lt;p&gt;Anyway. Lets take this set of weight deltas and put back the $\eta$. We&amp;rsquo;ll call this the &lt;code&gt;learningRate&lt;/code&gt;. It&amp;rsquo;s called a lot of things, but this seems to be the most common. We&amp;rsquo;ll update the weights by making sure to include the &lt;code&gt;-&lt;/code&gt; from the $-\eta$.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	weightDelta = trainingRate * thisWeightDelta
+	self.weights[index] -= weightDelta
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;the &lt;code&gt;-=&lt;/code&gt; is Python slang for: take the current value and subtract the value of &lt;code&gt;weightDelta&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To finish up, we want our back propagation to return the current error in the network, so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;return error
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;testing&#34;&gt; A Toy Example&lt;/h2&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py &lt;a href=&#34;/docs/simpleNN.py&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s test it!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;Input = np.array([[0,0],[1,1],[0,1],[1,0]])
+Target = np.array([[0.0],[0.0],[1.0],[1.0]])
+
+NN = backPropNN((2,2,1))
+
+Error = NN.backProp(Input, Target)
+Output = NN.FP(Input)
+
+print &#39;Input \tOutput \t\tTarget&#39;
+for i in range(Input.shape[0]):
+    print &#39;{0}\t {1} \t{2}&#39;.format(Input[i], Output[i], Target[i])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will provide 4 input examples and the expected targets. We create an instance of the network called &lt;code&gt;NN&lt;/code&gt; with 2 layers (2 nodes in the hidden and 1 node in the output layer). We make &lt;code&gt;NN&lt;/code&gt; do &lt;code&gt;backProp&lt;/code&gt; with the input and target data and then get the output from the final layer by running out input through the network with a &lt;code&gt;FP&lt;/code&gt;. The printout is self explantory. Give it a try!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Input 	Output 		Target
+[0 0]	 [ 0.51624448] 	[ 0.]
+[1 1]	 [ 0.51688469] 	[ 0.]
+[0 1]	 [ 0.51727559] 	[ 1.]
+[1 0]	 [ 0.51585529] 	[ 1.]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can see that the network has taken our inputs, and we have some outputs too. They&amp;rsquo;re not great, and all seem to live around the same value. This is because we initialised the weights across the network to a similarly small random value. We need to repeat the &lt;code&gt;FP&lt;/code&gt; and &lt;code&gt;backProp&lt;/code&gt; process many times in order to keep updating the weights.&lt;/p&gt;
+
+&lt;h2 id=&#34;iterating&#34;&gt; Iterating &lt;/h2&gt;
+
+&lt;p&gt;[To contents][100]&lt;/p&gt;
+
+&lt;p&gt;Iteration is very straight forward. We just tell our algorithm to repeat a maximum of &lt;code&gt;maxIterations&lt;/code&gt; times or until the &lt;code&gt;Error&lt;/code&gt; is below &lt;code&gt;minError&lt;/code&gt; (whichever comes first). As the weights are stored internally within &lt;code&gt;NN&lt;/code&gt; every time we call the &lt;code&gt;backProp&lt;/code&gt; method, it uses the latest, internally stored weights and doesn&amp;rsquo;t start again - the weights are only initialised once upon creation of &lt;code&gt;NN&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;maxIterations = 100000
+minError = 1e-5
+
+for i in range(maxIterations + 1):
+    Error = NN.backProp(Input, Target)
+    if i % 2500 == 0:
+        print(&amp;quot;Iteration {0}\tError: {1:0.6f}&amp;quot;.format(i,Error))
+    if Error &amp;lt;= minError:
+        print(&amp;quot;Minimum error reached at iteration {0}&amp;quot;.format(i))
+        break
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the end of my output from the first run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Iteration 100000	Error: 0.000291
+Input 	Output 		Target
+[0 0]	 [ 0.00780385] 	[ 0.]
+[1 1]	 [ 0.00992829] 	[ 0.]
+[0 1]	 [ 0.99189799] 	[ 1.]
+[1 0]	 [ 0.99189943] 	[ 1.]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Much better! The error is very small and the outputs are very close to the correct value. However, they&amp;rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>A Simple Neural Network - Vectorisation</title>

@@ -118,11 +118,34 @@ float:left;
 
 }
 
+.code-math-sbs-container  {
+	width:100%;
+	margin:auto;
+	display: inline-block;
+
+}
+
+.code-math-sbs-right {
+	display:block;
+	padding-right:1%;
+	width:45%;
+	float: left;
+
+
+}
+
+.code-math-sbs-left {
+	float:left;
+	width:45%;
+	display:block;
+	margin:auto;
+	text-align:left;
+}
+
 .figure_container {
 	width:80%;
 	margin: auto;	
 	text-align:center;
-
 }
 
 .figure_images {

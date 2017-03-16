@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Coding up a Simple Neural Network in Python">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>A Simple Neural Network - With Numpy in Python &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>A Simple Neural Network - With Numpy in Python</h1>
+  <h2>Coding up a Simple Neural Network in Python</h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>15 Mar 2017, 09:55</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/neural-network">neural network</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/python">python</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/back-propagation">back propagation</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/numpy">numpy</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/transfer-function">transfer function</a>
+    
+  </div>
+  
+  
+  
+
+  
+
+<ul class="share-buttons">
+  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li>
+</ul>
+	
+  
+</div>
+
+
+  <ol>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#transferfunction">Transfer Function</a></li>
+<li><a href="#backpropclass">Back Propagation Class</a>
+
+<ol>
+<li><a href="#initialisation">Initialisation</a></li>
+<li><a href="#forwardpass">Forward Pass</a></li>
+<li><a href="#backprop">Back Propagation</a></li>
+</ol></li>
+<li><a href="#testing">Testing</a></li>
+<li><a href="#iterating">Iterating</a></li>
+</ol>
+
+<h3 id="intro"> Introduction </h3>
+
+<p>[To contents][100]</p>
+
+<p>We&rsquo;ve <a href="/post/neuralnetwork">ploughed through the maths</a>, then <a href="/post/nn-more-math">some more</a>, now we&rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&hellip;) we&rsquo;re only going to use numpy!</p>
+
+<p>By the end of this tutorial, we will have built an algorithm which will create a neural network with as many layers (and nodes) as we want. It will be trained by taking in multiple training examples and running the back propagation algorithm many times.</p>
+
+<p>Here are the things we&rsquo;re going to need to code:</p>
+
+<ul>
+<li>The transfer functions</li>
+<li>The forward pass</li>
+<li>The back propagation algorithm</li>
+<li>The update function</li>
+</ul>
+
+<p>To keep things nice and contained, the forward pass and back propagation algorithms should be coded into a class. We&rsquo;re going to expect that we can build a NN by creating an instance of this class which has some internal functions (forward pass, delta calculation, back propagation, weight updates).</p>
+
+<p>First things first&hellip; lets import numpy:</p>
+
+<div class="highlight" style="background: #272822"><pre style="line-height: 125%"><span style="color: #f92672">import</span> <span style="color: #f8f8f2">numpy</span> <span style="color: #f92672">as</span> <span style="color: #f8f8f2">np</span>
+</pre></div>
+
+
+<p>Now let&rsquo;s go ahead and get the first bit done:</p>
+
+<h2 id="transferfunction"> Transfer Function </h2>
+
+<p>[To contents][100]</p>
+
+<p>To begin with, we&rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a <a href="/post/transfer-functions">previous post</a> this is very easy to code up because of its simple derivative:</p>
+
+<div >$$
+f\left(x_{i} \right) = \frac{1}{1 + e^{  - x_{i}  }} \ \ \ \
+f^{\prime}\left( x_{i} \right) = \sigma(x_{i}) \left( 1 -  \sigma(x_{i}) \right)
+$$</div>
+
+<pre><code class="language-python">def sigmoid(x, Derivative=False):
+	if not Derivative:
+		return 1 / (1 + np.exp (-x))
+	else:
+		out = sigmoid(x)
+		return out * (1 - out)
+</code></pre>
+
+<p>This is a succinct expression which actually calls itself in order to get a value to use in its derivative. We&rsquo;ve used numpy&rsquo;s exponential function to create the sigmoid function and created an <code>out</code> variable to hold this in the derivative. Whenever we want to use this function, we can supply the parameter <code>True</code> to get the derivative, We can omit this, or enter <code>False</code> to just get the output of the sigmoid. This is the same function I used to get the graphs in the <a href="/post/transfer-functions">post on transfer functions</a>.</p>
+
+<h2 id="backpropclass"> Back Propagation Class </h2>
+
+<p>[To contents][100]</p>
+
+<p>I&rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of <a href="https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6">Ryan on YouTube</a>. Some of his hacks were very useful so I&rsquo;ve taken some of those on board, but i&rsquo;ve made a lot of the variables more self-explanatory.</p>
+
+<p>First we&rsquo;re going to get the skeleton of the class setup. This means that whenever we create a new variable with the class of <code>backPropNN</code>, it will be able to access all of the functions and variables within itself.</p>
+
+<p>It looks like this:</p>
+
+<pre><code class="language-python">class backPropNN:
+    &quot;&quot;&quot;Class defining a NN using Back Propagation&quot;&quot;&quot;
+    
+    # Class Members (internal variables that are accessed with backPropNN.member) 
+    numLayers = 0
+    shape = None
+    weights = []
+    
+    # Class Methods (internal functions that can be called)
+    
+    def __init__(self):
+        &quot;&quot;&quot;Initialise the NN - setup the layers and initial weights&quot;&quot;&quot;
+        
+    # Forward Pass method
+    def FP(self):
+    	&quot;&quot;&quot;Get the input data and run it through the NN&quot;&quot;&quot;
+    	 
+    # TrainEpoch method
+    def backProp(self):
+        &quot;&quot;&quot;Get the error, deltas and back propagate to update the weights&quot;&quot;&quot;
+</code></pre>
+
+<p>We&rsquo;ve not added any detail to the functions (or methods) yet, but we know there needs to be an <code>__init__</code> method for any class, plus we&rsquo;re going to want to be able to do a forward pass and then back propagate the error.</p>
+
+<p>We&rsquo;ve also added a few class members, variables which can be called from an instance of the <code>backPropNN</code> class. <code>numLayers</code> is just that, a count of the number of layers in the network, initialised to <code>0</code>.  The <code>shape</code> of the network will return the size of each layer of the network in an array and the <code>weights</code> will return an array of the weights across the network.</p>
+
+<h3 id="initialisation"> Initialisation </h3>
+
+<p>[To contents][100]</p>
+
+<p>We&rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: <code>numNodes</code>. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.</p>
+
+<pre><code class="language-python">def __init__(self, numNodes):
+	&quot;&quot;&quot;Initialise the NN - setup the layers and initial weights&quot;&quot;&quot;
+
+	# Layer information
+	self.numLayers = len(numNodes) - 1
+	self.shape = numNodes
+</code></pre>
+
+<p>We&rsquo;ve told our network to ignore the input layer when counting the number of layers (common practice) and that the shape of the network should be returned as the input array <code>numNodes</code>.</p>
+
+<p>Lets also initialise the weights. We will take the approach of initialising all of the weights to small, random numbers. To keep the code succinct, we&rsquo;ll use a neat function<code>zip</code>. <code>zip</code> is a function which takes two vectors and pairs up the elements in corresponding locations (like a zip). For example:</p>
+
+<pre><code class="language-python">A = [1, 2, 3]
+B = [4, 5, 6]
+
+zip(A,B)
+[(1,4), (2,5), (3,6)]
+</code></pre>
+
+<p>Why might this be useful? Well, when we talk about weights we&rsquo;re talking about the connections between layers. Lets say we have <code>numNodes=(2, 2, 1)</code> i.e. a 2 layer network with 2 inputs, 1 output and 2 nodes in the hidden layer. Then we need to let the algorithm know that we expect two input nodes to send weights to 2 hidden nodes. Then 2 hidden nodes to send weights to 1 output node, or <code>[(2,2), (2,1)]</code>. Note that overall we will have 4 weights from the input to the hidden layer, and 2 weights from the hidden to the output layer.</p>
+
+<p>What is our <code>A</code> and <code>B</code> in the code above that will give us <code>[(2,2), (2,1)]</code>? It&rsquo;s this:</p>
+
+<pre><code class="language-python">numNodes = (2,2,1)
+A = numNodes[:-1]
+B = numNodes[1:]
+
+A
+(2,2)
+B
+(2,1)
+zip(A,B)
+[(2,2), (2,1)]
+</code></pre>
+
+<p>Great! So each pair represents the nodes between which we need initialise some weights. In fact, the shape of each pair <code>(2,2)</code> is the clue to how many weights we are going to need between each layer e.g. between the input and hidden layers we are going to need <code>(2 x 2) =4</code> weights.</p>
+
+<p>so <code>for</code> each pair <code>in zip(A,B)</code> (hint hint) we need to <code>append</code> some weights into that empty weight matrix we initialised earlier.</p>
+
+<pre><code class="language-python"># Initialise the weight arrays
+for (l1,l2) in zip(numNodes[:-1],numNodes[1:]):
+    self.weights.append(np.random.normal(scale=0.1,size=(l2,l1+1)))
+</code></pre>
+
+<p><code>self.weights</code> as we&rsquo;re appending to the class member initialised earlier. We&rsquo;re using the numpy random number generator from a <code>normal</code> distribution. The <code>scale</code> just tells numpy to choose numbers around the 0.1 kind of mark and that we want a matrix of results which is the size of the tuple <code>(l2,l1+1)</code>. Huh, <code>+1</code>? Don&rsquo;t think we&rsquo;re getting away without including the <em>bias</em> term! We want a random starting point even for the weight connecting the bias node (<code>=1</code>) to the next layer. Ok, but why this way and not <code>(l1+1,l2)</code>? Well, we&rsquo;re looking for <code>l2</code> connections from each of the <code>l1+1</code> nodes in the previous layer - think of it as (number of observations x number of features). We&rsquo;re creating a matrix of weights which goes across the nodes and down the weights from each node, or as we&rsquo;ve seen in our maths tutorial:</p>
+
+<div>$$
+W_{ij} = \begin{pmatrix} w_{11} & w_{21} & w_{31} \\ w_{12} &w_{22} & w_{32} \end{pmatrix}, \ \ \ \
+
+W_{jk} = \begin{pmatrix} w_{11} & w_{21} & w_{31} \end{pmatrix}
+$$</div>
+
+<p>Between the first two layers, and second 2 layers respectively with node 3 being the bias node.</p>
+
+<p>Before we move on, lets also put in some placeholders in <code>__init__</code> for the input and output values to each layer:</p>
+
+<pre><code class="language-python">self._layerInput = []
+self._layerOutput = []
+</code></pre>
+
+<h3 id="forwardpass"> Forward Pass </h3>
+
+<p>[To contents][100]</p>
+
+<p>We&rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).</p>
+
+<p>Our <code>FP</code> function needs to have the input data. It needs to know how many training examples it&rsquo;s going to have to go through, and it will need to reassign the inputs and outputs at each layer, so lets clean those at the beginning:</p>
+
+<pre><code class="language-python">def FP(self,input):
+
+	numExamples = input.shape[0]
+
+	# Clean away the values from the previous layer
+	self._layerInput = []
+	self._layerOutput = []
+</code></pre>
+
+<p>So lets propagate. We already have a matrix of (randomly initialised) weights. We just need to know what the input is to each of the layers. We&rsquo;ll separate this into the first hidden layer, and subsequent hidden layers.</p>
+
+<p>For the first hidden layer we will write:</p>
+
+<pre><code class="language-python">layerInput = self.weights[0].dot(np.vstack([input.T, np.ones([1, numExamples])]))
+</code></pre>
+
+<p>Let&rsquo;s break this down:</p>
+
+<p>Our training example inputs need to match the weights that we&rsquo;ve already created. We expect that our examples will come in rows of an array with columns acting as features, something like <code>[(0,0), (0,1),(1,1),(1,0)]</code>. As we want to consider each input example separately, we can use numpy&rsquo;s <code>vstack</code> to put each of these examples one  behind the other (along the z-direction if you like).</p>
+
+<p>Each of the input examples is a matrix which will be multiplied by the weight matrix to get the input to the current layer:</p>
+
+<div>$$
+\mathbf{x_{J}} = \mathbf{W_{IJ} \vec{\mathcal{O}}_{I}}
+$$</div>
+
+<p>where $\mathbf{x_{J}}$ are the inputs to the layer $J$ and  $\mathbf{\vec{\mathcal{O}}_{I}}$ is the output from the precious layer (the input examples in this case).</p>
+
+<p>So given a set of $n$ input examples which is <code>(n x numInputNodes)</code> we <code>vstack</code> them so we just have <code>(1 x numInputNodes)</code>. We want to transpose this, <code>(numInputNodes x 1)</code> such that we can multiply by the weight matrix which is <code>(numOutputNodes x numInputNodes)</code>. This gives an input to the layer which is <code>(numOutputNodes x 1)</code> as we expect.</p>
+
+<p><strong>Note</strong> we&rsquo;re actually going to do the transposition first before doing the <code>vstack</code> - this does exactly the same thing, but it also allows us to more easily add the bias nodes in to each input.</p>
+
+<p>Bias! Lets not forget this: we add a bias node which always has the value <code>1</code> to each input (including the input layer). So our actual method is:</p>
+
+<ol>
+<li>Transpose the inputs <code>input.T</code></li>
+<li>Add a row of ones to the bottom (one bias node for each input) <code>[input.T, np.ones([1,numExamples])]</code></li>
+<li><code>vstack</code> this to get each example on a different level <code>np.vstack(...)</code></li>
+<li>Multipy with the weights connecting from the previous to the current layer <code>self.weights[0].dot(...)</code></li>
+</ol>
+
+<p>But what about the subsequent hidden layers? We&rsquo;re not using the input examples in these layers, we are using the output from the previous layer <code>[self._layerOutput[-1]]</code> (multiplied by the weights).</p>
+
+<pre><code class="language-python">for index in range(self.numLayers):
+#Get input to the layer
+if index ==0:
+        layerInput = self.weights[0].dot(np.vstack([input.T, np.ones([1, numExamples])]))
+else:
+        layerInput = self.weights[index].dot(np.vstack([self._layerOutput[-1],np.ones([1,numExamples])]))
+</code></pre>
+
+<p>Make sure to save this output, but also to now calculate the output of the current layer i.e.:</p>
+
+<div>$$
+\mathbf{ \vec{ \mathcal{O}}_{J}} = \sigma(\mathbf{x_{J}})
+$$</div>
+
+<pre><code class="language-python">self._layerInput.append(layerInput)
+self._layerOutput.append(sigmoid(layerInput))
+</code></pre>
+
+<p>Finally, make sure that we&rsquo;re returning the data from our output layer the same way that we got it:</p>
+
+<pre><code class="language-python">return self._layerOutput[-1].T
+</code></pre>
+
+<h3 id="backprop">Back Propagation</h3>
+
+<p>[To contents][100]</p>
+
+<p>We&rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights <strong>and</strong> we&rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:</p>
+
+<div>$$
+\begin{align}
+
+\mathbf{\vec{\delta}_{K}} &= \sigma^{\prime}\left( \mathbf{W_{JK}}\mathbf{\vec{\mathcal{O}}_{J}} \right) * \left( \mathbf{\vec{\mathcal{O}}_{K}} -  \mathbf{T_{K}}\right) \\[0.5em]
+
+\mathbf{ \vec{ \delta }_{J}} &= \sigma^{\prime} \left( \mathbf{ W_{IJ} \mathcal{O}_{I} } \right) * \mathbf{ W^{\intercal}_{JK}} \mathbf{ \vec{\delta}_{K}}
+
+\end{align}
+$$</div>
+
+<div>$$
+\begin{align}
+
+\mathbf{W_{JK}} + \Delta \mathbf{W_{JK}} &\rightarrow \mathbf{W_{JK}}, \ \ \ \Delta \mathbf{W_{JK}} = -\eta \mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}} \\[0.5em]
+
+\vec{\theta}  + \Delta \vec{\theta}  &\rightarrow \vec{\theta}, \ \ \ \Delta \vec{\theta} = -\eta \mathbf{ \vec{ \delta }_{K}} 
+
+\end{align}
+$$</div>
+
+<p>With $*$ representing an elementwise multiplication between the matrices.</p>
+
+<p>First, lets initialise some variables and get the error on the output of the output layer. We assume that the target values have been formatted in the same way as the input values i.e. they are a row-vector per input example. In our forward propagation method, the outputs are stored as column-vectors, thus the targets have to be transposed. We will need to supply the input data, the target data and  $\eta$, the learning rate, which we will set at some small number for default. So we start back propagation by first initialising a placeholder for the deltas and getting the number of training examples before running them through the <code>FP</code> method:</p>
+
+<pre><code class="language-python">def backProp(self, input, target, trainingRate = 0.2):
+&quot;&quot;&quot;Get the error, deltas and back propagate to update the weights&quot;&quot;&quot;
+
+delta = []
+numExamples = input.shape[0]
+
+# Do the forward pass
+self.FP(input)
+
+output_delta = self._layerOutput[index] - target.T
+error = np.sum(output_delta**2)
+</code></pre>
+
+<p>We know from previous posts that the error is squared to get rid of the negatives. From this we compute the deltas for the output layer:</p>
+
+<pre><code class="language-python">delta.append(output_delta * sigmoid(self._layerInput[index], True))
+</code></pre>
+
+<p>We now have the error but need to know what direction to alter the weights in, thus the gradient of the inputs to the layer need to be known. So, we get the gradient of the activation function at the input to the layer and get the product with the error. Notice we&rsquo;ve supplied <code>True</code> to the sigmoid function to get its derivative.</p>
+
+<p>This is the delta for the output layer. So this calculation is only done when we&rsquo;re considering the index at the end of the network. We should be careful that when telling the algorithm that this is the &ldquo;last layer&rdquo; we take account of the zero-indexing in Python i.e. the last layer is <code>self.numLayers - 1</code> i.e. in a network with 2 layers, <code>layer[2]</code> does not exist.</p>
+
+<p>We also need to get the deltas of the intermediate hidden layers. To do this, (according to our equations above) we have to &lsquo;pull back&rsquo; the delta from the output layer first. More accurately, for any hidden layer, we pull back the delta from the <em>next</em> layer, which may well be another hidden layer. These deltas from the <em>next</em> layer are multiplied by the weights from the <em>next</em> layer <code>[index + 1]</code>, before getting the product with the sigmoid derivative evaluated at the <em>current</em> layer.</p>
+
+<p><strong>Note</strong>: this is <em>back</em> propagation. We have to start at the end and work back to the beginning. We use the <code>reversed</code> keyword in our loop to ensure that the algorithm considers the layers in reverse order.</p>
+
+<p>Combining this into one method:</p>
+
+<pre><code class="language-python"># Calculate the deltas
+for index in reversed(range(self.numLayers)):
+    if index == self.numLayers - 1:
+        # If the output layer, then compare to the target values
+        output_delta = self._layerOutput[index] - target.T
+        error = np.sum(output_delta**2)
+        delta.append(output_delta * sigmoid(self._layerInput[index], True))
+    else:
+        # If a hidden layer. compare to the following layer's delta
+        delta_pullback = self.weights[index + 1].T.dot(delta[-1])
+        delta.append(delta_pullback[:-1,:] * sigmoid(self._layerInput[index], True))
+</code></pre>
+
+<p>Pick this piece of code apart. This is an important snippet as it calculates all of the deltas for all of the nodes in the network. Be sure that we understand:</p>
+
+<ol>
+<li>This is a <code>reversed</code> loop because we want to deal with the last layer first</li>
+<li>The delta of the output layer is the residual between the output and target multiplied with the gradient (derivative) of the activation function <em>at the current layer</em>.</li>
+<li>The delta of a hidden layer first needs the product of the <em>subsequent</em> layer&rsquo;s delta with the <em>subsequent</em> layer&rsquo;s weights. This is then multiplied with the gradient of the activation function evaluated at the <em>current</em> layer.</li>
+</ol>
+
+<p>Double check that this matches up with the equations above too! We can double check the matrix multiplication. For the output layer:</p>
+
+<p><code>output_delta</code> = (numOutputNodes x 1) - (1 x numOutputNodes).T = (numOutputNodes x 1)
+<code>error</code> = (numOutputNodes x 1) **2 = (numOutputNodes x 1)
+<code>delta</code> = (numOutputNodes x 1) * sigmoid( (numOutputNodes x 1) ) = (numOutputNodes  x 1)</p>
+
+<p>For the hidden layers (take the one previous to the output as example):</p>
+
+<p><code>delta_pullback</code> = (numOutputNodes x numHiddenNodes).T.dot(numOutputNodes x 1) = (numHiddenNodes x 1)
+<code>delta</code> = (numHiddenNodes x 1) * sigmoid ( (numHuddenNodes x 1) ) = (numHiddenNodes x 1)</p>
+
+<p>Hurray! We have the delta at each node in our network. We can use them to update the weights for each layer in the network. Remember, to update the weights between layer $J$ and $K$ we need to use the output of layer $J$ and the deltas of layer $K$. This means we need to keep a track of the index of the layer we&rsquo;re currently working on ($J$) and the index of the delta layer ($K$) - not forgetting about the zero-indexing in Python:</p>
+
+<pre><code class="language-python">for index in range(self.numLayers):
+    delta_index = self.numLayers - 1 - index
+</code></pre>
+
+<p>Let&rsquo;s first get the outputs from each layer:</p>
+
+<pre><code class="language-python">    if index == 0:
+        layerOutput = np.vstack([input.T, np.ones([1, numExamples])])
+    else:
+        layerOutput = np.vstack([self._layerOutput[index - 1], np.ones([1,self._layerOutput[index -1].shape[1]])])
+</code></pre>
+
+<p>The output of the input layer is just the input examples (which we&rsquo;ve <code>vstack</code>-ed again and the output from the other layers we take from calculation in the forward pass (making sure to add the bias term on the end).</p>
+
+<p>For the current <code>index</code> (layer) lets use this <code>layerOutput</code> to get the change in weight. We will use a few neat tricks to make this succinct:</p>
+
+<pre><code class="language-python">	thisWeightDelta = np.sum(\
+	    layerOutput[None,:,:].transpose(2,0,1) * delta[delta_index][None,:,:].transpose(2,1,0) \
+	    , axis = 0)
+</code></pre>
+
+<p>Break it down. We&rsquo;re looking for $\mathbf{ \vec{ \delta }_{K}} \mathbf{ \vec { \mathcal{O} }_{J}} $ so it&rsquo;s the delta at <code>delta_index</code>, the next layer along.</p>
+
+<p>We want to be able to deal with all of the input training examples simultaneously. This requires a bit of fancy slicing and transposing of the matrices. Take a look: by calling <code>vstack</code> we made all of the input data and bias terms live in the same matrix of a numpy array. When we slice this arraywith the <code>[None,:,:]</code> argument, it tells Python to take all (<code>:</code>) the data in the rows and columns and shift it to the 1st and 2nd dimensions and leave the first dimension empty (<code>None</code>). We do this to create the three dimensions which we can now transpose into. Calling <code>transpose(2,0,1)</code> instructs Python to move around the dimensions of the data (e.g. its rows&hellip; or examples). This creates an array where each example now lives in its own plane. The same is done for the deltas of the subsequent layer, but being careful to transpost them in the opposite direction so that the matrix multiplication can occur. The <code>axis= 0</code> is supplied to make sure that the inputs are multiplied by the correct dimension of the delta matrix.</p>
+
+<p>This looks incredibly complicated. It an be broken down into a for-loop over the input examples, but this reduces the efficiency of the network. Taking advantage of the numpy array like this keeps our calculations fast. In reality, if you&rsquo;re struggling with this particular part, just copy and paste it, forget about it and be happy with yourself for understanding the maths behind back propagation, even if this random bit of Python is perplexing.</p>
+
+<p>Anyway. Lets take this set of weight deltas and put back the $\eta$. We&rsquo;ll call this the <code>learningRate</code>. It&rsquo;s called a lot of things, but this seems to be the most common. We&rsquo;ll update the weights by making sure to include the <code>-</code> from the $-\eta$.</p>
+
+<pre><code class="language-python">	weightDelta = trainingRate * thisWeightDelta
+	self.weights[index] -= weightDelta
+</code></pre>
+
+<p>the <code>-=</code> is Python slang for: take the current value and subtract the value of <code>weightDelta</code>.</p>
+
+<p>To finish up, we want our back propagation to return the current error in the network, so:</p>
+
+<pre><code class="language-python">return error
+</code></pre>
+
+<h2 id="testing"> A Toy Example</h2>
+
+<p>[To contents][100]</p>
+
+<p>Believe it or not, that&rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py <a href="/docs/simpleNN.py">here</a></p>
+
+<p>Let&rsquo;s test it!</p>
+
+<pre><code class="language-python">Input = np.array([[0,0],[1,1],[0,1],[1,0]])
+Target = np.array([[0.0],[0.0],[1.0],[1.0]])
+
+NN = backPropNN((2,2,1))
+
+Error = NN.backProp(Input, Target)
+Output = NN.FP(Input)
+
+print 'Input \tOutput \t\tTarget'
+for i in range(Input.shape[0]):
+    print '{0}\t {1} \t{2}'.format(Input[i], Output[i], Target[i])
+</code></pre>
+
+<p>This will provide 4 input examples and the expected targets. We create an instance of the network called <code>NN</code> with 2 layers (2 nodes in the hidden and 1 node in the output layer). We make <code>NN</code> do <code>backProp</code> with the input and target data and then get the output from the final layer by running out input through the network with a <code>FP</code>. The printout is self explantory. Give it a try!</p>
+
+<pre><code>Input 	Output 		Target
+[0 0]	 [ 0.51624448] 	[ 0.]
+[1 1]	 [ 0.51688469] 	[ 0.]
+[0 1]	 [ 0.51727559] 	[ 1.]
+[1 0]	 [ 0.51585529] 	[ 1.]
+</code></pre>
+
+<p>We can see that the network has taken our inputs, and we have some outputs too. They&rsquo;re not great, and all seem to live around the same value. This is because we initialised the weights across the network to a similarly small random value. We need to repeat the <code>FP</code> and <code>backProp</code> process many times in order to keep updating the weights.</p>
+
+<h2 id="iterating"> Iterating </h2>
+
+<p>[To contents][100]</p>
+
+<p>Iteration is very straight forward. We just tell our algorithm to repeat a maximum of <code>maxIterations</code> times or until the <code>Error</code> is below <code>minError</code> (whichever comes first). As the weights are stored internally within <code>NN</code> every time we call the <code>backProp</code> method, it uses the latest, internally stored weights and doesn&rsquo;t start again - the weights are only initialised once upon creation of <code>NN</code>.</p>
+
+<pre><code class="language-python">maxIterations = 100000
+minError = 1e-5
+
+for i in range(maxIterations + 1):
+    Error = NN.backProp(Input, Target)
+    if i % 2500 == 0:
+        print(&quot;Iteration {0}\tError: {1:0.6f}&quot;.format(i,Error))
+    if Error &lt;= minError:
+        print(&quot;Minimum error reached at iteration {0}&quot;.format(i))
+        break
+</code></pre>
+
+<p>Here&rsquo;s the end of my output from the first run:</p>
+
+<pre><code>Iteration 100000	Error: 0.000291
+Input 	Output 		Target
+[0 0]	 [ 0.00780385] 	[ 0.]
+[1 1]	 [ 0.00992829] 	[ 0.]
+[0 1]	 [ 0.99189799] 	[ 1.]
+[1 0]	 [ 0.99189943] 	[ 1.]
+</code></pre>
+
+<p>Much better! The error is very small and the outputs are very close to the correct value. However, they&rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.</p>
+
+<p><strong>Please</strong> let me know if anything is unclear, or there are mistakes. Let me know how you get on!</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/nn-more-maths/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/nn-more-maths/">A Simple Neural Network - Vectorisation</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
