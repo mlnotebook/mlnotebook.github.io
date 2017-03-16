@@ -208,7 +208,7 @@ layerInput = self.weights[0].dot(np.vstack([input.T, np.ones([1, numExamples])])
 ```
 Let's break this down:
 
-Our training example inputs need to match the weights that we've already created. We expect that our examples will come in rows of an array with columns acting as features, something like `[(0,0), (0,1),(1,1),(1,0)]`. As we want to consider each input example separately, we can use numpy's `vstack` to put each of these examples one  behind the other (along the z-direction if you like).
+Our training example inputs need to match the weights that we've already created. We expect that our examples will come in rows of an array with columns acting as features, something like `[(0,0), (0,1),(1,1),(1,0)]`. We can use numpy's `vstack` to put each of these examples one on top of the other.
 
 Each of the input examples is a matrix which will be multiplied by the weight matrix to get the input to the current layer:
 
@@ -218,7 +218,7 @@ $$</div>
 
 where $\mathbf{x\_{J}}$ are the inputs to the layer $J$ and  $\mathbf{\vec{\mathcal{O}}\_{I}}$ is the output from the precious layer (the input examples in this case).
 
-So given a set of $n$ input examples which is `(n x numInputNodes)` we `vstack` them so we just have `(1 x numInputNodes)`. We want to transpose this, `(numInputNodes x 1)` such that we can multiply by the weight matrix which is `(numOutputNodes x numInputNodes)`. This gives an input to the layer which is `(numOutputNodes x 1)` as we expect.
+So given a set of $n$ input examples we `vstack` them so we just have `(n x numInputNodes)`. We want to transpose this, `(numInputNodes x n)` such that we can multiply by the weight matrix which is `(numOutputNodes x numInputNodes)`. This gives an input to the layer which is `(numOutputNodes x n)` as we expect.
 
 **Note** we're actually going to do the transposition first before doing the `vstack` - this does exactly the same thing, but it also allows us to more easily add the bias nodes in to each input.
 
@@ -226,7 +226,7 @@ Bias! Lets not forget this: we add a bias node which always has the value `1` to
 
 1. Transpose the inputs `input.T`
 2. Add a row of ones to the bottom (one bias node for each input) `[input.T, np.ones([1,numExamples])]`
-3. `vstack` this to get each example on a different level `np.vstack(...)`
+3. `vstack` this to compact the array `np.vstack(...)`
 4. Multipy with the weights connecting from the previous to the current layer `self.weights[0].dot(...)`
 
 But what about the subsequent hidden layers? We're not using the input examples in these layers, we are using the output from the previous layer `[self._layerOutput[-1]]` (multiplied by the weights).
@@ -461,7 +461,7 @@ Much better! The error is very small and the outputs are very close to the corre
 [100]:{{< relref "#toctop" >}}
 
 [1]: /post/neuralnetwork
-[2]: /post/nn-more-math
+[2]: /post/nn-more-maths
 [3]: /post/transfer-functions
 [4]: https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6
 [5]: /docs/simpleNN.py
