@@ -5,7 +5,12 @@ description = "Simplifying the NN maths ready for coding"
 topics = ["tutorial"]
 tags = ["neural network", "back propagation", "maths", "vector", "matrix"]
 social=true
+featured_image="/img/brain3.png"
 +++
+
+The third in our series of tutorials on Simple Neural Networks. This time, we're looking a bit deeper into the maths, specifically focusing on vectorisation. This is an important step before we can translate our maths in a functioning script in Python.
+
+<!--more-->
 
 So we've [been through the maths][1] of a neural network (NN) using back propagation and taken a look at the [different activation functions][2] that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!
 

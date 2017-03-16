@@ -4,8 +4,12 @@ title = "Web Design Wisdom"
 description = "Wisdom gained from setting up MLNotebook"
 topics = ["updates"]
 tags = ["hugo","highlight.js","syntax","mathjax","social media","div","css"]
-
+featured_image="/img/featured_hugo.png"
+social=true
 +++
+
+So I'm quite a bit into getting MLNotebook setup and I've been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that's what I can do for you here!
+<!--more-->
 
 I thought I'd give an overview of some of the wisdom I've gained from creating MLNotebook - my adventures in markdown... and the rest!
 

@@ -5,9 +5,13 @@ tags = ["markdown", "hugo", "jekyll", "github", "github-pages", "cheatsheet"]
 description = "First post on MLNotebook (plus an edit)"
 date = "2017-03-01T10:38:47Z"
 social=true
+featured_image="/img/mln_square.png"
 +++
 
-This is the first post on the Machine Learning Notebook (MLN)!
+
+This is the first post on the Machine Learning Notebook (MLN)! I'll give a brief overview of what the site is for, how I'm constructing it and the kinds of things I'm learning along the way.
+
+<!--more-->
 
 I'm a n00b when it comes to Github Pages and relatively new to working with Github at all! It took me a while to decide what platform to use for creating this humble resource. I was initially looking at writing everything in iPython notebooks, but it was confusing to figure out how to keep the scripts live rather than coverting them to static sites.
 

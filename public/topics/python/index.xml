@@ -14,7 +14,8 @@
       <pubDate>Wed, 01 Mar 2017 19:27:27 +0000</pubDate>
       
       <guid>/post/surface-distance-function/</guid>
-      <description>
+      <description>&lt;p&gt;Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&amp;rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&amp;rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).
+&lt;/p&gt;
 
 &lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
 
@@ -150,8 +151,7 @@ from scipy.ndimage import morphology
 
 &lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
 
-&lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

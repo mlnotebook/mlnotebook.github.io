@@ -221,6 +221,16 @@
 </div>
 <div class="content">
 
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/brain3.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
   <div class="post-meta">
 
   <div>
@@ -262,21 +272,24 @@
   
   
   
-
-  
-
-<ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
   <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
   <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li>
-</ul>
-	
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
   
 </div>
 
 
-  <p>So we&rsquo;ve <a href="/post/neuralnetwork">been through the maths</a> of a neural network (NN) using back propagation and taken a look at the <a href="/post/transfer-functions">different activation functions</a> that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!</p>
+</div>
+
+</div>
+
+
+  <p>The third in our series of tutorials on Simple Neural Networks. This time, we&rsquo;re looking a bit deeper into the maths, specifically focusing on vectorisation. This is an important step before we can translate our maths in a functioning script in Python.</p>
+
+<p></p>
+
+<p>So we&rsquo;ve <a href="/post/neuralnetwork">been through the maths</a> of a neural network (NN) using back propagation and taken a look at the <a href="/post/transfer-functions">different activation functions</a> that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!</p>
 
 <h2 id="forwardprop"> Forward Propagation </h2>
 
@@ -745,7 +758,6 @@ $$</div>
 <h2 id="nextsteps"> What's next? </h2>
 
 <p>Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.</p>
-
 
   
 <div class="prev-next-post pure-g">

@@ -5,8 +5,11 @@ date = "2017-03-15T09:55:00Z"
 title = "A Simple Neural Network - With Numpy in Python"
 tags = ["neural network", "python", "back propagation", "numpy", "transfer function"]
 social=true
-
+featured_image="/img/brain4.png"
 +++
+
+Part 4 of our tutorial series on Simple Neural Networks. We're ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we're now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)
+<!--more-->
 
 <div id="toctop"></div>
 

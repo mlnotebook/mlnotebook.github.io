@@ -228,10 +228,24 @@
 <div class="content">
   
     <article>
+
   <header>
     <h2><a href="/post/webdesign/">Web Design Wisdom</a></h2>
 
-    <div class="post-meta">
+
+  </header>
+  
+<div class="summary_container">
+
+<div class="summary_image">
+
+<img class="summary_image" src="/img/brain.png">
+
+</div>
+
+  <div class="summary_text">
+
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
@@ -277,15 +291,18 @@
   
 </div>
 
-
-  </header>
-
+  
   <p>
-  I thought I&rsquo;d give an overview of some of the wisdom I&rsquo;ve gained from creating MLNotebook - my adventures in markdown&hellip; and the rest!
-Hugo  Setup  Hugo was relatively easy to setup, but I think some of the guides around could be a lot clearer particularly when it comes to hosting on Githib Pages. Firstly, make sure that you download Hugo here and extract it to /usr/local/bin. I renamed mine to &ldquo;hugo&rdquo;.
+  <p>So I&rsquo;m quite a bit into getting MLNotebook setup and I&rsquo;ve been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that&rsquo;s what I can do for you here!
+</p>
   </p>
+  
+  </div>
+
+  </div>
 
   
+
   <footer>
     <a href="/post/webdesign/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>

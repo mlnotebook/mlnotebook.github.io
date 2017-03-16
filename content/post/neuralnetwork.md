@@ -5,11 +5,12 @@ topics = ["tutorials"]
 tags = ["neural network","back propagation", "machine learning"]
 date = "2017-03-06T17:04:53Z"
 social=true
+featured_image="/img/brain1.png"
 +++
 
-<div id="toctop"></div>
+This is the first part of a series of tutorials on Simple Neural Networks (NN). Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I'd like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it'll give you a good unserstanding of what's going on. <!--more--> **Please** let me know if any of the notation is incorrect or there are any mistakes - either comment or use the contact page on the left.
 
-Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I'd like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it'll give you a good unserstanding of what's going on. **Please** let me know if any of the notation is incorrect or there are any mistakes - either comment or use the contact page on the left.
+<div id="toctop"></div>
 
 1. [Neural Network Architecture][1]
 2. [Transfer Function][2]

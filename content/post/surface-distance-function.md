@@ -5,7 +5,11 @@ description = "Surface distance evaluation function in Python"
 topics = ["python"]
 tags = ["python", "segmentation","evaluation","surface distance"]
 social=true
+featured_image="/img/segs.png"
 +++
+
+Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we'll write a surface distance function in Python which uses numpy and scipy. It'll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).
+<!--more-->
 
 ## Background
 Recently, I have been doing a **lot** of segmentation evaluation - seeing how good a segmentation done by a machine compares with one that's done manual, a 'ground truth' (GT). Traditionally, such verification is done by comparing the overlap between the two e.g. Dice Simlarity Coefficient (DSC) [1]. There are a few different calculations that can be done (there'll be a longer post on just that) and 'surface distance' calculations are one of them.

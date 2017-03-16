@@ -5,7 +5,12 @@ description = "An insight into various activation functions"
 topics = ["tutorials"]
 tags = ["neural network", "transfer", "activation", "gaussian", "sigmoid", "linear", "tanh"]
 social=true
+featured_image="/img/brain2.png"
 +++
+
+We're going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.
+
+<!--more-->
 
 As promised in the previous post, we'll take a look at some of the different activation functions that could be used in our nodes. Again **please** let me know if there's anything I've gotten totally wrong - I'm very much learning too.
 

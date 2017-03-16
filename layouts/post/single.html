@@ -6,7 +6,22 @@
 </div>
 <div class="content">
 
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  {{ with .Params.featured_image }}<img class="featured_image" src="{{ . }}">{{ end }}
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
   {{ partial "post_meta.html" . }}
+
+</div>
+
+</div>
+
 
   {{ .Content }}
 
