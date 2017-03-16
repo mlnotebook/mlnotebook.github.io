@@ -14,7 +14,9 @@
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
       
       <guid>/post/nn-in-python/</guid>
-      <description>&lt;ol&gt;
+      <description>&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+
+&lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#transferfunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#backpropclass&#34;&gt;Back Propagation Class&lt;/a&gt;
@@ -30,7 +32,7 @@
 
 &lt;h3 id=&#34;intro&#34;&gt; Introduction &lt;/h3&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;ploughed through the maths&lt;/a&gt;, then &lt;a href=&#34;/post/nn-more-math&#34;&gt;some more&lt;/a&gt;, now we&amp;rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&amp;rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&amp;hellip;) we&amp;rsquo;re only going to use numpy!&lt;/p&gt;
 
@@ -57,7 +59,7 @@
 
 &lt;h2 id=&#34;transferfunction&#34;&gt; Transfer Function &lt;/h2&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;To begin with, we&amp;rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a &lt;a href=&#34;/post/transfer-functions&#34;&gt;previous post&lt;/a&gt; this is very easy to code up because of its simple derivative:&lt;/p&gt;
 
@@ -78,7 +80,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backpropclass&#34;&gt; Back Propagation Class &lt;/h2&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of &lt;a href=&#34;https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6&#34;&gt;Ryan on YouTube&lt;/a&gt;. Some of his hacks were very useful so I&amp;rsquo;ve taken some of those on board, but i&amp;rsquo;ve made a lot of the variables more self-explanatory.&lt;/p&gt;
 
@@ -114,7 +116,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;initialisation&#34;&gt; Initialisation &lt;/h3&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: &lt;code&gt;numNodes&lt;/code&gt;. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.&lt;/p&gt;
 
@@ -180,7 +182,7 @@ self._layerOutput = []
 
 &lt;h3 id=&#34;forwardpass&#34;&gt; Forward Pass &lt;/h3&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).&lt;/p&gt;
 
@@ -254,7 +256,7 @@ self._layerOutput.append(sigmoid(layerInput))
 
 &lt;h3 id=&#34;backprop&#34;&gt;Back Propagation&lt;/h3&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights &lt;strong&gt;and&lt;/strong&gt; we&amp;rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:&lt;/p&gt;
 
@@ -386,7 +388,7 @@ for index in reversed(range(self.numLayers)):
 
 &lt;h2 id=&#34;testing&#34;&gt; A Toy Example&lt;/h2&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py &lt;a href=&#34;/docs/simpleNN.py&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 
@@ -418,7 +420,7 @@ for i in range(Input.shape[0]):
 
 &lt;h2 id=&#34;iterating&#34;&gt; Iterating &lt;/h2&gt;
 
-&lt;p&gt;[To contents][100]&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Iteration is very straight forward. We just tell our algorithm to repeat a maximum of &lt;code&gt;maxIterations&lt;/code&gt; times or until the &lt;code&gt;Error&lt;/code&gt; is below &lt;code&gt;minError&lt;/code&gt; (whichever comes first). As the weights are stored internally within &lt;code&gt;NN&lt;/code&gt; every time we call the &lt;code&gt;backProp&lt;/code&gt; method, it uses the latest, internally stored weights and doesn&amp;rsquo;t start again - the weights are only initialised once upon creation of &lt;code&gt;NN&lt;/code&gt;.&lt;/p&gt;
 
