@@ -296,7 +296,7 @@
 
 <p><a href="#toctop">To contents</a></p>
 
-<p>We&rsquo;ve <a href="/post/neuralnetwork">ploughed through the maths</a>, then <a href="/post/nn-more-math">some more</a>, now we&rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&hellip;) we&rsquo;re only going to use numpy!</p>
+<p>We&rsquo;ve <a href="/post/neuralnetwork">ploughed through the maths</a>, then <a href="/post/nn-more-maths">some more</a>, now we&rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&hellip;) we&rsquo;re only going to use numpy!</p>
 
 <p>By the end of this tutorial, we will have built an algorithm which will create a neural network with as many layers (and nodes) as we want. It will be trained by taking in multiple training examples and running the back propagation algorithm many times.</p>
 
@@ -468,7 +468,7 @@ self._layerOutput = []
 
 <p>Let&rsquo;s break this down:</p>
 
-<p>Our training example inputs need to match the weights that we&rsquo;ve already created. We expect that our examples will come in rows of an array with columns acting as features, something like <code>[(0,0), (0,1),(1,1),(1,0)]</code>. As we want to consider each input example separately, we can use numpy&rsquo;s <code>vstack</code> to put each of these examples one  behind the other (along the z-direction if you like).</p>
+<p>Our training example inputs need to match the weights that we&rsquo;ve already created. We expect that our examples will come in rows of an array with columns acting as features, something like <code>[(0,0), (0,1),(1,1),(1,0)]</code>. We can use numpy&rsquo;s <code>vstack</code> to put each of these examples one on top of the other.</p>
 
 <p>Each of the input examples is a matrix which will be multiplied by the weight matrix to get the input to the current layer:</p>
 
@@ -478,7 +478,7 @@ $$</div>
 
 <p>where $\mathbf{x_{J}}$ are the inputs to the layer $J$ and  $\mathbf{\vec{\mathcal{O}}_{I}}$ is the output from the precious layer (the input examples in this case).</p>
 
-<p>So given a set of $n$ input examples which is <code>(n x numInputNodes)</code> we <code>vstack</code> them so we just have <code>(1 x numInputNodes)</code>. We want to transpose this, <code>(numInputNodes x 1)</code> such that we can multiply by the weight matrix which is <code>(numOutputNodes x numInputNodes)</code>. This gives an input to the layer which is <code>(numOutputNodes x 1)</code> as we expect.</p>
+<p>So given a set of $n$ input examples we <code>vstack</code> them so we just have <code>(n x numInputNodes)</code>. We want to transpose this, <code>(numInputNodes x n)</code> such that we can multiply by the weight matrix which is <code>(numOutputNodes x numInputNodes)</code>. This gives an input to the layer which is <code>(numOutputNodes x n)</code> as we expect.</p>
 
 <p><strong>Note</strong> we&rsquo;re actually going to do the transposition first before doing the <code>vstack</code> - this does exactly the same thing, but it also allows us to more easily add the bias nodes in to each input.</p>
 
@@ -487,7 +487,7 @@ $$</div>
 <ol>
 <li>Transpose the inputs <code>input.T</code></li>
 <li>Add a row of ones to the bottom (one bias node for each input) <code>[input.T, np.ones([1,numExamples])]</code></li>
-<li><code>vstack</code> this to get each example on a different level <code>np.vstack(...)</code></li>
+<li><code>vstack</code> this to compact the array <code>np.vstack(...)</code></li>
 <li>Multipy with the weights connecting from the previous to the current layer <code>self.weights[0].dot(...)</code></li>
 </ol>
 
