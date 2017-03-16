@@ -14,7 +14,10 @@
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
       
       <guid>/post/nn-in-python/</guid>
-      <description>&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)
+&lt;/p&gt;
+
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
@@ -448,8 +451,7 @@ Input 	Output 		Target
 
 &lt;p&gt;Much better! The error is very small and the outputs are very close to the correct value. However, they&amp;rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;</description>
     </item>
     
   </channel>

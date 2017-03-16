@@ -15,7 +15,10 @@
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
       
       <guid>/post/nn-in-python/</guid>
-      <description>&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)
+&lt;/p&gt;
+
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
@@ -449,8 +452,7 @@ Input 	Output 		Target
 
 &lt;p&gt;Much better! The error is very small and the outputs are very close to the correct value. However, they&amp;rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -459,7 +461,11 @@ Input 	Output 		Target
       <pubDate>Mon, 13 Mar 2017 10:33:08 +0000</pubDate>
       
       <guid>/post/nn-more-maths/</guid>
-      <description>&lt;p&gt;So we&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;been through the maths&lt;/a&gt; of a neural network (NN) using back propagation and taken a look at the &lt;a href=&#34;/post/transfer-functions&#34;&gt;different activation functions&lt;/a&gt; that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!&lt;/p&gt;
+      <description>&lt;p&gt;The third in our series of tutorials on Simple Neural Networks. This time, we&amp;rsquo;re looking a bit deeper into the maths, specifically focusing on vectorisation. This is an important step before we can translate our maths in a functioning script in Python.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;So we&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;been through the maths&lt;/a&gt; of a neural network (NN) using back propagation and taken a look at the &lt;a href=&#34;/post/transfer-functions&#34;&gt;different activation functions&lt;/a&gt; that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!&lt;/p&gt;
 
 &lt;h2 id=&#34;forwardprop&#34;&gt; Forward Propagation &lt;/h2&gt;
 
@@ -927,8 +933,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;nextsteps&#34;&gt; What&#39;s next? &lt;/h2&gt;
 
-&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;
-</description>
+&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -937,7 +942,9 @@ $$&lt;/div&gt;
       <pubDate>Wed, 08 Mar 2017 10:43:07 +0000</pubDate>
       
       <guid>/post/transfer-functions/</guid>
-      <description>
+      <description>&lt;p&gt;We&amp;rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;As promised in the previous post, we&amp;rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again &lt;strong&gt;please&lt;/strong&gt; let me know if there&amp;rsquo;s anything I&amp;rsquo;ve gotten totally wrong - I&amp;rsquo;m very much learning too.&lt;/p&gt;
 
@@ -1228,8 +1235,7 @@ $$&lt;/div&gt;
         out = np.ones(x.shape)
         out[(x &amp;lt; 0)]=0
         return out
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -1238,9 +1244,9 @@ $$&lt;/div&gt;
       <pubDate>Mon, 06 Mar 2017 17:04:53 +0000</pubDate>
       
       <guid>/post/neuralnetwork/</guid>
-      <description>&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+      <description>&lt;p&gt;This is the first part of a series of tutorials on Simple Neural Networks (NN). Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&amp;rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&amp;rsquo;ll give you a good unserstanding of what&amp;rsquo;s going on.  &lt;strong&gt;Please&lt;/strong&gt; let me know if any of the notation is incorrect or there are any mistakes - either comment or use the contact page on the left.&lt;/p&gt;
 
-&lt;p&gt;Tutorials on neural networks (NN) can be found all over the internet. Though many of them are the same, each is written (or recorded) slightly differently. This means that I always feel like I learn something new or get a better understanding of things with every tutorial I see. I&amp;rsquo;d like to make this tutorial as clear as I can, so sometimes the maths may be simplistic, but hopefully it&amp;rsquo;ll give you a good unserstanding of what&amp;rsquo;s going on. &lt;strong&gt;Please&lt;/strong&gt; let me know if any of the notation is incorrect or there are any mistakes - either comment or use the contact page on the left.&lt;/p&gt;
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;#nnarchitecture&#34;&gt;Neural Network Architecture&lt;/a&gt;&lt;/li&gt;
@@ -1633,8 +1639,7 @@ $$&lt;/div&gt;
 
 &lt;p&gt;This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &amp;lsquo;epoch&amp;rsquo; or run through of this algorithm.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Some of the ideas notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;em&gt;Some of the ideas notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1643,7 +1648,10 @@ $$&lt;/div&gt;
       <pubDate>Sat, 04 Mar 2017 17:21:15 +0000</pubDate>
       
       <guid>/post/webdesign/</guid>
-      <description>&lt;p&gt;I thought I&amp;rsquo;d give an overview of some of the wisdom I&amp;rsquo;ve gained from creating MLNotebook - my adventures in markdown&amp;hellip; and the rest!&lt;/p&gt;
+      <description>&lt;p&gt;So I&amp;rsquo;m quite a bit into getting MLNotebook setup and I&amp;rsquo;ve been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that&amp;rsquo;s what I can do for you here!
+&lt;/p&gt;
+
+&lt;p&gt;I thought I&amp;rsquo;d give an overview of some of the wisdom I&amp;rsquo;ve gained from creating MLNotebook - my adventures in markdown&amp;hellip; and the rest!&lt;/p&gt;
 
 &lt;h2 id=&#34;hugo&#34;&gt; Hugo &lt;/h2&gt;
 
@@ -1928,8 +1936,7 @@ MathJax.Hub.Config({
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/td&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;/td&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1938,7 +1945,8 @@ MathJax.Hub.Config({
       <pubDate>Wed, 01 Mar 2017 19:27:27 +0000</pubDate>
       
       <guid>/post/surface-distance-function/</guid>
-      <description>
+      <description>&lt;p&gt;Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&amp;rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&amp;rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).
+&lt;/p&gt;
 
 &lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
 
@@ -2074,8 +2082,7 @@ from scipy.ndimage import morphology
 
 &lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
 
-&lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2084,7 +2091,9 @@ from scipy.ndimage import morphology
       <pubDate>Wed, 01 Mar 2017 10:38:47 +0000</pubDate>
       
       <guid>/post/my-first-post/</guid>
-      <description>&lt;p&gt;This is the first post on the Machine Learning Notebook (MLN)!&lt;/p&gt;
+      <description>&lt;p&gt;This is the first post on the Machine Learning Notebook (MLN)! I&amp;rsquo;ll give a brief overview of what the site is for, how I&amp;rsquo;m constructing it and the kinds of things I&amp;rsquo;m learning along the way.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m a n00b when it comes to Github Pages and relatively new to working with Github at all! It took me a while to decide what platform to use for creating this humble resource. I was initially looking at writing everything in iPython notebooks, but it was confusing to figure out how to keep the scripts live rather than coverting them to static sites.&lt;/p&gt;
 
@@ -2102,8 +2111,7 @@ from scipy.ndimage import morphology
 &lt;pre&gt;&lt;code class=&#34;python&#34;
 &gt;def hello_world():
     print &amp;ldquo;Hello there!&amp;rdquo;
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

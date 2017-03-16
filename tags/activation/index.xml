@@ -14,7 +14,9 @@
       <pubDate>Wed, 08 Mar 2017 10:43:07 +0000</pubDate>
       
       <guid>/post/transfer-functions/</guid>
-      <description>
+      <description>&lt;p&gt;We&amp;rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;As promised in the previous post, we&amp;rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again &lt;strong&gt;please&lt;/strong&gt; let me know if there&amp;rsquo;s anything I&amp;rsquo;ve gotten totally wrong - I&amp;rsquo;m very much learning too.&lt;/p&gt;
 
@@ -305,8 +307,7 @@ $$&lt;/div&gt;
         out = np.ones(x.shape)
         out[(x &amp;lt; 0)]=0
         return out
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

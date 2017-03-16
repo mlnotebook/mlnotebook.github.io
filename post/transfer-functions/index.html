@@ -221,6 +221,16 @@
 </div>
 <div class="content">
 
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/brain2.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
   <div class="post-meta">
 
   <div>
@@ -266,21 +276,22 @@
   
   
   
-
-  
-
-<ul class="share-buttons">
-  <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
   <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
   <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
-  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li>
-</ul>
-	
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
   
 </div>
 
 
-  
+</div>
+
+</div>
+
+
+  <p>We&rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.</p>
+
+<p></p>
 
 <p>As promised in the previous post, we&rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again <strong>please</strong> let me know if there&rsquo;s anything I&rsquo;ve gotten totally wrong - I&rsquo;m very much learning too.</p>
 
@@ -572,7 +583,6 @@ $$</div>
         out[(x &lt; 0)]=0
         return out
 </code></pre>
-
 
   
 <div class="prev-next-post pure-g">

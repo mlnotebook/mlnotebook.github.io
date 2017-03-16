@@ -228,10 +228,24 @@
 <div class="content">
   
     <article>
+
   <header>
     <h2><a href="/post/surface-distance-function/">Surface Distance Function</a></h2>
 
-    <div class="post-meta">
+
+  </header>
+  
+<div class="summary_container">
+
+<div class="summary_image">
+
+<img class="summary_image" src="/img/brain.png">
+
+</div>
+
+  <div class="summary_text">
+
+  <div class="post-meta">
 
   <div>
     <i class="fa fa-calendar fa-fw"></i>
@@ -271,14 +285,18 @@
   
 </div>
 
-
-  </header>
-
+  
   <p>
-  Background Recently, I have been doing a lot of segmentation evaluation - seeing how good a segmentation done by a machine compares with one that&rsquo;s done manual, a &lsquo;ground truth&rsquo; (GT). Traditionally, such verification is done by comparing the overlap between the two e.g. Dice Simlarity Coefficient (DSC) [1]. There are a few different calculations that can be done (there&rsquo;ll be a longer post on just that) and &lsquo;surface distance&rsquo; calculations are one of them.
+  <p>Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).
+</p>
   </p>
+  
+  </div>
+
+  </div>
 
   
+
   <footer>
     <a href="/post/surface-distance-function/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
