@@ -8,6 +8,8 @@ social=true
 
 +++
 
+<div id="toctop"></div>
+
 1. [Introduction][11]
 2. [Transfer Function][12]
 2. [Back Propagation Class][13]
@@ -455,6 +457,8 @@ Input 	Output 		Target
 Much better! The error is very small and the outputs are very close to the correct value. However, they're note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.
 
 **Please** let me know if anything is unclear, or there are mistakes. Let me know how you get on!
+
+[100]:{{< relref "#toctop" >}}
 
 [1]: /post/neuralnetwork
 [2]: /post/nn-more-math
