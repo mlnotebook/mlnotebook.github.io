@@ -9,6 +9,222 @@
     <atom:link href="/tags/neural-network/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>A Simple Neural Network - Simple Performance Improvements</title>
+      <link>/post/nn-python-tweaks/</link>
+      <pubDate>Fri, 17 Mar 2017 08:53:55 +0000</pubDate>
+      
+      <guid>/post/nn-python-tweaks/</guid>
+      <description>&lt;p&gt;The 5th installment of our tutorial on implementing a neural network (NN) in Python. By the end of this tutorial, our NN should perform much more efficiently giving good results with fewer iterations. We will do this by implementing &amp;ldquo;momentum&amp;rdquo; into our network. We will also put in the other transfer functions for each layer.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentum&#34;&gt;Momentum&lt;/a&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumbackground&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumpython&#34;&gt;Momentum in Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumtesting&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunctions&#34;&gt;Transfer Functions&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve come so far! The intial &lt;a href=&#34;/post/neuralnetwork&#34;&gt;maths&lt;/a&gt; was a bit of a slog, as was the &lt;a href=&#34;/post/nn-more-maths&#34;&gt;vectorisation&lt;/a&gt; of that maths, but it was important to be able to implement our NN in Python which we did in our &lt;a href=&#34;/post/nn-in-python&#34;&gt;previous post&lt;/a&gt;. So what now? Well, you may have noticed when running the NN as it stands that it isn&amp;rsquo;t overly quick, depening on the randomly initialised weights, it may take the network the full number of &lt;code&gt;maxIterations&lt;/code&gt; to converge, and then it may not converge at all! But there is something we can do about it. Let&amp;rsquo;s learn about, and implement, &amp;lsquo;momentum&amp;rsquo;.&lt;/p&gt;
+
+&lt;h2 id=&#34;momentum&#34;&gt; Momentum &lt;/h2&gt;
+
+&lt;h3 id=&#34;momentumbackground&#34;&gt; Background &lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s revisit our equation for error in the NN:&lt;/p&gt;
+
+&lt;div id=&#34;eqerror&#34;&gt;$$
+\text{E} = \frac{1}{2} \sum_{k \in K} \left( \mathcal{O}_{k} - t_{k} \right)^{2}
+$$&lt;/div&gt;
+
+&lt;p&gt;This isn&amp;rsquo;t the only error function that could be used. In fact, there&amp;rsquo;s a whole field of study in NN about the best error or &amp;lsquo;optimisation&amp;rsquo; function that should be used. This one tries to look at the sum of the squared-residuals between the outputs and the expected values at the end of each forward pass (the so-called $l_{2}$-norm). Others e.g. $l_{1}$-norm, look at minimising the sum of the absolute differences between the values themselves. There are more complex error (a.k.a. optimisation or cost) functions, for example those that look at the cross-entropy in the data. There may well be a post in the future about different cost-functions, but for now we will still focus on the equation above.&lt;/p&gt;
+
+&lt;p&gt;Now this function is described as a &amp;lsquo;convex&amp;rsquo; function. This is an important property if we are to make our NN converge to the correct answer. Take a look at the two functions below:&lt;/p&gt;
+
+&lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;convex&#34; src=&#34;/img/simpleNN/convex.png&#34; width=&#34;35%&#34; hspace=&#34;10px&#34;&gt;&lt;img title=&#34;non-convex&#34; src=&#34;/img/simpleNN/non-convex.png&#34; width=&#34;35%&#34; hspace=&#34;10px&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: A convex (left) and non-convex (right) cost function
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say that our current error was represented by the green ball. Our NN will calculate the gradient of its cost function at this point then look for the direction which is going to &lt;em&gt;minimise&lt;/em&gt; the error i.e. go down a slope. The NN will feed the result into the back-propagation algorithm which will hopefully mean that on the next iteration, the error will have decreased. For a &lt;em&gt;convex&lt;/em&gt; function, this is very straight forward, the NN just needs to keep going in the direction it found on the first run. But, look at the &lt;em&gt;non-convex&lt;/em&gt; or &lt;em&gt;stochastic&lt;/em&gt; function: our current error (green ball) sits at a point where either direction will take it to a lower error i.e. the gradient decreases on both sides. If the error goes to the left, it will hit &lt;strong&gt;one&lt;/strong&gt; of the possible minima of the function, but this will be a higher minima (higher final error) than if the error had chosen the gradient to the right. Clearly the starting point for the error here has a big impact on the final result. Looking down at the 2D perspective (remembering that these are complex multi-dimensional functions), the non-convex case is clearly more ambiguous in terms of the location of the minimum and direction of descent. The convex function, however, nicely guides the error to the minimum with little care of the starting point.&lt;/p&gt;
+
+&lt;div  id=&#34;fig2&#34; class=&#34;figure_container&#34;&gt;
+        &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;convexcontour&#34; src=&#34;/img/simpleNN/convexcontourarrows.png&#34; width=&#34;35%&#34; hspace=&#34;10px&#34;&gt;&lt;img title=&#34;non-convexcontour&#34; src=&#34;/img/simpleNN/nonconvexcontourarrows.png&#34; width=&#34;35%&#34; hspace=&#34;10px&#34;&gt;
+        &lt;/div&gt;
+        &lt;div class=&#34;figure_caption&#34;&gt;
+            &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: Contours for a portion of the convex (left) and non-convex (right) cost function
+        &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So let&amp;rsquo;s focus on the convex case and explain what &lt;em&gt;momentum&lt;/em&gt; is and why it works. I don&amp;rsquo;t think you&amp;rsquo;ll ever see a back propagation algorithm without momentum implemented in some way. In its simplest form, it modifies the weight-update equation:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{ \Delta W_{JK} = -\eta \vec{\delta}_{K} \vec{ \mathcal{O}_{J}}}
+$$&lt;/div&gt;
+
+&lt;p&gt;by adding an extra &lt;em&gt;momentum&lt;/em&gt; term:&lt;/p&gt;
+
+&lt;div&gt;$$
+\mathbf{ \Delta W_{JK}\left(t\right) = -\eta \vec{\delta}_{K} \vec{ \mathcal{O}_{J}}} + m \mathbf{\Delta W_{JK}\left(t-1\right)}
+$$&lt;/div&gt;
+
+&lt;p&gt;The weight delta (the update amount to the weights after BP) now relies on its &lt;em&gt;previous&lt;/em&gt; value i.e. the weight delta now at iteration $t$ requires the value of itself from $t-1$. The $m$ or momentum term, like the learning rate $\eta$ is just a small number between 0 and 1. What effect does this have?&lt;/p&gt;
+
+&lt;p&gt;Using prior information about the network is beneficial as it stops the network firing wildly into the unknown. If it can know the previous weights that have given the current error, it can keep the descent to the minimum roughly pointing in the same direction as it was before. The effect is that each iteration does not jump around so much as it would otherwise. In effect, the result is similar to that of the learning rate. We should be careful though, a large value for $m$ may cause the result to jump past the minimum and back again if combined with a large learning rate. We can think of momentum as changing the path taken to the optimum.&lt;/p&gt;
+
+&lt;h3 id=&#34;momentumpython&#34;&gt; Momentum in Python &lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;So, implementing momentum into our NN should be pretty easy. We will need to provide a momentum term to the &lt;code&gt;backProp&lt;/code&gt; method of the NN and also create a new matrix in which to store the weight deltas from the current epoch for use in the subsequent one.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;code&gt;__init__&lt;/code&gt; method of the NN, we need to initialise the previous weight matrix and then give them some  values - they&amp;rsquo;ll start with zeros:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def __init__(self, numNodes):
+	&amp;quot;&amp;quot;&amp;quot;Initialise the NN - setup the layers and initial weights&amp;quot;&amp;quot;&amp;quot;
+
+	# Layer info
+	self.numLayers = len(numNodes) - 1
+	self.shape = numNodes 
+
+	# Input/Output data from last run
+	self._layerInput = []
+	self._layerOutput = []
+	self._previousWeightDelta = []
+
+	# Create the weight arrays
+	for (l1,l2) in zip(numNodes[:-1],numNodes[1:]):
+	    self.weights.append(np.random.normal(scale=0.1,size=(l2,l1+1))) 
+	    self._previousWeightDelta.append(np.zeros((l2,l1+1)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The only other part of the NN that needs to change is the definition of &lt;code&gt;backProp&lt;/code&gt; adding momentum to the inputs, and updating the weight equation. Finally, we make sure to save the current weights into the previous-weight matrix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def backProp(self, input, target, trainingRate = 0.2, momentum=0.5):
+	&amp;quot;&amp;quot;&amp;quot;Get the error, deltas and back propagate to update the weights&amp;quot;&amp;quot;&amp;quot;
+	...
+	weightDelta = trainingRate * thisWeightDelta + momentum * self._previousWeightDelta[index]
+
+	self.weights[index] -= weightDelta
+
+	self._previousWeightDelta[index] = weightDelta
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;momentumtesting&#34;&gt; Testing &lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Our default values for learning rate and momentum are 0.2 and 0,5 respectively. We can change either of these by including them in the call to &lt;code&gt;backProp&lt;/code&gt;. Thi is the only change to the iteration process:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;for i in range(maxIterations + 1):
+    Error = NN.backProp(Input, Target, learningRate=0.2, momentum=0.5)
+    if i % 2500 == 0:
+        print(&amp;quot;Iteration {0}\tError: {1:0.6f}&amp;quot;.format(i,Error))
+    if Error &amp;lt;= minError:
+        print(&amp;quot;Minimum error reached at iteration {0}&amp;quot;.format(i))
+        break
+        
+Iteration 100000	Error: 0.000076
+Input 	Output 		Target
+[0 0]	 [ 0.00491572] 	[ 0.]
+[1 1]	 [ 0.00421318] 	[ 0.]
+[0 1]	 [ 0.99586268] 	[ 1.]
+[1 0]	 [ 0.99586257] 	[ 1.]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Feel free to play around with these numbers, however, it would be unlikely that much would change right now. I say this beacuse there is only so good that we can get when using only the sigmoid function as our activation function. If you go back and read the post on &lt;a href=&#34;/post/transfer-functions&#34;&gt;transfer functions&lt;/a&gt; you&amp;rsquo;ll see that it&amp;rsquo;s more common to use &lt;em&gt;linear&lt;/em&gt; functions for the output layer. As it stands, the sigmoid function is unable to output a 1 or a 0 because it is asymptotic at these values. Therefore, no matter what learning rate or momentum we use, the network will never be able to get the best output.&lt;/p&gt;
+
+&lt;p&gt;This seems like a good time to implement the other transfer functions.&lt;/p&gt;
+
+&lt;h3 id=&#34;transferfunctions&#34;&gt; Transfer Functions &lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ve already gone through writing the transfer functions in Python in the &lt;a href=&#34;/post/transfer-functions&#34;&gt;transfer functions&lt;/a&gt; post. We&amp;rsquo;ll just put these under the sigmoid function we defined earlier. I&amp;rsquo;m going to use &lt;code&gt;sigmoid&lt;/code&gt;, &lt;code&gt;linear&lt;/code&gt;, &lt;code&gt;gaussian&lt;/code&gt; and &lt;code&gt;tanh&lt;/code&gt; here.&lt;/p&gt;
+
+&lt;p&gt;To modify the network, we need to assign each layer its own activation function, so let&amp;rsquo;s put that in the &amp;lsquo;layer information&amp;rsquo; part of the &lt;code&gt;__init__&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def __init__(self, layerSize, transferFunctions=None):
+	&amp;quot;&amp;quot;&amp;quot;Initialise the Network&amp;quot;&amp;quot;&amp;quot;
+
+	# Layer information
+	self.numLayers = len(numLayers) - 1
+	self.shape = numNodes
+	
+	if transferFunctions is None:
+	    layerTFs = []
+	    for i in range(self.numLayers):
+		if i == self.numLayers - 1:
+		    layerTFs.append(linear)
+		else:
+		    layerTFs.append(sigmoid)
+	else:
+            if len(numNodes) != len(transferFunctions):
+                raise ValueError(&amp;quot;Number of transfer functions must match the number of layers: minus input layer&amp;quot;)
+            elif transferFunctions[0] is not None:
+                raise ValueError(&amp;quot;The Input layer doesn&#39;t need a a transfer function: give it [None,...]&amp;quot;)
+            else:
+                layerTFs = transferFunctions[1:]
+		
+	self.tFunctions = layerTFs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s go through this. We input into the initialisation a parameter called &lt;code&gt;transferFunctions&lt;/code&gt; with a default value of &lt;code&gt;None&lt;/code&gt;. If the default it taken, or if the parameter is ommitted, we set some defaults. for each layer, we use the &lt;code&gt;sigmoid&lt;/code&gt; function, unless its the output layer where we will use the &lt;code&gt;linear&lt;/code&gt; function. If a list of &lt;code&gt;transferFunctions&lt;/code&gt; is given, first, check that it&amp;rsquo;s a &amp;lsquo;legal&amp;rsquo; input. If the number of functions in the list is not the same as the number of layers (given by &lt;code&gt;numNodes&lt;/code&gt;) then throw an error. Also, if the first function in the list is not &lt;code&gt;&amp;quot;None&amp;quot;&lt;/code&gt; throw an error, because the first layer shouldn&amp;rsquo;t have an activation function (it is the input layer). If those two things are fine, go ahead and store the list of functions as &lt;code&gt;layerTFs&lt;/code&gt; without the first (element 0) one.&lt;/p&gt;
+
+&lt;p&gt;We next need to replace all of our calls directly to &lt;code&gt;sigmoid&lt;/code&gt; and its derivative. These should now refer to the list of functions via an &lt;code&gt;index&lt;/code&gt; that depends on the number of the current layer. There are 3 instances of this in our NN: 1 in the forward pass where we call &lt;code&gt;sigmoid&lt;/code&gt; directly, and 2 in the &lt;code&gt;backProp&lt;/code&gt; method where we call the derivative at the output and hidden layers. so &lt;code&gt;sigmoid(layerInput)&lt;/code&gt; for example should become:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;self.tFunctions[index](layerInput)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Check the updated code &lt;a href=&#34;/docs/simpleNN-improvements.py&#34;&gt;here&lt;/a&gt; if that&amp;rsquo;s confusing.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s test this out! We&amp;rsquo;ll modify the call to initialising the NN by adding a list of functions like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;Input = np.array([[0,0],[1,1],[0,1],[1,0]])
+Target = np.array([[0.0],[0.0],[1.0],[1.0]])
+transferFunctions = [None, sigmoid, linear]
+    
+NN = backPropNN((2,2,1), transferFunctions)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Running the NN like this with the default learning rate and momentum should provide you with an immediate performance boost simply becuase with the &lt;code&gt;linear&lt;/code&gt; function we&amp;rsquo;re now able to get closer to the target values, reducing the error.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;Iteration 0	Error: 1.550211
+Iteration 2500	Error: 1.000000
+Iteration 5000	Error: 0.999999
+Iteration 7500	Error: 0.999999
+Iteration 10000	Error: 0.999995
+Iteration 12500	Error: 0.999969
+Minimum error reached at iteration 14543
+Input 	Output 		Target
+[0 0]	 [ 0.0021009] 	[ 0.]
+[1 1]	 [ 0.00081154] 	[ 0.]
+[0 1]	 [ 0.9985881] 	[ 1.]
+[1 0]	 [ 0.99877479] 	[ 1.]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Play around with the number of layers and different combinations of transfer functions as well as tweaking the learning rate and momentum. You&amp;rsquo;ll soon get a feel for how each changes the performance of the NN.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>A Simple Neural Network - With Numpy in Python</title>
       <link>/post/nn-in-python/</link>
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
