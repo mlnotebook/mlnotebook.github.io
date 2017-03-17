@@ -9,10 +9,11 @@
 <div class="summary_container">
 
 <div class="summary_image">
-
+<a href="{{ .Permalink }}">
 {{ if isset .Params "featured_image" }}
 {{ with .Params.featured_image }}<img class="featured_image" src="{{ . }}">{{ end }}{{else}}<img class="summary_image" src="/img/brain.png">
 {{ end }}
+</a>
 </div>
 
   <div class="summary_text">
