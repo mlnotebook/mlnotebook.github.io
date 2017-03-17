@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/post/nn-python-tweaks/</loc>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/nn-in-python/</loc>
     <lastmod>2017-03-15T09:55:00+00:00</lastmod>
   </url>
@@ -136,7 +141,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -165,20 +170,26 @@
   </url>
   
   <url>
+    <loc>/tags/momentum/</loc>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/neural-network/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/numpy/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -190,7 +201,7 @@
   
   <url>
     <loc>/tags/python/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -248,13 +259,13 @@
   
   <url>
     <loc>/tags/transfer-function/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/topics/tutorial/</loc>
-    <lastmod>2017-03-15T09:55:00+00:00</lastmod>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
