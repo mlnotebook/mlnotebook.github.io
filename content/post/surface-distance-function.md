@@ -130,7 +130,13 @@ Or in Python:
     hd  = surface_distance.max()
 </code></pre>
 
+The full function can be found here: [surfaceDistanceFunction.py][2]
+
+[2]: /docs/surfaceDistanceFunction.py
+
+
 ---
 ### References
 
 [1] 	Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. https://doi.org/10.2307/1932409
+
