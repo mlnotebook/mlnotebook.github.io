@@ -238,9 +238,10 @@
 <div class="summary_container">
 
 <div class="summary_image">
-
+<a href="/post/webdesign/">
 
 <img class="featured_image" src="/img/featured_hugo.png">
+</a>
 </div>
 
   <div class="summary_text">
