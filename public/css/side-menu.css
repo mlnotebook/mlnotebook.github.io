@@ -29,11 +29,11 @@ This is the parent `<div>` that contains the menu and the content area.
 }
     #layout.active #menu {
         left: 150px;
-        width: 150px;
+        width: 175px;
     }
 
     #layout.active .menu-link {
-        left: 150px;
+        left: 175px;
     }
 /*
 The content `<div>` is where all your content goes.
@@ -79,8 +79,8 @@ appears on the left side of the page.
 */
 
 #menu {
-    margin-left: -150px; /* "#menu" width */
-    width: 150px;
+    margin-left: -175px; /* "#menu" width */
+    width: 175px;
     position: fixed;
     top: 0;
     left: 0;
@@ -89,6 +89,7 @@ appears on the left side of the page.
     background: #191818;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    font-size:21px;
 }
     /*
     All anchors inside the menu should be styled like this.
@@ -135,6 +136,7 @@ appears on the left side of the page.
         */
         #menu .pure-menu-selected a {
             color: #fff;
+            
         }
 
     /*
@@ -144,6 +146,7 @@ appears on the left side of the page.
         font-size: 110%;
         color: #fff;
         margin: 0;
+        
     }
 
 /* -- Dynamic Button For Responsive Menu -------------------------------------*/
@@ -219,7 +222,7 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         left: 0;
     }
     #menu {
-        left: 150px;
+        left: 10px;
     }
 
     .menu-link {
