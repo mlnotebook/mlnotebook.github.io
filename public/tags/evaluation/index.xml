@@ -147,6 +147,8 @@ from scipy.ndimage import morphology
     hd  = surface_distance.max()
 &lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
 
+&lt;p&gt;The full function can be found here: &lt;a href=&#34;/docs/surfaceDistanceFunction.py&#34;&gt;surfaceDistanceFunction.py&lt;/a&gt;&lt;/p&gt;
+
 &lt;hr /&gt;
 
 &lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
