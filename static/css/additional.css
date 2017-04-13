@@ -220,28 +220,39 @@ code.has-jax {
 
 .blog-container{
 text-align: center;
-
+border: 1px black solid;
 }
 
 
 .left-blog-content {
-display: inline-block;
-max-width: 725px;
+width:auto;
+
 text-align: left;
 vertical-align:top;
-
+border: 1px black solid;
+float:left;
 }
 
 .right-blog-content {
-display: inline-block;
+
 max-width:350px;
 text-align: center;
 float:right;
-
+border: 1px black solid;
 }
 
+td {
+border: 1px red solid;
+width:70%;
+}
 
+td:second-child {
+background-image: '/img/CNN/originDLpaper.png';
+background-repeat: no-repeat;
+background-size: cover;
+background-position: 50%;
 
+}
 
 @media screen and (max-width: 600px) {
 
@@ -293,6 +304,7 @@ pre > code {
 .left-blog-content, .right-blog-content{
 max-width:100%;
 }
+
 
 }
 
