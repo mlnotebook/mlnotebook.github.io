@@ -29,8 +29,8 @@ Dispite the differences between these applications and the ever-increasing sophi
 
 <h2 id="deep">  CNN or Deep Learning? </h2>
 
-<div style="width:100%;">
-<div style="width:70%; display:inline-block;">
+<div class="blog-container"">
+<div class="left-blog-content">
 <p>
 You would be forgiven for thinking that Deep Learning (DL) takes its name from the number of layers in a neural network, but the root is a little more complex than that. In fact, some powerful neural networks, even CNNs, only consist of a few layers. The 'deep' in DL acknowledges that each layer of the network has 'layers' of its own. More on this later.
 </p><p>
@@ -41,7 +41,7 @@ We won't delve too deeply into history or mathematics in this tutorial, but if y
 As with the study of neural networks, the inspiration for CNNs came from nature: specifically, the visual cortex. It drew upon the idea that the neurons in the visual cortex focus upon different sized patches of an image getting different levels of information in different layers. If a computer could be programmed to work in this way, it may be able to mimic the image-recognition power of the brain. So how can this be done?
 </p>
 </div>
-<div style="width:25%; display:inline-block; float:right;">
+<div class="right-blog-content">
 <a href="https://t.co/aAw4rEpZEt"><img title="Origin Paper" src="/img/CNN/originDLpaper.png" width=330></a>
 </div>
 </div>
