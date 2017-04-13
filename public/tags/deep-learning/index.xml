@@ -73,12 +73,12 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 
 &lt;p&gt;We can use a kernel, or set of weights, like the ones below.&lt;/p&gt;
 
-&lt;div style=&#34;width:100%;margin:auto; text-align:center;&#34;&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:20%; margin:auto;&#34;&gt;
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:49%; margin:auto;min-width:155px;&#34;&gt;
 &lt;img title=&#34;Horizontal Filter&#34; height=150 src=&#34;/img/CNN/horizFilter.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Finds horizontals&lt;/b&gt;
 &lt;/div&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:20%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; min-width:150px;display:inline-block; width:49%;margin:auto;&#34;&gt;
 &lt;img title=&#34;Vertical Filter&#34; height=150 src=&#34;/img/CNN/vertFilter.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Finds verticals&lt;/b&gt;
 &lt;/div&gt;
@@ -94,11 +94,11 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;p&gt;The kernel is moved over by one pixel and this process is repated until all of the possible locations in the image are filtered as below, this time for the horizontal Sobel filter. Notice that there is a border of empty values around the convolved image. This is because the result of convolution is placed at the centre of the kernel. To deal with this, a process called &amp;lsquo;padding&amp;rsquo; or more commonly &amp;lsquo;zero-padding&amp;rsquo; is used. This simply means that a border of zeros is places around the original image to make it a pixel wider all around. The convolution is then done as normal, but the convolution result will now produce an image that is of equal size to the original.&lt;/p&gt;
 
 &lt;div style=&#34;width:100%;margin:auto; text-align:center;&#34;&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:45%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:45%;min-width:455px;margin:auto;&#34;&gt;
 &lt;img title=&#34;Sobel Conv Gif&#34; height=&#34;450&#34; src=&#34;/img/CNN/convSobel.gif&#34;&gt;&lt;br&gt;
 &lt;b&gt;The kernel is moved over the image performing the convolution as it goes.&lt;/b&gt;
 &lt;/div&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:45%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:45%;min-width:450px;margin:auto;&#34;&gt;
 &lt;img title=&#34;Zero Padding Conv&#34; height=&#34;450&#34; src=&#34;/img/CNN/convZeros.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Zero-padding is used so that the resulting image doesn&#39;t shrink.&lt;/b&gt;
 &lt;/div&gt;
@@ -114,15 +114,15 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;p&gt;This dummy example could represent the very bottom left edge of the Android&amp;rsquo;s head and doesn&amp;rsquo;t really look like it&amp;rsquo;s detected anything. To see the proper effect, we need to scale this up so that we&amp;rsquo;re not looking at individual pixels. Performing the horizontal and vertical sobel filtering on the full 264 x 264 image gives:&lt;/p&gt;
 
 &lt;div style=&#34;width:100%;margin:auto; text-align:center;&#34;&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:30%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; min-width:100px;margin:auto;&#34;&gt;
 &lt;img title=&#34;Horizontal Sobel&#34; src=&#34;/img/CNN/horiz.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Horizontal Sobel&lt;/b&gt;
 &lt;/div&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:30%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; margin:auto;min-width:100px&#34;&gt;
 &lt;img title=&#34;Vertical Sobel&#34; src=&#34;/img/CNN/vert.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Vertical Sobel&lt;/b&gt;
 &lt;/div&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:30%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block;margin:auto;min-width:100px&#34;&gt;
 &lt;img title=&#34;Full Sobel&#34; src=&#34;/img/CNN/both.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Combined Sobel&lt;/b&gt;
 &lt;/div&gt;  
@@ -139,11 +139,11 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;p&gt;We&amp;rsquo;ve already said that each of these numbers in the kernel is a weight, and that weight is the connection between the feature of the input image and the node of the hidden layer. The kernel is swept across the image and so there must be as many hidden nodes as there are input nodes (well actually slightly fewer as we should add zero-padding to the input image). This means that the hidden layer is also 2D like the input image. Sometimes, instead of moving the kernel over one pixel at a time, the &lt;strong&gt;stride&lt;/strong&gt;, as it&amp;rsquo;s called, can be increased. This will result in fewer nodes or fewer pixels in the convolved image. Consider it like this:&lt;/p&gt;
 
 &lt;div style=&#34;width:100%;margin:auto; text-align:center;&#34;&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:45%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block;margin:auto;min-width:300px;&#34;&gt;
 &lt;img title=&#34;Hidden Layer Nodes&#34; height=300 src=&#34;/img/CNN/hiddenLayer.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Hidden Layer Nodes in a CNN&lt;/b&gt;
 &lt;/div&gt;  
-&lt;div style=&#34;text-align:center; display:inline-block; width:45%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block;margin:auto;min-width:300px&#34;&gt;
 &lt;img title=&#34;Hidden Layer after Increased Stride&#34; height=225 src=&#34;/img/CNN/strideHidden.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Increased stride means fewer hidden-layer nodes&lt;/b&gt;
 &lt;/div&gt;  
@@ -156,11 +156,11 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;p&gt;* &lt;em&gt;Note: we&amp;rsquo;ll talk more about the receptive field after looking at the pooling layer below&lt;/em&gt;&lt;/p&gt;
 
 &lt;div style=&#34;width:100%;margin:auto; text-align:center;&#34;&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:45%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block;margin:auto;min-width:100px&#34;&gt;
 &lt;img title=&#34;Multiple Kernel Hidden Layer&#34; height=350 src=&#34;/img/CNN/deepConv.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;For a 2D image learning a set of kernels.&lt;/b&gt;
 &lt;/div&gt;
-&lt;div style=&#34;text-align:center; display:inline-block; width:45%;margin:auto;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block;margin:auto;min-width:100px&#34;&gt;
 &lt;img title=&#34;3 Channel Image&#34; height=350 src=&#34;/img/CNN/deepConv3.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;For a 3 channel RGB image the kernel becomes 3D.&lt;/b&gt; 
 &lt;/div&gt;
