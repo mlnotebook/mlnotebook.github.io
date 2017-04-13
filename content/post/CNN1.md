@@ -2,7 +2,6 @@
 description = "An Introduction to CNNs and Deep Learning"
 topics = ["tutorial"]
 tags = ["CNN", "neural network", "convolution", "kernel", "deep learning"]
-draft = true
 date = "2017-04-07T09:46:56+01:00"
 title = "Convolutional Neural Networks - Basics"
 social= true
