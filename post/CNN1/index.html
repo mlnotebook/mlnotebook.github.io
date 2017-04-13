@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An Introduction to CNNs and Deep Learning">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>Convolutional Neural Networks - Basics &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Convolutional Neural Networks - Basics</h1>
+  <h2>An Introduction to CNNs and Deep Learning</h2>
+</div>
+<div class="content">
+
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/featCNN1.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>07 Apr 2017, 09:46</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/cnn">CNN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/neural-network">neural network</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/convolution">convolution</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/kernel">kernel</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/deep-learning">deep learning</a>
+    
+  </div>
+  
+  
+  
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
+  
+</div>
+
+
+</div>
+
+</div>
+
+
+  <p>This series will give some background to CNNs, their architecture, coding and tuning. In particular, this tutorial covers some of the background to CNNs and Deep Learning. We won&rsquo;t go over any coding in this session, but that will come in the next one. What&rsquo;s the big deal about CNNs? What do they look like? Why do they work? Find out in this tutorial.</p>
+
+<p></p>
+
+<h2 id="intro">  Introduction </h2>
+
+<p>A convolutional neural network (CNN) is very much related to the standard NN we&rsquo;ve previously encountered. I found that when I searched for the link between the two, there seemed to be no natural progression from one to the other in terms of tutorials. It would seem that CNNs were developed in the late 1980s and then forgotten about due to the lack of processing power. In fact, it wasn&rsquo;t until the advent of cheap, but powerful GPUs (graphics cards) that the research on CNNs and Deep Learning in general was given new life. Thus you&rsquo;ll find an explosion of papers on CNNs in the last 3 or 4 years.</p>
+
+<p>Nonetheless, the research that has been churned out is <em>powerful</em>. CNNs are used in so many applications now:</p>
+
+<ul>
+<li>Object recognition in images and videos (think image-search in Google, tagging friends faces in Facebook, adding filters in Snapchat and tracking movement in Kinect)</li>
+<li>Natural language processing (speech recognition in Google Assistant or Amazon&rsquo;s Alexa)</li>
+<li>Playing games (the recent <a href="https://en.wikipedia.org/wiki/AlphaGo" title="AlphaGo on Wiki">defeat of the world &lsquo;Go&rsquo; champion</a> by DeepMind at Google)</li>
+<li>Medical innovation (from drug discovery to prediction of disease)</li>
+</ul>
+
+<p>Dispite the differences between these applications and the ever-increasing sophistication of CNNs, they all start out in the same way. Let&rsquo;s take a look.</p>
+
+<h2 id="deep">  CNN or Deep Learning? </h2>
+
+<div class="blog-container"">
+<div class="left-blog-content">
+<p>
+You would be forgiven for thinking that Deep Learning (DL) takes its name from the number of layers in a neural network, but the root is a little more complex than that. In fact, some powerful neural networks, even CNNs, only consist of a few layers. The 'deep' in DL acknowledges that each layer of the network has 'layers' of its own. More on this later.
+</p><p>
+Often you may see a conflation of CNNs with DL, but the concept of DL comes some time before CNNs were first introduced. Connecting multiple neural networks together, altering the directionality of their weights and stacking such machines all gave rise to the increasing power and popularity of DL.
+</p><p>
+We won't delve too deeply into history or mathematics in this tutorial, but if you want to know the timeline of DL in more detail, I'd suggest the paper "On the Origin of Deep Learning" (Wang and Raj 2016) available <a href="https://t.co/aAw4rEpZEt" title="On the Origin of Deep Learning">here</a>. It's a lengthy read - 72 pages including references - but shows the logic between progressive steps in DL.
+</p><p>
+As with the study of neural networks, the inspiration for CNNs came from nature: specifically, the visual cortex. It drew upon the idea that the neurons in the visual cortex focus upon different sized patches of an image getting different levels of information in different layers. If a computer could be programmed to work in this way, it may be able to mimic the image-recognition power of the brain. So how can this be done?
+</p>
+</div>
+<div class="right-blog-content">
+<a href="https://t.co/aAw4rEpZEt"><img title="Origin Paper" src="/img/CNN/originDLpaper.png" width=330></a>
+</div>
+</div>
+
+<p>A CNN takes as input an array, or image (2D or 3D, grayscale or colour) and tries to learn the relationship between this image and some target data e.g. a classification. By &lsquo;learn&rsquo; we are still talking about weights just like in a regular neural network. The difference in CNNs is that these weights connect small subsections of the input to each of the different neurons in the first layer. Fundamentally, there are multiple neurons in a single layer that each have their own weights to the same subsection of the input. These different sets of weights are called &lsquo;kernels&rsquo;.</p>
+
+<p>It&rsquo;s important at this stage to make sure we understand this weight or kernel business, because it&rsquo;s the whole point of the &lsquo;convolution&rsquo; bit of the CNN.</p>
+
+<h2 id="kernels"> Convolution and Kernels </h2>
+
+<p>Convolution is something that should be taught in schools along with addition, and multiplication - it&rsquo;s <a href="https://en.wikipedia.org/wiki/Convolution" title="Convolution on Wiki">just another mathematical operation</a>. Perhaps the reason it&rsquo;s not, is because it&rsquo;s a little more difficult to visualise.</p>
+
+<p>Let&rsquo;s say we have a pattern or a stamp that we want to repeat at regular intervals on a sheet of paper, a very convenient way to do this is to perform a convolution of the pattern with a regular grid on the paper. Think about hovering the stamp (or kernel) above the paper and moving it along a grid before pushing it into the page at each interval.</p>
+
+<p>This idea of wanting to repeat a pattern (kernel) across some domain comes up a lot in the realm of signal processing and computer vision. In fact, if you&rsquo;ve ever used a graphics package such as Photoshop, Inkscape or GIMP, you&rsquo;ll have seen many kernels before. The list of &lsquo;filters&rsquo; such as &lsquo;blur&rsquo;, &lsquo;sharpen&rsquo; and &lsquo;edge-detection&rsquo; are all done with a convolution of a kernel or filter with the image that you&rsquo;re looking at.</p>
+
+<p>For example, let&rsquo;s find the outline (edges) of the image &lsquo;A&rsquo;.</p>
+
+<div style="text-align:center; display:inline-block; width:100%; margin:auto;">
+<img title="Android" src="/img/CNN/android.png"><br>
+<b>A</b>
+</div>
+
+<p>We can use a kernel, or set of weights, like the ones below.</p>
+
+<div style="width:100%;margin:auto; text-align:center;">
+<div style="text-align:center; display:inline-block; width:20%; margin:auto;">
+<img title="Horizontal Filter" height=150 src="/img/CNN/horizFilter.png"><br>
+<b>Finds horizontals</b>
+</div>
+<div style="text-align:center; display:inline-block; width:20%;margin:auto;">
+<img title="Vertical Filter" height=150 src="/img/CNN/vertFilter.png"><br>
+<b>Finds verticals</b>
+</div>
+</div>
+
+<p>A kernel is placed in the top-left corner of the image. The pixel values covered by the kernel are multiplied with the corresponing kernel values and the products are summated. The result is placed in the new image at the point corresponding the centre of the kernel. An example for this first step is shown in the diagram below. This takes the vertical Sobel filter (used for edge-detection) and applies it to the pixels of the image.</p>
+
+<div style="text-align:center; display:inline-block; width:100%;margin:auto;">
+<img title="Conv Example" height="350" src="/img/CNN/convExample.png"><br>
+<b>A step in the Convolution Process.</b>
+</div>
+
+<p>The kernel is moved over by one pixel and this process is repated until all of the possible locations in the image are filtered as below, this time for the horizontal Sobel filter. Notice that there is a border of empty values around the convolved image. This is because the result of convolution is placed at the centre of the kernel. To deal with this, a process called &lsquo;padding&rsquo; or more commonly &lsquo;zero-padding&rsquo; is used. This simply means that a border of zeros is places around the original image to make it a pixel wider all around. The convolution is then done as normal, but the convolution result will now produce an image that is of equal size to the original.</p>
+
+<div style="width:100%;margin:auto; text-align:center;">
+<div style="text-align:center; display:inline-block; width:45%;margin:auto;">
+<img title="Sobel Conv Gif" height="450" src="/img/CNN/convSobel.gif"><br>
+<b>The kernel is moved over the image performing the convolution as it goes.</b>
+</div>
+<div style="text-align:center; display:inline-block; width:45%;margin:auto;">
+<img title="Zero Padding Conv" height="450" src="/img/CNN/convZeros.png"><br>
+<b>Zero-padding is used so that the resulting image doesn't shrink.</b>
+</div>
+</div>
+
+<p>Now that we have our convolved image, we can use a colourmap to visualise the result. Here, I&rsquo;ve just normalised the values between 0 and 255 so that I can apply a grayscale visualisation:</p>
+
+<div style="text-align:center; display:inline-block; width:100%;margin:auto;">
+<img title="Conv Result" height="150"src="/img/CNN/convResult.png"><br>
+<b>Result of the convolution</b>
+</div>
+
+<p>This dummy example could represent the very bottom left edge of the Android&rsquo;s head and doesn&rsquo;t really look like it&rsquo;s detected anything. To see the proper effect, we need to scale this up so that we&rsquo;re not looking at individual pixels. Performing the horizontal and vertical sobel filtering on the full 264 x 264 image gives:</p>
+
+<div style="width:100%;margin:auto; text-align:center;">
+<div style="text-align:center; display:inline-block; width:30%;margin:auto;">
+<img title="Horizontal Sobel" src="/img/CNN/horiz.png"><br>
+<b>Horizontal Sobel</b>
+</div>
+<div style="text-align:center; display:inline-block; width:30%;margin:auto;">
+<img title="Vertical Sobel" src="/img/CNN/vert.png"><br>
+<b>Vertical Sobel</b>
+</div>
+<div style="text-align:center; display:inline-block; width:30%;margin:auto;">
+<img title="Full Sobel" src="/img/CNN/both.png"><br>
+<b>Combined Sobel</b>
+</div>  
+</div>
+
+<p>Where we&rsquo;ve also added together the result from both filters to get both the horizontal and vertical ones.</p>
+
+<h3 id="relationship"> How does this feed into CNNs? </h3>
+
+<p>Clearly, convolution is powerful in finding the features of an image <strong>if</strong> we already know the right kernel to use. Kernel design is an artform and has been refined over the last few decades to do some pretty amazing things with images (just look at the huge list in your graphics software!). But the important question is, what if we don&rsquo;t know the features we&rsquo;re looking for? Or what if we <strong>do</strong> know, but we don&rsquo;t know what the kernel should look like?</p>
+
+<p>Well, first we should recognise that every pixel in an image is a <strong>feature</strong> and that means it represents an <strong>input node</strong>. The result from each convolution is placed into the next layer in a <strong>hidden node</strong>. Each feature or pixel of the convolved image is a node in the hidden layer.</p>
+
+<p>We&rsquo;ve already said that each of these numbers in the kernel is a weight, and that weight is the connection between the feature of the input image and the node of the hidden layer. The kernel is swept across the image and so there must be as many hidden nodes as there are input nodes (well actually slightly fewer as we should add zero-padding to the input image). This means that the hidden layer is also 2D like the input image. Sometimes, instead of moving the kernel over one pixel at a time, the <strong>stride</strong>, as it&rsquo;s called, can be increased. This will result in fewer nodes or fewer pixels in the convolved image. Consider it like this:</p>
+
+<div style="width:100%;margin:auto; text-align:center;">
+<div style="text-align:center; display:inline-block; width:45%;margin:auto;">
+<img title="Hidden Layer Nodes" height=300 src="/img/CNN/hiddenLayer.png"><br>
+<b>Hidden Layer Nodes in a CNN</b>
+</div>  
+<div style="text-align:center; display:inline-block; width:45%;margin:auto;">
+<img title="Hidden Layer after Increased Stride" height=225 src="/img/CNN/strideHidden.png"><br>
+<b>Increased stride means fewer hidden-layer nodes</b>
+</div>  
+</div>
+
+<p>These weights that connect to the nodes need to be learned in exactly the same way as in a regular neural network. The image is passed through these nodes (by being convolved with the weights a.k.a the kernel) and the result is compared to some output (the error of which is then backpropagated and optimised).</p>
+
+<p>In reality, it isn&rsquo;t just the weights or the kernel for one 2D set of nodes that has to be learned, there is a whole array of nodes which all look at the same area of the image (called the <strong>receptive field</strong>*). Each of the nodes in this row (or <strong>fibre</strong>) tries to learn different kernels (different weights) that will show up some different features of the image, like edges. So the hidden-layer may look something more like this:</p>
+
+<p>* <em>Note: we&rsquo;ll talk more about the receptive field after looking at the pooling layer below</em></p>
+
+<div style="width:100%;margin:auto; text-align:center;">
+<div style="text-align:center; display:inline-block; width:45%;margin:auto;">
+<img title="Multiple Kernel Hidden Layer" height=350 src="/img/CNN/deepConv.png"><br>
+<b>For a 2D image learning a set of kernels.</b>
+</div>
+<div style="text-align:center; display:inline-block; width:45%;margin:auto;">
+<img title="3 Channel Image" height=350 src="/img/CNN/deepConv3.png"><br>
+<b>For a 3 channel RGB image the kernel becomes 3D.</b> 
+</div>
+</div>  
+
+<p>Now <strong>this</strong> is why deep learning is called <strong>deep</strong> learning. Each hidden layer of the convolutional neural network is capable of learning a large number of kernels. The output from this hidden-layer is passed to more layers which are able to learn their own kernels based on the <em>convolved</em> image output from this layer. This is what gives the CNN the ability to see the edges of an image and build them up into larger features.</p>
+
+<h2 id="CNN Architecture">  CNN Archiecture </h2>
+
+<p>It is the <em>architecture</em> of a CNN that gives it its power. In fact, most papers that are puplished these days on CNNs tend to be about a new achitecture i.e. the number and ordering of different layers and how many kernels are learnt. Let&rsquo;s take a look at the other layers in a CNN.</p>
+
+<h2 id='layers'> Layers </h2>
+
+<h3 id="input">  Input Layer </h3>
+
+<p>The input image is placed into this layer. It can be a single-layer 2D image (grayscale), 2D 3-channel image (RGB colour) or 3D. The main different between how the inputs are arranged comes in the formation of the expected kernel shapes. Kernels need to be learned that are the same depth as the input i.e. 5 x 5 x 3 for a 2D RGB image with a receptive field of 5 x 5.</p>
+
+<p>Input to a CNN seem to work best when they&rsquo;re of certain dimensions. This is because of the behviour of the convolution. Depending on the <em>stride</em> of the kernel and the subsequent <em>pooling layers</em> the outputs may become an &ldquo;illegal&rdquo; size including half-pixels. We&rsquo;ll look at this in the <em>pooling layer</em> section.</p>
+
+<h3 id="convolution">  Convolutional Layer </h3>
+
+<p>We&rsquo;ve <a href="#kernels" title="Convolution and Kernels">already looked at what the conv layer does</a>. Just remember that it takes in an image e.g. [56 x 56 x 3] and assuming a stride of 1 and zero-padding, will produce an output of [56 x 56 x 32] if 32 kernels are being learnt. It&rsquo;s important to note that the order of these dimensions can be important during the implementation of a CNN in Python. This is because there&rsquo;s alot of matrix multiplication going on!</p>
+
+<h3 id="nonlinear"> Non-linearity</h3>
+
+<p>The &lsquo;non-linearity&rsquo; here isn&rsquo;t its own distinct layer of the CNN, but comes as part of the convolution layer as it is done in the neurons (just like a normal NN). By this, we mean &ldquo;don&rsquo;t take the data forwards as it is (linearity) let&rsquo;s do something to it (non-linearlity) that will help us later on&rdquo;.</p>
+
+<p>In our neural network tutorials we looked at different <a href="/post/transfer-functions" title="Transfer Functions">activation functions</a>. These each provide a different mapping of the input to an output, either to [-1 1], [0 1] or some other domain e.g the Rectified Linear Unit thresholds the data at 0: max(0,x). The <em>ReLU</em> is very popular as it doesn&rsquo;t require any expensive computation and it&rsquo;s been <a href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf" title="Krizhevsky et al 2012">shown to speed up the convergence of stochastic gradient descent algorithms</a>.</p>
+
+<h3 id="pool">  Pooling Layer </h3>
+
+<p>The pooling layer is key to making sure that the subsequent layers of the CNN are able to pick up larger-scale detail than just edges and curves. It does this by merging pixel regions in the convolved image together (shrinking the image) before attempting to learn kernels on it. Effectlively, this stage tages another kernel, say [2 x 2] and passes it over the entire image, just like in convolution. It is common to have the stride and kernal size equal i.e. a [2 x 2] kernel has a stride of 2. This example will <em>half</em> the size of the convolved image. The number of feature-maps produced by the learned kernels will remain the same as <strong>pooling</strong> is done on each one in turn. Thus the pooling layer returns an array with the same depth as the convolution layer. The figure below shows the principal.</p>
+
+<div style="text-align:center; display:inline-block; width:100%;margin:auto;">
+<img title="Pooling" height=350 src="/img/CNN/poolfig.gif"><br>
+<b>Max-pooling: Pooling using a "max" filter with stride equal to the kernel size</b>
+</div>  
+
+<h3 id="receptiveField"> A Note on the Receptive Field </h3>
+
+<p>This is quite an important, but sometimes neglected, concept. We said that the receptive field of a single neuron is the area of the image which is can &lsquo;see&rsquo;. Each neuron has a different receptive field. While this is true, the full impact of it can only be understood when we see what happens after pooling.</p>
+
+<p>For an image of size [12 x 12], say the receptive field (kernel size) in the first conv layer is [3 x 3]. The output of the conv layer (assuming padding and stride of 1) is going to be the [12 x 12 x 10] if we&rsquo;re learning 10 kernels. After pooling with a [3 x 3] kernel, we get an output of [4 x 4 x 10]. This gets fed into the next conv layer. Suppose the kernel in the second conv layer is [2 x 2], would we say that the receptive field here is also [2 x 2]? Well, yes&hellip; but actually, no. In fact, a neuron in this layer is not just seeing the [2 x 2] area of the <em>convolved</em> image, it is actually seeing a [4 x 4] area of the <em>original</em> image. That&rsquo;s the [3 x 3] of the first layer for each of the pixels in the &lsquo;receptive field&rsquo; of the second layer (remembering we had a stride of 1 in the first layer). Continuing this through the rest of the network, it is possible to end up with a final layer with a recpetive field equal to the size of the original image. Understanding this gives us the real insight to how the CNN works, building up the image as it goes.</p>
+
+<h3 id="dense">  Fully-connected (Dense) Layer</h3>
+
+<p>So this layer took me a while to figure out. If I take all of the say [3 x 3 x 64] featuremaps of my final pooling layer I have 3 x 3 x 64 = 576 different weights to consider and update. What I need is to make sure that my training labels match with the outputs from my output layer. We may only have 10 possibilities in our output layer (say the digits 0 - 9 ). Thus we want the final numbers in our output layer to be [? x 10] where the ? represents the number of nodes in the layer before&hellip; this one, the FC layer. If there was only 1 node in this layer, it would have 576 weights attached to it - one for each of the weights coming from the previous pooling layer. This is not very useful as it won&rsquo;t allow us to learn any combinations of these low-dimensional outputs. Increasing the number of neurons to say 1,000+ will allow the FC layer to provide many different combinations of features and learn a potentially non-linear function that represents the feature space. The larger the FC layer, the more complex the function could be (though it may not need to be very big). Sometimes it&rsquo;s seen that there are two FC layers together, this just increases the possibility of learning a complex function. FC layers are 1D vectors.</p>
+
+<h4 id = "fcConv"> Fully-connected as a Convolutional Layer </h4>
+
+<p>If the idea above doesn&rsquo;t help you (as it doesn&rsquo;t for me) lets remove the FC layer and replace it with another convolutional layer. This is very simple - take the output from the pooling layer as before and apply a convolution to it with a kernel that is the same size as a featuremap in the pooling layer. For this to be of use, the input to the conv should be down to around [5 x 5] or [3 x 3] by making sure there have been enough pooling layers in the network. What does this achieve? By convolving a [3 x 3] image with a [3 x 3] kernel we get a 1 pixel output. There is no striding, just one convolution per featuremap. So out output from this layer will be a [1 x k] vector where <em>k</em> is the number of featuremaps. This is very similar to the FC layer, except that the output from the conv is only created from an individual featuremap rather than being connected to all of the featuremaps. This can be powerfulll though as we have represented a very large receptive field by a single pixel. We&rsquo;re able to say, if the value of the output it high, that all of the featuremaps visible to this output have activated enough to represent a &lsquo;cat&rsquo; or whatever it is we are training our network to learn.</p>
+
+<p>Often, the kernel used in the final layer of a CNN incorporates some average pooling. Considering this as not just an average of the current featuremaps, but all previous featuremaps, then the output will be high if the previous layers were active within the receptive field of the final layer.</p>
+
+<h3 id="dropout"> Dropout Layer </h3>
+
+<p>The previously mentioned fully-connected layer is connected to all weights in the previous layer - this can be a very large number. As such, an FC layer is prone to <em>overfitting</em> meaning that the network won&rsquo;t generalise well to new data. There are a number of techniques that can be used to reduce overfitting though the most commonly seen in CNNs is the dropout layer. As the name suggests, this causes the network to &lsquo;drop&rsquo; some nodes on each iteration with a particular probability. The <em>keep probability</em> is between 0 and 1, most commonly around 0.2-0.5 it seems. This is the probability that a particular node is dropped during training. When back propagation occurs, the weights connected to these nodes are not updated. They are readded for the next iteration.</p>
+
+<h3 id="output"> Output Layer </h3>
+
+<p>Of course depending on the purpose of your CNN, the output layer will be slightly different. In general, the output layer consists of a number of nodes which have a high value if they are &lsquo;true&rsquo; or activated. Consider a classification problem where a CNN is given a set of images containing cats, dogs and elephants. If we&rsquo;re asking the CNN to learn what a cat, dog and elephant looks like, output layer is going to be a set of three nodes, one for each &lsquo;class&rsquo; or animal. We&rsquo;d expect that when the CNN finds an image of a cat, the value at the node representing &lsquo;cat&rsquo; is higher than the other two. This is the same idea as in a regular neural network. In fact, the FC layer and the output layer can be considered as a traditional NN. Some output layers are probabilities and as such will sum to 1, whilst others will just achieve a value which could be a pixel intensity in the range 0-255.</p>
+
+<h3 id="backProp"> A Note on Back Propagation </h3>
+
+<p>I&rsquo;ve found it helpful to consider CNNs in reverse. It didn&rsquo;t sit properly in my mind that the CNN first learns all different types of edges, curves etc. and then builds them up into large features e.g. a face. It came up in a discussion that we could consider the CNN working in reverse, and in fact this is effectively what happens - back propagation updates the weights from the final layer <em>back</em> towards the first. In fact, the error (or loss) minimisation occurs firstly at the final layer and as such, this is where the network is &lsquo;seeing&rsquo; the bigger picture. The gradient (updates to the weights) vanishes towards the input layer and is greatest at the output layer. We can effectively think that the CNN is learning &ldquo;face - has eyes, nose mouth&rdquo; at the output layer, then &ldquo;I don&rsquo;t know what a face is, but here are some eyes, noses, mouths&rdquo; in the previous one, then &ldquo;What are eyes? I&rsquo;m only seeing circles, some white bits and a black hole&rdquo; followed by &ldquo;woohoo! round things!&rdquo; and initially by &ldquo;I think that&rsquo;s what a line looks like&rdquo;. Possibly we could think of the CNN as being less sure about life at the first layers and being more advanced at the end.</p>
+
+<p>CNNs can be used for segmentation, classification, regression and a whole manner of other processes. On the whole, they only differ by four things:</p>
+
+<ul>
+<li>architecture (number and order of conv, pool and fc layers plus the size and number of the kernels)</li>
+<li>output (probabilitstic etc.)</li>
+<li>training method (cost or loss function, regularisation and optimiser)</li>
+<li>hyperparameters (learning rate, regularisation weights, batch size, iterations&hellip;)</li>
+</ul>
+
+<p>There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&hellip;</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/nn-python-tweaks/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/nn-python-tweaks/">A Simple Neural Network - Simple Performance Improvements</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
