@@ -218,6 +218,31 @@ code.has-jax {
 }
 
 
+.blog-container{
+text-align: center;
+
+}
+
+
+.left-blog-content {
+display: inline-block;
+max-width: 725px;
+text-align: left;
+vertical-align:top;
+
+}
+
+.right-blog-content {
+display: inline-block;
+max-width:350px;
+text-align: center;
+float:right;
+
+}
+
+
+
+
 @media screen and (max-width: 600px) {
 
 #left_content {
@@ -265,7 +290,9 @@ pre > code {
 	display: None;
 	vertical-align: top;
 	
-
+.left-blog-content, .right-blog-content{
+max-width:100%;
 }
 
+}
 
