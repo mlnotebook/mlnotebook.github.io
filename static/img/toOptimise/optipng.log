@@ -1,0 +1,300 @@
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featCNN1.png
+922x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1254250 bytes
+Input file size = 1254585 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1205437
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1204183
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 813853
+  zc = 9  zm = 8  zs = 0  f = 1		IDAT size = 813677
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 791189
+  zc = 9  zm = 8  zs = 1  f = 1		IDAT size = 791158
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4
+  zc = 9  zm = 8  zs = 3  f = 4
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featCNN1.png
+922x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1254250 bytes
+Input file size = 1254585 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1205437
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1204183
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 813853
+  zc = 9  zm = 8  zs = 0  f = 1		IDAT size = 813677
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 791189
+  zc = 9  zm = 8  zs = 1  f = 1		IDAT size = 791158
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 8  zs = 1  f = 1		IDAT size = 791158
+
+Output IDAT size = 791158 bytes (463092 bytes decrease)
+Output file size = 791265 bytes (463320 bytes = 36.93% decrease)
+
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featCNN2.png
+945x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1268628 bytes
+Input file size = 1268963 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1219604
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1218296
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 837074
+  zc = 9  zm = 8  zs = 0  f = 1		IDAT size = 836728
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 814517
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 814517
+
+Output IDAT size = 814517 bytes (454111 bytes decrease)
+Output file size = 814624 bytes (454339 bytes = 35.80% decrease)
+
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featCNN3.png
+938x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1292450 bytes
+Input file size = 1292785 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1244059
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1241857
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 851783
+  zc = 9  zm = 8  zs = 0  f = 1
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 829331
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 829331
+
+Output IDAT size = 829331 bytes (463119 bytes decrease)
+Output file size = 829438 bytes (463347 bytes = 35.84% decrease)
+
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featCNN4.png
+947x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1265665 bytes
+Input file size = 1266000 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1215399
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1214481
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 831413
+  zc = 9  zm = 8  zs = 0  f = 1		IDAT size = 831049
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 808327
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 808327
+
+Output IDAT size = 808327 bytes (457338 bytes decrease)
+Output file size = 808434 bytes (457566 bytes = 36.14% decrease)
+
