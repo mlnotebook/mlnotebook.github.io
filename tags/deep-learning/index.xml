@@ -35,8 +35,6 @@
 
 &lt;h2 id=&#34;deep&#34;&gt;  CNN or Deep Learning? &lt;/h2&gt;
 
-&lt;div class=&#34;blog-container&#34;&#34;&gt;
-&lt;div class=&#34;left-blog-content&#34;&gt;
 &lt;p&gt;
 You would be forgiven for thinking that Deep Learning (DL) takes its name from the number of layers in a neural network, but the root is a little more complex than that. In fact, some powerful neural networks, even CNNs, only consist of a few layers. The &#39;deep&#39; in DL acknowledges that each layer of the network has &#39;layers&#39; of its own. More on this later.
 &lt;/p&gt;&lt;p&gt;
@@ -46,11 +44,6 @@ We won&#39;t delve too deeply into history or mathematics in this tutorial, but 
 &lt;/p&gt;&lt;p&gt;
 As with the study of neural networks, the inspiration for CNNs came from nature: specifically, the visual cortex. It drew upon the idea that the neurons in the visual cortex focus upon different sized patches of an image getting different levels of information in different layers. If a computer could be programmed to work in this way, it may be able to mimic the image-recognition power of the brain. So how can this be done?
 &lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&#34;right-blog-content&#34;&gt;
-&lt;a href=&#34;https://t.co/aAw4rEpZEt&#34;&gt;&lt;img title=&#34;Origin Paper&#34; src=&#34;/img/CNN/originDLpaper.png&#34; width=330&gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 
 &lt;p&gt;A CNN takes as input an array, or image (2D or 3D, grayscale or colour) and tries to learn the relationship between this image and some target data e.g. a classification. By &amp;lsquo;learn&amp;rsquo; we are still talking about weights just like in a regular neural network. The difference in CNNs is that these weights connect small subsections of the input to each of the different neurons in the first layer. Fundamentally, there are multiple neurons in a single layer that each have their own weights to the same subsection of the input. These different sets of weights are called &amp;lsquo;kernels&amp;rsquo;.&lt;/p&gt;
 
