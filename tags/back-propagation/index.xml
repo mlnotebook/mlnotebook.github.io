@@ -54,7 +54,7 @@
 
 &lt;p&gt;First things first&amp;hellip; lets import numpy:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;np&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;np&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
