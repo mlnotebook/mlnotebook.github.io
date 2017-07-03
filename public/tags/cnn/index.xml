@@ -9,6 +9,241 @@
     <atom:link href="/tags/cnn/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Convolutional Neural Networks - TensorFlow (Basics)</title>
+      <link>/post/tensorflow-basics/</link>
+      <pubDate>Mon, 03 Jul 2017 09:44:24 +0100</pubDate>
+      
+      <guid>/post/tensorflow-basics/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;ve looked at the principles behind how a CNN works, but how do we actually implement this in Python? This tutorial will look at the basic idea behind Google&amp;rsquo;s TensorFlow: an efficient way to build a CNN using purpose-build Python libraries.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;div style=&#34;text-align:center;&#34;&gt;&lt;img width=30% title=&#34;TensorFlow&#34; src=&#34;/img/CNN/TF_logo.png&#34;&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt;  Introduction &lt;/h2&gt;
+
+&lt;p&gt;Building a CNN from scratch in Python is perfectly possible, but very memory intensive. It can also lead to very long pieces of code. Several libraries have been developed by the community to solve this problem by wrapping the most common parts of CNNs into special methods called from their own libraries. Theano, Keras and Caffe are notable libraries being used today that are all opensource. However, since TensorFlow was released and Google announced their machine-learning-specific hardware, the Tensor Processing Unit (TPU), TensorFlow has quickly become a much-used tool in the field. If any applications being built today are intended for use on mobile devices, TensorFlow is the way to go as the mobile TPU in the upcoming Google phones will be able to perform inference from machine learning models in the User&amp;rsquo;s hand. Of course, being a relative newcomer and very much still controlled by Google, TensorFlow may not have the huge body of support that has built up with Theano, say.&lt;/p&gt;
+
+&lt;p&gt;Nevertheless, TensorFlow is powerful and quick to setup so long as you know how: read on to find out. Much of this tutorial is based around the documentation provided by Google, but gives a lot more information that many be useful to less experienced users.&lt;/p&gt;
+
+&lt;h2 id=&#34;install&#34;&gt; Installation &lt;/h2&gt;
+
+&lt;p&gt;TensorFlow is just another set of Python libraries distributed by Google via the website: &lt;a href=&#34;https://www.tensorflow.org/install&#34; title=&#34;TensorFlow Installation&#34;&gt;https://www.tensorflow.org/install&lt;/a&gt;. There&amp;rsquo;s the option to install the version for use on GPUs but that&amp;rsquo;s not necessary for this tutorial, we&amp;rsquo;ll be using the MNIST dataset which is not too memory instensive.&lt;/p&gt;
+
+&lt;p&gt;Go ahead and install the TensorFlow libraries. I would say that even though they suggest using TF in a virtual environment, we will be coding up our CNN in a Python script so don&amp;rsquo;t worry about that if you&amp;rsquo;re not comfortable with it.&lt;/p&gt;
+
+&lt;p&gt;One of the most frustrating things you will find with TF is that much of the documentation on various websites is already out-of-date. Some of the commands have been re-written or renamed since the support was put in place. Even some of Google&amp;rsquo;s own tutorials are now old and require tweaking. Nonetheless, the code written here will work on all versions, but may throw some &amp;lsquo;depreication&amp;rsquo; warnings.&lt;/p&gt;
+
+&lt;h2 id=&#34;structure&#34;&gt; TensorFlow Structure &lt;/h2&gt;
+
+&lt;p&gt;The idea of &amp;lsquo;flow&amp;rsquo; is central to TF&amp;rsquo;s organisation. The actual CNN is written as a &amp;lsquo;graph&amp;rsquo;. A graph is simply a list of the differnet layers in your network each with their own input and output. Whatever data we input at the top will &amp;lsquo;flow&amp;rsquo; through the graph and output some values. The values we will also deal with using TensorFlow which will automatically take care of the updating of any internal weights via whatever optimization method and loss function we prefer.&lt;/p&gt;
+
+&lt;p&gt;The graph is called by some initial functions in the script that create the classifier, run the training and output whatever evlauation metrics we like.&lt;/p&gt;
+
+&lt;p&gt;Before writing any functions, lets import the necessary includes and tell TF to limit any program logging:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
+import os
+import tensorflow as tf
+from tensorflow.contrib import learn
+from tensorflow.contrib.learn.python.learn.estimators import model_fn as model_fn_lib
+
+
+os.environ[&#39;TF_CPP_MIN_LOG_LEVEL&#39;] = &#39;3&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We&amp;rsquo;ve included multiple Tf lines to save on the typing later.&lt;/p&gt;
+
+&lt;h3 id=&#34;graph&#34;&gt; The Graph &lt;/h3&gt;
+
+&lt;p&gt;Let&amp;rsquo;s get straight to it and start to build our graph. We will keep it simple:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;2 convolutional layers learning 16 filters (or kernels) of [3 x 3]&lt;/li&gt;
+&lt;li&gt;2 max-pooling layers that half the size of the image using [2 x 2] kernel&lt;/li&gt;
+&lt;li&gt;A fully connected layer at the end.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#Hyperparameters
+numK = 16               #number of kernels in each conv layer
+sizeConvK = 3           #size of the kernels in each conv layer [n x n]
+sizePoolK = 2           #size of the kernels in each pool layer [m x m]
+inputSize = 28          #size of the input image
+numChannels = 1         #number of channels to the input image grayscale=1, RGB=3
+
+def convNet(inputs, labels, mode):
+    #reshape the input from a vector to a 2D image
+    input_layer = tf.reshape(inputs, [-1, inputSize, inputSize, numChannels])   
+    
+    #perform convolution and pooling
+    conv1 = doConv(input_layer) 
+    pool1 = doPool(conv1)      
+    
+    conv2 = doConv(pool1)
+    pool2 = doPool(conv2)
+
+    #flatted the result back to a vector for the FC layer
+    flatPool = tf.reshape(pool2, [-1, 7 * 7 * numK])    
+    dense = tf.layers.dense(inputs=flatPool, units=1024, activation=tf.nn.relu)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So what&amp;rsquo;s going on here? First we&amp;rsquo;ve defined some parameters for the CNN such as kernel sizes, the height of the input image (assuming it&amp;rsquo;s square) and the number of channels for the image. The number of channels is &lt;code&gt;1&lt;/code&gt; for both Black and White with intensity values of either 0 or 1, and grayscale images with intensities in the range [0 255]. Colour images have &lt;code&gt;3&lt;/code&gt; channels, Red, Green and Blue.&lt;/p&gt;
+
+&lt;p&gt;You&amp;rsquo;ll notice that we&amp;rsquo;ve barely used TF so far: we use it to reshape the data. This is important, when we run our script, TF will take our raw data and turn it into its own data type i.e. a &lt;code&gt;tensor&lt;/code&gt;. That means our normal &lt;code&gt;numpy&lt;/code&gt; operations won&amp;rsquo;t work on them so we should use the in-built &lt;code&gt;tf.reshape&lt;/code&gt; function which works in the same was as the one in numpy - it takes the input data and an output shape as arguments.&lt;/p&gt;
+
+&lt;p&gt;But why are we reshaping at all? Well, the data that is input into the network will be in the form of vectors. The image will have been saved along with lots of other images as single lines of a larger file. This is the case with the MNIST dataset and is common in machine learning. So we need to put it back into image-form so that we can perform convolutions.&lt;/p&gt;
+
+&lt;p&gt;&amp;ldquo;Where are those random 7s and the -1 from?&amp;rdquo;&amp;hellip; good question. In this example, we are going to be using the MNIST dataset whose images are 28 x 28. If we put this through 2 pooling layers we will half (14 x 14) and half again (7 x 7) the width. Thus the layer needs to know what it is expecting the output to look like based upon the input which will be a 7 x 7 x &lt;code&gt;numK&lt;/code&gt; tensor, one 7 x 7 for each kernel. Keep in mind that we will be running the network with more than one input image at a time, so in reality when we get to this stage, there will be &lt;code&gt;n&lt;/code&gt; images here which all have 7 x 7 x &lt;code&gt;numK&lt;/code&gt; values associated with them. The -1 simply tells TensorFlow to take &lt;em&gt;all&lt;/em&gt; of these images and do the same to each. It&amp;rsquo;s short hand for &amp;ldquo;do this for the whole batch&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s also a &lt;code&gt;tf.layers.dense&lt;/code&gt; method at the end here. This is one of TF&amp;rsquo;s in-built layer types that is very handy. We just tell it what to take as input, how many units we want it to have and what non-linearity we would prefer at the end. Instead of typing this all separately, it&amp;rsquo;s combined into a single line. Neat!&lt;/p&gt;
+
+&lt;p&gt;But what about the &lt;code&gt;conv&lt;/code&gt; and &lt;code&gt;pool&lt;/code&gt; layers? Well, to keep the code nice and tidy, I like to write the convolution and pooling layers in separate functions. This means that if I want to add more &lt;code&gt;conv&lt;/code&gt; or &lt;code&gt;pool&lt;/code&gt; layers, I can just write them in underneath the current ones and the code will still look clean (not that the functions are very long). Here they are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def doConv(inputs):
+    convOut = tf.layers.conv2d(inputs=inputs, filters=numK, kernel_size=[sizeConvK, sizeConvK], \
+    	padding=&amp;quot;same&amp;quot;, activation=tf.nn.relu)    
+    return convOut
+    
+def doPool(inputs):
+    poolOut = tf.layers.max_pooling2d(inputs=inputs, pool_size=[sizePoolK, sizePoolK], strides=2)
+    return poolOut
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Again, both the &lt;code&gt;conv&lt;/code&gt; and &lt;code&gt;pool&lt;/code&gt; layers are simple one-liners. They both take in some input data and need to know the size of the kernel you want them to use (which we defined earlier on). The &lt;code&gt;conv&lt;/code&gt; layer need to know how many &lt;code&gt;filters&lt;/code&gt; to learn too. Alongside this, we need to take care of any mis-match between the image size and the size of the kernels to ensure that we&amp;rsquo;re not changing the size of the image when we get the output. This is easily done in TF by setting the &lt;code&gt;padding&lt;/code&gt; attribute to &lt;code&gt;&amp;quot;same&amp;quot;&lt;/code&gt;. We&amp;rsquo;ve got our non-linearity at the end here too. We&amp;rsquo;ve hard-coded that the pooling layer will have &lt;code&gt;strides=2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now we have the main part of our network coded-up. But it wont do very much unless we ask TF to give us some outputs and compare them to some training data.&lt;/p&gt;
+
+&lt;p&gt;As the MNIST data is used for image-classification problems, we&amp;rsquo;ll be trying to get the network to output probabilities that the image it is given belong to a specific class i.e. a number 0-9. The MNIST dataset only provides the numbers 0-9 which, if we provided this to the network, would start to output guesses of decimal values 0.143, 4.765, 8.112 or whatever. We need to change this data so that each class can have its own specific box which the network can assign a probability. We use the idea of &amp;lsquo;one-hot&amp;rsquo; labels for this. For example, class 3 becomes [0 0 0 1 0 0 0 0 0 0] and class 9 becomes [0 0 0 0 0 0 0 0 0 1]. This way we&amp;rsquo;re not asking the network to predict the number associated with each class but rather how likely is the test-image to be in this class.&lt;/p&gt;
+
+&lt;p&gt;TF has a very handy function for changing class labels into &amp;lsquo;one-hot&amp;rsquo; labels. Let&amp;rsquo;s continue coding our graph in the &lt;code&gt;convNet&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;     #Get the output in the form of one-hot labels with x units
+    logits = tf.layers.dense(inputs=dense, units=10) 
+    
+    loss = None
+    train_op = None
+    #At the end of the network, check how well we did     
+    if mode != learn.ModeKeys.INFER:
+        #create one-hot tabels from the training-labels
+        onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=10)
+        #check how close the output is to the training-labels
+        loss = tf.losses.softmax_cross_entropy(onehot_labels=onehot_labels, logits=logits)
+    
+    #After checking the loss, use it to train the network weights   
+    if mode == learn.ModeKeys.TRAIN:
+        train_op = tf.contrib.layers.optimize_loss(loss=loss, global_step=tf.contrib.framework.get_global_step(), \
+            learning_rate=learning_rate, optimizer=&amp;quot;SGD&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;logits&lt;/code&gt; here is the output of the network which corresponds to the 10 classes of the training labels. The next two sections check whether we should be training the weights right now, or checking how well we&amp;rsquo;ve done. First we check our progress: we use &lt;code&gt;tf.one_hot&lt;/code&gt; to create the one-hot labels form the numeric training labels given to the network in &lt;code&gt;labels&lt;/code&gt;. We&amp;rsquo;ve performed a &lt;code&gt;tf.cast&lt;/code&gt; operation to make sure that the data is of the correct type before doing the conversion.&lt;/p&gt;
+
+&lt;p&gt;Our loss-function is an important part of a CNN (or any machine learning algorithm). There are many different loss functions already built-in with TensorFlow from simple &lt;code&gt;absolute_difference&lt;/code&gt; to more complex functions like our &lt;code&gt;softmax_cross_entropy&lt;/code&gt;. We won&amp;rsquo;t delve into how this is calculated, just know that we can pick any loss function. More advanced users can write their own loss-functions. The loss function takes in the output of the network &lt;code&gt;logits&lt;/code&gt; and compares it to our &lt;code&gt;onehot_labels&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;When this is done, we ask TF to perform some updating or &amp;lsquo;optimization&amp;rsquo; of the network based on the loss that we just calculated. the &lt;code&gt;train_op&lt;/code&gt; in TF is the name given in support documnets to the function that performs any background changes to the fundamentals of the network or updates values. Our &lt;code&gt;train_op&lt;/code&gt; here is a simple loss-optimiser that tries to find the minimum loss for our data. As with all machine learning algorithms, the parameters of this optimiser are subject to much research. Using a pre-build optimiser such as those included with TF will ensure that your network performs efficiently and trains as quickly as possible. The &lt;code&gt;learning_rate&lt;/code&gt; can be set as a variable at the beginning of our script along with the other parameters. We tend to stick with &lt;code&gt;0.001&lt;/code&gt; to begin with and move in orders of magnitude if we need to e.g. &lt;code&gt;0.01&lt;/code&gt; or &lt;code&gt;0.0001&lt;/code&gt;. Just like the loss functions, there are a number of optimisers to use, some will take longer than others if they are more complex. For our purposes on the MNIST dataset, simple stochastic gradient descent (&lt;code&gt;SGD&lt;/code&gt;) will suffice.&lt;/p&gt;
+
+&lt;p&gt;Notice that we are literally just giving TF some instructions: take my network, calculate the loss and do some optimisation based on that loss. There is very little back-end programming involved with TF.&lt;/p&gt;
+
+&lt;p&gt;We are going to want to show what the network has learned, so we output the current predictions by definiing a dictionary of data. The raw logits information and the associated probabilities (found by taking the softmax of the logits tensor).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;predictions ={&amp;quot;classes&amp;quot;: tf.argmax(input=logits, axis=1), &amp;quot;probabilities&amp;quot;: tf.nn.softmax(logits, name=&amp;quot;softmax_tensor&amp;quot;)}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can finish off our graph by making sure it returns the data:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;return model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=loss, train_op=train_op)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;ModelFnOps&lt;/code&gt; class is returns that contains the current mode of the network (training or inference), the current predictions, loss and the &lt;code&gt;train_op&lt;/code&gt; that we use to train the network.&lt;/p&gt;
+
+&lt;h3 id=&#34;setup&#34;&gt;Setting up the Script&lt;/h3&gt;
+
+&lt;p&gt;Now that the graph has been constructed, we need to call it and tell TF to do the training. First, lets take a moment to load the data the we will be using. The MNIST dataset has its own loading method within TF (handy!). Let&amp;rsquo;s define the main body of our script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def main(unused_argv):
+    # Load training and eval data
+    mnist = learn.datasets.load_dataset(&amp;quot;mnist&amp;quot;)
+    train_data = mnist.train.images # Returns np.array
+    train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
+    eval_data = mnist.test.images # Returns np.array
+    eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, we create the classifier that will hold the network and all of its data. We have to tell it what our graph is called under &lt;code&gt;model_fn&lt;/code&gt; and where we would like our output stored.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you use the &lt;code&gt;/tmp&lt;/code&gt; directory in Linux you will probably find that the model will no longer be there if you restart your computer. If you intend to reload and use your model later on, be sure to save it in a more conventient place.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    mnistClassifier = learn.Estimator(model_fn=convNet,   model_dir=&amp;quot;/tmp/mln_MNIST&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We will want to get some information out of our network that tells us about the training performance. For example, we can create a dictionary that will hold the probabilities from the key that we named &amp;lsquo;softmax_tensor&amp;rsquo; in the graph. How often we save this information is controlled with the &lt;code&gt;every_n_iter&lt;/code&gt; attricute. We add this to the &lt;code&gt;tf.train.LoggingTensorHook&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    tensors2log = {&amp;quot;probabilities&amp;quot;: &amp;quot;softmax_tensor&amp;quot;}
+    logging_hook = tf.train.LoggingTensorHook(tensors=tensors2log, every_n_iter=100)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally! Let&amp;rsquo;s get TF to actually train the network. We call the &lt;code&gt;.fit&lt;/code&gt; method of the classifier that we created earlier. We pass it the training data and the labels along with the batch size (i.e. how much of the training data we want to use in each iteration). Bare in mind that even though the MNIST images are very small, there are 60,000 of them and this may not do well for your RAM. We also need to say what the maximum number of iterations we&amp;rsquo;d like TF to perform is and also add on that we want to &lt;code&gt;monitor&lt;/code&gt; the training by outputting the data we&amp;rsquo;ve requested in &lt;code&gt;logging_hook&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    mnistClassifier.fit(x=train_data, y=train_labels, batch_size=100, steps=1000, monitors=[logging_hook])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When the training is complete, we&amp;rsquo;d like TF to take some test-data and tell us how well the network performs. So we create a special metrics dictionary that TF will populate by calling the &lt;code&gt;.evaluate&lt;/code&gt; method of the classifier.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    metrics = {&amp;quot;accuracy&amp;quot;: learn.MetricSpec(metric_fn=tf.metrics.accuracy, prediction_key=&amp;quot;classes&amp;quot;)}
+    
+    eval_results = mnistClassifier.evaluate(x=eval_data, y=eval_labels, metrics=metrics)
+    print(eval_results)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this case, we&amp;rsquo;ve chosen to find the accuracy of the classifier by using the &lt;code&gt;tf.metrics.accuracy&lt;/code&gt; value for the &lt;code&gt;metric_fn&lt;/code&gt;. We also need to tell the evaluator that it&amp;rsquo;s the &amp;lsquo;classes&amp;rsquo; key we&amp;rsquo;re looking at in the graph. This is then passed to the evaluator along with the test data.&lt;/p&gt;
+
+&lt;h3 id=&#34;running&#34;&gt;Running the Network&lt;/h3&gt;
+
+&lt;p&gt;Adding the final main function to the script and making sure we&amp;rsquo;ve done all the necessary includes, we can run the program. The full script can be found &lt;a href=&#34;/docs/tfCNNMNIST.py&#34; title=&#34;TFCNNMNIST.py&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the current configuration, running the network for 1000 epochs gave me an output of:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;{&#39;loss&#39;: 1.9025836, &#39;global_step&#39;: 1000, &#39;accuracy&#39;: 0.64929998}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Definitely not a great accuracy for the MNIST dataset! We could just run this for longer and would likely see an increase in accuracy, Instead, lets make some of the easy tweaks to our network that we&amp;rsquo;ve described before: dropout and batch normalisation.&lt;/p&gt;
+
+&lt;p&gt;In our graph, we want to add:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    dense = tf.contrib.layers.batch_norm(dense, decay=0.99, is_training= mode==learn.ModeKeys.TRAIN)
+    dense = tf.layers.dropout(inputs=dense, rate=keepProb, training = mode==learn.ModeKeys.TRAIN)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This layer &lt;a href=&#34;https://www.tensorflow.org/api_docs/python/tf/contrib/layers/batch_norm&#34; title=&#34;tf.contrib.layers.batch_norm&#34;&gt;has many different attirbutes&lt;/a&gt;. It&amp;rsquo;s functionality is taken from &lt;a href=&#34;https://arxiv.org/abs/1502.03167&#34; title=&#34;Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift&#34;&gt;the paper by Loffe and Szegedy (2015)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Dropout layer&amp;rsquo;s &lt;code&gt;keepProb&lt;/code&gt; is defined in the Hyperparameter pramble to the script. Another value that can be changed to improve the performance of the network. Both of these lines are in the final script &lt;a href=&#34;/docs/tfCNNMNIST.py&#34; title=&#34;tffCNNMNIST.py&#34;&gt;available here&lt;/a&gt;, just uncomment them.&lt;/p&gt;
+
+&lt;p&gt;If we re-run the script, it will automatically load the most recent state of the network (clever TensorFlow!) but&amp;hellip; it will fail because the checkpoint does not include the two new layers in its graph. So we must either delete our &lt;code&gt;/tmp/mln_MNIST&lt;/code&gt; folder, or give the classifier a new &lt;code&gt;model_dir&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Doing this and rerunning for the same 1000 epochs, I get an instant 140% increase in accuracy:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;{&#39;loss&#39;: 0.29391664, &#39;global_step&#39;: 1000, &#39;accuracy&#39;: 0.91680002}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Simply changing the optimiser to use the &amp;ldquo;Adam&amp;rdquo; rather than &amp;ldquo;SGD&amp;rdquo; optimiser yields:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;{&#39;loss&#39;: 0.040745325, &#39;global_step&#39;: 1000, &#39;accuracy&#39;: 0.98500001}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And running for slightly longer (20,000 iterations);&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;{&#39;loss&#39;: 0.046967514, &#39;global_step&#39;: 20000, &#39;accuracy&#39;: 0.99129999}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt; Conclusion &lt;/h2&gt;
+
+&lt;p&gt;TensorFlow takes away the tedium of having to write out the full code for each individual layer and is able to perform optimisation and evaluation with minimal effort.&lt;/p&gt;
+
+&lt;p&gt;If you look around online, you will see many methods for using TF that will get you similar results. I actually prefer some methods that are a little more explicit. The tutorial on Google for example has some room to allow us to including more logging features.&lt;/p&gt;
+
+&lt;p&gt;In future posts, we will look more into logging and TensorBoard, but for now, happy coding!&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Convolutional Neural Networks - Basics</title>
       <link>/post/CNN1/</link>
       <pubDate>Fri, 07 Apr 2017 09:46:56 +0100</pubDate>
