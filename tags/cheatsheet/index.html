@@ -78,6 +78,7 @@
   <a class="pure-menu-heading brand" href="/">MLNotebook</a>
 
 
+
   <div class="pure-menu">
     <ul class="pure-menu-list">
       
@@ -214,6 +215,7 @@
     <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
   </div>
 </div>
+
 
 </div>
 
