@@ -298,3 +298,259 @@ Selecting parameters:
 Output IDAT size = 808327 bytes (457338 bytes decrease)
 Output file size = 808434 bytes (457566 bytes = 36.14% decrease)
 
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featgan1.png
+933x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1643772 bytes
+Input file size = 1644179 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1551444
+  zc = 9  zm = 8  zs = 0  f = 0
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featgan1.png
+933x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1643772 bytes
+Input file size = 1644179 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1551444
+  zc = 9  zm = 8  zs = 0  f = 0
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 1340851
+  zc = 9  zm = 8  zs = 0  f = 1
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 1282040
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4		IDAT size = 1248726
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4		IDAT size = 1234674
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featgan1.png
+933x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1643772 bytes
+Input file size = 1644179 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1551444
+  zc = 9  zm = 8  zs = 0  f = 0
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 1340851
+  zc = 9  zm = 8  zs = 0  f = 1
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 1282040
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4		IDAT size = 1248726
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4		IDAT size = 1234674
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5		IDAT size = 1226814
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 9  zs = 3  f = 5		IDAT size = 1226814
+
+Output IDAT size = 1226814 bytes (416958 bytes decrease)
+Output file size = 1226921 bytes (417258 bytes = 25.38% decrease)
+
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featgan2.png
+956x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1627353 bytes
+Input file size = 1627748 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1541065
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1540885
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 1326699
+  zc = 9  zm = 8  zs = 0  f = 1
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 1267353
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4		IDAT size = 1242342
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4		IDAT size = 1227138
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5		IDAT size = 1218716
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 9  zs = 3  f = 5		IDAT size = 1218716
+
+Output IDAT size = 1218716 bytes (408637 bytes decrease)
+Output file size = 1218823 bytes (408925 bytes = 25.12% decrease)
+
+** Warning: The option -log is deprecated; use shell redirection
+
+** Processing: featgan3.png
+949x935 pixels, 4x8 bits/pixel, RGB+alpha, interlaced
+Input IDAT size = 1626709 bytes
+Input file size = 1627104 bytes
+
+Trying:
+  zc = 9  zm = 9  zs = 0  f = 0		IDAT size = 1540249
+  zc = 9  zm = 8  zs = 0  f = 0		IDAT size = 1540215
+  zc = 9  zm = 9  zs = 1  f = 0
+  zc = 9  zm = 8  zs = 1  f = 0
+  zc = 1  zm = 9  zs = 2  f = 0
+  zc = 1  zm = 8  zs = 2  f = 0
+  zc = 9  zm = 9  zs = 3  f = 0
+  zc = 9  zm = 8  zs = 3  f = 0
+  zc = 9  zm = 9  zs = 0  f = 1		IDAT size = 1326571
+  zc = 9  zm = 8  zs = 0  f = 1
+  zc = 9  zm = 9  zs = 1  f = 1		IDAT size = 1267819
+  zc = 9  zm = 8  zs = 1  f = 1
+  zc = 1  zm = 9  zs = 2  f = 1
+  zc = 1  zm = 8  zs = 2  f = 1
+  zc = 9  zm = 9  zs = 3  f = 1
+  zc = 9  zm = 8  zs = 3  f = 1
+  zc = 9  zm = 9  zs = 0  f = 2
+  zc = 9  zm = 8  zs = 0  f = 2
+  zc = 9  zm = 9  zs = 1  f = 2
+  zc = 9  zm = 8  zs = 1  f = 2
+  zc = 1  zm = 9  zs = 2  f = 2
+  zc = 1  zm = 8  zs = 2  f = 2
+  zc = 9  zm = 9  zs = 3  f = 2
+  zc = 9  zm = 8  zs = 3  f = 2
+  zc = 9  zm = 9  zs = 0  f = 3
+  zc = 9  zm = 8  zs = 0  f = 3
+  zc = 9  zm = 9  zs = 1  f = 3
+  zc = 9  zm = 8  zs = 1  f = 3
+  zc = 1  zm = 9  zs = 2  f = 3
+  zc = 1  zm = 8  zs = 2  f = 3
+  zc = 9  zm = 9  zs = 3  f = 3
+  zc = 9  zm = 8  zs = 3  f = 3
+  zc = 9  zm = 9  zs = 0  f = 4
+  zc = 9  zm = 8  zs = 0  f = 4
+  zc = 9  zm = 9  zs = 1  f = 4		IDAT size = 1242323
+  zc = 9  zm = 8  zs = 1  f = 4
+  zc = 1  zm = 9  zs = 2  f = 4
+  zc = 1  zm = 8  zs = 2  f = 4
+  zc = 9  zm = 9  zs = 3  f = 4		IDAT size = 1227951
+  zc = 9  zm = 8  zs = 3  f = 4
+  zc = 9  zm = 9  zs = 0  f = 5
+  zc = 9  zm = 8  zs = 0  f = 5
+  zc = 9  zm = 9  zs = 1  f = 5
+  zc = 9  zm = 8  zs = 1  f = 5
+  zc = 1  zm = 9  zs = 2  f = 5
+  zc = 1  zm = 8  zs = 2  f = 5
+  zc = 9  zm = 9  zs = 3  f = 5		IDAT size = 1219342
+  zc = 9  zm = 8  zs = 3  f = 5
+
+Selecting parameters:
+  zc = 9  zm = 9  zs = 3  f = 5		IDAT size = 1219342
+
+Output IDAT size = 1219342 bytes (407367 bytes decrease)
+Output file size = 1219449 bytes (407655 bytes = 25.05% decrease)
+
