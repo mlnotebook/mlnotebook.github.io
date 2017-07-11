@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Some background and mathematics">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>Generative Adversarial Network (GAN) in TensorFlow - Part 1 &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Generative Adversarial Network (GAN) in TensorFlow - Part 1</h1>
+  <h2>Some background and mathematics</h2>
+</div>
+<div class="content">
+
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/featgan1.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>11 Jul 2017, 09:15</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/gan">GAN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/machine-learning">machine learning</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/cnn">CNN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/generative">generative</a>
+    
+  </div>
+  
+  
+  
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
+  
+</div>
+
+
+</div>
+
+</div>
+
+
+  <p>We&rsquo;ve seen that CNNs can learn the content of an image for classificationi purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &lsquo;fake&rsquo; image which isn&rsquo;t in the training set. Why? By the end of this tutorial you&rsquo;ll get know why this might be done and how to do it.</p>
+
+<p></p>
+
+<h2 id="intro">  Introduction </h2>
+
+<p>Generative Adversarial Networks (GANs) were proposed by Ian Goodfellow <em>et al</em> in 2014 at annual the Neural Information and Processing Systems (NIPS) conference. The original paper <a href="https://arxiv.org/pdf/1406.2661 &quot;Generative Adversarial Nets (2014">is available on Arxiv</a>&rdquo;) along with a later tutorial by Goodfellow delivered at NIPS in 2016 <a href="https://arxiv.org/pdf/1701.00160" title="NIPS 2016 Tutorial: Generative Adversarial Networks">here</a>. I&rsquo;ve read both of these (and others) as well as taking a look at other tutorials but sometimes things just weren&rsquo;t clear enough for me. <a href="http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks" title="bamos.github.io">This blog from B. Amos</a> has been helpful in getting my thoughts organised on this series, and hopefully I can build on this a little and make things more concrete.</p>
+
+<h3>What's a GAN?</h3>
+
+<p>GANs  are used in a number of ways, for example:</p>
+
+<ul>
+<li>to generate new images based upon some training data. For our tutorial, we will train with a database of faces and ask the network to produce a new face.</li>
+<li>to do &lsquo;inpainting&rsquo; or &lsquo;image completion&rsquo;. This is where part of a scene may be missing and we wish to recover the full image. It could be that we want to remove parts of the image e.g. people, and fill-in the background.</li>
+</ul>
+
+<p>There are two components in a GAN which try to work against each other (hence the &lsquo;adversarial&rsquo; part).</p>
+
+<ul>
+<li>The Generator (<em>G</em>) starts off by creating a very noisy image based upon some random input data. Its job is to try to come up with images that are as real as possible.</li>
+<li>The Discriminator (<em>D</em>) is trying to determine whether an image is real or fake.</li>
+</ul>
+
+<p>Though these two are the primary components of the network, we also need to write some functions for importing data and dealing with the training of this two-stage network. Part 1 of this tutorial will go through some background and mathematics, in Part 2 we will do some general housekeeping and get us prepared to write the main model of our network in Part 3.</p>
+
+<h2 id="maths"> Background </h2>
+
+<p>There are a number of situations where you may want to use a GAN. A common task is for image completion or &lsquo;in-painting&rsquo;. This would be where we have an image and would like to remove some obstruction or imperfection by replacing it with the background. Maybe there&rsquo;s a lovely holiday photo of beautiful scenery, but there are some people you don&rsquo;t know spoiling the view. Figure 1 shows an example of the result of image completion using PhotoShop on such an image.</p>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img src="https://farm5.staticflickr.com/4115/4756059924_e26ae12e46_b.jpg" width="100%" alt="Image Completion Example">
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 1</font>: Removal of unwated parts of a scene with image completion. Source: <a href="https://www.flickr.com/photos/littleredelf/4756059924/in/photostream/" alt="littleredelf">Flickr:littleredelf</a>
+    </div>
+</div>
+
+<p>We have a couple of options if we want to try and do this kind of image completion ourselves. Let&rsquo;s say we draw around an area we want to change:</p>
+
+<ol>
+<li>If we&rsquo;ve never seen a beach or the sky before, well we may just have to use the neighbouring pixels to inform our in-filling. If we&rsquo;re feeling fancy, we would look a little further afield and use that information too ( i.e. is there just sky around the area, or is there something else).</li>
+<li>Or&hellip; we could look at the image as a whole and try to see what would fit best. For this we would have to use our knowledge of similar scenes we&rsquo;ve observed.</li>
+</ol>
+
+<p>This is the difference between using (1) contextual and (2) perceptual information. But before we look more heavily into this, let&rsquo;s take a look at the idea behind a GAN.</p>
+
+<h2 id="gan"> Generative Adversarial Networks </h2>
+
+<p>We&rsquo;ve said that there are two components in a GAN, the <em>generator</em> and the <em>discriminator</em>. Here, we&rsquo;ll look more closely at what they do.</p>
+
+<p>Our purpose is to create images which are as realistic as possible. So much so, that they are able to fool not only humans, but the computer that has generated them. You will often see GANs being compared to money counterfeiting: our generator is trying to create fake money whilst our discriminator is trying to tell the difference between the real and fake bills. How does this work?</p>
+
+<p>Say we have an image $x$ which our discriminator $D$ is analysing. $D(x)$ gives a low value near to 0 if the image looks normal or &lsquo;natural&rsquo; and a higher value near to 1 if it thinks the image is fake - this could mean it is very noisy for example. The generator $G$ takes a vector $z$ that has been randomly sampled from a very simple, but well known, distribution e.g. a uniform or normal distribution. The image that is produced by $G(z)$ should help to train the function at $D$. We alternate showing the discriminator a real image (which will change its parameters to give a low output) and then an image from $G$ (which will change $D$ to give a higher output). At the same time, we want $G$ to also be learning to produce more realistic images which are more likely to fool $D$. We want $G$ to <em>minimise</em> the output of $D$ whilst $D$ is trying to <em>maximise</em> the same thing. They are playing a <a href="https://en.wikipedia.org/wiki/Minimax" title="Wiki: minimax">&lsquo;minimax&rsquo;</a> game against each other, which is where we get the term &lsquo;adversarial&rsquo; training.</p>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img src="/img/CNN/gan1.png" width="100%" alt="GAN">
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 2</font>: Generative Adversarial Network concept. Simple, known distribution $p_z$ from which the vector $z$ is drawn. Generator $G(z)$ generates an image. Discriminator tries to determine if image came from $G$ or from the true, unknown distribution $p_{data}$.
+    </div>
+</div>
+
+<p>Let&rsquo;s keep going with the maths&hellip;</p>
+
+<p>This kind of network has a lot of latent (hidden) variables that need to be found. But we can start from a strong position by using a distribution that we know very well like a uniform distribution.</p>
+
+<ul>
+<li>The <strong>known</strong> distribution we denote $p_z$ We will randomly draw a vector $z$ from $p_z$.</li>
+<li>We know that our data must have some distribution but we do <strong>not</strong> know this. We&rsquo;ll call this $p_{data}$</li>
+<li>Our generator will try to learn its own distribution $p_g$. Our goal is for $p_g = p_{data}$</li>
+</ul>
+
+<p>We have two networks to train, $D$ and $G$:</p>
+
+<ul>
+<li>We want to <em>minimise</em> $D(x)$ if $x$ is drawn from our true distribution $p_{data}$ i.e. <em>minimise</em> $D(x)$ if it&rsquo;s not.</li>
+<li>and <em>maximise</em> $D(G(z))$ i.e. <em>minimise</em> $1 - D(G(z))$.</li>
+</ul>
+
+<p>More formally:</p>
+
+<div>$$
+\min_{G}\max_{D} V(D, G) = \mathbb{E}_{x\sim p_{data}} \left[ \log D(x)  \right]+ \mathbb{E}_{z\sim p_{z}} \left[ \log \left( 1 - D(G(z)) \right) \right]
+
+$$
+</div>
+
+<p>Where $\mathbb{E}$ is the expectation. The advantage of working with neural networks is that we can easily compute gradients and use backpropagation to perform training. This is because the generator and the discriminator are defined by the multi-layer perceptron (MLP) parameters $\theta_g$ and $\theta_d$ respectively.</p>
+
+<p>We will train the networks (the $G$ and the $D$) one at a time, fixing the weights of one whilst training the other. From the GAN Goodfellow <em>et al</em> we get the <em>pseudo</em> code for this procedure:</p>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img src="/img/CNN/ganalgorithm.png" width="100%" alt="GAN">
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 3</font>: <i>pseudo</i> code for GAN training. With $k=1$ this equates to training $D$ then $G$ one after the other. Adapted from <a href="https://arxiv.org/pdf/1406.2661" title="Goodfellow et al. 2014">Goodfellow <i>et al.</i> 2014</a>.
+    </div>
+</div>
+
+<p>Notice that with $k=1$ we are training $D$ then $G$ one after the other. What is the training actually doing? Fig. 4 shows the distribution $p_g$ of the generator in green. Notice that with each training step, the $p_g$ becomes more like the true distribution of the image data $p_{data}$ in black. After each alternation, the error is backpropagated to udate the weights on the network that is not being held fixed. The discriminator eventually reaches its <em>lowest maximum</em> where it is no longer able to tell the difference between the true and fake images.</p>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img src="/img/CNN/ganalgographs.png" width="100%" alt="GAN">
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 4</font>: Initially (a) the generator's and true data distributions (green and black) are not very similar. (b) the discriminator (blue) is updated with generator held constant. (c) Generator is updated with discriminator held constant, until (d) $p_g$ and $p_{data}$ are most alike. Adapted from <a href="https://arxiv.org/pdf/1406.2661" title="Goodfellow et al. 2014">Goodfellow <i>et al.</i> 2014</a>.
+    </div>
+</div>
+
+<h2 id="nextsteps"> What's Next?"</h2>
+
+<p>That really is it. The basics of a GAN are just a game between two networks, the generator $G$, which produces images from some latent variables $z$, and the discriminator $D$ which tries to detect the faked images.</p>
+
+<p>Implementing this in Python seems old-hat to many and there are many pre-build solutions available. The work in this tutorial series will mostly follow the base-code from <a href="https://github.com/carpedm20/DCGAN-tensorflow" title="carpedm20/DCGAN-tensorflow">carpedm20&rsquo;s DCGAN-tensorflow repository</a>.</p>
+
+<p>In the next post, we&rsquo;ll get ourselves organised, make sure we have some dependencies, create some files and get our training data sorted.</p>
+
+<p>As always, if there&rsquo;s anything wrong or that doesn&rsquo;t make send <strong>please</strong> get in contact and let me know. A comment here is great.</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/tensorflow-basics/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/tensorflow-basics/">Convolutional Neural Networks - TensorFlow (Basics)</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

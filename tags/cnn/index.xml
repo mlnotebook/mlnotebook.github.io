@@ -9,6 +9,137 @@
     <atom:link href="/tags/cnn/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Generative Adversarial Network (GAN) in TensorFlow - Part 1</title>
+      <link>/post/GAN1/</link>
+      <pubDate>Tue, 11 Jul 2017 09:15:54 +0100</pubDate>
+      
+      <guid>/post/GAN1/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;ve seen that CNNs can learn the content of an image for classificationi purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &amp;lsquo;fake&amp;rsquo; image which isn&amp;rsquo;t in the training set. Why? By the end of this tutorial you&amp;rsquo;ll get know why this might be done and how to do it.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt;  Introduction &lt;/h2&gt;
+
+&lt;p&gt;Generative Adversarial Networks (GANs) were proposed by Ian Goodfellow &lt;em&gt;et al&lt;/em&gt; in 2014 at annual the Neural Information and Processing Systems (NIPS) conference. The original paper &lt;a href=&#34;https://arxiv.org/pdf/1406.2661 &amp;quot;Generative Adversarial Nets (2014&#34;&gt;is available on Arxiv&lt;/a&gt;&amp;rdquo;) along with a later tutorial by Goodfellow delivered at NIPS in 2016 &lt;a href=&#34;https://arxiv.org/pdf/1701.00160&#34; title=&#34;NIPS 2016 Tutorial: Generative Adversarial Networks&#34;&gt;here&lt;/a&gt;. I&amp;rsquo;ve read both of these (and others) as well as taking a look at other tutorials but sometimes things just weren&amp;rsquo;t clear enough for me. &lt;a href=&#34;http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks&#34; title=&#34;bamos.github.io&#34;&gt;This blog from B. Amos&lt;/a&gt; has been helpful in getting my thoughts organised on this series, and hopefully I can build on this a little and make things more concrete.&lt;/p&gt;
+
+&lt;h3&gt;What&#39;s a GAN?&lt;/h3&gt;
+
+&lt;p&gt;GANs  are used in a number of ways, for example:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;to generate new images based upon some training data. For our tutorial, we will train with a database of faces and ask the network to produce a new face.&lt;/li&gt;
+&lt;li&gt;to do &amp;lsquo;inpainting&amp;rsquo; or &amp;lsquo;image completion&amp;rsquo;. This is where part of a scene may be missing and we wish to recover the full image. It could be that we want to remove parts of the image e.g. people, and fill-in the background.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are two components in a GAN which try to work against each other (hence the &amp;lsquo;adversarial&amp;rsquo; part).&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The Generator (&lt;em&gt;G&lt;/em&gt;) starts off by creating a very noisy image based upon some random input data. Its job is to try to come up with images that are as real as possible.&lt;/li&gt;
+&lt;li&gt;The Discriminator (&lt;em&gt;D&lt;/em&gt;) is trying to determine whether an image is real or fake.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Though these two are the primary components of the network, we also need to write some functions for importing data and dealing with the training of this two-stage network. Part 1 of this tutorial will go through some background and mathematics, in Part 2 we will do some general housekeeping and get us prepared to write the main model of our network in Part 3.&lt;/p&gt;
+
+&lt;h2 id=&#34;maths&#34;&gt; Background &lt;/h2&gt;
+
+&lt;p&gt;There are a number of situations where you may want to use a GAN. A common task is for image completion or &amp;lsquo;in-painting&amp;rsquo;. This would be where we have an image and would like to remove some obstruction or imperfection by replacing it with the background. Maybe there&amp;rsquo;s a lovely holiday photo of beautiful scenery, but there are some people you don&amp;rsquo;t know spoiling the view. Figure 1 shows an example of the result of image completion using PhotoShop on such an image.&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img src=&#34;https://farm5.staticflickr.com/4115/4756059924_e26ae12e46_b.jpg&#34; width=&#34;100%&#34; alt=&#34;Image Completion Example&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: Removal of unwated parts of a scene with image completion. Source: &lt;a href=&#34;https://www.flickr.com/photos/littleredelf/4756059924/in/photostream/&#34; alt=&#34;littleredelf&#34;&gt;Flickr:littleredelf&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We have a couple of options if we want to try and do this kind of image completion ourselves. Let&amp;rsquo;s say we draw around an area we want to change:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;If we&amp;rsquo;ve never seen a beach or the sky before, well we may just have to use the neighbouring pixels to inform our in-filling. If we&amp;rsquo;re feeling fancy, we would look a little further afield and use that information too ( i.e. is there just sky around the area, or is there something else).&lt;/li&gt;
+&lt;li&gt;Or&amp;hellip; we could look at the image as a whole and try to see what would fit best. For this we would have to use our knowledge of similar scenes we&amp;rsquo;ve observed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This is the difference between using (1) contextual and (2) perceptual information. But before we look more heavily into this, let&amp;rsquo;s take a look at the idea behind a GAN.&lt;/p&gt;
+
+&lt;h2 id=&#34;gan&#34;&gt; Generative Adversarial Networks &lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve said that there are two components in a GAN, the &lt;em&gt;generator&lt;/em&gt; and the &lt;em&gt;discriminator&lt;/em&gt;. Here, we&amp;rsquo;ll look more closely at what they do.&lt;/p&gt;
+
+&lt;p&gt;Our purpose is to create images which are as realistic as possible. So much so, that they are able to fool not only humans, but the computer that has generated them. You will often see GANs being compared to money counterfeiting: our generator is trying to create fake money whilst our discriminator is trying to tell the difference between the real and fake bills. How does this work?&lt;/p&gt;
+
+&lt;p&gt;Say we have an image $x$ which our discriminator $D$ is analysing. $D(x)$ gives a low value near to 0 if the image looks normal or &amp;lsquo;natural&amp;rsquo; and a higher value near to 1 if it thinks the image is fake - this could mean it is very noisy for example. The generator $G$ takes a vector $z$ that has been randomly sampled from a very simple, but well known, distribution e.g. a uniform or normal distribution. The image that is produced by $G(z)$ should help to train the function at $D$. We alternate showing the discriminator a real image (which will change its parameters to give a low output) and then an image from $G$ (which will change $D$ to give a higher output). At the same time, we want $G$ to also be learning to produce more realistic images which are more likely to fool $D$. We want $G$ to &lt;em&gt;minimise&lt;/em&gt; the output of $D$ whilst $D$ is trying to &lt;em&gt;maximise&lt;/em&gt; the same thing. They are playing a &lt;a href=&#34;https://en.wikipedia.org/wiki/Minimax&#34; title=&#34;Wiki: minimax&#34;&gt;&amp;lsquo;minimax&amp;rsquo;&lt;/a&gt; game against each other, which is where we get the term &amp;lsquo;adversarial&amp;rsquo; training.&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img src=&#34;/img/CNN/gan1.png&#34; width=&#34;100%&#34; alt=&#34;GAN&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: Generative Adversarial Network concept. Simple, known distribution $p_z$ from which the vector $z$ is drawn. Generator $G(z)$ generates an image. Discriminator tries to determine if image came from $G$ or from the true, unknown distribution $p_{data}$.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Let&amp;rsquo;s keep going with the maths&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;This kind of network has a lot of latent (hidden) variables that need to be found. But we can start from a strong position by using a distribution that we know very well like a uniform distribution.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The &lt;strong&gt;known&lt;/strong&gt; distribution we denote $p_z$ We will randomly draw a vector $z$ from $p_z$.&lt;/li&gt;
+&lt;li&gt;We know that our data must have some distribution but we do &lt;strong&gt;not&lt;/strong&gt; know this. We&amp;rsquo;ll call this $p_{data}$&lt;/li&gt;
+&lt;li&gt;Our generator will try to learn its own distribution $p_g$. Our goal is for $p_g = p_{data}$&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We have two networks to train, $D$ and $G$:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;We want to &lt;em&gt;minimise&lt;/em&gt; $D(x)$ if $x$ is drawn from our true distribution $p_{data}$ i.e. &lt;em&gt;minimise&lt;/em&gt; $D(x)$ if it&amp;rsquo;s not.&lt;/li&gt;
+&lt;li&gt;and &lt;em&gt;maximise&lt;/em&gt; $D(G(z))$ i.e. &lt;em&gt;minimise&lt;/em&gt; $1 - D(G(z))$.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;More formally:&lt;/p&gt;
+
+&lt;div&gt;$$
+\min_{G}\max_{D} V(D, G) = \mathbb{E}_{x\sim p_{data}} \left[ \log D(x)  \right]+ \mathbb{E}_{z\sim p_{z}} \left[ \log \left( 1 - D(G(z)) \right) \right]
+
+$$
+&lt;/div&gt;
+
+&lt;p&gt;Where $\mathbb{E}$ is the expectation. The advantage of working with neural networks is that we can easily compute gradients and use backpropagation to perform training. This is because the generator and the discriminator are defined by the multi-layer perceptron (MLP) parameters $\theta_g$ and $\theta_d$ respectively.&lt;/p&gt;
+
+&lt;p&gt;We will train the networks (the $G$ and the $D$) one at a time, fixing the weights of one whilst training the other. From the GAN Goodfellow &lt;em&gt;et al&lt;/em&gt; we get the &lt;em&gt;pseudo&lt;/em&gt; code for this procedure:&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img src=&#34;/img/CNN/ganalgorithm.png&#34; width=&#34;100%&#34; alt=&#34;GAN&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: &lt;i&gt;pseudo&lt;/i&gt; code for GAN training. With $k=1$ this equates to training $D$ then $G$ one after the other. Adapted from &lt;a href=&#34;https://arxiv.org/pdf/1406.2661&#34; title=&#34;Goodfellow et al. 2014&#34;&gt;Goodfellow &lt;i&gt;et al.&lt;/i&gt; 2014&lt;/a&gt;.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Notice that with $k=1$ we are training $D$ then $G$ one after the other. What is the training actually doing? Fig. 4 shows the distribution $p_g$ of the generator in green. Notice that with each training step, the $p_g$ becomes more like the true distribution of the image data $p_{data}$ in black. After each alternation, the error is backpropagated to udate the weights on the network that is not being held fixed. The discriminator eventually reaches its &lt;em&gt;lowest maximum&lt;/em&gt; where it is no longer able to tell the difference between the true and fake images.&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img src=&#34;/img/CNN/ganalgographs.png&#34; width=&#34;100%&#34; alt=&#34;GAN&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 4&lt;/font&gt;: Initially (a) the generator&#39;s and true data distributions (green and black) are not very similar. (b) the discriminator (blue) is updated with generator held constant. (c) Generator is updated with discriminator held constant, until (d) $p_g$ and $p_{data}$ are most alike. Adapted from &lt;a href=&#34;https://arxiv.org/pdf/1406.2661&#34; title=&#34;Goodfellow et al. 2014&#34;&gt;Goodfellow &lt;i&gt;et al.&lt;/i&gt; 2014&lt;/a&gt;.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;nextsteps&#34;&gt; What&#39;s Next?&#34;&lt;/h2&gt;
+
+&lt;p&gt;That really is it. The basics of a GAN are just a game between two networks, the generator $G$, which produces images from some latent variables $z$, and the discriminator $D$ which tries to detect the faked images.&lt;/p&gt;
+
+&lt;p&gt;Implementing this in Python seems old-hat to many and there are many pre-build solutions available. The work in this tutorial series will mostly follow the base-code from &lt;a href=&#34;https://github.com/carpedm20/DCGAN-tensorflow&#34; title=&#34;carpedm20/DCGAN-tensorflow&#34;&gt;carpedm20&amp;rsquo;s DCGAN-tensorflow repository&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the next post, we&amp;rsquo;ll get ourselves organised, make sure we have some dependencies, create some files and get our training data sorted.&lt;/p&gt;
+
+&lt;p&gt;As always, if there&amp;rsquo;s anything wrong or that doesn&amp;rsquo;t make send &lt;strong&gt;please&lt;/strong&gt; get in contact and let me know. A comment here is great.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Convolutional Neural Networks - TensorFlow (Basics)</title>
       <link>/post/tensorflow-basics/</link>
       <pubDate>Mon, 03 Jul 2017 09:44:24 +0100</pubDate>

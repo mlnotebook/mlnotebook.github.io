@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/post/GAN1/</loc>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/tensorflow-basics/</loc>
     <lastmod>2017-07-03T09:44:24+01:00</lastmod>
   </url>
@@ -85,7 +90,7 @@
   
   <url>
     <loc>/tags/cnn/</loc>
-    <lastmod>2017-07-03T09:44:24+01:00</lastmod>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -120,8 +125,20 @@
   </url>
   
   <url>
+    <loc>/tags/gan/</loc>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/gaussian/</loc>
     <lastmod>2017-03-08T10:43:07+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/generative/</loc>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -169,13 +186,13 @@
   
   <url>
     <loc>/tags/machine-learning/</loc>
-    <lastmod>2017-03-06T17:04:53+00:00</lastmod>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-07-03T09:44:24+01:00</lastmod>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -223,19 +240,19 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2017-07-03T09:44:24+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/python/</loc>
-    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/topics/python/</loc>
     <lastmod>2017-03-01T19:27:27+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/python/</loc>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -305,7 +322,7 @@
   
   <url>
     <loc>/topics/tutorial/</loc>
-    <lastmod>2017-07-03T09:44:24+01:00</lastmod>
+    <lastmod>2017-07-11T09:15:54+01:00</lastmod>
     <priority>0</priority>
   </url>
   
