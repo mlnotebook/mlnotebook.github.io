@@ -2,7 +2,6 @@
 date = "2017-07-11T09:15:54+01:00"
 title = "Generative Adversarial Network (GAN) in TensorFlow - Part 1"
 tags = ["GAN", "machine learning", "CNN", "generative"]
-draft = true
 description = "Some background and mathematics"
 topics = ["tutorial"]
 social=true
