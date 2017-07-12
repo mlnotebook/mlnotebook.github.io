@@ -9,6 +9,116 @@
     <atom:link href="/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Generative Adversarial Network (GAN) in TensorFlow - Part 2</title>
+      <link>/post/GAN2/</link>
+      <pubDate>Wed, 12 Jul 2017 11:59:45 +0100</pubDate>
+      
+      <guid>/post/GAN2/</guid>
+      <description>&lt;p&gt;This tutorial will provide the data that we will use when using our Generative Adversarial Networks. It will also take an overview on the structure of the necessary code for creating a GAN and provide some skeleton code which we can work on in the next post. If you&amp;rsquo;re not up to speed on GANs, please do read the brief introduction in &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN Part 1 - Some Background and Mathematics&#34;&gt;Part 1&lt;/a&gt; of this series on Generative Adversarial Networks.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve look at &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN Part 1 - Some Background and Mathematics&#34;&gt;how a GAN works&lt;/a&gt;  and how it is trained, but how do we implement this in Python? There are several stages to this task:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Create some initial functions that will read in our training data&lt;/li&gt;
+&lt;li&gt;Create some functions that will perform the steps in the CNN&lt;/li&gt;
+&lt;li&gt;Write a &lt;code&gt;class&lt;/code&gt; that will hold our GAN and all of its important methods&lt;/li&gt;
+&lt;li&gt;Put these together in a script that we can run to train the GAN&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The way I&amp;rsquo;d like to go through this process (in the next post) is by taking the network piece by piece as it would be called by the program. I think this is important to help to understand the flow of the data through the network. The code that I&amp;rsquo;ve used for the basis of these tutorials is from &lt;a href=&#34;https://github.com/carpedm20/DCGAN-tensorflow&#34; title=&#34;carpedm20/DCGAN-tensorflow&#34;&gt;carpedm20&amp;rsquo;s DCGAN-tensorflow repository&lt;/a&gt;, with a lot of influence from other sources including &lt;a href=&#34;http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks&#34; title=&#34;bamos.github.io&#34;&gt;this blog from B. Amos&lt;/a&gt;. I&amp;rsquo;m hoping that by  putting this together in several posts, and fleshing out the code, it will become clearer.&lt;/p&gt;
+
+&lt;h2 id=&#34;skeletons&#34;&gt; Skeleton Code &lt;/h2&gt;
+
+&lt;p&gt;We will structure our code into 4 separate &lt;code&gt;.py&lt;/code&gt; files. Each file represents one of the 4 stages set out above:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_imgfuncs.py&#34; title=&#34;gantut_imgfuncs.py&#34;&gt;&lt;code&gt;gantut_imgfuncs.py&lt;/code&gt;&lt;/a&gt;: holds the image-related functions&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_datafuncs.py&#34; title=&#34;gantut_datafuncs.py&#34;&gt;&lt;code&gt;gantut_datafuncs.py&lt;/code&gt;&lt;/a&gt;: contains the data-related functions&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_gan.py&#34; title=&#34;gantut_gan.py&#34;&gt;&lt;code&gt;gantut_gan.py&lt;/code&gt;&lt;/a&gt;: is where we define the GAN &lt;code&gt;class&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_trainer.py&#34; title=&#34;gantut_trainer.py&#34;&gt;&lt;code&gt;gantut_trainer.py&lt;/code&gt;&lt;/a&gt;: is the script that we will call in order to train the GAN&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;For our project, let&amp;rsquo;s use the working directory &lt;code&gt;~/GAN&lt;/code&gt;. Download these skeletons using the links above into `~/GAN&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;If you look through each of these files, you will see that they contain only a comment for each function/class and the line defining each function/method. Each of these will have to be completed when we go through the next couple of posts. In the remainder of this post, we will take a look at the dataset that we will be using and prepare the images.&lt;/p&gt;
+
+&lt;h2 id=&#34;dataset&#34;&gt; Dataset&lt;/h2&gt;
+
+&lt;p&gt;We clearly need to have some training data to hand to be able to make this work. Several posts have used databases of faces or even the MNIST digit-classification dataset. In our tutorial, we will be using faces - I find this very interesting as it allows the computer to create photo-realistic images of people that don&amp;rsquo;t actually exist!&lt;/p&gt;
+
+&lt;p&gt;To get the dataset prepared we need to download it, and then pre-process the images so that they will be small enough to use in our GAN.&lt;/p&gt;
+
+&lt;h3 id=&#34;dataset-download&#34;&gt; Download &lt;/h3&gt;
+
+&lt;p&gt;We are going to use the &lt;a href=&#34;http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html&#34; title=&#34;CelebA&#34;&gt;CelebA&lt;/a&gt; databse. Here is a direct link to the GoogleDrive which stores the data: &lt;a href=&#34;https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg&#34;&gt;https://drive.google.com/drive/folders/0B7EVK8r0v71pTUZsaXdaSnZBZzg&lt;/a&gt;. You will want to go to the &amp;ldquo;img&amp;rdquo; folder and download the &lt;a href=&#34;https://drive.google.com/open?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM&#34; title=&#34;img_align_celeba.zip&#34;&gt;&amp;ldquo;img_align_celeba.zip&amp;rdquo;&lt;/a&gt; file. Direct download link should be:&lt;/p&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;a href=&#34;https://drive.google.com/open?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM&#34; title=&#34;img_align_celeba.zip&#34;&gt;img_align_celeba.zip (1.3GB)&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Download and extract this folder into &lt;code&gt;~/GAN/raw_images&lt;/code&gt; to find it contains 200,000+ examples of celebrity faces. Even though the &lt;code&gt;.zip&lt;/code&gt; says &amp;lsquo;align&amp;rsquo; in the name, we still need to resize the images and thus may need to realign them too.&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img src=&#34;http://mmlab.ie.cuhk.edu.hk/projects/celeba/overview.png&#34; width=&#34;75%&#34; title=&#34;CelebA Database&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: Examples from the CelebA Database. Source: &lt;a href=&#34;http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html&#34; alt=&#34;CelebA&#34;&gt;CelebA&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 is=&#34;dataset-process&#34;&gt; Processing &lt;/h3&gt;
+
+&lt;p&gt;To process this volume of images, we need an automated method for resizing and cropping. We will use &lt;a href=&#34;http://cmusatyalab.github.io/openface/&#34; title=&#34;OpenFace&#34;&gt;OpenFace&lt;/a&gt;. Specifically, there&amp;rsquo;s a small tool we will want to use from this.&lt;/p&gt;
+
+&lt;p&gt;Open a terminal, navigate to or create your working directory (we&amp;rsquo;ll use &lt;code&gt;~/GAN&lt;/code&gt; and follow the instructions below to clone OpenFace and get the Python wrapping sorted:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cd ~/GAN
+git clone https://github.com/cmusatyalab/openface.git openface
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Cloning complete, move into the &lt;code&gt;openface&lt;/code&gt; folder and install the requirements (handily they&amp;rsquo;re in requirements.txt, so do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;cd ./openface
+sudo pip install -r requirements.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Installation complete (make sure you use sudo to get the permissions to install). Next we want to install the models that we can use with Python:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;./models/get-models.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This make take a short while. When this is done, you may want to update Scipy. This is because the requirements.txt wants a previous version to the most recent. Easily fixed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;sudo pip install --upgrade scipy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now we have access to the Python tool that will do the aligning and cropping of our faces. This is an important step to ensure that all images going into the network are the same dimensions, but also so that the network can learn the faces well (there&amp;rsquo;s no point in having eyes at the bottom of an image, or a face that&amp;rsquo;s half out of the field of view).&lt;/p&gt;
+
+&lt;p&gt;In our working directory `~/GAN&amp;rsquo;, do the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;./openface/util/align-dlib.py ./raw_images align innerEyesAndBottomLip ./aligned --size 64
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will &lt;code&gt;align&lt;/code&gt; all of the &lt;code&gt;innerEyesAndBottomLip&lt;/code&gt; of the images in &lt;code&gt;./raw_images&lt;/code&gt;, crop them to &lt;code&gt;64&lt;/code&gt; x &lt;code&gt;64&lt;/code&gt; and put them in &lt;code&gt;./aligned&lt;/code&gt;. This will take a long time (for 200,000+ images!).&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img src=&#34;/img/CNN/resized_celeba.png&#34; width=&#34;50%&#34; title=&#34;Cropped and Resized CelebA&#34;&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: Examples of aligned, cropped and resized images from the &lt;a href=&#34;http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html&#34; alt=&#34;CelebA&#34;&gt;CelebA&lt;/a&gt; database.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That&amp;rsquo;s it! Now we will have a good training set to use with our network. We also have the skeletons that we can build up to form our GAN. Our next post will look at the functions that will read-in the images for use with the GAN and begin to work on the GAN &lt;code&gt;class&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Convolutional Neural Networks - TensorFlow (Basics)</title>
       <link>/post/tensorflow-basics/</link>
       <pubDate>Mon, 03 Jul 2017 09:44:24 +0100</pubDate>
