@@ -2313,7 +2313,7 @@ $$&lt;/div&gt;
 
 &lt;p&gt;This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &amp;lsquo;epoch&amp;rsquo; or run through of this algorithm.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Some of the ideas notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;em&gt;Some of the ideas and notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

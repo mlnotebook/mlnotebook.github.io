@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Image Import and Export Functions">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>Generative Adversarial Network (GAN) in TensorFlow - Part 3 &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Generative Adversarial Network (GAN) in TensorFlow - Part 3</h1>
+  <h2>Image Import and Export Functions</h2>
+</div>
+<div class="content">
+
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/featgan3.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>13 Jul 2017, 09:16</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/gan">GAN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/machine-learning">machine learning</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/cnn">CNN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/generative">generative</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/tensorflow">tensorflow</a>
+    
+  </div>
+  
+  
+  
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
+  
+</div>
+
+
+</div>
+
+</div>
+
+
+  <p>We&rsquo;re ready to code! In <a href="/content/post/GAN1 &quot;GAN Tutorial - Part 1">Part 1</a> we looked at how GANs work and <a href="/content/post/GAN2 &quot;GAN Tutorial - Part 2">Part 2</a> showed how to get the data ready. In this Part, we will begin creating the functions that handle the image data including some pre-procesing and data normalisation.</p>
+
+<p></p>
+
+<div id="toctop"></div>
+
+<ol>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#imagefuncs">Image Functions</a>
+
+<ol>
+<li><a href="#importfuncs">Importing Functions</a>
+
+<ul>
+<li><a href="#imread">imread()</a></li>
+<li><a href="#transform">transform()</a></li>
+<li><a href="#centercrop">center_crop()</a></li>
+<li><a href="#getimage">get_image()</a></li>
+</ul></li>
+<li><a href="#savingfuncs">Saving Functions</a>
+
+<ul>
+<li><a href="#invtransform">inverse_transform</a></li>
+<li><a href="#merge">merge()</a></li>
+<li><a href="#imsave">imsave()</a></li>
+<li><a href="#saveimages">save_images()</a></li>
+</ul></li>
+</ol></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ol>
+
+<h2 id="intro"> Introduction </h2> 
+
+<p>In the <a href="/content/post/GAN2 &quot;GAN Tutorial - Part 2">previous post</a> we downloaded and pre-processed our training data. There were also links to the skeleton code we will be using in the remainder of the tutorial, here they are again:</p>
+
+<ol>
+<li><a href="/docs/GAN/gantut_imgfuncs.py" title="gantut_imgfuncs.py"><code>gantut_imgfuncs.py</code></a>: holds the image-related functions</li>
+<li><a href="/docs/GAN/gantut_datafuncs.py" title="gantut_datafuncs.py"><code>gantut_datafuncs.py</code></a>: contains the data-related functions</li>
+<li><a href="/docs/GAN/gantut_gan.py" title="gantut_gan.py"><code>gantut_gan.py</code></a>: is where we define the GAN <code>class</code></li>
+<li><a href="/docs/GAN/gantut_trainer.py" title="gantut_trainer.py"><code>gantut_trainer.py</code></a>: is the script that we will call in order to train the GAN</li>
+</ol>
+
+<p>Again, the code is based from other sources, particularly the respository by <a href="https://github.com/carpedm20/DCGAN-tensorflow" title="carpedm20/DCGAN-tensorflow">carpedm20</a> and <a href="http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks" title="bamos.github.io">B. Amos</a>.</p>
+
+<p>Now, if your folder structure that looks something like this then we&rsquo;re ready to go:</p>
+
+<pre><code class="language-bash">~/GAN
+  |- raw
+    |-- 00001.jpg
+    |-- ...
+  |- aligned
+    |-- 00001.jpg
+    |-- ...
+  |- gantut_imgfuncs.py
+  |- gantut_datafuncs.py
+  |- gantut_gan.py
+  |- gantut_trainer.py
+</code></pre>
+
+<h2 id="imagefuncs"> Image Functions </h2>
+
+<p>We&rsquo;re going to want to be able to read-in a set of images. We will also want to be able to output some generated images. We will also add in a fail-safe cropping/transformation procedure in-case we want to make sure we have the right input format. The skeleton code <code>gantut_imgfuncs.py</code> contains the definition headers for these functions, we will fill them in as we go along.</p>
+
+<h3 id="importfuncs"> Importing Functions </h3>
+
+<p>These are the functions needed to get the data from the hard-disk into our network. They are called like this:</p>
+
+<ol>
+<li><code>get_image</code> which calls</li>
+<li><code>imread</code> and</li>
+<li><code>transform</code>which calls</li>
+<li><code>center_crop</code></li>
+</ol>
+
+<h4 id="imread"> imread() </h4>
+
+<p>We are dealing with standard image files and our GAN will support <code>.jpg</code>, <code>.jpeg</code> and <code>.png</code> as input. For these kind of files, Python already has well-developed tools: specifically we can use the <a href="https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.misc.imread.html" title="imread documentation">scipy.misc.imread</a> function from the <code>scipy.misc</code> library. This is a one-liner and is already written in the skeleton code.</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>path</code>: location of the image</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>the image</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; Reads in the image (part of get_image function)
+&quot;&quot;&quot;
+def imread(path):
+    return scipy.misc.imread(path, mode='RGB').astype(np.float)
+</code></pre>
+
+<hr>
+
+<h4 id="transform"> transform() [to top][100]</h4>
+
+<p>This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we&rsquo;ve done some registration/alignment etc.</p>
+
+<p>We do a check on whether we want to crop the image, if we do call the <code>center_crop</code> function, other wise, just take the <code>image</code> as it is.</p>
+
+<p>Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1.</p>
+
+<p>We will define the cropping function next, but note that the returned image is a simply a <code>numpy</code> array.</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>image</code>:      the image data to be transformed</li>
+<li><code>npx</code>:        the size of the transformed image [<code>npx</code> x <code>npx</code>]</li>
+<li><code>is_crop</code>:    whether to preform cropping too [<code>True</code> or <code>False</code>]</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>the cropped, normalised image</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; Transforms the image by cropping and resizing and 
+normalises intensity values between -1 and 1
+&quot;&quot;&quot;
+def transform(image, npx=64, is_crop=True):
+    if is_crop:
+        cropped_image = center_crop(image, npx)
+    else:
+        cropped_image = image
+    return np.array(cropped_image)/127.5 - 1.
+</code></pre>
+
+<hr>
+
+<h4 id="centercrop"> center_crop() </h4>
+
+<p>Lets perform the cropping of the images (if requested). Usually we deal with square images, say $[64 \times 64]$. We can add a quick option to change that with short <code>if</code> statements looking at the <code>crop_w</code> argument to this function. We take the current height and width (<code>h</code> and <code>w</code>) from the <code>shape</code> of the image <code>x</code>.</p>
+
+<p>To find the location of the centre of the image around which to take the square crop, we take half the result of <code>h - crop_h</code> and <code>w - crop_w</code>, making sure to round both to get a definite pixel value. However, it&rsquo;s not guaranteed (depending on the image dimensions) that we will end up with a nice $[64 \times 64]$ image. Let&rsquo;s fix that at the end.</p>
+
+<p>As before, <code>scipy</code> has some efficient functions that we may as well use. <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.misc.imresize.html" title="imresize documentation"><code>scipy.misc.imresize</code></a> takes in an image array and the desired size and outputs a resized image. We can give it our array, which may not be a nice square image due to the initial image dimensions, and <code>imresize</code> will perform interpolation (bilinear by default) to make sure we get a nice square image at the end.</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>x</code>:      the input image</li>
+<li><code>crop_h</code>: the height of the crop region</li>
+<li><code>crop_w</code>: if None crop width = crop height</li>
+<li><code>resize_w</code>: the width of the resized image</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>the cropped image</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; Crops the input image at the centre pixel
+&quot;&quot;&quot;
+def center_crop(x, crop_h, crop_w=None, resize_w=64):
+    if crop_w is None:
+        crop_w = crop_h
+    h, w = x.shape[:2]
+    j = int(round((h - crop_h)/2.))
+    i = int(round((w - crop_w)/2.))
+    return scipy.misc.imresize(x[j:j+crop_h, i:i+crop_w],
+                               [resize_w, resize_w])
+</code></pre>
+
+<hr>
+
+<h4 id="getimage"> get_image() </h4>
+
+<p>The <code>get_image</code> function is a wrapper that will call the <code>imread</code> and <code>transform</code> functions. It is the function that we&rsquo;ll call to get the data rather than doing two separate function calls in the main GAN <code>class</code>. This is a one-liner and is already written in the skeleton code.</p>
+
+<p><em>Parameters</em></p>
+
+<ul>
+<li><code>is_crop</code>:    whether to crop the image or not [True or False]</li>
+</ul>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>image_path</code>: location of the image</li>
+<li><code>image_size</code>: width (in pixels) of the output image</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>the cropped image</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; Loads the image and crops it to 'image_size'
+&quot;&quot;&quot;
+def get_image(image_path, image_size, is_crop=True):
+    return transform(imread(image_path), image_size, is_crop)
+</code></pre>
+
+<hr>
+
+<h3 id="savingfuncs"> Saving Functions </h3>
+
+<p>When we&rsquo;re training our network, we will want to see some of the results. The previous functions all deal with getting images from storage <em>into</em> the networks. We now want to take some images <em>out</em>. The functions are called like this:</p>
+
+<ol>
+<li><code>save_images</code> which calls</li>
+<li><code>inverse_transform</code> and</li>
+<li><code>imsave</code> which calls</li>
+<li><code>merge</code></li>
+</ol>
+
+<h4 id="invtransform"> inverse_transform() </h4>
+
+<p>Firstly, let&rsquo;s put the intensities back into the skewed range, we&rsquo;ll just go from $[-1 \ 1]$ to $[0 \ 1]$ here.</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>images</code>:     the image to be transformed</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>the transformed image</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; This turns the intensities back to a normal range
+&quot;&quot;&quot;
+def inverse_transform(images):
+    return (images+1.)/2.
+</code></pre>
+
+<hr>
+
+<h4 id="merge"> merge() </h4>
+
+<p>We will create an array of several example images from the network which we can output every now and again to see how things are progressing. We need some <code>images</code> to go in and a <code>size</code> which will say how many images in width and height the array should be.</p>
+
+<p>First get the height <code>h</code> and width <code>w</code> of the <code>images</code> from their <code>shape</code> (we assume they&rsquo;re all the same size becuase we will have already used our previous functions to make this happen). <strong>Note</strong> that <code>images</code> is a collection of images where each <code>image</code> has the same <code>h</code> and <code>w</code>.</p>
+
+<p>We define <code>img</code> to be the final image array and initialise it to all zeros. Notice that there is a &lsquo;3&rsquo; on the end to denote the number of channels as these are RGB images. This will still work for grayscale images.</p>
+
+<p>Next we will iterate through each <code>image</code> in <code>images</code> and put it into place. The <code>%</code> operator is the modulo which returns the remainder of the division between two numbers. <code>//</code> is the floor division operator which returns the integer result of division rounded down. So this will move along the top row of the array (remembering Python indexing starts at 0) and move down placing the image at each iteration.</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>images</code>:     the set of input images</li>
+<li><code>size</code>:       [height, width] of the array</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>an array of images as a single image</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; Takes a set of 'images' and creates an array from them.
+&quot;&quot;&quot; 
+def merge(images, size):
+    h, w = images.shape[1], images.shape[2]
+    img = np.zeros((int(h * size[0]), int(w * size[1]), 3))
+    for idx, image in enumerate(images):
+        i = idx % size[1]
+        j = idx // size[1]
+        img[j*h:j*h+h, i*w:i*w+w, :] = image
+</code></pre>
+
+<hr>
+
+<h4 id="imsave"> imsave() </h4>
+
+<p>Our image array <code>img</code> now has intensity values in $[0 \ 1]$ lets make this the proper image range $[0 \ 255]$ before getting the integer values as an image array with <a href="https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.imsave.html" title="imsave documentation"><code>scipy.misc.imsave</code></a>.</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>images</code>: the set of input images</li>
+<li><code>size</code>:   [height, width] of the array</li>
+<li><code>path</code>:   the save location</li>
+</ul>
+
+<p><em>Returns</em></p>
+
+<ul>
+<li>an image saved to disk</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; Takes a set of `images` and calls the merge function. Converts
+the array to image data and saves to disk.
+&quot;&quot;&quot;
+def imsave(images, size, path):
+    img = merge(images, size)
+    return scipy.misc.imsave(path, (255*img).astype(np.uint8))
+</code></pre>
+
+<hr>
+
+<h4 id="saveimages"> save_images() </h4>
+
+<p>Finally, let&rsquo;s create the wrapper to pull this together:</p>
+
+<p><em>Inputs</em></p>
+
+<ul>
+<li><code>images</code>: the images to be saves</li>
+<li><code>size</code>: the size of the img array [width height]</li>
+<li><code>image_path</code>: where the array is to be stored on disk</li>
+</ul>
+
+<pre><code class="language-python">&quot;&quot;&quot; takes an image and saves it to disk. Redistributes
+intensity values [-1 1] from [0 255]
+&quot;&quot;&quot;
+def save_images(images, size, image_path):
+    return imsave(inverse_transform(images), size, image_path)
+</code></pre>
+
+<h3 id="conclusion"> Conclusion </h3>
+
+<p>In this post, we&rsquo;ve dealt with all of the functions that are needed to import image data into our network and also some that will create outputs so we can see what&rsquo;s going on. We&rsquo;ve made sure that we can import any image-size  and it will be dealt with correctly.</p>
+
+<p>Make sure that we&rsquo;ve imported <code>scpipy.misc</code> and <code>numpy</code> to this script:</p>
+
+<pre><code class="language-python">import numpy as np
+import scipy.misc
+</code></pre>
+
+<p>The complete script can be found <a href="/docs/GAN/gantut_imgfuncs_complete.py" title="gantut_imgfuncs_complete.py">here</a>. In the next post, we will be working on the GAN itself and building the <code>gantut_datafuncs.py</code> functions as we go.</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/GAN2/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/GAN2/">Generative Adversarial Network (GAN) in TensorFlow - Part 2</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
