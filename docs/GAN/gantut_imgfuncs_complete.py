@@ -40,9 +40,13 @@ RETURNS
 - the cropped image
 """
 def center_crop(x, crop_h, crop_w=None, resize_w=64):
-
-
-
+    if crop_w is None:
+        crop_w = crop_h
+    h, w = x.shape[:2]
+    j = int(round((h - crop_h)/2.))
+    i = int(round((w - crop_w)/2.))
+    return scipy.misc.imresize(x[j:j+crop_h, i:i+crop_w],
+                               [resize_w, resize_w])
 
 # TRANSFORM/CROPPING WRAPPER
 """ Transforms the image by cropping and resizing and 
@@ -57,6 +61,11 @@ RETURNS
 - the cropped, normalised image
 """
 def transform(image, npx=64, is_crop=True):
+    if is_crop:
+        cropped_image = center_crop(image, npx)
+    else:
+        cropped_image = image
+    return np.array(cropped_image)/127.5 - 1.
 
 
 
@@ -72,9 +81,12 @@ RETURNS
 - image array as a single image
 """ 
 def merge(images, size):
-
-
-
+    h, w = images.shape[1], images.shape[2]
+    img = np.zeros((int(h * size[0]), int(w * size[1]), 3))
+    for idx, image in enumerate(images):
+        i = idx % size[1]
+        j = idx // size[1]
+        img[j*h:j*h+h, i*w:i*w+w, :] = image
 
 #ARRAY TO IMAGE FUNCTION
 """ Takes a set of `images` and calls the merge function. Converts
@@ -89,9 +101,8 @@ RETURNS
 - an image array
 """
 def imsave(images, size, path):
-
-
-
+    img = merge(images, size)
+    return scipy.misc.imsave(path, (255*img).astype(np.uint8))
 
 #SAVE IMAGE FUNCTION
 """ takes an image and saves it to disk. Redistributes

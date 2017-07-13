@@ -6,8 +6,348 @@
     <description>Recent content on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 12 Jul 2017 11:59:45 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 13 Jul 2017 09:16:32 +0100</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Generative Adversarial Network (GAN) in TensorFlow - Part 3</title>
+      <link>/post/GAN3/</link>
+      <pubDate>Thu, 13 Jul 2017 09:16:32 +0100</pubDate>
+      
+      <guid>/post/GAN3/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;re ready to code! In &lt;a href=&#34;/content/post/GAN1 &amp;quot;GAN Tutorial - Part 1&#34;&gt;Part 1&lt;/a&gt; we looked at how GANs work and &lt;a href=&#34;/content/post/GAN2 &amp;quot;GAN Tutorial - Part 2&#34;&gt;Part 2&lt;/a&gt; showed how to get the data ready. In this Part, we will begin creating the functions that handle the image data including some pre-procesing and data normalisation.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#imagefuncs&#34;&gt;Image Functions&lt;/a&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#importfuncs&#34;&gt;Importing Functions&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#imread&#34;&gt;imread()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transform&#34;&gt;transform()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#centercrop&#34;&gt;center_crop()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#getimage&#34;&gt;get_image()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#savingfuncs&#34;&gt;Saving Functions&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#invtransform&#34;&gt;inverse_transform&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#merge&#34;&gt;merge()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#imsave&#34;&gt;imsave()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#saveimages&#34;&gt;save_images()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt; 
+
+&lt;p&gt;In the &lt;a href=&#34;/content/post/GAN2 &amp;quot;GAN Tutorial - Part 2&#34;&gt;previous post&lt;/a&gt; we downloaded and pre-processed our training data. There were also links to the skeleton code we will be using in the remainder of the tutorial, here they are again:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_imgfuncs.py&#34; title=&#34;gantut_imgfuncs.py&#34;&gt;&lt;code&gt;gantut_imgfuncs.py&lt;/code&gt;&lt;/a&gt;: holds the image-related functions&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_datafuncs.py&#34; title=&#34;gantut_datafuncs.py&#34;&gt;&lt;code&gt;gantut_datafuncs.py&lt;/code&gt;&lt;/a&gt;: contains the data-related functions&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_gan.py&#34; title=&#34;gantut_gan.py&#34;&gt;&lt;code&gt;gantut_gan.py&lt;/code&gt;&lt;/a&gt;: is where we define the GAN &lt;code&gt;class&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_trainer.py&#34; title=&#34;gantut_trainer.py&#34;&gt;&lt;code&gt;gantut_trainer.py&lt;/code&gt;&lt;/a&gt;: is the script that we will call in order to train the GAN&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Again, the code is based from other sources, particularly the respository by &lt;a href=&#34;https://github.com/carpedm20/DCGAN-tensorflow&#34; title=&#34;carpedm20/DCGAN-tensorflow&#34;&gt;carpedm20&lt;/a&gt; and &lt;a href=&#34;http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks&#34; title=&#34;bamos.github.io&#34;&gt;B. Amos&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, if your folder structure that looks something like this then we&amp;rsquo;re ready to go:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;~/GAN
+  |- raw
+    |-- 00001.jpg
+    |-- ...
+  |- aligned
+    |-- 00001.jpg
+    |-- ...
+  |- gantut_imgfuncs.py
+  |- gantut_datafuncs.py
+  |- gantut_gan.py
+  |- gantut_trainer.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;imagefuncs&#34;&gt; Image Functions &lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;re going to want to be able to read-in a set of images. We will also want to be able to output some generated images. We will also add in a fail-safe cropping/transformation procedure in-case we want to make sure we have the right input format. The skeleton code &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt; contains the definition headers for these functions, we will fill them in as we go along.&lt;/p&gt;
+
+&lt;h3 id=&#34;importfuncs&#34;&gt; Importing Functions &lt;/h3&gt;
+
+&lt;p&gt;These are the functions needed to get the data from the hard-disk into our network. They are called like this:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;get_image&lt;/code&gt; which calls&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;imread&lt;/code&gt; and&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;transform&lt;/code&gt;which calls&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;center_crop&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;imread&#34;&gt; imread() &lt;/h4&gt;
+
+&lt;p&gt;We are dealing with standard image files and our GAN will support &lt;code&gt;.jpg&lt;/code&gt;, &lt;code&gt;.jpeg&lt;/code&gt; and &lt;code&gt;.png&lt;/code&gt; as input. For these kind of files, Python already has well-developed tools: specifically we can use the &lt;a href=&#34;https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.misc.imread.html&#34; title=&#34;imread documentation&#34;&gt;scipy.misc.imread&lt;/a&gt; function from the &lt;code&gt;scipy.misc&lt;/code&gt; library. This is a one-liner and is already written in the skeleton code.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;path&lt;/code&gt;: location of the image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Reads in the image (part of get_image function)
+&amp;quot;&amp;quot;&amp;quot;
+def imread(path):
+    return scipy.misc.imread(path, mode=&#39;RGB&#39;).astype(np.float)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;transform&#34;&gt; transform() [to top][100]&lt;/h4&gt;
+
+&lt;p&gt;This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we&amp;rsquo;ve done some registration/alignment etc.&lt;/p&gt;
+
+&lt;p&gt;We do a check on whether we want to crop the image, if we do call the &lt;code&gt;center_crop&lt;/code&gt; function, other wise, just take the &lt;code&gt;image&lt;/code&gt; as it is.&lt;/p&gt;
+
+&lt;p&gt;Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1.&lt;/p&gt;
+
+&lt;p&gt;We will define the cropping function next, but note that the returned image is a simply a &lt;code&gt;numpy&lt;/code&gt; array.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;image&lt;/code&gt;:      the image data to be transformed&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;npx&lt;/code&gt;:        the size of the transformed image [&lt;code&gt;npx&lt;/code&gt; x &lt;code&gt;npx&lt;/code&gt;]&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;is_crop&lt;/code&gt;:    whether to preform cropping too [&lt;code&gt;True&lt;/code&gt; or &lt;code&gt;False&lt;/code&gt;]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the cropped, normalised image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Transforms the image by cropping and resizing and 
+normalises intensity values between -1 and 1
+&amp;quot;&amp;quot;&amp;quot;
+def transform(image, npx=64, is_crop=True):
+    if is_crop:
+        cropped_image = center_crop(image, npx)
+    else:
+        cropped_image = image
+    return np.array(cropped_image)/127.5 - 1.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;centercrop&#34;&gt; center_crop() &lt;/h4&gt;
+
+&lt;p&gt;Lets perform the cropping of the images (if requested). Usually we deal with square images, say $[64 \times 64]$. We can add a quick option to change that with short &lt;code&gt;if&lt;/code&gt; statements looking at the &lt;code&gt;crop_w&lt;/code&gt; argument to this function. We take the current height and width (&lt;code&gt;h&lt;/code&gt; and &lt;code&gt;w&lt;/code&gt;) from the &lt;code&gt;shape&lt;/code&gt; of the image &lt;code&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To find the location of the centre of the image around which to take the square crop, we take half the result of &lt;code&gt;h - crop_h&lt;/code&gt; and &lt;code&gt;w - crop_w&lt;/code&gt;, making sure to round both to get a definite pixel value. However, it&amp;rsquo;s not guaranteed (depending on the image dimensions) that we will end up with a nice $[64 \times 64]$ image. Let&amp;rsquo;s fix that at the end.&lt;/p&gt;
+
+&lt;p&gt;As before, &lt;code&gt;scipy&lt;/code&gt; has some efficient functions that we may as well use. &lt;a href=&#34;https://docs.scipy.org/doc/scipy/reference/generated/scipy.misc.imresize.html&#34; title=&#34;imresize documentation&#34;&gt;&lt;code&gt;scipy.misc.imresize&lt;/code&gt;&lt;/a&gt; takes in an image array and the desired size and outputs a resized image. We can give it our array, which may not be a nice square image due to the initial image dimensions, and &lt;code&gt;imresize&lt;/code&gt; will perform interpolation (bilinear by default) to make sure we get a nice square image at the end.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt;:      the input image&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;crop_h&lt;/code&gt;: the height of the crop region&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;crop_w&lt;/code&gt;: if None crop width = crop height&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;resize_w&lt;/code&gt;: the width of the resized image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the cropped image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Crops the input image at the centre pixel
+&amp;quot;&amp;quot;&amp;quot;
+def center_crop(x, crop_h, crop_w=None, resize_w=64):
+    if crop_w is None:
+        crop_w = crop_h
+    h, w = x.shape[:2]
+    j = int(round((h - crop_h)/2.))
+    i = int(round((w - crop_w)/2.))
+    return scipy.misc.imresize(x[j:j+crop_h, i:i+crop_w],
+                               [resize_w, resize_w])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;getimage&#34;&gt; get_image() &lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;get_image&lt;/code&gt; function is a wrapper that will call the &lt;code&gt;imread&lt;/code&gt; and &lt;code&gt;transform&lt;/code&gt; functions. It is the function that we&amp;rsquo;ll call to get the data rather than doing two separate function calls in the main GAN &lt;code&gt;class&lt;/code&gt;. This is a one-liner and is already written in the skeleton code.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Parameters&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;is_crop&lt;/code&gt;:    whether to crop the image or not [True or False]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;image_path&lt;/code&gt;: location of the image&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image_size&lt;/code&gt;: width (in pixels) of the output image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the cropped image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Loads the image and crops it to &#39;image_size&#39;
+&amp;quot;&amp;quot;&amp;quot;
+def get_image(image_path, image_size, is_crop=True):
+    return transform(imread(image_path), image_size, is_crop)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h3 id=&#34;savingfuncs&#34;&gt; Saving Functions &lt;/h3&gt;
+
+&lt;p&gt;When we&amp;rsquo;re training our network, we will want to see some of the results. The previous functions all deal with getting images from storage &lt;em&gt;into&lt;/em&gt; the networks. We now want to take some images &lt;em&gt;out&lt;/em&gt;. The functions are called like this:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;save_images&lt;/code&gt; which calls&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;inverse_transform&lt;/code&gt; and&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;imsave&lt;/code&gt; which calls&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;merge&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;invtransform&#34;&gt; inverse_transform() &lt;/h4&gt;
+
+&lt;p&gt;Firstly, let&amp;rsquo;s put the intensities back into the skewed range, we&amp;rsquo;ll just go from $[-1 \ 1]$ to $[0 \ 1]$ here.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;images&lt;/code&gt;:     the image to be transformed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the transformed image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; This turns the intensities back to a normal range
+&amp;quot;&amp;quot;&amp;quot;
+def inverse_transform(images):
+    return (images+1.)/2.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;merge&#34;&gt; merge() &lt;/h4&gt;
+
+&lt;p&gt;We will create an array of several example images from the network which we can output every now and again to see how things are progressing. We need some &lt;code&gt;images&lt;/code&gt; to go in and a &lt;code&gt;size&lt;/code&gt; which will say how many images in width and height the array should be.&lt;/p&gt;
+
+&lt;p&gt;First get the height &lt;code&gt;h&lt;/code&gt; and width &lt;code&gt;w&lt;/code&gt; of the &lt;code&gt;images&lt;/code&gt; from their &lt;code&gt;shape&lt;/code&gt; (we assume they&amp;rsquo;re all the same size becuase we will have already used our previous functions to make this happen). &lt;strong&gt;Note&lt;/strong&gt; that &lt;code&gt;images&lt;/code&gt; is a collection of images where each &lt;code&gt;image&lt;/code&gt; has the same &lt;code&gt;h&lt;/code&gt; and &lt;code&gt;w&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We define &lt;code&gt;img&lt;/code&gt; to be the final image array and initialise it to all zeros. Notice that there is a &amp;lsquo;3&amp;rsquo; on the end to denote the number of channels as these are RGB images. This will still work for grayscale images.&lt;/p&gt;
+
+&lt;p&gt;Next we will iterate through each &lt;code&gt;image&lt;/code&gt; in &lt;code&gt;images&lt;/code&gt; and put it into place. The &lt;code&gt;%&lt;/code&gt; operator is the modulo which returns the remainder of the division between two numbers. &lt;code&gt;//&lt;/code&gt; is the floor division operator which returns the integer result of division rounded down. So this will move along the top row of the array (remembering Python indexing starts at 0) and move down placing the image at each iteration.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;images&lt;/code&gt;:     the set of input images&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size&lt;/code&gt;:       [height, width] of the array&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;an array of images as a single image&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Takes a set of &#39;images&#39; and creates an array from them.
+&amp;quot;&amp;quot;&amp;quot; 
+def merge(images, size):
+    h, w = images.shape[1], images.shape[2]
+    img = np.zeros((int(h * size[0]), int(w * size[1]), 3))
+    for idx, image in enumerate(images):
+        i = idx % size[1]
+        j = idx // size[1]
+        img[j*h:j*h+h, i*w:i*w+w, :] = image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;imsave&#34;&gt; imsave() &lt;/h4&gt;
+
+&lt;p&gt;Our image array &lt;code&gt;img&lt;/code&gt; now has intensity values in $[0 \ 1]$ lets make this the proper image range $[0 \ 255]$ before getting the integer values as an image array with &lt;a href=&#34;https://docs.scipy.org/doc/scipy-0.18.1/reference/generated/scipy.misc.imsave.html&#34; title=&#34;imsave documentation&#34;&gt;&lt;code&gt;scipy.misc.imsave&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;images&lt;/code&gt;: the set of input images&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size&lt;/code&gt;:   [height, width] of the array&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;path&lt;/code&gt;:   the save location&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;an image saved to disk&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Takes a set of `images` and calls the merge function. Converts
+the array to image data and saves to disk.
+&amp;quot;&amp;quot;&amp;quot;
+def imsave(images, size, path):
+    img = merge(images, size)
+    return scipy.misc.imsave(path, (255*img).astype(np.uint8))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;saveimages&#34;&gt; save_images() &lt;/h4&gt;
+
+&lt;p&gt;Finally, let&amp;rsquo;s create the wrapper to pull this together:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;images&lt;/code&gt;: the images to be saves&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;size&lt;/code&gt;: the size of the img array [width height]&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image_path&lt;/code&gt;: where the array is to be stored on disk&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; takes an image and saves it to disk. Redistributes
+intensity values [-1 1] from [0 255]
+&amp;quot;&amp;quot;&amp;quot;
+def save_images(images, size, image_path):
+    return imsave(inverse_transform(images), size, image_path)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt; Conclusion &lt;/h3&gt;
+
+&lt;p&gt;In this post, we&amp;rsquo;ve dealt with all of the functions that are needed to import image data into our network and also some that will create outputs so we can see what&amp;rsquo;s going on. We&amp;rsquo;ve made sure that we can import any image-size  and it will be dealt with correctly.&lt;/p&gt;
+
+&lt;p&gt;Make sure that we&amp;rsquo;ve imported &lt;code&gt;scpipy.misc&lt;/code&gt; and &lt;code&gt;numpy&lt;/code&gt; to this script:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
+import scipy.misc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The complete script can be found &lt;a href=&#34;/docs/GAN/gantut_imgfuncs_complete.py&#34; title=&#34;gantut_imgfuncs_complete.py&#34;&gt;here&lt;/a&gt;. In the next post, we will be working on the GAN itself and building the &lt;code&gt;gantut_datafuncs.py&lt;/code&gt; functions as we go.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Generative Adversarial Network (GAN) in TensorFlow - Part 2</title>
@@ -2555,7 +2895,7 @@ $$&lt;/div&gt;
 
 &lt;p&gt;This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &amp;lsquo;epoch&amp;rsquo; or run through of this algorithm.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Some of the ideas notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;em&gt;Some of the ideas and notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3081,37 +3421,6 @@ from scipy.ndimage import morphology
 &lt;p&gt;Whilst I&amp;rsquo;m writing my tutorials and code snippets for my own benefit and providing them on an opensource platform, it would be nice to see my name or webaddress where others have found use for them. Equally, anything I use on this stie I will try to properly credit and cite.&lt;/p&gt;
 
 &lt;p&gt;&lt;img class=&#34;banner&#34; src=&#34;/img/banner.jpg&#34; title=&#34;CCImage&#34; &lt;p style=&#34;text-align: right&#34;&gt;&lt;a href=&#34;https://pixabay.com/en/users/geralt-9301/&#34;&gt;&lt;em&gt;pixabay:geralt&lt;/em&gt;&lt;/a&gt;&lt;/p&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/</guid>
-      <description>partial &#34;header.html&#34; . }}
-
-&lt;div class=&#34;header&#34;&gt;
-  &lt;h1&gt;{{ .Title }}&lt;/h1&gt;
-  &lt;h2&gt;{{ .Site.Params.subtitle }}&lt;/h2&gt;
-&lt;/div&gt;
-
-&lt;br&gt;
-&lt;div align=&#34;center&#34;&gt;
-  &lt;img title=&#34;pixabay:geralt&#34; class=&#34;banner&#34; src=&#34;/images/banner.jpg&#34;&gt;
-&lt;/div&gt;
-
-&lt;div class=&#34;content&#34;&gt;
-  {{ range ( .Paginate (where .Data.Pages &#34;Type&#34; &#34;post&#34;)).Pages }}
-    {{ .Render &#34;summary&#34;}}
-  {{ end }}
-
-  {{ partial &#34;pagination.html&#34; . }}
-
-&lt;/div&gt;
-
-{{ partial &#34;footer.html&#34; . }}
 </description>
     </item>
     
