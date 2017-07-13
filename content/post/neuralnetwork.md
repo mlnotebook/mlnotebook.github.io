@@ -391,5 +391,5 @@ This algorithm is looped over and over until the error between the output and th
 	
 [100]:{{< relref "#toctop" >}}
 
-_Some of the ideas notation in this tutorial comes from the good videos by [Ryan Harris](https://www.youtube.com/playlist?list=PL29C61214F2146796 " NN Videos")_
+_Some of the ideas and notation in this tutorial comes from the good videos by [Ryan Harris](https://www.youtube.com/playlist?list=PL29C61214F2146796 " NN Videos")_
  
