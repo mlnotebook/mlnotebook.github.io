@@ -42,8 +42,6 @@ RETURNS
 def center_crop(x, crop_h, crop_w=None, resize_w=64):
 
 
-
-
 # TRANSFORM/CROPPING WRAPPER
 """ Transforms the image by cropping and resizing and 
 normalises intensity values between -1 and 1
@@ -61,6 +59,7 @@ def transform(image, npx=64, is_crop=True):
 
 
 
+
 #CREATE IMAGE ARRAY FUNCTION
 """ Takes a set of 'images' and creates an array from them.
 
@@ -72,8 +71,6 @@ RETURNS
 - image array as a single image
 """ 
 def merge(images, size):
-
-
 
 
 #ARRAY TO IMAGE FUNCTION
@@ -89,9 +86,8 @@ RETURNS
 - an image array
 """
 def imsave(images, size, path):
-
-
-
+    img = merge(images, size)
+    return scipy.misc.imsave(path, (255*img).astype(np.uint8))
 
 #SAVE IMAGE FUNCTION
 """ takes an image and saves it to disk. Redistributes

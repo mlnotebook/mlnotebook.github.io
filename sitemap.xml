@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/post/GAN4/</loc>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/GAN3/</loc>
     <lastmod>2017-07-13T09:16:32+01:00</lastmod>
   </url>
@@ -100,7 +105,7 @@
   
   <url>
     <loc>/tags/cnn/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -136,7 +141,7 @@
   
   <url>
     <loc>/tags/gan/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -148,7 +153,7 @@
   
   <url>
     <loc>/tags/generative/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -196,13 +201,13 @@
   
   <url>
     <loc>/tags/machine-learning/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -250,7 +255,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -309,7 +314,7 @@
   
   <url>
     <loc>/tags/tensorflow/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -332,7 +337,7 @@
   
   <url>
     <loc>/topics/tutorial/</loc>
-    <lastmod>2017-07-13T09:16:32+01:00</lastmod>
+    <lastmod>2017-07-17T09:37:58+01:00</lastmod>
     <priority>0</priority>
   </url>
   

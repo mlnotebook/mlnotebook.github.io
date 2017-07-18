@@ -88,6 +88,8 @@ def merge(images, size):
         j = idx // size[1]
         img[j*h:j*h+h, i*w:i*w+w, :] = image
 
+    return img
+    
 #ARRAY TO IMAGE FUNCTION
 """ Takes a set of `images` and calls the merge function. Converts
 the array to image data.

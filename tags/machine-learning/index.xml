@@ -9,6 +9,727 @@
     <atom:link href="/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Generative Adversarial Network (GAN) in TensorFlow - Part 4</title>
+      <link>/post/GAN4/</link>
+      <pubDate>Mon, 17 Jul 2017 09:37:58 +0100</pubDate>
+      
+      <guid>/post/GAN4/</guid>
+      <description>&lt;p&gt;Now that we&amp;rsquo;re able to import images into our network, we really need to build the GAN iteself. This tuorial will build the GAN &lt;code&gt;class&lt;/code&gt; including the methods needed to create the generator and discriminator. We&amp;rsquo;ll also be looking at some of the data functions needed to make this work.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;*Note: This table of contents does not follow the order in the post. The contents is grouped by the methods in the GAN &lt;code&gt;class&lt;/code&gt; and the functions in &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#gan&#34;&gt;The GAN&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#datasetfiles&#34;&gt;dataset_files()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#dcgan&#34;&gt;GAN Class&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#init&#34;&gt;__init__()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#discriminator&#34;&gt;discriminator()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#generator&#34;&gt;generator()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#buildmodel&#34;&gt;build_model()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#save&#34;&gt;save()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#load&#34;&gt;load()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#train&#34;&gt;train()&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#batchnorm&#34;&gt;Data Functions&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#batchnorm&#34;&gt;batch_norm()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conv2d&#34;&gt;conv2d()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#relu&#34;&gt;relu()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#linear&#34;&gt;linear()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conv2dtrans&#34;&gt;conv2d_transpose()&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
+
+&lt;p&gt;In the last tutorial, we build the functions in &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt;which allow us to import data into our networks. The completed file is &lt;a href=&#34;/docs/GAN/gantut_imgfuncs_complete.py&#34; title=&#34;gantut_imgfuncs_complete.py&#34;&gt;here&lt;/a&gt;. In this tutorial we will be working on the final two code skeletons:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_gan.py&#34; title=&#34;gantut_gan.py&#34;&gt;&lt;code&gt;gantut_gan.py&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_datafuncs.py&#34; title=&#34;gantut_datafuncs.py&#34;&gt;&lt;code&gt;gantut_datafuncs.py&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;First, let&amp;rsquo;s take a look at the various parts of our GAN in the &lt;code&gt;gantut_gan.py&lt;/code&gt; file and see what they&amp;rsquo;re going to do.&lt;/p&gt;
+
+&lt;h2 id=&#34;gan&#34;&gt; The GAN &lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;re going to import a number of modules for this file including those from our own &lt;code&gt;gantut_datafuncs.py&lt;/code&gt; and &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from __future__ import division
+import os
+import time
+import math
+import itertools
+from glob import glob
+import tensorflow as tf
+import numpy as np
+from six.moves import xrange
+
+#IMPORT OUR IMAGE AND DATA FUNCTIONS
+from gantut_datafuncs import *
+from gantut_imgfuncs import *
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;datasetfiles&#34;&gt; dataset_files() &lt;/h3&gt;
+
+&lt;p&gt;The initial part of this file is a little housekeeping - ensuring that we are only dealing with supported filetypes. This way of doing things I liked in &lt;a href=&#34;http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks&#34; title=&#34;B. Amos&#34;&gt;B. Amos blog&lt;/a&gt;. We define accepted file-extensions and then return a list of all of the possible files we can use for training purposes. the &lt;code&gt;itertools.chain.from_iterable&lt;/code&gt; function is useful for create a single &lt;code&gt;list&lt;/code&gt; of all of the files found in the folders and subfolders of a particular &lt;code&gt;root&lt;/code&gt; with an appropriate &lt;code&gt;ext&lt;/code&gt;. Notice that it doesn&amp;rsquo;t really matter what we call the images, so this will work for all datasets.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;SUPPORTED_EXTENSIONS = [&amp;quot;png&amp;quot;, &amp;quot;jpg&amp;quot;, &amp;quot;jpeg&amp;quot;]
+
+&amp;quot;&amp;quot;&amp;quot; Returns the list of all SUPPORTED image files in the directory
+&amp;quot;&amp;quot;&amp;quot;
+def dataset_files(root):
+    return list(itertools.chain.from_iterable(
+    glob(os.path.join(root, &amp;quot;*.{}&amp;quot;.format(ext))) for ext in SUPPORTED_EXTENSIONS))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h3 id=&#34;dcgan&#34;&gt; DCGAN() &lt;/h3&gt;
+
+&lt;p&gt;This is where the hard work begins. We&amp;rsquo;re going to build the DCGAN &lt;code&gt;class&lt;/code&gt; (i.e. Deep Convolutional Generative Adversarial Network). The skeleton code already has the necessary method names for our model, let&amp;rsquo;s have a look at what we&amp;rsquo;ve got to create:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;__init__&lt;/code&gt;:  &amp;emsp;to initialise the model and set parameters&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;build_model&lt;/code&gt;: &amp;emsp;creates the model (or &amp;lsquo;graph&amp;rsquo; in TensorFlow-speak) by calling&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;generator&lt;/code&gt;: &amp;emsp;defines the generator network&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;discriminator&lt;/code&gt;: &amp;emsp;defines the discriminator network&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;train&lt;/code&gt;: &amp;emsp;is called to begin the training of the network with data&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;save&lt;/code&gt;: &amp;emsp;saves the TensorFlow checkpoints of the GAN&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;load&lt;/code&gt;: &amp;emsp;loads the TensorFlow checkpoints of the GAN&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;We create an instance of our GAN class with &lt;code&gt;DCGAN(args)&lt;/code&gt; and be returned a DCGAN object with the above methods. Let&amp;rsquo;s code.&lt;/p&gt;
+
+&lt;h4 id=&#34;init&#34;&gt; __init__() &lt;/h4&gt;
+
+&lt;p&gt;To initialise our GAN object, we need some initial parameters. It looks like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def __init__(self, sess, image_size=64, is_crop=False, batch_size=64, sample_size=64, z_dim=100,
+             gf_dim=64, df_dim=64, gfc_dim=1024, dfc_dim=1024, c_dim=3, checkpoint_dir=None, lam=0.1):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The parameters are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;sess&lt;/code&gt;: &amp;emsp; the TensorFlow session to run in&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image_size&lt;/code&gt;: &amp;emsp; the width of the images, which should be the same as the height as we like square inputs&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;is_crop&lt;/code&gt;: &amp;emsp; whether to crop the images or leave them as they are&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;batch_size&lt;/code&gt;: &amp;emsp; number of images to use in each run&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sample_size&lt;/code&gt;: &amp;emsp; number of z samples to take on each run, should be equal to batch_size&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;z_dim&lt;/code&gt;: &amp;emsp; number of samples to take for each z&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gf_dim&lt;/code&gt;: &amp;emsp; dimension of generator filters in first conv layer&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;df_dim&lt;/code&gt;: &amp;emsp; dimenstion of discriminator filters in first conv layer&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gfc_dim&lt;/code&gt;: &amp;emsp; dimension of generator units for fully-connected layer&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dfc_gim&lt;/code&gt;: &amp;emsp; dimension of discriminator units for fully-connected layer&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c_dim&lt;/code&gt;: &amp;emsp; number of image cannels (gray=1, RGB=3)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;checkpoint_dir&lt;/code&gt;: &amp;emsp; where to store the TensorFlow checkpoints&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lam&lt;/code&gt;: &amp;emsp;small constant weight for the sum of contextual and perceptual loss&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These are the controllable parameters for the GAN. As this is the initialising function, we need to transfer these inputs to the &lt;code&gt;self&lt;/code&gt; of the class so they are accessible later on. We will also add two new lines:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Let&amp;rsquo;s add a check that the &lt;code&gt;image_size&lt;/code&gt; is a power of 2 (to make the convolution work well). This clever &amp;lsquo;bit-wise-and&amp;rsquo; operator &lt;code&gt;&amp;amp;&lt;/code&gt; will do the job for us. It uses the unique property of all power of 2 numbers have only one bit set to &lt;code&gt;1&lt;/code&gt; and all others to &lt;code&gt;0&lt;/code&gt;. Let&amp;rsquo;s also check that the image is bigger than $[8  \times 8]$ to we don&amp;rsquo;t convolve too far:&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Get the &lt;code&gt;image_shape&lt;/code&gt; which is the width and height of the image along with the number of channels (gray or RBG).&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#image_size must be power of 2 and 8+
+assert(image_size &amp;amp; (image_size - 1) == 0 and image_size &amp;gt;= 8)
+
+self.sess = sess
+self.is_crop = is_crop
+self.batch_size = batch_size
+self.image_size = image_size
+self.sample_size = sample_size
+self.image_shape = [image_size, image_size, c_dim]
+
+self.z_dim = z_dim
+self.gf_dim = gf_dim
+self.df_dim = df_dim        
+self.gfc_dim = gfc_dim
+self.dfc_dim = dfc_dim
+
+self.lam = lam
+self.c_dim = c_dim
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Later on, we will want to do &amp;lsquo;batch normalisation&amp;rsquo; on our data to make sure non of our images are extremely different to the others. We will need a batch-norm layer for each of the conv layers in our generator and discriminator. We will initialise the layers here, but define them in our &lt;code&gt;gantut_datafuncs.py&lt;/code&gt; file shortly.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#batchnorm (from funcs.py)
+self.d_bns = [batch_norm(name=&#39;d_bn{}&#39;.format(i,)) for i in range(4)]
+
+log_size = int(math.log(image_size) / math.log(2))
+self.g_bns = [batch_norm(name=&#39;g_bn{}&#39;.format(i,)) for i in range(log_size)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This shows that we will be using 4 layers in our discriminator. But we will need more in our generator: our generator starts with a simple vector &lt;em&gt;z&lt;/em&gt; and needs to upscale to the size of &lt;code&gt;image_size&lt;/code&gt;. It does this by a factor of 2 in each layer, thus $\log(\mathrm{image \ size})/\log(2)$ is equal to the number of upsamplings to be done i.e. $2^{\mathrm{num \ of \ layers}} = 64$ in our case. Also note that we&amp;rsquo;ve created these objects (layers) with an iterator so that each has the name &lt;code&gt;g_bn1&lt;/code&gt;, &lt;code&gt;g_bn1&lt;/code&gt; etc.&lt;/p&gt;
+
+&lt;p&gt;To finish &lt;code&gt;__init__()&lt;/code&gt; we set the checkpoint directory for TensorFlow saves, instruct the class to build the model and name it &amp;lsquo;DCGAN.model&amp;rsquo;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;self.checkpoint_dir = checkpoint_dir
+self.build_model()
+
+self.model_name=&amp;quot;DCGAN.model&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;batchnorm&#34;&gt; batch_norm() &lt;/h4&gt;
+
+&lt;p&gt;This is the first of our &lt;code&gt;gantut_datafuncs.py&lt;/code&gt; functions.&lt;/p&gt;
+
+&lt;p&gt;If some of our images are very different to the others then the network will not learn the features correctly. To avoid this, we add batch normalisation (as described in &lt;a href=&#34;http://arxiv.org/abs/1502.03167&#34; title=&#34;Batch Normalization: Sergey Ioffe, Christian Szegedy&#34;&gt;Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift - Ioffe &amp;amp; Szegedy (2015)&lt;/a&gt;. We effectively redistribute the intensities of the images around a common mean with a set variance.&lt;/p&gt;
+
+&lt;p&gt;This is a &lt;code&gt;class&lt;/code&gt; that will be instantiated with set parameters when called. Then, the method will perform batch normalisation whenever the object is called on the set of images &lt;code&gt;x&lt;/code&gt;. We are using Tensorflow&amp;rsquo;s built-in &lt;a href=&#34;https://www.tensorflow.org/api_docs/python/tf/contrib/layers/batch_norm&#34; title=&#34;tf.contrib.layers.batch_norm&#34;&gt;tf.contrib.layers.batch_norm()&lt;/a&gt; layer for this which implements the method from the paper above.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Parameters&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;epsilon&lt;/code&gt;:    &amp;lsquo;small float added to variance [of the input data] to avoid division by 0&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;momentum&lt;/code&gt;:   &amp;lsquo;decay value for the moving average, usually 0.999, 0.99, 0.9&amp;rsquo;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt;:      the set of input images to be normalised&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;train&lt;/code&gt;:  whether or not the network is in training mode [True or False]&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;A batch_norm &amp;lsquo;object&amp;rsquo; on instantiation&lt;/li&gt;
+&lt;li&gt;A tensor representing the output of the batch_norm operation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Batch normalisation function to standardise the input
+Initialises an object with all of the batch norm properties
+When called, performs batch norm on input &#39;x&#39;
+&amp;quot;&amp;quot;&amp;quot;
+class batch_norm(object):
+    def __init__(self, epsilon=1e-5, momentum = 0.9, name=&amp;quot;batch_norm&amp;quot;):
+        with tf.variable_scope(name):
+            self.epsilon = epsilon
+            self.momentum = momentum
+
+            self.name = name
+
+    def __call__(self, x, train):
+        return tf.contrib.layers.batch_norm(x, decay=self.momentum, updates_collections=None, epsilon=self.epsilon,
+                                            center=True, scale=True, is_training=train, scope=self.name)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;discriminator&#34;&gt; discriminator() &lt;/h4&gt;
+
+&lt;p&gt;As the discriminator is a simple &lt;a href=&#34;/post/CNN1&#34; title=&#34;MLNotebook: Convolutional Neural Network&#34;&gt;convolutional neural network (CNN)&lt;/a&gt; this will not take many lines. We will have to create a couple of wrapper functions that will perform the actual convolutions, but let&amp;rsquo;s get the method written in &lt;code&gt;gantut_gan.py&lt;/code&gt; first.&lt;/p&gt;
+
+&lt;p&gt;We want our discriminator to check a real &lt;code&gt;image&lt;/code&gt;, save varaibles and then use the same variables to check a fake &lt;code&gt;image&lt;/code&gt;. This way, if the images are fake, but fool the discriminator, we know we&amp;rsquo;re on the right track. Thus we use the variable &lt;code&gt;reuse&lt;/code&gt; when calling the &lt;code&gt;discriminator()&lt;/code&gt; method - we will set it to &lt;code&gt;True&lt;/code&gt; when we&amp;rsquo;re using the fake images.&lt;/p&gt;
+
+&lt;p&gt;We add &lt;code&gt;tf.variable_scope()&lt;/code&gt; to our functions so that when we visualise our graph in TensorBoard we can recognise the various pieces of our GAN.&lt;/p&gt;
+
+&lt;p&gt;Next are the definitions of the 4 layers of our discriminator. each one takes in the images, the kernel (filter) dimensions and has a name to identify it later on. Notice that we also call our &lt;code&gt;d_bns&lt;/code&gt; objects which are the batch-norm objects that were set-up during instantiation of the GAN. These act on the result of the convolution before being passed through the non-linear &lt;code&gt;lrelu&lt;/code&gt; function. The last layer is just a &lt;code&gt;linear&lt;/code&gt; layer that outputs the unbounded results from the network.&lt;/p&gt;
+
+&lt;p&gt;As this is a classificaiton task (real or fake) we finish by returning the probabilities in the range $[0 \ 1]$ by applying the sigmoid function. The full output is also returned.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def discriminator(self, image, reuse=False):
+	with tf.variable_scope(&amp;quot;discriminator&amp;quot;) as scope:
+	    if reuse:
+		scope.reuse_variables()
+	   	    
+	    h0 = lrelu(conv2d(image, self.df_dim, name=&#39;d_h00_conv&#39;))
+	    h1 = lrelu(self.d_bns[0](conv2d(h0, self.df_dim*2, name=&#39;d_h1_conv&#39;), self.is_training))
+	    h2 = lrelu(self.d_bns[1](conv2d(h1, self.df_dim*4, name=&#39;d_h2_conv&#39;), self.is_training))
+	    h3 = lrelu(self.d_bns[2](conv2d(h2, self.df_dim*8, name=&#39;d_h3_conv&#39;), self.is_training))
+	    h4 = linear(tf.reshape(h3, [-1, 8192]), 1, &#39;d_h4_lin&#39;)
+	    
+	    return tf.nn.sigmoid(h4), h4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This method calls a couple of functions that we haven&amp;rsquo;t defined yet: &lt;code&gt;cov2d&lt;/code&gt;, &lt;code&gt;lrelu&lt;/code&gt; and &lt;code&gt;linear&lt;/code&gt; so lets do those now.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;conv2d&#34;&gt; conv2d() &lt;/h4&gt;
+
+&lt;p&gt;This function we&amp;rsquo;ve seen before in our &lt;a href=&#34;/post/CNN1&#34; title=&#34;MLNotebook: Convolutional Neural Networks&#34;&gt;CNN&lt;/a&gt; tutorial. We&amp;rsquo;ve defined the weights &lt;code&gt;w&lt;/code&gt; for each kernel which is &lt;code&gt;[k_h x k_w x number of images x number of kernels]&lt;/code&gt;not forgetting that different weights are learned for different images. We&amp;rsquo;ve initialised these weights using a standard, random sampling from a normal distribution with standard deviation &lt;code&gt;stddev&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The convolution is done by TensorFlow&amp;rsquo;s [tf.nn.conv2d]( &amp;ldquo;tf.nn.conv2d&amp;rdquo;) function using the weights &lt;code&gt;w&lt;/code&gt; we&amp;rsquo;ve already defined. The padding option &lt;code&gt;SAME&lt;/code&gt; makes sure that we end up with output that is the same size as the input. Biases are added (the same size as the number of kernels and initialised at a constant value) before the result is returned.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;input_&lt;/code&gt;:     the input images (full batch)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;output_dim&lt;/code&gt;: the number of kernels/filters to be learned&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;k_h&lt;/code&gt;, &lt;code&gt;k_w&lt;/code&gt;:   height and width of the kernels to be learned&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;d_h&lt;/code&gt;, &lt;code&gt;d_w&lt;/code&gt;:   stride of the kernel horizontally and vertically&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;stddev&lt;/code&gt;:     standard deviation for the normal func in weight-initialiser&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the convolved images for each kernel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Defines how to perform the convolution for the discriminator,
+i.e. traditional conv rather than reverse conv for the generator
+&amp;quot;&amp;quot;&amp;quot;
+def conv2d(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name=&amp;quot;conv2d&amp;quot;):
+    with tf.variable_scope(name):
+        w = tf.get_variable(&#39;w&#39;, [k_h, k_w, input_.get_shape()[-1], output_dim],
+                            initializer=tf.truncated_normal_initializer(stddev=stddev))
+        conv = tf.nn.conv2d(input_, w, strides=[1, d_h, d_w, 1], padding=&#39;SAME&#39;)
+
+        biases = tf.get_variable(&#39;biases&#39;, [output_dim], initializer=tf.constant_initializer(0.0))
+        # conv = tf.reshape(tf.nn.bias_add(conv, biases), conv.get_shape())
+        conv = tf.nn.bias_add(conv, biases)
+
+        return conv 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;relu&#34;&gt; relu() &lt;/h4&gt;
+
+&lt;p&gt;The network need to be able to learn complex functions, so we add some non-linearity to the output of our convolution layers. We&amp;rsquo;ve seen this before in our tutorial on &lt;a href=&#34;/post/transfer_functions&#34; title=&#34;Transfer Functions&#34;&gt;transfer functions&lt;/a&gt;. Here we use the leaky rectified linear unit (lReLU).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Parameters&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;leak&lt;/code&gt;:   the &amp;lsquo;leakiness&amp;rsquo; of the lrelu&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt;: some data with a wide range&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;the transformed input data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Neural nets need this non-linearity to build complex functions
+&amp;quot;&amp;quot;&amp;quot;
+def lrelu(x, leak=0.2, name=&amp;quot;lrelu&amp;quot;):
+    with tf.variable_scope(name):
+        f1 = 0.5 * (1 + leak)
+        f2 = 0.5 * (1 - leak)
+        return f1 * x + f2 * abs(x)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;linear&#34;&gt; linear() &lt;/h4&gt;
+
+&lt;p&gt;This linear layer takes the outputs from the convolution and does a linear transform using some randomly initialised weights. This does not have the same non-linear property as the &lt;code&gt;lrelu&lt;/code&gt; function because we will use this output to calcluate probabilities for classification. We return the result of &lt;code&gt;input_ x matrix&lt;/code&gt; by default, but if we also need the weights, we also output &lt;code&gt;matrix&lt;/code&gt; and &lt;code&gt;bias&lt;/code&gt; through the &lt;code&gt;if&lt;/code&gt; statement.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Parameters&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;stddev&lt;/code&gt;:     standard deviation for weight initialiser&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bias_start&lt;/code&gt;: for the bias initialiser (constant value)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;with_w&lt;/code&gt;:     return the weight matrix (and biases) as well as the output if True&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;input_&lt;/code&gt;:         input data (shape is used to define weight/bias matrices)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;output_size&lt;/code&gt;:    desired output size of the linear layer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot;For the final layer of the discriminator network to get the
+full detail (probabilities etc.) from the output
+&amp;quot;&amp;quot;&amp;quot;
+def linear(input_, output_size, scope=None, stddev=0.02, bias_start=0.0, with_w=False):
+    shape = input_.get_shape().as_list()
+
+    with tf.variable_scope(scope or &amp;quot;Linear&amp;quot;):
+        matrix = tf.get_variable(&amp;quot;Matrix&amp;quot;, [shape[1], output_size], tf.float32,
+                                 tf.random_normal_initializer(stddev=stddev))
+        bias = tf.get_variable(&amp;quot;bias&amp;quot;, [output_size],
+            initializer=tf.constant_initializer(bias_start))
+        if with_w:
+            return tf.matmul(input_, matrix) + bias, matrix, bias
+        else:
+            return tf.matmul(input_, matrix) + bias
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;generator&#34;&gt; generator() &lt;/h4&gt;
+
+&lt;p&gt;Finally! We&amp;rsquo;re going to write the code for the generative part of the GAN. This method will take a single input - the randomly-sampled vector $z$ from the well known distribution $p_z$.&lt;/p&gt;
+
+&lt;p&gt;Remember that the generator is effectively a reverse discriminator in that it is a CNN that works backwards. Thus we start with the &amp;lsquo;values&amp;rsquo; and must perform the linear transformation on them before feeding them through the other layers of the network. As we do not know the weights or biases yet in this network, we need to make sure we output these from the linear layer with &lt;code&gt;with_w=True&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This first hidden layer &lt;code&gt;hs[0]&lt;/code&gt; needs reshaping to be the small image-shaped array that we can send through the network to become the upscaled $[64 \times 64]$ image at the end. So we take the linearly-transformed z-values and reshape to $[4 x 4 x num_kernels]$. Don&amp;rsquo;t forget the &lt;code&gt;-1&lt;/code&gt; to do this for all images in the batch. As before, we must batch-norm the result and pass it through the non-linearity.&lt;/p&gt;
+
+&lt;p&gt;The number of layers in this network has been calculated earlier (using the logarithm ratio of image size to downsampling factor. We can therefore do the next part of the generator in a loop.&lt;/p&gt;
+
+&lt;p&gt;In each loop/layer we are going to:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;give the layer a name&lt;/li&gt;
+&lt;li&gt;perform the &lt;em&gt;inverse&lt;/em&gt; convolution&lt;/li&gt;
+&lt;li&gt;apply non-linearity&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;1 and 3 are self-explanatory, but the inverse convolution function still needs to be written. This is the function that will take in the small square image and upsample it to a larger image using some weights that are being learnt. We start at layer &lt;code&gt;i=1&lt;/code&gt; where we want the image to go to &lt;code&gt;size=8&lt;/code&gt; from &lt;code&gt;size=4&lt;/code&gt; at layer &lt;code&gt;i=0&lt;/code&gt;. This will increase by a factor of 2 at each layer. As with a regular CNN we want to learn fewer kernels on the larger images, so we need to decrease the &lt;code&gt;depth_mul&lt;/code&gt; by a factor of 2 at each layer. Note that the &lt;code&gt;while&lt;/code&gt; loop will terminate when the size gets to the size of the input images &lt;code&gt;image_size&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The final layer is added which takes the last output and does the inverse convolution to get the final fake image (that will be tested with the discriminator.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def generator(self, z):
+	with tf.variable_scope(&amp;quot;generator&amp;quot;) as scope:
+	    self.z_, self.h0_w, self.h0_b = linear(z, self.gf_dim*8*4*4, &#39;g_h0_lin&#39;, with_w=True)
+
+	    hs = [None]
+	    hs[0] = tf.reshape(self.z_, [-1, 4, 4, self.gf_dim * 8])
+	    hs[0] = tf.nn.relu(self.g_bns[0](hs[0], self.is_training))
+	    
+	    i=1             #iteration number
+	    depth_mul = 8   #depth decreases as spatial component increases
+	    size=8          #size increases as depth decreases
+	    
+	    while size &amp;lt; self.image_size:
+		hs.append(None)
+		name=&#39;g_h{}&#39;.format(i)
+		hs[i], _, _ = conv2d_transpose(hs[i-1], [self.batch_size, size, size, self.gf_dim*depth_mul],
+		                                name=name, with_w=True)
+		hs[i] = tf.nn.relu(self.g_bns[i](hs[i], self.is_training))
+		
+		i += 1
+		depth_mul //= 2
+		size *= 2
+		
+	    hs.append(None)
+	    name = &#39;g_h{}&#39;.format(i)
+	    hs[i], _, _ = conv2d_transpose(hs[i-1], [self.batch_size, size, size, 3], name=name, with_w=True)
+	    
+	    return tf.nn.tanh(hs[i])           
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;conv2dtrans&#34;&gt; conv2d_transpose() &lt;/h4&gt;
+
+&lt;p&gt;The inverse convolution function looks very similar to the forward convolution function. We&amp;rsquo;ve had to make sure that different versions of TensorFlow work here - in newer versions, the correct function is located at &lt;a href=&#34;https://www.tensorflow.org/api_docs/python/tf/nn/conv2d_transpose&#34; title=&#34;tf.nn.conv2d_transpose&#34;&gt;tf.nn.conv2d_transpose&lt;/a&gt; where as in older ones we must use &lt;code&gt;tf.nn.deconv2d&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;input_&lt;/code&gt;:         a vector (of noise) with dim=batch_size x z_dim&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;output_shape&lt;/code&gt;:   the final shape of the generated image&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;k_h&lt;/code&gt;, &lt;code&gt;k_w&lt;/code&gt;:       the height and width of the kernels&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;d_h&lt;/code&gt;, &lt;code&gt;d_w&lt;/code&gt;:       the stride of the kernel horiz and vert.&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;an image (upscaled from the initial data)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Deconv isn&#39;t an accurate word, but is a handy shortener,
+so we&#39;ll use that. This is for the generator that has to make
+the image from some randomly sampled data
+&amp;quot;&amp;quot;&amp;quot;
+def conv2d_transpose(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02,
+                     name=&amp;quot;conv2d_transpose&amp;quot;, with_w=False):
+    with tf.variable_scope(name):
+        w = tf.get_variable(&#39;w&#39;, [k_h, k_w, output_shape[-1], input_.get_shape()[-1]],
+                            initializer=tf.random_normal_initializer(stddev=stddev))
+
+        try:
+            deconv = tf.nn.conv2d_transpose(input_, w, output_shape=output_shape,
+                                strides=[1, d_h, d_w, 1])
+
+        # Support for verisons of TensorFlow before 0.7.0
+        except AttributeError:
+            deconv = tf.nn.deconv2d(input_, w, output_shape=output_shape,
+                                strides=[1, d_h, d_w, 1])
+
+        biases = tf.get_variable(&#39;biases&#39;, [output_shape[-1]], initializer=tf.constant_initializer(0.0))
+        # deconv = tf.reshape(tf.nn.bias_add(deconv, biases), deconv.get_shape())
+        deconv = tf.nn.bias_add(deconv, biases)
+
+        if with_w:
+            return deconv, w, biases
+        else:
+            return deconv    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;buildmodel&#34;&gt; build_model() &lt;/h4&gt;
+
+&lt;p&gt;The &lt;code&gt;build_model()&lt;/code&gt; method bring together the image data and the generator and discriminator methods. This is the &amp;lsquo;graph&amp;rsquo; for TensorFlow to follow. It contains some &lt;code&gt;tf.placeholder&lt;/code&gt; pieces which we must supply attributes to when we finally train the model.&lt;/p&gt;
+
+&lt;p&gt;We will need to know whether the model is in training or inference mode throughout our code, so we have a placeholder for that variable. We also need a placeholder for the image data itself because there will be a different batch of data being injected at each epoch. These are our &lt;code&gt;real_images&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;When we inject the &lt;code&gt;z&lt;/code&gt; vectors into the GAN (served by another palceholder) we will also produce some monitoring output for TensorBoard. By adding &lt;code&gt;tf.summary.histogram()&lt;/code&gt; we are able to keep track of how the different &lt;code&gt;z&lt;/code&gt; vectors look at each epoch.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def build_model(self):
+        self.is_training = tf.placeholder(tf.bool, name=&#39;is_training&#39;)
+        self.images = tf.placeholder(
+            tf.float32, [None] + self.image_shape, name=&#39;real_images&#39;)
+        self.lowres_images = tf.reduce_mean(tf.reshape(self.images,
+            [self.batch_size, self.lowres_size, self.lowres,
+             self.lowres_size, self.lowres, self.c_dim]), [2, 4])
+        self.z = tf.placeholder(tf.float32, [None, self.z_dim], name=&#39;z&#39;)
+        self.z_sum = tf.summary.histogram(&amp;quot;z&amp;quot;, self.z)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, lets tell the graph to take the injected &lt;code&gt;z&lt;/code&gt; vector an turn it into an image with our &lt;code&gt;generator&lt;/code&gt;. We&amp;rsquo;ll also produce a lowres version of this image. Now, put the &amp;lsquo;real_images&amp;rsquo; into the &lt;code&gt;discriminator&lt;/code&gt;, which gives back our probabilities and the final-layer data (the logits). We then &lt;code&gt;reuse&lt;/code&gt; the same discriminator parameters to test the fake image from the generator. Here we also output some histograms of the probabilities of the &amp;lsquo;real_image&amp;rsquo; and the fake image. We will also output the current fake image from the generator to TensorBoard.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;        self.G = self.generator(self.z)
+        self.lowres_G = tf.reduce_mean(tf.reshape(self.G,
+            [self.batch_size, self.lowres_size, self.lowres,
+             self.lowres_size, self.lowres, self.c_dim]), [2, 4])
+        self.D, self.D_logits = self.discriminator(self.images)
+
+        self.D_, self.D_logits_ = self.discriminator(self.G, reuse=True)
+
+        self.d_sum = tf.summary.histogram(&amp;quot;d&amp;quot;, self.D)
+        self.d__sum = tf.summary.histogram(&amp;quot;d_&amp;quot;, self.D_)
+        self.G_sum = tf.summary.image(&amp;quot;G&amp;quot;, self.G)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now for some of the necessary calculations needed to be able to update the network. Let&amp;rsquo;s find the &amp;lsquo;loss&amp;rsquo; on the current outputs. We will utilise a very efficient loss function here the &lt;a href=&#34;https://www.tensorflow.org/api_docs/python/tf/nn/sigmoid_cross_entropy_with_logits&#34; title=&#34;tf.nn.sigmoid_cross_entropy_with_logits&#34;&gt;tf.nn.sigmoid_cross_entropy_with_logits&lt;/a&gt;. We want to calculate a few things:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;how well did the discriminator do at letting &lt;em&gt;true&lt;/em&gt; images through (i.e. comparing &lt;code&gt;D&lt;/code&gt; to &lt;code&gt;1&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;how often was the discriminator fooled by the generator  (i.e. comparing &lt;code&gt;D_&lt;/code&gt; to &lt;code&gt;1&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;how often did the generator fail at making realistic images (i.e. comparing &lt;code&gt;D_&lt;/code&gt; to &lt;code&gt;0&lt;/code&gt;).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We&amp;rsquo;ll add the discriminator losses up (1 + 2) and create a TensorBoard summary statistic (a &lt;code&gt;scalar&lt;/code&gt; value) for the discriminator and generator losses in this epoch. These are what we will optimise during training.&lt;/p&gt;
+
+&lt;p&gt;To keep everything tidy, we&amp;rsquo;ll group the discriminator and generator variables into &lt;code&gt;d_vars&lt;/code&gt; and &lt;code&gt;g_vars&lt;/code&gt; respectively.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;        self.d_loss_real = tf.reduce_mean(
+            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_logits,
+                                                    labels=tf.ones_like(self.D)))
+        self.d_loss_fake = tf.reduce_mean(
+            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_logits_,
+                                                    labels=tf.zeros_like(self.D_)))
+        self.g_loss = tf.reduce_mean(
+            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_logits_,
+                                                    labels=tf.ones_like(self.D_)))
+
+        self.d_loss_real_sum = tf.summary.scalar(&amp;quot;d_loss_real&amp;quot;, self.d_loss_real)
+        self.d_loss_fake_sum = tf.summary.scalar(&amp;quot;d_loss_fake&amp;quot;, self.d_loss_fake)
+
+        self.d_loss = self.d_loss_real + self.d_loss_fake
+
+        self.g_loss_sum = tf.summary.scalar(&amp;quot;g_loss&amp;quot;, self.g_loss)
+        self.d_loss_sum = tf.summary.scalar(&amp;quot;d_loss&amp;quot;, self.d_loss)
+
+        t_vars = tf.trainable_variables()
+
+        self.d_vars = [var for var in t_vars if &#39;d_&#39; in var.name]
+        self.g_vars = [var for var in t_vars if &#39;g_&#39; in var.name]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We don&amp;rsquo;t want t lose our progress, so lets make sure we setup the &lt;code&gt;tf.Saver()&lt;/code&gt; function just keeping the most recent variables each time.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;        self.saver = tf.train.Saver(max_to_keep=1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;save&#34;&gt; save() &lt;/h4&gt;
+
+&lt;p&gt;When we want to save a checkpoint (i.e. save all of the weights we&amp;rsquo;ve learned) we will call this function. It will check whether the output directory exists, if not it will create it. Then it wll call the &lt;a href=&#34;https://www.tensorflow.org/api_docs/python/tf/train/Saver#save&#34; title=&#34;tf.train.Saver.save&#34;&gt;&lt;code&gt;tf.train.Saver.save()&lt;/code&gt;&lt;/a&gt; function which takes in the current session &lt;code&gt;sess&lt;/code&gt;, the save directory, model name and keeps track of the number of steps that&amp;rsquo;ve been done.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def save(self, checkpoint_dir, step):
+        if not os.path.exists(checkpoint_dir):
+            os.makedirs(checkpoint_dir)
+            
+        self.saver.save(self.sess, os.path.join(checkpoint_dir, self.model_name), global_step=step)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;load&#34;&gt; load() &lt;/h4&gt;
+
+&lt;p&gt;Equally, if we&amp;rsquo;ve already spent a long time learning weights, we don&amp;rsquo;t want to start from scratch every time we want to push the network further. This function will load the most recent checkpoint in the save directory. TensorFlow has build-in functions for checking out the most recent checkpoint. If there is no checkpoint available, the function returns false and the appropriate action is taken by the main method that called it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;    def load(self, checkpoint_dir):
+        print(&amp;quot; [*] Reading checkpoints...&amp;quot;)
+        
+        ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
+        if ckpt and ckpt.model_checkpoint_path:
+            self.saver.restore(self.sess, ckpt.model_checkpoint_path)
+            return True
+        else:
+            return False
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr&gt;
+
+&lt;h4 id=&#34;train&#34;&gt; train() &lt;/h4&gt;
+
+&lt;p&gt;The all-important &lt;code&gt;train()&lt;/code&gt; method. This is where the magic happens. When we call &lt;code&gt;DCGAN.train(config)&lt;/code&gt; the networks will begin their fight and train. We will discuss the &lt;code&gt;config&lt;/code&gt; argument later on, but succinctly: it&amp;rsquo;s a list of all hyperparameters TensorFlow will use in the network. Here&amp;rsquo;s how &lt;code&gt;train()&lt;/code&gt; works:&lt;/p&gt;
+
+&lt;p&gt;First we give the trainer the data (using our &lt;code&gt;dataset_files&lt;/code&gt; function) and make sure that it&amp;rsquo;s randomly shuffled. We want to make sure that the images next to each other have nothing in common so that we can truly randomly sample them. There&amp;rsquo;s also a check here `&lt;code&gt;assert(len(data) &amp;gt; 0)&lt;/code&gt; to make sure that we don&amp;rsquo;t pass in an empty directory&amp;hellip; that wouln&amp;rsquo;t be useful to learn from.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def train(self, config):
+	data = dataset_files(config.dataset)
+	np.random.shuffle(data)
+	assert(len(data) &amp;gt; 0)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We&amp;rsquo;re going to use the adaptive non-convex optimization method &lt;a href=&#34;https://www.tensorflow.org/api_docs/python/tf/train/AdamOptimizer&#34; title=&#34;tf.train.AdamOptimizer&#34;&gt;&lt;code&gt;tf.train.AdamOptimizer()&lt;/code&gt;&lt;/a&gt; from &lt;a href=&#34;https://arxiv.org/pdf/1412.6980.pdf&#34; title=&#34;Adam: A Method for Stochastic Optimization&#34;&gt;Kingma &lt;em&gt;et al&lt;/em&gt; (2014)&lt;/a&gt; to train out networks. Let&amp;rsquo;s set this up for the discriminator (&lt;code&gt;d_optim&lt;/code&gt;) and the generator (&lt;code&gt;g_optim&lt;/code&gt;).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	d_optim = tf.train.AdamOptimizer(config.learning_rate, beta1=config.beta1).minimize(self.d_loss, var_list=self.d_vars)
+	g_optim = tf.train.AdamOptimizer(config.learning_rate, beta1=config.beta1).minimize(self.g_loss, var_list=self.g_vars)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next we will initialize all variables in the network (depending on TensorFlow version) and generate some &lt;code&gt;tf.summary&lt;/code&gt; variables for TensorBoard which group together all of the summaries that we want to keep track of.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	try:
+	    tf.global_variables_initializer().run()
+	except:
+	    tf.initialize_all_variables().run()
+	    
+	self.g_sum = tf.summary.merge([self.z_sum, self.d__sum, self.G_sum, self.d_loss_fake_sum, self.g_loss_sum])
+	self.d_sum = tf.summary.merge([self.z_sum, self.d_sum, self.d_loss_real_sum, self.d_loss_sum])
+	self.writer = tf.summary.FileWriter(&amp;quot;./logs&amp;quot;, self.sess.graph)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So here&amp;rsquo;s the part where we now sample this well-known distribution $p_z$ to get the noise vector $z$. We&amp;rsquo;re using a &lt;code&gt;np.random.uniform&lt;/code&gt; distribution. Keep a look out for this when we&amp;rsquo;re watching the network in TensorBoard, we told the GAN &lt;code&gt;class&lt;/code&gt; to output the histogram of $z$ vectors that are sampled from $p_z$. So they should all approximate to a uniform distribution.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;re also going to sample the input &lt;em&gt;real&lt;/em&gt; image files we shuffled earlier taking &lt;code&gt;sample_size&lt;/code&gt; images through to the training process. We will use these later on to assess the loss functions every now and again when we output some examples.&lt;/p&gt;
+
+&lt;p&gt;We need to load in the data using the function &lt;code&gt;get_image()&lt;/code&gt; that we wrote into &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt; during the &lt;a href=&#34;/post/GAN3&#34; title=&#34;MLNotebook: GAN3&#34;&gt;last tutorial&lt;/a&gt;. After loading the images, lets make sure that they&amp;rsquo;re all in one &lt;code&gt;np.array&lt;/code&gt; ready to be used.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	sample_z = np.random.uniform(-1, 1, size=(self.sample_size, self.z_dim))
+
+	sample_files = data[0:self.sample_size]
+	sample = [get_image(sample_file, self.image_size, is_crop=self.is_crop) for sample_file in sample_files]
+	sample_images = np.array(sample).astype(np.float32)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Set the epoch counter and get the start time (it can be frustrating if we can&amp;rsquo;t see how long things are taking). We also want to be sure to load any previous checkpoints from TensorFlow before we start again from scratch.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	counter = 1
+	start_time = time.time()
+
+	if self.load(self.checkpoint_dir):
+	    print(&amp;quot;&amp;quot;&amp;quot; An existing model was found - delete the directory or specify a new one with --checkpoint_dir &amp;quot;&amp;quot;&amp;quot;)
+	else:
+	    print(&amp;quot;&amp;quot;&amp;quot; No model found - initializing a new one&amp;quot;&amp;quot;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here&amp;rsquo;s the actual training bit taking place.  &lt;code&gt;For&lt;/code&gt; each &lt;code&gt;epoch&lt;/code&gt; that we&amp;rsquo;ve assigned in &lt;code&gt;config&lt;/code&gt;, we create two minibatches: a sampling of real images, and those generated from the $z$ vector. We then update the &lt;code&gt;discriminator&lt;/code&gt; network before updating the &lt;code&gt;generator&lt;/code&gt;. We also write these loss values to the TensorBoard summary. There are two things to notice:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;By calling &lt;code&gt;sess.run()&lt;/code&gt; with specified variables in the first (or &lt;code&gt;fetch&lt;/code&gt; attribute) we are able to keep the generator steady whilst updating the discriminator, and vice versa.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The generator is updated twice. This is to make sure that the discriminator loss function does not just converge to zero very quickly.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;	for epoch in xrange(config.epoch):
+	    data = dataset_files(config.dataset)
+	    batch_idxs = min(len(data), config.train_size) // self.batch_size
+	    
+	    for idx in xrange(0, batch_idxs):
+		batch_files = data[idx*config.batch_size:(idx+1)*config.batch_size]
+		batch = [get_image(batch_file, self.image_size, is_crop=self.is_crop) for batch_file in batch_files]
+		batch_images = np.array(batch).astype(np.float32)
+		
+		batch_z = np.random.uniform(-1, 1, [config.batch_size, self.z_dim]).astype(np.float32)
+		
+		#update D network
+		_, summary_str = self.sess.run([d_optim, self.d_sum],
+		                               feed_dict={self.images: batch_images, self.z: batch_z, self.is_training: True})
+		self.writer.add_summary(summary_str, counter)
+		
+		#update G network
+		_, summary_str = self.sess.run([g_optim, self.g_sum],
+		                               feed_dict={self.z: batch_z, self.is_training: True})
+		self.writer.add_summary(summary_str, counter)
+		
+		#run g_optim twice to make sure that d_loss does not go to zero
+		_, summary_str = self.sess.run([g_optim, self.g_sum],
+		                               feed_dict={self.z: batch_z, self.is_training: True})
+		self.writer.add_summary(summary_str, counter)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To get the errors needed for backpropagation, we evaluate &lt;code&gt;d_loss_fake&lt;/code&gt;, &lt;code&gt;d_loss_real&lt;/code&gt; and &lt;code&gt;g_loss&lt;/code&gt;. We run the $z$ vector through the graph to get the fake loss and the generator loss, and use the real &lt;code&gt;batch_images&lt;/code&gt; for the real loss.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;		errD_fake = self.d_loss_fake.eval({self.z: batch_z, self.is_training: False})
+		errD_real = self.d_loss_real.eval({self.images: batch_images, self.is_training: False})
+		errG = self.g_loss.eval({self.z: batch_z, self.is_training: False})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Let&amp;rsquo;s get some output to &lt;code&gt;stdout&lt;/code&gt; for the user. The current epoch and progress through the minibatches is output at each new minibatch. Every 100 minibatches we&amp;rsquo;re going to evaluate the current generator &lt;code&gt;self.G&lt;/code&gt; and calculate the loss against the small set of images we sampled earlier. We will output the result of the generator and use our &lt;code&gt;save_images()&lt;/code&gt; function to create that image array we worked on in the last tutorial.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;		counter += 1
+		print(&amp;quot;Epoch [{:2d}] [{:4d}/{:4d}] time: {:4.4f}, d_loss: {:.8f}&amp;quot;.format(
+		        epoch, idx, batch_idxs, time.time() - start_time, errD_fake + errD_real, errG))
+		
+		if np.mod(counter, 100) == 1:
+		    samples, d_loss, g_loss = self.sess.run([self.G, self.d_loss, self.g_loss], 
+		                                            feed_dict={self.z: sample_z, self.images: sample_images, self.is_training: False})
+		    save_images(samples, [8,8], &#39;./samples/train_{:02d}-{:04d}.png&#39;.format(epoch, idx))
+		    print(&amp;quot;[Sample] d_loss: {:.8f}, g_loss: {:.8f}&amp;quot;.format(d_loss, g_loss))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, we need to save the current weights from our networks.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;		if np.mod(counter, 500) == 2:
+		    self.save(config.checkpoint_dir, counter)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt; Conclusion &lt;/h2&gt;
+
+&lt;p&gt;That&amp;rsquo;s it! We&amp;rsquo;ve completed the &lt;code&gt;gantut_gan.py&lt;/code&gt; and &lt;code&gt;gantut_datafuncs.py&lt;/code&gt; files. Checkout the completed files below:&lt;/p&gt;
+
+&lt;p&gt;Completed versions of:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_trainer.py&#34; title=&#34;gantut_trainer.py&#34;&gt;gantut_trainer.py&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_imgfuncs_complete.py&#34; title=&#34;gantut_imgfuncs_complete.py&#34;&gt;gantut_imgfuncs_complete.py&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_datafuncs_complete.py&#34; title=&#34;gantut_datafuncs_complete.py&#34;&gt;gantut_datafuncs_complete.py&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;/docs/GAN/gantut_gan_complete.py&#34; title=&#34;gantut_gan_complete.py&#34;&gt;gantut_gan_complete.py&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;By following this tutorial series we should now have:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;A background in how GANs work&lt;/li&gt;
+&lt;li&gt;Necessary data, fullly pre-processed and ready to use&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt; for loading data into the neworks&lt;/li&gt;
+&lt;li&gt;A GAN &lt;code&gt;class&lt;/code&gt; with the necessary methods in &lt;code&gt;gantut_gan.py&lt;/code&gt; and the &lt;code&gt;gantut_datafuncs.py&lt;/code&gt; we need to do the computations.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In the final part of the series, we will run this network and take a look at the outputs in TensorBoard.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Generative Adversarial Network (GAN) in TensorFlow - Part 3</title>
       <link>/post/GAN3/</link>
       <pubDate>Thu, 13 Jul 2017 09:16:32 +0100</pubDate>
@@ -284,6 +1005,8 @@ def merge(images, size):
         i = idx % size[1]
         j = idx // size[1]
         img[j*h:j*h+h, i*w:i*w+w, :] = image
+        
+    return img
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;hr&gt;

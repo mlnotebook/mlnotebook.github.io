@@ -557,6 +557,8 @@ def merge(images, size):
         i = idx % size[1]
         j = idx // size[1]
         img[j*h:j*h+h, i*w:i*w+w, :] = image
+        
+    return img
 </code></pre>
 
 <hr>
@@ -639,8 +641,14 @@ import scipy.misc
   </div>
   <div class="pure-u-10-24">
     
+    <nav class="next">
+      <a href="/post/GAN4/">Generative Adversarial Network (GAN) in TensorFlow - Part 4</a>
+    </nav>
+    
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/post/GAN4/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>
