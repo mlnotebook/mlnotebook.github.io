@@ -9,6 +9,175 @@
     <atom:link href="/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Generative Adversarial Network (GAN) in TensorFlow - Part 5</title>
+      <link>/post/GAN5/</link>
+      <pubDate>Tue, 25 Jul 2017 11:07:22 +0100</pubDate>
+      
+      <guid>/post/GAN5/</guid>
+      <description>&lt;p&gt;This is the final part in our series on Generative Adversarial Networks (GAN). We will write our training script and look at how to run the GAN. We will also take a look at the results we get out. Can you tell the difference between the real and generated faces?&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt; Introduction &lt;/h2&gt;
+
+&lt;p&gt;In this series we started out with a &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN - Part 1&#34;&gt;background to GAN&lt;/a&gt; including some of the mathematics behind them. We then downloaded and processed our &lt;a href=&#34;/post/GAN2&#34; title=&#34;GAN - Part 2&#34;&gt;dataset&lt;/a&gt;. In the subsequent posts, we wrote some &lt;a href=&#34;/post/GAN3&#34; title=&#34;GAN - Part 3&#34;&gt;image helper functions&lt;/a&gt; before completing some &lt;a href=&#34;/post/GAN4&#34; title=&#34;GAN - Part 4&#34;&gt;data processing functions&lt;/a&gt; and the &lt;a href=&#34;/post/GAN4&#34; title=&#34;GAN - Part 4&#34;&gt;GAN Class itself&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this final post, we will create the training script and visualise some of the results we get out.&lt;/p&gt;
+
+&lt;h2 id=&#34;script&#34;&gt; Training Script &lt;/h2&gt;
+
+&lt;p&gt;The training script is here: &lt;a href=&#34;/docs/GAN/gantut_trainer.py&#34; title=&#34;gantut_trainer.py&#34;&gt;`gantut_trainer.py&amp;rsquo;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s only short, so there isn&amp;rsquo;t anything to fill in, but let&amp;rsquo;s take a look. We need to make sure we import the GAN &lt;code&gt;class&lt;/code&gt; from our completed &lt;code&gt;gantut_gan.py&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If you&amp;rsquo;re using the files called &lt;code&gt;gantut_*_complete.py&lt;/code&gt; you&amp;rsquo;ll need to modify this line (add the &lt;code&gt;_complete&lt;/code&gt;). Otherwise, just make sure it&amp;rsquo;s looking for the correctly named file where your GAN class is written.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#!/usr/bin/python
+
+import os
+import numpy as  np
+import tensorflow as tf
+
+from gantut_gan import DCGAN
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &amp;lsquo;shebang&amp;rsquo; on the first line allows us to call this script from the terminal without typing &lt;code&gt;python&lt;/code&gt; first. This is a useful line if you&amp;rsquo;re going to run this network on a cluster of computers where you will probably need to create your own python (or conda) virtual environment first. This line will be changed to point to the specific python installation that you want to use to run the script&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I&amp;rsquo;ll add this note here. The network &lt;em&gt;will&lt;/em&gt; take a long time to train. If you have access to a cluster, I recommend using it.&lt;/p&gt;
+
+&lt;p&gt;Next, we define the possible &amp;lsquo;flags&amp;rsquo; or attributes that we need the network to take:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#DEFINE THE FLAGS FOR RUNNING SCRIPT FROM THE TERMINAL
+# ARG1 = NAME OF THE FLAG
+# ARG2 = DEFAULT VALUE
+# ARG3 = DESCRIPTION
+flags = tf.app.flags
+flags.DEFINE_integer(&amp;quot;epoch&amp;quot;, 20, &amp;quot;Number of epochs to train [20]&amp;quot;)
+flags.DEFINE_float(&amp;quot;learning_rate&amp;quot;, 0.0002, &amp;quot;Learning rate for adam optimiser [0.0002]&amp;quot;)
+flags.DEFINE_float(&amp;quot;beta1&amp;quot;, 0.5, &amp;quot;Momentum term for adam optimiser [0.5]&amp;quot;)
+flags.DEFINE_integer(&amp;quot;train_size&amp;quot;, np.inf, &amp;quot;The size of training images [np.inf]&amp;quot;)
+flags.DEFINE_integer(&amp;quot;batch_size&amp;quot;, 64, &amp;quot;The batch-size (number of images to train at once) [64]&amp;quot;)
+flags.DEFINE_integer(&amp;quot;image_size&amp;quot;, 64, &amp;quot;The size of the images [n x n] [64]&amp;quot;)
+flags.DEFINE_string(&amp;quot;dataset&amp;quot;, &amp;quot;lfw-aligned-64&amp;quot;, &amp;quot;Dataset directory.&amp;quot;)
+flags.DEFINE_string(&amp;quot;checkpoint_dir&amp;quot;, &amp;quot;checkpoint&amp;quot;, &amp;quot;Directory name to save the checkpoints [checkpoint]&amp;quot;)
+flags.DEFINE_string(&amp;quot;sample_dir&amp;quot;, &amp;quot;samples&amp;quot;, &amp;quot;Directory name to save the image samples [samples]&amp;quot;)
+FLAGS = flags.FLAGS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here, we&amp;rsquo;re using the &lt;code&gt;tf.flags&lt;/code&gt; module (which is a wrapper for &lt;code&gt;argparse&lt;/code&gt;) that takes arguments that trail the script name in the terminal and turn them into variables we can use in the network. The format for each argument is:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;flags.DEFINE_datatype(name, default_value, description)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Where &lt;code&gt;datatype&lt;/code&gt; is what is expected (an integer, float, string etc.), &lt;code&gt;name&lt;/code&gt; is what the resulting variable will be called, &lt;code&gt;default_value&lt;/code&gt; is&amp;hellip; the default value in case it&amp;rsquo;s not explicitly defined at runtime, and &lt;code&gt;description&lt;/code&gt; is a useful descriptor of what this argument does. We package all these variables into one (called &lt;code&gt;FLAGS&lt;/code&gt;) that can be called later to assign values.&lt;/p&gt;
+
+&lt;p&gt;Notice that the &lt;code&gt;name&lt;/code&gt; here is the same as those we wrote in the &lt;code&gt;__init__&lt;/code&gt; method of our GAN &lt;code&gt;class&lt;/code&gt; because these will be used to initialise the GAN.&lt;/p&gt;
+
+&lt;p&gt;Our network will need folders to output to and also to check whether there&amp;rsquo;s an existing checkpoint that can be loaded (rather than doing it all over again).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#CREATE SOME FOLDERS FOR THE DATA
+if not os.path.exists(FLAGS.checkpoint_dir):
+    os.makedirs(FLAGS.checkpoint_dir)
+if not os.path.exists(FLAGS.sample_dir):
+    os.makedirs(FLAGS.sample_dir)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Even though we&amp;rsquo;ve just defined some variables for our network, there are plenty of others in the Graph that need some default value. TensorFlow has a handy function for that:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# GET ALL OF THE OPTIONS FOR TENSORFLOW RUNTIME 
+config = tf.ConfigProto(intra_op_parallelism_threads=8)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Tip&lt;/strong&gt;: I&amp;rsquo;ve included the &lt;code&gt;intra_op_parallelism_threads&lt;/code&gt; argument to &lt;code&gt;tf.ConfigProto&lt;/code&gt; because TensorFlow has the power to take over as many cores as it can see when it&amp;rsquo;s running. This may not be a problem if you&amp;rsquo;re not using your machine too much, but if you&amp;rsquo;re running on a cluster, TF will ignore the &amp;lsquo;requested&amp;rsquo; number of cpus/gpus and leech into other cores. Setting &lt;code&gt;intra_op_parallelism_threads&lt;/code&gt; to the correct number of threads stops this from happening.&lt;/p&gt;
+
+&lt;p&gt;Finally, we initialise the TensorFlow session (with out &lt;code&gt;config&lt;/code&gt; above), initialise the GAN and pass the flags to the &lt;code&gt;.train&lt;/code&gt; method of the GAN &lt;code&gt;class&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Tip&lt;/strong&gt;: It is good to initialise the session in this way with &lt;code&gt;with&lt;/code&gt; because it will be automatically closed when the GAN training is finished.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;with tf.Session(config=config) as sess:
+    #INITIALISE THE GAN BY CREATING A NEW INSTANCE OF THE DCGAN CLASS
+    dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size,
+                  is_crop=False, checkpoint_dir=FLAGS.checkpoint_dir)
+
+    #TRAIN THE GAN
+    dcgan.train(FLAGS)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;training&#34;&gt; Training &lt;/h2&gt;
+
+&lt;p&gt;This is it! 5 posts later and we can train our GAN. From our terminal, we are going to call the training script &lt;code&gt;gantut_trainer.py&lt;/code&gt; and pass it a couple of arguments:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;~/GAN/gantut_trainer.py --dataset ~/GAN/aligned --epoch 20
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course, if you&amp;rsquo;ve put your aligned training set somewhere else, make sure that path goes into the &lt;code&gt;--dataset&lt;/code&gt; flag. The other flags can be set to default because that&amp;rsquo;s how we&amp;rsquo;ve written our GAN &lt;code&gt;class&lt;/code&gt;. Now 20 epochs will take a seriously long time (it look me nearly 4 days using 12 cores on a cluster).&lt;/p&gt;
+
+&lt;p&gt;There will be 3 folders of output from the GAN:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;logs&lt;/code&gt; - where the logs from the training will be saved. These can be viewed with TensorBoard&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;checkpoints&lt;/code&gt; - where the model itself is saved&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;samples&lt;/code&gt; - this is where the image array we created in &lt;code&gt;gantut_imgfuncs.py&lt;/code&gt; will be output to every so often.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;logs&#34;&gt; Logs &lt;/h3&gt;
+
+&lt;p&gt;Whilst the network is training (if you&amp;rsquo;re doing it locally) you can pull up tensorboard and watch how the training is progressing. From the terminal:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;tensorboard --logdir=&amp;quot;~/GAN/logs&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Follow the link it spits out and you&amp;rsquo;ll be presented with a lot of information about the network. You will find graphs of the loss-functions under &amp;lsquo;scalars&amp;rsquo;, some examples from the generator under &amp;lsquo;images&amp;rsquo; and the Graph itself is nicely represented under &amp;lsquo;graph&amp;rsquo;. &amp;lsquo;Histograms&amp;rsquo; show how the distributions are changing over time. We can see in these that our noise distribution $p_{z}$ is uniform (which is what we defined) and that the real and fake images take values around &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;0&lt;/code&gt; at the discriminator, as we also described in &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN - Part 1&#34;&gt;part 1&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;Noise (z) Distribution&#34; width=30% src=&#34;/img/CNN/hist_z_1.png&#34;&gt;
+        &lt;img title=&#34;Real Image Discriminator Distribution&#34; width=30% src=&#34;/img/CNN/hist_d.png&#34;&gt;
+        &lt;img title=&#34;Fake Image Discriminator Distribution&#34; width=30% src=&#34;/img/CNN/hist_d_.png&#34;&gt;
+                        
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 1&lt;/font&gt;: The distributions of (Left to right) the noise vectors $z$ and the real and fake images at the discriminator.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;TensorFlow Graph&#34; width=100% src=&#34;/img/CNN/graph.png&#34;&gt;
+                        
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 2&lt;/font&gt;: The TensorFlow Graph that we build using our GAN `class`.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;results&#34;&gt; Results &lt;/h3&gt;
+
+&lt;p&gt;Here it is, the output from our GAN (after 14 epochs in this case) showing how well the network has learned how to create faces. It may take longer than expect to load as I&amp;rsquo;ve tried to preserve quality.&lt;/p&gt;
+
+&lt;div class=&#34;figure_container&#34;&gt;
+    &lt;div class=&#34;figure_images&#34;&gt;
+        &lt;img title=&#34;TensorFlow Graph&#34; width=30% src=&#34;/img/CNN/faces_gif.gif&#34;&gt;
+                        
+    &lt;/div&gt;
+    &lt;div class=&#34;figure_caption&#34;&gt;
+        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The output of our GAN at the end of each epoch ending at epoch 14.
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We can see that some of the faces are still not quite there yet, but there are a few that are unbelieveably realistic. In fact, we can perform a kind of &amp;lsquo;Turing Test&amp;rsquo; on this data. The &lt;a href=&#34;https://en.wikipedia.org/wiki/Turing_test&#34; title=&#34;wiki:Turing Test&#34;&gt;Turing Test&lt;/a&gt;, put simply, is that if a user is unable to &lt;em&gt;reliably&lt;/em&gt; tell the difference between a computer and human performing the same task, then the computer has passed the Turing Test.&lt;/p&gt;
+
+&lt;p&gt;Have a go at the test below: study each face, decide if it is a real or fake image; then click on the image to reveal the true result. If you only guess 50% or less, then the computer has passed this simplistic Turing Test.&lt;/p&gt;
+
+&lt;p&gt;&lt;center&gt;&lt;a href=&#34;/docs/GAN/turing_quiz.html&#34; target=&#34;_blank&#34;&gt;Click Here for the Turing Test&lt;/a&gt;&lt;br&gt;(opens in a new window)&lt;/center&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt; Conclusion &lt;/h2&gt;
+
+&lt;p&gt;So it looks great, but what was the point? Well, remember back to &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN - Post 1&#34;&gt;part 1&lt;/a&gt; - GANs and other generative networks are used for &lt;em&gt;image completion&lt;/em&gt;. We can use the fact that our network has learned what a face should look like to &amp;lsquo;fill-in&amp;rsquo; any missing bits. Lets say someone has a large tattoo across their face, we can reconstruct what the skin would look like without it. Or maybe we have an amazing photo, with a beautiufl background, but we&amp;rsquo;re not smiling: the GAN can reconstruct a smile. More advanced work can include learning what glasses are and putting them onto other faces.&lt;/p&gt;
+
+&lt;p&gt;GANs are powerful networks, but work in a relatively simple way by trying to trick a discriminator by generating more and more realistic-looking images.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Generative Adversarial Network (GAN) in TensorFlow - Part 4</title>
       <link>/post/GAN4/</link>
       <pubDate>Mon, 17 Jul 2017 09:37:58 +0100</pubDate>
