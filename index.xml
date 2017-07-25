@@ -157,11 +157,12 @@ config = tf.ConfigProto(intra_op_parallelism_threads=8)
 
 &lt;div class=&#34;figure_container&#34;&gt;
     &lt;div class=&#34;figure_images&#34;&gt;
-        &lt;img title=&#34;TensorFlow Graph&#34; width=30% src=&#34;/img/CNN/faces_gif.gif&#34;&gt;
+        &lt;img title=&#34;GAN Faces&#34; width=30% src=&#34;/img/CNN/faces_gif.gif&#34;&gt;
                         
     &lt;/div&gt;
     &lt;div class=&#34;figure_caption&#34;&gt;
-        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The output of our GAN at the end of each epoch ending at epoch 14.
+        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The output of our GAN at the end of each epoch ending at epoch 14. (created at [gifmaker.me](http://gifmaker.me &#34;gifmaker&#34;)).
+        
     &lt;/div&gt;
 &lt;/div&gt;
 
@@ -174,6 +175,8 @@ config = tf.ConfigProto(intra_op_parallelism_threads=8)
 &lt;h2 id=&#34;conclusion&#34;&gt; Conclusion &lt;/h2&gt;
 
 &lt;p&gt;So it looks great, but what was the point? Well, remember back to &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN - Post 1&#34;&gt;part 1&lt;/a&gt; - GANs and other generative networks are used for &lt;em&gt;image completion&lt;/em&gt;. We can use the fact that our network has learned what a face should look like to &amp;lsquo;fill-in&amp;rsquo; any missing bits. Lets say someone has a large tattoo across their face, we can reconstruct what the skin would look like without it. Or maybe we have an amazing photo, with a beautiufl background, but we&amp;rsquo;re not smiling: the GAN can reconstruct a smile. More advanced work can include learning what glasses are and putting them onto other faces.&lt;/p&gt;
+
+&lt;p&gt;Again, for credit, this series is based on the main code by &lt;a href=&#34;https://github.com/carpedm20/DCGAN-tensorflow&#34; title=&#34;carpedm20/DCGAN-tensorflow&#34;&gt;carpedm20&lt;/a&gt; and inspired from the blog of &lt;a href=&#34;http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks&#34; title=&#34;bamos.github.io&#34;&gt;B. Amos&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;GANs are powerful networks, but work in a relatively simple way by trying to trick a discriminator by generating more and more realistic-looking images.&lt;/p&gt;</description>
     </item>
