@@ -155,11 +155,12 @@ Here it is, the output from our GAN (after 14 epochs in this case) showing how w
 
 <div class="figure_container">
 	<div class="figure_images">
-		<img title="TensorFlow Graph" width=30% src="/img/CNN/faces_gif.gif">
+		<img title="GAN Faces" width=30% src="/img/CNN/faces_gif.gif">
 						
 	</div>
 	<div class="figure_caption">
-		<font color="blue">Figure 3</font>: The output of our GAN at the end of each epoch ending at epoch 14.
+		<font color="blue">Figure 3</font>: The output of our GAN at the end of each epoch ending at epoch 14. (created at [gifmaker.me](http://gifmaker.me "gifmaker")).
+		
 	</div>
 </div>
 
@@ -172,5 +173,7 @@ Have a go at the test below: study each face, decide if it is a real or fake ima
 <h2 id="conclusion"> Conclusion </h2>
 
 So it looks great, but what was the point? Well, remember back to [part 1](/post/GAN1 "GAN - Post 1") - GANs and other generative networks are used for _image completion_. We can use the fact that our network has learned what a face should look like to 'fill-in' any missing bits. Lets say someone has a large tattoo across their face, we can reconstruct what the skin would look like without it. Or maybe we have an amazing photo, with a beautiufl background, but we're not smiling: the GAN can reconstruct a smile. More advanced work can include learning what glasses are and putting them onto other faces.
+
+Again, for credit, this series is based on the main code by [carpedm20](https://github.com/carpedm20/DCGAN-tensorflow "carpedm20/DCGAN-tensorflow") and inspired from the blog of <a href="http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks" title="bamos.github.io">B. Amos</a>.
 
 GANs are powerful networks, but work in a relatively simple way by trying to trick a discriminator by generating more and more realistic-looking images.
