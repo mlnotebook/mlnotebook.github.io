@@ -2,10 +2,11 @@
 
 import os
 import numpy as  np
+import tensorflow as tf
 
 from gantut_gan import DCGAN
 
-import tensorflow as tf
+
 
 #DEFINE THE FLAGS FOR RUNNING SCRIPT FROM THE TERMINAL
 # ARG1 = NAME OF THE FLAG
@@ -30,7 +31,7 @@ if not os.path.exists(FLAGS.sample_dir):
     os.makedirs(FLAGS.sample_dir)
     
 # GET ALL OF THE OPTIONS FOR TENSORFLOW RUNTIME 
-config = tf.ConfigProto()
+config = tf.ConfigProto(intra_op_parallelism_threads=8)
 
 
 with tf.Session(config=config) as sess:

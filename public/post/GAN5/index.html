@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Running the GAN and Results">
+  <meta name="generator" content="Hugo 0.19" />
+
+  <title>Generative Adversarial Network (GAN) in TensorFlow - Part 5 &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Generative Adversarial Network (GAN) in TensorFlow - Part 5</h1>
+  <h2>Running the GAN and Results</h2>
+</div>
+<div class="content">
+
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/featgan5.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>25 Jul 2017, 11:07</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/gan">GAN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/cnn">CNN</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/machine-learning">machine learning</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/generative">generative</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-tag" href="/tags/tensorflow">tensorflow</a>
+    
+  </div>
+  
+  
+  
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
+  
+</div>
+
+
+</div>
+
+</div>
+
+
+  <p>This is the final part in our series on Generative Adversarial Networks (GAN). We will write our training script and look at how to run the GAN. We will also take a look at the results we get out. Can you tell the difference between the real and generated faces?</p>
+
+<p></p>
+
+<h2 id="introduction"> Introduction </h2>
+
+<p>In this series we started out with a <a href="/post/GAN1" title="GAN - Part 1">background to GAN</a> including some of the mathematics behind them. We then downloaded and processed our <a href="/post/GAN2" title="GAN - Part 2">dataset</a>. In the subsequent posts, we wrote some <a href="/post/GAN3" title="GAN - Part 3">image helper functions</a> before completing some <a href="/post/GAN4" title="GAN - Part 4">data processing functions</a> and the <a href="/post/GAN4" title="GAN - Part 4">GAN Class itself</a>.</p>
+
+<p>In this final post, we will create the training script and visualise some of the results we get out.</p>
+
+<h2 id="script"> Training Script </h2>
+
+<p>The training script is here: <a href="/docs/GAN/gantut_trainer.py" title="gantut_trainer.py">`gantut_trainer.py&rsquo;</a>.</p>
+
+<p>It&rsquo;s only short, so there isn&rsquo;t anything to fill in, but let&rsquo;s take a look. We need to make sure we import the GAN <code>class</code> from our completed <code>gantut_gan.py</code> file.</p>
+
+<p><strong>Note</strong>: If you&rsquo;re using the files called <code>gantut_*_complete.py</code> you&rsquo;ll need to modify this line (add the <code>_complete</code>). Otherwise, just make sure it&rsquo;s looking for the correctly named file where your GAN class is written.</p>
+
+<pre><code class="language-python">#!/usr/bin/python
+
+import os
+import numpy as  np
+import tensorflow as tf
+
+from gantut_gan import DCGAN
+</code></pre>
+
+<p>The &lsquo;shebang&rsquo; on the first line allows us to call this script from the terminal without typing <code>python</code> first. This is a useful line if you&rsquo;re going to run this network on a cluster of computers where you will probably need to create your own python (or conda) virtual environment first. This line will be changed to point to the specific python installation that you want to use to run the script</p>
+
+<p><strong>Note</strong>: I&rsquo;ll add this note here. The network <em>will</em> take a long time to train. If you have access to a cluster, I recommend using it.</p>
+
+<p>Next, we define the possible &lsquo;flags&rsquo; or attributes that we need the network to take:</p>
+
+<pre><code class="language-python">#DEFINE THE FLAGS FOR RUNNING SCRIPT FROM THE TERMINAL
+# ARG1 = NAME OF THE FLAG
+# ARG2 = DEFAULT VALUE
+# ARG3 = DESCRIPTION
+flags = tf.app.flags
+flags.DEFINE_integer(&quot;epoch&quot;, 20, &quot;Number of epochs to train [20]&quot;)
+flags.DEFINE_float(&quot;learning_rate&quot;, 0.0002, &quot;Learning rate for adam optimiser [0.0002]&quot;)
+flags.DEFINE_float(&quot;beta1&quot;, 0.5, &quot;Momentum term for adam optimiser [0.5]&quot;)
+flags.DEFINE_integer(&quot;train_size&quot;, np.inf, &quot;The size of training images [np.inf]&quot;)
+flags.DEFINE_integer(&quot;batch_size&quot;, 64, &quot;The batch-size (number of images to train at once) [64]&quot;)
+flags.DEFINE_integer(&quot;image_size&quot;, 64, &quot;The size of the images [n x n] [64]&quot;)
+flags.DEFINE_string(&quot;dataset&quot;, &quot;lfw-aligned-64&quot;, &quot;Dataset directory.&quot;)
+flags.DEFINE_string(&quot;checkpoint_dir&quot;, &quot;checkpoint&quot;, &quot;Directory name to save the checkpoints [checkpoint]&quot;)
+flags.DEFINE_string(&quot;sample_dir&quot;, &quot;samples&quot;, &quot;Directory name to save the image samples [samples]&quot;)
+FLAGS = flags.FLAGS
+</code></pre>
+
+<p>Here, we&rsquo;re using the <code>tf.flags</code> module (which is a wrapper for <code>argparse</code>) that takes arguments that trail the script name in the terminal and turn them into variables we can use in the network. The format for each argument is:</p>
+
+<p><code>flags.DEFINE_datatype(name, default_value, description)</code></p>
+
+<p>Where <code>datatype</code> is what is expected (an integer, float, string etc.), <code>name</code> is what the resulting variable will be called, <code>default_value</code> is&hellip; the default value in case it&rsquo;s not explicitly defined at runtime, and <code>description</code> is a useful descriptor of what this argument does. We package all these variables into one (called <code>FLAGS</code>) that can be called later to assign values.</p>
+
+<p>Notice that the <code>name</code> here is the same as those we wrote in the <code>__init__</code> method of our GAN <code>class</code> because these will be used to initialise the GAN.</p>
+
+<p>Our network will need folders to output to and also to check whether there&rsquo;s an existing checkpoint that can be loaded (rather than doing it all over again).</p>
+
+<pre><code class="language-python">#CREATE SOME FOLDERS FOR THE DATA
+if not os.path.exists(FLAGS.checkpoint_dir):
+    os.makedirs(FLAGS.checkpoint_dir)
+if not os.path.exists(FLAGS.sample_dir):
+    os.makedirs(FLAGS.sample_dir)
+</code></pre>
+
+<p>Even though we&rsquo;ve just defined some variables for our network, there are plenty of others in the Graph that need some default value. TensorFlow has a handy function for that:</p>
+
+<pre><code class="language-python"># GET ALL OF THE OPTIONS FOR TENSORFLOW RUNTIME 
+config = tf.ConfigProto(intra_op_parallelism_threads=8)
+</code></pre>
+
+<p><strong>Tip</strong>: I&rsquo;ve included the <code>intra_op_parallelism_threads</code> argument to <code>tf.ConfigProto</code> because TensorFlow has the power to take over as many cores as it can see when it&rsquo;s running. This may not be a problem if you&rsquo;re not using your machine too much, but if you&rsquo;re running on a cluster, TF will ignore the &lsquo;requested&rsquo; number of cpus/gpus and leech into other cores. Setting <code>intra_op_parallelism_threads</code> to the correct number of threads stops this from happening.</p>
+
+<p>Finally, we initialise the TensorFlow session (with out <code>config</code> above), initialise the GAN and pass the flags to the <code>.train</code> method of the GAN <code>class</code>.</p>
+
+<p><strong>Tip</strong>: It is good to initialise the session in this way with <code>with</code> because it will be automatically closed when the GAN training is finished.</p>
+
+<pre><code class="language-python">with tf.Session(config=config) as sess:
+    #INITIALISE THE GAN BY CREATING A NEW INSTANCE OF THE DCGAN CLASS
+    dcgan = DCGAN(sess, image_size=FLAGS.image_size, batch_size=FLAGS.batch_size,
+                  is_crop=False, checkpoint_dir=FLAGS.checkpoint_dir)
+
+    #TRAIN THE GAN
+    dcgan.train(FLAGS)
+</code></pre>
+
+<h2 id="training"> Training </h2>
+
+<p>This is it! 5 posts later and we can train our GAN. From our terminal, we are going to call the training script <code>gantut_trainer.py</code> and pass it a couple of arguments:</p>
+
+<pre><code class="language-bash">~/GAN/gantut_trainer.py --dataset ~/GAN/aligned --epoch 20
+</code></pre>
+
+<p>Of course, if you&rsquo;ve put your aligned training set somewhere else, make sure that path goes into the <code>--dataset</code> flag. The other flags can be set to default because that&rsquo;s how we&rsquo;ve written our GAN <code>class</code>. Now 20 epochs will take a seriously long time (it look me nearly 4 days using 12 cores on a cluster).</p>
+
+<p>There will be 3 folders of output from the GAN:</p>
+
+<ul>
+<li><code>logs</code> - where the logs from the training will be saved. These can be viewed with TensorBoard</li>
+<li><code>checkpoints</code> - where the model itself is saved</li>
+<li><code>samples</code> - this is where the image array we created in <code>gantut_imgfuncs.py</code> will be output to every so often.</li>
+</ul>
+
+<h3 id="logs"> Logs </h3>
+
+<p>Whilst the network is training (if you&rsquo;re doing it locally) you can pull up tensorboard and watch how the training is progressing. From the terminal:</p>
+
+<pre><code class="language-bash">tensorboard --logdir=&quot;~/GAN/logs&quot;
+</code></pre>
+
+<p>Follow the link it spits out and you&rsquo;ll be presented with a lot of information about the network. You will find graphs of the loss-functions under &lsquo;scalars&rsquo;, some examples from the generator under &lsquo;images&rsquo; and the Graph itself is nicely represented under &lsquo;graph&rsquo;. &lsquo;Histograms&rsquo; show how the distributions are changing over time. We can see in these that our noise distribution $p_{z}$ is uniform (which is what we defined) and that the real and fake images take values around <code>1</code> and <code>0</code> at the discriminator, as we also described in <a href="/post/GAN1" title="GAN - Part 1">part 1</a>.</p>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img title="Noise (z) Distribution" width=30% src="/img/CNN/hist_z_1.png">
+        <img title="Real Image Discriminator Distribution" width=30% src="/img/CNN/hist_d.png">
+        <img title="Fake Image Discriminator Distribution" width=30% src="/img/CNN/hist_d_.png">
+                        
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 1</font>: The distributions of (Left to right) the noise vectors $z$ and the real and fake images at the discriminator.
+    </div>
+</div>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img title="TensorFlow Graph" width=100% src="/img/CNN/graph.png">
+                        
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 2</font>: The TensorFlow Graph that we build using our GAN `class`.
+    </div>
+</div>
+
+<h3 id="results"> Results </h3>
+
+<p>Here it is, the output from our GAN (after 14 epochs in this case) showing how well the network has learned how to create faces. It may take longer than expect to load as I&rsquo;ve tried to preserve quality.</p>
+
+<div class="figure_container">
+    <div class="figure_images">
+        <img title="TensorFlow Graph" width=30% src="/img/CNN/faces_gif.gif">
+                        
+    </div>
+    <div class="figure_caption">
+        <font color="blue">Figure 3</font>: The output of our GAN at the end of each epoch ending at epoch 14.
+    </div>
+</div>
+
+<p>We can see that some of the faces are still not quite there yet, but there are a few that are unbelieveably realistic. In fact, we can perform a kind of &lsquo;Turing Test&rsquo; on this data. The <a href="https://en.wikipedia.org/wiki/Turing_test" title="wiki:Turing Test">Turing Test</a>, put simply, is that if a user is unable to <em>reliably</em> tell the difference between a computer and human performing the same task, then the computer has passed the Turing Test.</p>
+
+<p>Have a go at the test below: study each face, decide if it is a real or fake image; then click on the image to reveal the true result. If you only guess 50% or less, then the computer has passed this simplistic Turing Test.</p>
+
+<p><center><a href="/docs/GAN/turing_quiz.html" target="_blank">Click Here for the Turing Test</a><br>(opens in a new window)</center></p>
+
+<h2 id="conclusion"> Conclusion </h2>
+
+<p>So it looks great, but what was the point? Well, remember back to <a href="/post/GAN1" title="GAN - Post 1">part 1</a> - GANs and other generative networks are used for <em>image completion</em>. We can use the fact that our network has learned what a face should look like to &lsquo;fill-in&rsquo; any missing bits. Lets say someone has a large tattoo across their face, we can reconstruct what the skin would look like without it. Or maybe we have an amazing photo, with a beautiufl background, but we&rsquo;re not smiling: the GAN can reconstruct a smile. More advanced work can include learning what glasses are and putting them onto other faces.</p>
+
+<p>GANs are powerful networks, but work in a relatively simple way by trying to trick a discriminator by generating more and more realistic-looking images.</p>
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/GAN4/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/GAN4/">Generative Adversarial Network (GAN) in TensorFlow - Part 4</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+
