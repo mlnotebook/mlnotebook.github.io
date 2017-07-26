@@ -68,9 +68,6 @@ img {
 
 }
  
-.question img:hover {
-  cursor: pointer;
-}
 
 .question p {
   text-align: center;
@@ -87,9 +84,4 @@ img {
   -o-transition: color 0.3s ease;
   transition: color 0.3s ease;
 
-}
-
-img:active ~ .y {
-  color: #000;
-  font-size: 25px;
 }
