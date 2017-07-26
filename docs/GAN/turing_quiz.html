@@ -173,6 +173,10 @@ A score of 50% of less is a sign that the computer could successfully passed the
 	
 </div>
 
+<div class="intro">
+<p><span id='display2'></span></p>
+</div>
+
 <script type="text/javascript">
 function handleClick()
   {         
@@ -187,11 +191,18 @@ for(var i = 1; i <= 45; i++) {
   }
  }                   
     showInput(100*amountCorrect/16);
+    showCorrect();
   }
   
 function showInput(numbertowrite) {
         document.getElementById('display').innerHTML = 
                     numbertowrite + "% correct";
     }
+    
+function showCorrect() {
+	document.getElementById('display2').innerHTML=
+		"1. Real      2. Real      3. Fake      4. Real      5. Fake<br>6. Fake      7. Fake      8. Real      9. Fake      10. Real<br>11. Real      12. Real      13. Fake     14. Fake      15. Real<br>16. Fake"
+
+}
 </script>
 </html>
