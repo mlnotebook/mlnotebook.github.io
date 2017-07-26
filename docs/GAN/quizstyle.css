@@ -1,6 +1,6 @@
 .intro {
   margin: auto;
-  width: 32%;
+  width: 500px;
   margin-top: 10px;
   margin-bottom: 10px;
   background: #eee;
@@ -15,9 +15,13 @@
   font: 20px/1.5 Helvetica, sans-serif;
 }
 
+#display {
+	font: Bold 20px/1 Helvetica, sans-serif;
+
+}
 .questions{
 	margin: auto;
-	width: 32%;
+	width: 500px;
 	display:flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -37,23 +41,26 @@
 
 .q {
 	width: 100%;
-	text-align: center;
+	text-align: left;
 	padding: 0px;;
 
 }
 
-.a{
-	width: 100%;
-	text-align: center;
+
+
+#a {
+	
+	text-align: left;
 
 }
+
 
 img {
 	width: 64px;
 	height: 64px;
 }
 
-}
+
 .question img {
   text-align: center;
   margin: auto;
