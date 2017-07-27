@@ -1583,6 +1583,9 @@ if (jQuery) {
   $(document).ready(function () {
     $('.collapsible').collapsible();
     $(".button-collapse").sideNav();
+    $('.carousel').carousel({fullWidth: true});
+    $('.carousel').carousel({indicators: true});    
+
   });
 })(jQuery);;(function ($) {
 
