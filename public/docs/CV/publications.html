@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 <!--Import Google Icon Font-->
+	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	 <!--Import materialize.css-->
+	 <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+	 <!--Let browser know website is optimized for mobile-->
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+<body>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/materialize.min.js"></script>
+
+		
+<nav class="light-blue lighten-1" role="navigation">
+	<div class="nav-wrapper container"><a id="logo-container" href="material.html" class="brand-logo right">Résumé</a>
+	 <ul class="left hide-on-med-and-down">
+	   <li><a href="material.html">Home</a></li>	 
+	   <li><a href="education.html">Education</a></li>
+	   <li><a href="publications.html">Publications</a></li>
+	   <li><a href="conferences.html">Conferences & Events</a></li>
+	   <li><a href="portfolio.html">Portfolio</a></li>
+	 </ul>
+
+	 <ul id="nav-mobile" class="side-nav">
+	   <li><a href="material.html">Home</a></li>	 
+	   <li><a href="education.html">Education</a></li>
+	   <li><a href="publications.html">Publications</a></li>
+	   <li><a href="conferences.html">Conferences & Events</a></li>
+	   <li><a href="portfolio.html">Portfolio</a></li>
+	 </ul>
+	 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+	</div>
+</nav> 
+
+<div class="section no-pad-bot" id="index-banner">
+	<div class="container">
+	 <br><br>
+	 <h1 class="header center orange-text"><i style="font-size:50px;" class="material-icons">content_copy</i>  Publications</h1>
+	 <br><br>
+
+	</div>
+</div>
+  
+<div class="container">
+	<div class="row">
+		<div class="col s12 m12 l6">
+			<div class="card blue-grey hoverable">
+				<div class="card-content white-text">
+					<span class="card-title">Automatic Quality Control of Cardiac MRI Segmentation in Large-scale Population Imaging
+					</span>
+					<div class="divider"></div>
+					<p>Robert Robinson, Vanya V. Valindria, Wenjia Bai, Hideaki Suzuki, Paul M. Matthews, Chris Page, Daniel Rueckert, and Ben Glocker</p>
+					<p><i>September 2017</i></p>
+				</div>
+				<div class="card-tabs">
+				<ul class="tabs tabs-fixed-width">
+					<li class="tab"><a class="active" href="#main2">Publication</a></li>
+					<li class="tab"><a href="#abstract2">Abstract</a></li>
+					<li class="tab"><a href="#cite2">Citation</a></li>
+				</ul>
+				</div>
+				<div class="card-content grey lighten-4">
+					<div id="main2"><p>Submitted to the Medical Image Computing and Computer Assisted Intervention (MICCAI) 2017 Conference in Quebec</p></div>
+					<div id="abstract2"><p>The trend towards large-scale studies including population imaging poses new challenges in terms of quality control (QC). This is a particular issue when automatic processing tools such as image segmentation methods are employed to derive quantitative measures or biomarkers for further analyses. Manual inspection and visual QC of each segmentation result is not feasible at large scale. However, it is important to be able to detect when an automatic method fails to avoid inclusion of wrong measurements into subsequent analyses which could otherwise lead to incorrect conclusions. To overcome this challenge, we explore an approach for predicting segmentation quality based on reverse classification accuracy, which enables us to discriminate between successful and failed cases. We validate this approach on a large cohort of cardiac MRI for which manual QC scores were available. Our results on 7,425 cases demonstrate the potential for fully automatic QC in the context of large-scale population imaging such as the UK Biobank Imaging Study</p></div>
+					<div id="cite2">  </div>
+				</div>
+			</div>
+		</div>
+		<div class="col s12 m12 l6">
+			<div class="card blue-grey hoverable">
+				<div class="card-content white-text">
+					<span class="card-title">Electrophysiological substrate for a dominant reentrant source during atrial fibrillation
+					</span>
+					<div class="divider"></div>
+					<p>Aslanidi OV, Robinson R, Cheverton D, Boyett MR, Zhang H.</p>
+					<p><i>September 2009</i></p>
+				</div>
+				<div class="card-tabs">
+				<ul class="tabs tabs-fixed-width">
+					<li class="tab"><a class="active" href="#main1">Publication</a></li>
+					<li class="tab"><a href="#abstract1">Abstract</a></li>
+					<li class="tab"><a href="#cite1">Citation</a></li>
+				</ul>
+				</div>
+				<div class="card-content grey lighten-4">
+					<div id="main1"><p>Submitted to the IEEE Engineering in Medicine and Biology Society Conference 2009 in Minneapolis</p></div>
+					<div id="abstract1"><p>Experimentally observed differences in the action potential (AP) properties between the left (LA) and right (RA) atria are believed to be important in maintaining reentrant sources during atrial fibrillation. We incorporate AP models for single LA and RA cells, as well as major intra- and interatrial conduction pathways, into a 2D atrial tissue model and study the role of tissue heterogeneity in global interactions between reentrant spiral waves in both atria. Our simulations show that shorter AP refractoriness in the LA translates into a shorter period of spiral rotation, and as a result, reentry in the LA dominates the overall excitation patterns in the atria.</p></div>
+					<div id="cite1">  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<br><br>
+</div>
+
+<footer class="page-footer orange">
+	<div class="container">
+		<div class="row">
+			<div class="col l6 s12">
+
+
+
+		</div>
+		</div>
+	</div>
+	<div class="footer-copyright">
+		<div class="container">
+		Modified from <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+		</div>
+	</div>
+</footer>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+</body>
+</html>
