@@ -1582,7 +1582,7 @@ if (jQuery) {
 
   $(document).ready(function () {
     $('.collapsible').collapsible();
-    $(".button-collapse").sideNav();
+    $(".button-collapse").sideNav({draggable: true});
     $('.carousel').carousel({fullWidth: true});
     $('.carousel').carousel({indicators: true});    
 
