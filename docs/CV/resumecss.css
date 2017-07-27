@@ -1,0 +1,142 @@
+//main container for the boxes
+
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #007fed;
+}
+
+p {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #001818;
+}
+
+h2 {
+  color: #007fed;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+}
+
+.container{
+	text-align: center;
+	margin: auto;
+	width: 100%;
+	height: 100%;
+	display:flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	background: #ddd;
+}
+
+.introsection {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	flex: 0 1 100%;
+	height: 30%;
+	background: white;
+	margin: 20px 20px 20px 20px ;
+	border-radius: 3px;	
+	
+}
+
+#leftabout {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	flex: 0 1 30%;
+	height: 95%;
+}
+
+#rightabout {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	text-align: justify;
+	flex: 0 1 65%;
+	height: 95%;
+}
+
+.maincontainer {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	flex: 0 1 100%;
+}
+
+.content {
+	flex: 0 1 75%;
+	height: 50%;
+	background: white;
+	border-radius: 3px;
+	margin: 0px 5px 0px 5px;
+
+}
+
+.headings{
+	display: flex;
+	width: 20%;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 50%;
+	margin: 0px 0px 0px 0px;
+}
+
+
+.section{
+	display: flex;
+	height: 11%;
+	line-height: 50px;
+	background: white;
+	border-radius: 3px;
+	transition: color linear;
+	color: #007fed;
+
+}
+
+.section h1:hover {
+	color: #2198ff;
+	cursor: pointer;
+}
+
+
+@keyframes pop{10%  {transform: scale(1.02); } }
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.section h1, .introsection h1 {
+	text-align: center;
+	margin: auto;
+	font-weight: bold;
+	font-size: 25px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #007fed;
+}
+
+.section p, .introsection p {
+	font-size: 18px;
+
+}
+
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
