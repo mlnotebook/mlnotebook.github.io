@@ -14,26 +14,42 @@
 	<!--Import jQuery before materialize.js-->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
-
-	
-<nav class="light-blue lighten-1" role="navigation">
+<header>
+	<nav class="light-blue lighten-1" role="navigation">
 	<div class="nav-wrapper container"><a id="logo-container" href="material.html" class="brand-logo right">Résumé</a>
-	 <ul class="left hide-on-med-and-down">
-	   <li><a href="material.html">Home</a></li>	 
-	   <li><a href="education.html">Education</a></li>
-	   <li><a href="publications.html">Publications</a></li>
-	   <li><a href="conferences.html">Conferences & Events</a></li>
-	   <li><a href="portfolio.html">Portfolio</a></li>
-	 </ul>
+		<ul class="left hide-on-med-and-down">
+			<li><a href="material.html">Home</a></li>
+			<li><a href="education.html">Education</a></li>
+			<li><a href="publications.html">Publications</a></li>
+			<li><a href="conferences.html">Conferences & Events</a></li>
+			<li><a href="portfolio.html">Portfolio</a></li>
+		</ul>
 
-	 <ul id="nav-mobile" class="side-nav">
-	   <li><a href="material.html">Home</a></li>	 
-	   <li><a href="education.html">Education</a></li>
-	   <li><a href="publications.html">Publications</a></li>
-	   <li><a href="conferences.html">Conferences & Events</a></li>
-	   <li><a href="portfolio.html">Portfolio</a></li>
-	 </ul>
-	 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul id="nav-mobile" class="side-nav">
+			<li><div class="user-view">
+				<div class="background">
+					<img src="images/brain.png">
+				</div>
+				<a href="#!user"><img class="circle" width=64px src="images/me.jpg"></a>
+				<a href="#!name"><span class="white-text name">Rob Robinson</span></a>
+				<span class="white-text email"><script language="JavaScript">
+				var a = "r.";
+				var b = "robinson16";
+				var c = "imperial.ac.uk"
+				var linktext = a + b +"@" + c ;
+				document.write("<a href='" + "mail" + "to:" + a + b + "@" + c + "'>" + linktext);
+			</script></a></span>
+			</div></li>
+			<li><a href="material.html"><i style="font-size: 30px;" class="material-icons">home</i> Home</a></li>	 
+			<li><a href="education.html"><i style="font-size: 30px;" class="material-icons">school</i> Education</a></li>
+			<li><a href="publications.html"><i style="font-size: 30px;" class="material-icons">content_copy</i> Publications</a></li>
+			<li><a href="conferences.html"><i style="font-size: 30px;" class="material-icons"> comment</i> Conferences & Events</a></li>
+			<li><a href="portfolio.html"><i style="font-size: 30px;" class="material-icons"> folder_open</i> Portfolio</a></li>
+			
+			<li><div class="divider"></div></li>
+
+			</ul>
+		<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 	</div>
 </nav> 
 
@@ -45,7 +61,9 @@
 
 	</div>
 </div>
-  
+</header>
+
+<main>
 <div class="container">
 	<div class="row">
 		<div class="col s12 m12 l6">
@@ -119,6 +137,7 @@
 
 	<br><br>
 </div>
+</main>
 
 <footer class="page-footer orange">
 	<div class="container">

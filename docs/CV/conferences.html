@@ -11,36 +11,54 @@
 	</head>
 
 <body>
+<header>
 	<!--Import jQuery before materialize.js-->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
 
-
 <nav class="light-blue lighten-1" role="navigation">
 	<div class="nav-wrapper container"><a id="logo-container" href="material.html" class="brand-logo right">Résumé</a>
-	 <ul class="left hide-on-med-and-down">
-	   <li><a href="material.html">Home</a></li>	 
-	   <li><a href="education.html">Education</a></li>
-	   <li><a href="publications.html">Publications</a></li>
-	   <li><a href="conferences.html">Conferences & Events</a></li>
-	   <li><a href="portfolio.html">Portfolio</a></li>
-	 </ul>
+		<ul class="left hide-on-med-and-down">
+			<li><a href="material.html">Home</a></li>
+			<li><a href="education.html">Education</a></li>
+			<li><a href="publications.html">Publications</a></li>
+			<li><a href="conferences.html">Conferences & Events</a></li>
+			<li><a href="portfolio.html">Portfolio</a></li>
+		</ul>
 
-	 <ul id="nav-mobile" class="side-nav">
-	   <li><a href="material.html">Home</a></li>	 
-	   <li><a href="education.html">Education</a></li>
-	   <li><a href="publications.html">Publications</a></li>
-	   <li><a href="conferences.html">Conferences & Events</a></li>
-	   <li><a href="portfolio.html">Portfolio</a></li>
-	 </ul>
-	 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul id="nav-mobile" class="side-nav">
+			<li><div class="user-view">
+				<div class="background">
+					<img src="images/brain.png">
+				</div>
+				<a href="#!user"><img class="circle" width=64px src="images/me.jpg"></a>
+				<a href="#!name"><span class="white-text name">Rob Robinson</span></a>
+				<span class="white-text email"><script language="JavaScript">
+				var a = "r.";
+				var b = "robinson16";
+				var c = "imperial.ac.uk"
+				var linktext = a + b +"@" + c ;
+				document.write("<a href='" + "mail" + "to:" + a + b + "@" + c + "'>" + linktext);
+			</script></a></span>
+			</div></li>
+			<li><a href="material.html"><i style="font-size: 30px;" class="material-icons">home</i> Home</a></li>	 
+			<li><a href="education.html"><i style="font-size: 30px;" class="material-icons">school</i> Education</a></li>
+			<li><a href="publications.html"><i style="font-size: 30px;" class="material-icons">content_copy</i> Publications</a></li>
+			<li><a href="conferences.html"><i style="font-size: 30px;" class="material-icons"> comment</i> Conferences & Events</a></li>
+			<li><a href="portfolio.html"><i style="font-size: 30px;" class="material-icons"> folder_open</i> Portfolio</a></li>
+			
+			<li><div class="divider"></div></li>
+
+			</ul>
+		<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 	</div>
 </nav> 
-
+</header>
+<main>
 <div class="section no-pad-bot" id="index-banner">
 	<div class="container">
 	 <br><br>
-	 <h1 class="header center orange-text"><i style="font-size:50px;" class="material-icons">speaker_notes</i>  Conferences & Events</h1>
+	 <h1 class="header center orange-text"><i style="font-size:50px;" class="material-icons">comment</i>  Conferences & Events</h1>
 	 <br><br>
 
 	</div>
@@ -49,30 +67,52 @@
 <div class="container">
 	<div class="row">
 		<div class="col s12 m12 l6">
-			<div class="card blue-grey hoverable">
+			<div class="card sticky-action blue-grey hoverable">
+
 				<div class="card-image waves-effect waves-block waves-light">
 					<img class="activator" src="images/miccai.png">
 				</div>
-				<div class="card-content white-text">
-					<span class="card-title">Medical Image Computing and Computer Assisted Intervention (MICCAI) 2017
+				<div class="card-content">
+					<span class="card-title activator white-text text-darken-4">MICCAI 2017 <i class="material-icons right">more_vert</i>
 					</span>
 					<div class="divider"></div>
-					<p>Quebec City, Quebec, Canada</p>
+					<p class="white-text">Quebec City, Quebec, Canada</p>
+				</div>
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">MICCAI 2017<i class="material-icons right">close</i></span>
+					<p>
+					The Medical Image Computing and Computer Assisted Intervention (MICCA) conference is an annual event where groups from around the world gather to exchange ideas in the field. The conference consists of 3 main days with a day of satellite events and workshops before and after.
+					</p>
+				</div>
+				<div class="card-action white-text">
+					<a href="http://miccai2017.org" target="_blank">http://miccai2017.org</a> 
 				</div>
 			</div>
 		</div>
 		<div class="col s12 m12 l6">
-			<div class="card blue-grey hoverable">
+			<div class="card sticky-action blue-grey hoverable">
 				<div class="card-image waves-effect waves-block waves-light">
 						<img class="activator" src="images/royalsociety.png">
 				</div>
 				<div class="card-content white-text">
-					<span class="card-title">Royal Society Summer Science 2017
+					<span class="card-title activator white-text text-darken-4">Royal Society Summer Science 2017  <i class="material-icons right">more_vert</i>
 					</span>
 					<div class="divider"></div>
-					<p>The Royal Society, London</p>
+					<p class="white-text">The Royal Society, London</p>
 				</div>
-				
+				<div class="card-reveal">
+					<span class="card-title grey-text text-darken-4">Royal Society Summer Science 2017<i class="material-icons right">close</i></span>
+					<p>
+					The Royal Society Summer Science (RSSS) exhibition takes parts in the grounds of the Royal Society, in London. It is one of the most well-known and well-respected public engagement events in the scientific community.					Exhibitors from across the country, from academic institutions and industry, demonstrate their cutting-edge research to the public across 7 days. It is an opportunity to engage people of all ages with Science.
+					</p>
+					<p>
+					This year our stand was all about the heart. 3D-printed models of healthy and diseased hearts were shown alongside their corresponding MRI scans. A gyroscopic 3D model demonstrated resynchronisation therapy and the star of the event, where you could hold your "Heart in Your Hands"
+					</p>
+				</div>
+				<div class="card-action white-text">
+					<a href="https://royalsociety.org/science-events-and-lectures/2017/summer-science-exhibition/" target="_blank">Royal Society Summer Science</a>
+					<a href="https://royalsociety.org/science-events-and-lectures/2017/summer-science-exhibition/exhibits/heart-in-your-hands/" target="_blank"> Heart in Your Hands </a> 					
+				</div>
 			</div>
 		</div>
 	</div>
@@ -83,6 +123,7 @@
 
 	<br><br>
 </div>
+</main>
 
 <footer class="page-footer orange">
 	<div class="container">
