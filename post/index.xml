@@ -6,8 +6,427 @@
     <description>Recent content in Posts on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jul 2017 11:07:22 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jan 2018 10:13:20 +0000</lastBuildDate>
     <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Data Augmentations for n-Dimensional Image Input to CNNs</title>
+      <link>/post/dataaug/</link>
+      <pubDate>Thu, 04 Jan 2018 10:13:20 +0000</pubDate>
+      
+      <guid>/post/dataaug/</guid>
+      <description>&lt;p&gt;One of the greatest limiting factors for training effective deep learning frameworks is the availability, quality and organisation of the &lt;em&gt;training data&lt;/em&gt;. To be good at classification tasks, we need to show our CNNs &lt;em&gt;etc.&lt;/em&gt; as many examples as we possibly can. However, this is not always possible especially in situations where the training data is hard to collect e.g. medical image data. In this post, we will learn how to apply &lt;em&gt;data augmentation&lt;/em&gt; strategies to n-Dimensional images get the most of our limited number of examples.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
+
+&lt;p&gt;If we take any image, like our little Android below, and we shift all of the data in the image to the right by a single pixel, you may struggle to see any difference visually. However, numerically, this may as well be a completely different image! Imagine taking a stack of 10 of these images, each shifted by a single pixel compared to the previous one. Now consider the pixels in the images at [20, 25] or some arbitrary location. Focusing on that point, each pixel has a different colour, different average surrounding intensity etc. A CNN take these values into account when performing convolutions and deciding upon weights. If we supplied this set of 10 images to a CNN, it would effectively be making it learn that it should be invariant to these kinds of translations.&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34;  style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/android.jpg&#34; &gt;&lt;br&gt;
+&lt;b&gt;Android&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34;&#34; height=300 src=&#34;/img/augmentation/android1px.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Shifted 1 pixel right&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34;&#34; height=300 src=&#34;/img/augmentation/android10px.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Shifted 10 pixels right&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Of course, translations are not the only way in which an image can change, but still &lt;em&gt;visually&lt;/em&gt; be the same image. Consider rotating the image by even a single degree, or 5 degrees. It&amp;rsquo;s still an Android. Traning a CNN without including translated and rotated versions of the image may cause the CNN to &lt;strong&gt;overfit&lt;/strong&gt; and assume that all images of Androids have to be perfectly upright and centered.&lt;/p&gt;
+
+&lt;p&gt;Providing deep learning frameworks with images that are translated, rotated, scaling, intensified and flipped is what we mean when we talk about &lt;em&gt;data augmentation&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this post we&amp;rsquo;ll look at how to apply these transformations to an image, even in 3D and see how it affects the performance of a deep learning framework. We will use an image from &lt;em&gt;flickr&lt;/em&gt; user  &lt;a href=&#34;https://www.flickr.com/photos/andy_emcee/6416366321&#34; title=&#34;Cat and Dog Image&#34;&gt;andy_emcee&lt;/a&gt; as an example of a 2D nautral image. As this is an RGB (color) image it has shape [512, 640, 3], one layer for each colour channel. We could take one layer to make this grayscale and truly 2D, but most images we deal with will be color so let&amp;rsquo;s leave it. For 3D we will use a 3D MRI scan&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:49%; margin:auto;min-width:350px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34; height=300 src=&#34;/img/augmentation/naturalimg.jpg&#34;&gt;&lt;br&gt;
+&lt;b&gt;RGB Image shape=[512, 640, 3]&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;augs&#34;&gt; Augmentations &lt;/h2&gt;
+
+&lt;p&gt;As usual, we are going to write our augmentation functions in python. We&amp;rsquo;ll just be using simple functions from &lt;code&gt;numpy&lt;/code&gt; and &lt;code&gt;scipy&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;translate&#34;&gt; Translation &lt;/h3&gt;
+
+&lt;p&gt;In our functions, &lt;code&gt;image&lt;/code&gt; is a 2 or 3D array - if it&amp;rsquo;s a 3D array, we need to be careful about specifying our translation directions in the argument called &lt;code&gt;offset&lt;/code&gt;. We don&amp;rsquo;t really want to move images in the &lt;code&gt;z&lt;/code&gt; direction for a couple of reasons: firstly, if it&amp;rsquo;s a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it &lt;code&gt;-2&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt; or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the &lt;code&gt;offset&lt;/code&gt; is given as a length 2 array defining the shift in the &lt;code&gt;y&lt;/code&gt; and &lt;code&gt;x&lt;/code&gt; directions respectively (dont forget index 0 is which horizontal row we&amp;rsquo;re at in python). We hard-code z-direction to&lt;code&gt;0&lt;/code&gt; but you&amp;rsquo;re welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type &lt;code&gt;int&lt;/code&gt; too.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def translateit(image, offset, isseg=False):
+    order = 0 if isseg == True else 5
+
+    return scipy.ndimage.interpolation.shift(image, (int(offset[0]), int(offset[1]), 0), order=order, mode=&#39;nearest&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here we have also provided the option for what kind of interpolation we want to perform: &lt;code&gt;order = 0&lt;/code&gt; means to just use the nearest-neighbour pixel intensity and &lt;code&gt;order = 5&lt;/code&gt; means to perform bspline interpolation with order 5 (taking into account many pixels around the target). This is triggered with a Boolean argument to the &lt;code&gt;scaleit&lt;/code&gt; function called &lt;code&gt;isseg&lt;/code&gt; so named because when dealing with image-segmentations, we want to keep their integer class numbers and not get a result which is a float with a value between two classes. This is not a problem with the actual image as we want to retain as much visual smoothness as possible (though there is an arugment that we&amp;rsquo;re introducing data which didn&amp;rsquo;t exist in the original image). Similarly, when we move our image, we will leave a gap around the edges from which it&amp;rsquo;s moved. We need a way to fill in this gap: by default &lt;code&gt;shift&lt;/code&gt; will use a contant value set to &lt;code&gt;0&lt;/code&gt;. This may not be helpful in some case, so it&amp;rsquo;s best to set the &lt;code&gt;mode&lt;/code&gt; to &lt;code&gt;&#39;nearest&#39;&lt;/code&gt; which takes the cloest pixel-value and replicates it. It&amp;rsquo;s barely noticable with small shifts but looks wrong at larger offsets. We need to be careful and only apply small translations to our data.&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34;  style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimg.jpg&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgtrans5px.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Shifted 5 pixels right&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgtrans25px.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Shifted 25 pixels right&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimg.png&#34; &gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrseg.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image and Segmentation&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgtrans1.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans1.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Shifted [-3, 1] pixels&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgtrans2.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans2.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Shifted [4, -5] pixels&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;scale&#34;&gt; Scaling &lt;/h3&gt;
+
+&lt;p&gt;When scaling an image, i.e. zooming in and out, we want to increase or decrease the area our image takes up whilst keeping the image dimensions the same. We scale our image by a certain &lt;code&gt;factor&lt;/code&gt;. A &lt;code&gt;factor &amp;gt; 1.0&lt;/code&gt; means the image scales-up, and &lt;code&gt;factor &amp;lt; 1.0&lt;/code&gt; scales the image down. Note that we should provide a factor for each dimension: if we want to keep the same number of layers or slices in our image, we should set last value to &lt;code&gt;1.0&lt;/code&gt;. To determine the intensity of the resulting image at each pixel, we are taking the lattice (grid) on which each pixel sits and using this to perform &lt;em&gt;interpolation&lt;/em&gt; of the surrounding pixel intensities. &lt;code&gt;scipy&lt;/code&gt; provides a handy function for this called &lt;code&gt;zoom&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;The definition is probably more complex than one would think:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def scaleit(image, factor, isseg=False):
+    order = 0 if isseg == True else 3
+
+    height, width, depth= image.shape
+    zheight             = int(np.round(factor * height))
+    zwidth              = int(np.round(factor * width))
+    zdepth              = depth
+
+    if factor &amp;lt; 1.0:
+        newimg  = np.zeros_like(image)
+        row     = (height - zheight) // 2
+        col     = (width - zwidth) // 2
+        layer   = (depth - zdepth) // 2
+        newimg[row:row+zheight, col:col+zwidth, layer:layer+zdepth] = interpolation.zoom(image, (float(factor), float(factor), 1.0), order=order, mode=&#39;nearest&#39;)[0:zheight, 0:zwidth, 0:zdepth]
+
+        return newimg
+
+    elif factor &amp;gt; 1.0:
+        row     = (zheight - height) // 2
+        col     = (zwidth - width) // 2
+        layer   = (zdepth - depth) // 2
+
+        newimg = interpolation.zoom(image[row:row+zheight, col:col+zwidth, layer:layer+zdepth], (float(factor), float(factor), 1.0), order=order, mode=&#39;nearest&#39;)  
+        
+        extrah = (newimg.shape[0] - height) // 2
+        extraw = (newimg.shape[1] - width) // 2
+        extrad = (newimg.shape[2] - depth) // 2
+        newimg = newimg[extrah:extrah+height, extraw:extraw+width, extrad:extrad+depth]
+
+        return newimg
+
+    else:
+        return image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;There are three possibilities that we need to consider - we are scaling up, down or no scaling. In each case, we want to return an array that is &lt;em&gt;equal in size&lt;/em&gt; to the input &lt;code&gt;image&lt;/code&gt;. For the scaling down case, this involves making a blank image the same shape as the input, and finding the corresponding box in the resulting scaled image. For scaling up, it&amp;rsquo;s unnecessary to perform the scaling on the whole image, just the portion that will be &amp;lsquo;zoomed&amp;rsquo; - so we pass only part of the array to the &lt;code&gt;zoom&lt;/code&gt; function. There may also be some error in the final shape due to rounding, so we do some trimming of the extra rows and colums before passing it back. When no scaling is done, we just return the original image.&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34;  style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimg.jpg&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgscale075.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Scale-factor 0.75&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgscale125.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Scale-factor 1.25&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimg.png&#34; &gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrseg.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image and Segmentation&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgscale1.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans1.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Scale-factor 1.07&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgscale2.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans2.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Scale-factor 0.95&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#39;resample&#39;&gt; Resampling &lt;/h3&gt;
+
+&lt;p&gt;It may be the case that we want to change the dimensions of our image such that they fit nicely into the input of our CNN. For example, most images and photographs have one dimension larger than the other or may be of different resolutions. This may not be the case in our training set, but most CNNs prefer to have inputs that are square and of identical sizes. We can use the same &lt;code&gt;scipy&lt;/code&gt; function &lt;code&gt;interpolation.zoom&lt;/code&gt; to do this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def resampleit(image, dims, isseg=False):
+    order = 0 if isseg == True else 5
+
+    image = interpolation.zoom(image, np.array(dims)/np.array(image.shape, dtype=np.float32), order=order, mode=&#39;nearest&#39;)
+
+    if image.shape[-1] == 3: #rgb image
+        return image
+    else:
+        return image if isseg else (image-image.min())/(image.max()-image.min()) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The key part here is that we&amp;rsquo;ve replaced the &lt;code&gt;factor&lt;/code&gt; argument with &lt;code&gt;dims&lt;/code&gt; of type &lt;code&gt;list&lt;/code&gt;. &lt;code&gt;dims&lt;/code&gt; should have length equal to the number of dimensions of our image i.e. 2 or 3. We are calculating the factor that each dimension needs to change by in order to change the image to the target &lt;code&gt;dims&lt;/code&gt;. We&amp;rsquo;ve forced the denominator of the scaling factor to be of type &lt;code&gt;float&lt;/code&gt; so that the resulting factor is also &lt;code&gt;float&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this step, we are also changing the intensities of the image to use the full range from &lt;code&gt;0.0&lt;/code&gt; to &lt;code&gt;1.0&lt;/code&gt;. This ensures that all of our image intensities fall over the same range - one fewer thing for the network to be biased against. Again, note that we don&amp;rsquo;t want to do this for our segmentations as the pixel &amp;lsquo;intensities&amp;rsquo; are actually labels. We could do this in a separate function, but I want this to happen to all of my images at this point. There&amp;rsquo;s no difference to the visual display of the images because they are automaticallys rescaled to use the full range of display colours.&lt;/p&gt;
+
+&lt;h3 id=&#34;rotate&#34;&gt; Rotation &lt;/h3&gt;
+
+&lt;p&gt;This function utilises another &lt;code&gt;scipy&lt;/code&gt; function called &lt;code&gt;rotate&lt;/code&gt;. It takes a &lt;code&gt;float&lt;/code&gt; for the &lt;code&gt;theta&lt;/code&gt; argument which specifies the number of degrees of the roation (negative numbers rotate anti-clockwise). We want the returned image to be of the same shape as the input &lt;code&gt;image&lt;/code&gt; so &lt;code&gt;reshape = False&lt;/code&gt; is used. Again we need to specify the &lt;code&gt;order&lt;/code&gt; of the interpolation on the new lattice. The rotate function handles 3D images by rotating each slice by the same &lt;code&gt;theta&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def rotateit(image, theta, isseg=False):
+    order = 0 if isseg == True else 5
+        
+    return rotate(image, float(theta), reshape=False, order=order, mode=&#39;nearest&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34;  style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimg.jpg&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgrotate-10.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Theta = -10.0 &lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgrotate10.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Theta = 10.0&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimg.png&#34; &gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrseg.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image and Segmentation&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgscale1.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegrotate1.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Theta = 6.18&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgrotate2.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans2.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Theta = -1.91&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;intensify&#34;&gt; Intensity Changes &lt;/h3&gt;
+
+&lt;p&gt;The final augmentation we can perform is a scaling in the intensity of the pixels. This effectively brightens or dims the image by appling a blanket increase or decrease across all pixels. We specify the amount by a factor: &lt;code&gt;factor &amp;lt; 1.0&lt;/code&gt; will dim the image, and &lt;code&gt;factor &amp;gt; 1.0&lt;/code&gt; will brighten it. Note that we don&amp;rsquo;t want a &lt;code&gt;factor = 0.0&lt;/code&gt; as this will blank the image.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def intensifyit(image, factor):
+
+    return image*float(factor)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;flip&#34;&gt; Flipping &lt;/h3&gt;
+
+&lt;p&gt;One of the most common image augmentation procedures for natural images (dogs, cats, landscapes etc.) is to do flipping. The premise being that a dog is a dog no matter which was it&amp;rsquo;s facing. Or it doesn&amp;rsquo;t matter if a tree is on the right or the left of an image, it&amp;rsquo;s still a tree.&lt;/p&gt;
+
+&lt;p&gt;We can do horizontal flipping, left-to-right or vertical flipping, up and down. It may make sense to do only one of these (if we know that dogs don&amp;rsquo;t walk on their heads for example). In this case, we can specify a &lt;code&gt;list&lt;/code&gt; of 2 boolean values: if each is &lt;code&gt;1&lt;/code&gt; then both flips are performed. We use the &lt;code&gt;numpy&lt;/code&gt; functions &lt;code&gt;fliplr&lt;/code&gt; and &lt;code&gt;flipup&lt;/code&gt; for these.&lt;/p&gt;
+
+&lt;p&gt;As with resampling, the intensity changes are modified to take the range of the display so there wont be a noticable difference in the images. The maximum value for display is 255 so increasing this will just scale it back down.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def flipit(image, axes):
+    
+    if axes[0]:
+        image = np.fliplr(image)
+    if axes[1]:
+        image = np.flipud(image)
+    
+    return image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;cropping&#34;&gt; Cropping &lt;/h3&gt;
+
+&lt;p&gt;This may be a very niche function, but it&amp;rsquo;s important in my case. Often in natrual image processing, random crops are done on the image in order to give patches - these patches often contain most of the image data e.g. 224 x 224 patch rather than 299 x 299 image. This is just another way of showing the network a very similar but also entirely different image. Central crops are also done. What&amp;rsquo;s different in my case is that I always want my segmentation to be fully-visible in the image that I show to the network (I&amp;rsquo;m working with 3D cardiac MRI segmentations).&lt;/p&gt;
+
+&lt;p&gt;So this function looks at the segmentation and creates a bounding box using the outermost pixels. We&amp;rsquo;re producing &amp;lsquo;square&amp;rsquo; crops with side-length equal to the width of the image (the shortest side not including the depth). In this case, the bounding box is created and, if necessary, the window is moved up and down the image to make sure the full segmentation is visible. It also makes sure that the output is always square in the case that the bounding box moves off the image array.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def cropit(image, seg=None, margin=5):
+
+    fixedaxes = np.argmin(image.shape[:2])
+    trimaxes  = 0 if fixedaxes == 1 else 1
+    trim    = image.shape[fixedaxes]
+    center  = image.shape[trimaxes] // 2
+
+    print image.shape
+    print fixedaxes
+    print trimaxes
+    print trim
+    print center
+
+    if seg is not None:
+
+        hits = np.where(seg!=0)
+        mins = np.argmin(hits, axis=1)
+        maxs = np.argmax(hits, axis=1)
+
+        if center - (trim // 2) &amp;gt; mins[0]:
+            while center - (trim // 2) &amp;gt; mins[0]:
+                center = center - 1
+            center = center + margin
+
+        if center + (trim // 2) &amp;lt; maxs[0]:
+            while center + (trim // 2) &amp;lt; maxs[0]:
+                center = center + 1
+            center = center + margin
+    
+    top    = max(0, center - (trim //2))
+    bottom = trim if top == 0 else center + (trim//2)
+
+    if bottom &amp;gt; image.shape[trimaxes]:
+        bottom = image.shape[trimaxes]
+        top = image.shape[trimaxes] - trim
+  
+    if trimaxes == 0:
+        image   = image[top: bottom, :, :]
+    else:
+        image   = image[:, top: bottom, :]
+
+    if seg is not None:
+        if trimaxes == 0:
+            seg   = seg[top: bottom, :, :]
+        else:
+            seg   = seg[:, top: bottom, :]
+
+        return image, seg
+    else:
+        return image
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that this function will work to square an image even when there is no segmentation given. We also have to be careful about which axes we take as the &amp;lsquo;fixed&amp;rsquo; length for the square and which one to trim.&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34;  style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimg.jpg&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;Natural Image Grayscale&#34; style=&#34;border: 2px solid black;&#34; height=300 src=&#34;/img/augmentation/naturalimgcrop.png&#34;&gt;&lt;br&gt;
+&lt;b&gt; Cropped &lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:29%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimg.png&#34; &gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrseg.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Original Image and Segmentation&lt;/b&gt;
+&lt;/div&gt;
+&lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgcrop.png&#34;&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegcrop.png&#34;&gt;&lt;br&gt;
+&lt;b&gt;Cropped&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;application&#34;&gt; Application &lt;/h2&gt;
+
+&lt;p&gt;We should be careful about how we apply our transformations. For example, if we apply multiple transformations to the same image we need to make sure that we don&amp;rsquo;t apply &amp;lsquo;resampling&amp;rsquo; after &amp;lsquo;intensity changes&amp;rsquo; because this will reset the range of the image, defeating the point of the intensification. However, as we will generally want our data to span the same range, wholesale intensity shifts are less often seen. We also want to make sure that we are not being over zealous with the augmentations either - we need to set limits for our factors and other arguments.&lt;/p&gt;
+
+&lt;p&gt;When I implement data augmentation, I put all of these transforms into one script which can be downloaded here: &lt;a href=&#34;/docs/transforms.py&#34; title=&#34;transforms.py&#34;&gt;&lt;code&gt;transforms.py&lt;/code&gt;&lt;/a&gt;. I then call the transforms that I want from another script.&lt;/p&gt;
+
+&lt;p&gt;We create a set of cases, one for each transformation, which draws random (but controlled) parameters for our augmentations, remember we don&amp;rsquo;t want anything too extreme. We don&amp;rsquo;t want to apply all of these transformations every time, so we also create an array of random length (number of transformations) and randomly assigned elements (the transformations to apply).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;np.random.seed()
+numTrans     = np.random.randint(1, 6, size=1) 
+allowedTrans = [0, 1, 2, 3, 4]
+whichTrans   = np.random.choice(allowedTrans, numTrans, replace=False)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We assign a new &lt;code&gt;random.seed&lt;/code&gt; every time to ensure that each pass is different to the last. There are 5 possible transformations so &lt;code&gt;numTrans&lt;/code&gt; is a single random integer between 1 and 5. We then take a &lt;code&gt;random.choice&lt;/code&gt; of the &lt;code&gt;allowedTrans&lt;/code&gt; up to &lt;code&gt;numTrans&lt;/code&gt;. We don&amp;rsquo;t want to apply the same transformation more than once, so &lt;code&gt;replace=False&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;After some trial and error, I&amp;rsquo;ve found that the following parameters are good:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;rotations - &lt;code&gt;theta&lt;/code&gt; $ \in [-10.0, 10.0] $ degrees&lt;/li&gt;
+&lt;li&gt;scaling - &lt;code&gt;factor&lt;/code&gt; $ \in [0.9, 1.1] $ i.e. 10% zoom-in or zoom-out&lt;/li&gt;
+&lt;li&gt;intensity - &lt;code&gt;factor&lt;/code&gt; $ \in [0.8, 1.2] $ i.e. 20% increase or decrease&lt;/li&gt;
+&lt;li&gt;translation - &lt;code&gt;offset&lt;/code&gt; $ \in [-5, 5] $ pixels&lt;/li&gt;
+&lt;li&gt;margin - I tend to set at either 5 or 10 pixels.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For an image called &lt;code&gt;thisim&lt;/code&gt; and segmentation called &lt;code&gt;thisseg&lt;/code&gt;, the cases I use are:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;if 0 in whichTrans:
+    theta   = float(np.around(np.random.uniform(-10.0,10.0, size=1), 2))
+    thisim  = rotateit(thisim, theta)
+    thisseg = rotateit(thisseg, theta, isseg=True) if withseg else np.zeros_like(thisim)
+
+if 1 in whichTrans:
+    scalefactor  = float(np.around(np.random.uniform(0.9, 1.1, size=1), 2))
+    thisim  = scaleit(thisim, scalefactor)
+    thisseg = scaleit(thisseg, scalefactor, isseg=True) if withseg else np.zeros_like(thisim)
+
+if 2 in whichTrans:
+    factor  = float(np.around(np.random.uniform(0.8, 1.2, size=1), 2))
+    thisim  = intensifyit(thisim, factor)
+    #no intensity change on segmentation
+
+if 3 in whichTrans:
+    axes    = list(np.random.choice(2, 1, replace=True))
+    thisim  = flipit(thisim, axes+[0])
+    thisseg = flipit(thisseg, axes+[0]) if withseg else np.zeros_like(thisim)
+
+if 4 in whichTrans:
+    offset  = list(np.random.randint(-5,5, size=2))
+    currseg = thisseg
+    thisim  = translateit(thisim, offset)
+    thisseg = translateit(thisseg, offset, isseg=True) if withseg else np.zeros_like(thisim)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In each case, a random set of parameters is found and passed to the transform functions. The image and segmentation are passed separately to each one. In my case, I only choose to flip horizontally by randomly choosing 0 or 1 and appending &lt;code&gt;[0]&lt;/code&gt; such that the transform ignores the second axis. We&amp;rsquo;ve also added a boolean variable called &lt;code&gt;withseg&lt;/code&gt;. When &lt;code&gt;True&lt;/code&gt; the segmentation is augmented, otherwise a blank image is returned.&lt;/p&gt;
+
+&lt;p&gt;Finally, we crop the image to make it square before resampling it to the desired &lt;code&gt;dims&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;thisim, thisseg = cropit(thisim, thisseg)
+thisim          = resampleit(thisim, dims)
+thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros_like(thisim)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Putting this together in a script makes testing the augmenter easier: you can download the script &lt;a href=&#34;/docs/augmenter.py&#34; title=&#34;augmenter.py&#34;&gt;here&lt;/a&gt;. Some things in the code to note:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The script takes one mandatory argument (image filename) and an optional segmentation filename&lt;/li&gt;
+&lt;li&gt;There&amp;rsquo;s a bit of error checking - are the files able to be loaded? Is it an rgb or full 3D image (3rd dimension greater than 3).&lt;/li&gt;
+&lt;li&gt;We specify the final image dimensions, [224, 224, 8] in this case&lt;/li&gt;
+&lt;li&gt;We also declare some default values for the parameters so that we can&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&amp;hellip;print out the applied transformations and their parameters at the end&lt;/li&gt;
+&lt;li&gt;There&amp;rsquo;s a definition for a &lt;code&gt;plotit&lt;/code&gt; function that just creates a 2 x 2 matrix where the top 2 images are the originals and the bottom two are the augmented images.&lt;/li&gt;
+&lt;li&gt;There&amp;rsquo;s a commented out part which is what I used to save the images created in this post&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Generative Adversarial Network (GAN) in TensorFlow - Part 5</title>
@@ -4236,35 +4655,6 @@ from scipy.ndimage import morphology
 &lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
 
 &lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MLNotebook First Post</title>
-      <link>/post/my-first-post/</link>
-      <pubDate>Wed, 01 Mar 2017 10:38:47 +0000</pubDate>
-      
-      <guid>/post/my-first-post/</guid>
-      <description>&lt;p&gt;This is the first post on the Machine Learning Notebook (MLN)! I&amp;rsquo;ll give a brief overview of what the site is for, how I&amp;rsquo;m constructing it and the kinds of things I&amp;rsquo;m learning along the way.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m a n00b when it comes to Github Pages and relatively new to working with Github at all! It took me a while to decide what platform to use for creating this humble resource. I was initially looking at writing everything in iPython notebooks, but it was confusing to figure out how to keep the scripts live rather than coverting them to static sites.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve read several blogs, but &lt;a href=&#34;http://bruceeckel.github.io/2014/11/19/using-github-pages/&#34; title=&#34;Using Github Pages&#34;&gt;this one&lt;/a&gt; seemed to be written to my liking and was pretty much a document of trail and error, but perhaps more imporantly, &lt;strong&gt;solutions&lt;/strong&gt;. I&amp;rsquo;m actually writing this first post after reading &lt;a href=&#34;https://www.smashingmagazine.com/2014/08/build-blog-jekyll-github-pages/&#34; title=&#34;Build a Blog with Jekyll and Github Pages&#34;&gt;this&lt;/a&gt; where I&amp;rsquo;ve settled on using Jekyll. Though I must say that I was initially pushed away from this idea after seeing that Jekyll was written for Ruby (in which I have no experience). But here it goes - hopefully it&amp;rsquo;ll be straight-forward.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/em&gt;: Scratch that - after playing around with &lt;a href=&#34;https://gohugo.io/&#34; title=&#34;Hugo Homepage&#34;&gt;Hugo&lt;/a&gt; and reading the &amp;lsquo;start from scratch&amp;rsquo; post &lt;a href=&#34;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-hugo-a-static-site-generator-on-ubuntu-14-04#adjusting-the-initial-configuration-for-your-site&#34; title=&#34;Quickstart Hugo&#34;&gt;here&lt;/a&gt; I think I&amp;rsquo;m a hugo-convert!&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m (still) going to have to play about with writing in markdown just to get used to the command structure. Luckily, I found a good cheatsheet over &lt;a href=&#34;https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet&#34; title=&#34;Markdown Cheatsheet&#34;&gt;here&lt;/a&gt; and another &lt;a href=&#34;https://sourceforge.net/p/hugo-generator/wiki/markdown_syntax/&#34; title=&#34;Sourceforge Markdown&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Eventually, I want this site to build up into small sampling of what I&amp;rsquo;ve been learning to do whilst learning Python and applying it to Machine Learning problems. It may at times become quite specialised with my research in medical imaging, but the general processes (I hope) should benefit at least one other person in the world.&lt;/p&gt;
-
-&lt;p&gt;Here goes!&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/em&gt;: Just to test out the code-block highlighting&amp;hellip;
-&lt;pre&gt;&lt;code class=&#34;python&#34;
-&gt;def hello_world():
-    print &amp;ldquo;Hello there!&amp;rdquo;
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
