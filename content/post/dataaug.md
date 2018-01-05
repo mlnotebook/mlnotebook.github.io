@@ -1,6 +1,5 @@
 +++
 tags = ['CNN', 'neural network', 'deep learning']
-draft = true
 description = "Getting the most of our training data and improving performance"
 date = "2018-01-04T10:13:20Z"
 title = "Data Augmentations for n-Dimensional Image Input to CNNs"
