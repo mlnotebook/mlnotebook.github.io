@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kernel on Machine Learning Notebook</title>
-    <link>/tags/kernel/</link>
+    <link>/tags/kernel/index.xml</link>
     <description>Recent content in Kernel on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Apr 2017 09:46:56 +0100</lastBuildDate>
     <atom:link href="/tags/kernel/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,6 +15,8 @@
       
       <guid>/post/CNN1/</guid>
       <description>&lt;p&gt;This series will give some background to CNNs, their architecture, coding and tuning. In particular, this tutorial covers some of the background to CNNs and Deep Learning. We won&amp;rsquo;t go over any coding in this session, but that will come in the next one. What&amp;rsquo;s the big deal about CNNs? What do they look like? Why do they work? Find out in this tutorial.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt;  Introduction &lt;/h2&gt;
 
@@ -228,8 +229,7 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;li&gt;hyperparameters (learning rate, regularisation weights, batch size, iterations&amp;hellip;)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&amp;hellip;&lt;/p&gt;
-</description>
+&lt;p&gt;There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&amp;hellip;&lt;/p&gt;</description>
     </item>
     
   </channel>

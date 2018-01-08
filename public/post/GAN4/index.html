@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The GAN Class and Data Functions">
-  <meta name="generator" content="Hugo 0.15" />
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>Generative Adversarial Network (GAN) in TensorFlow - Part 4 &middot; Machine Learning Notebook</title>
 
@@ -290,38 +290,40 @@
 
   <p>Now that we&rsquo;re able to import images into our network, we really need to build the GAN iteself. This tuorial will build the GAN <code>class</code> including the methods needed to create the generator and discriminator. We&rsquo;ll also be looking at some of the data functions needed to make this work.</p>
 
+<p></p>
+
 <p>*Note: This table of contents does not follow the order in the post. The contents is grouped by the methods in the GAN <code>class</code> and the functions in <code>gantut_imgfuncs.py</code>.</p>
 
 <div id="toctop"></div>
 
 <ol>
-<li><a href="#intro:7881e86736edb7def2ac8834c09478dd">Introduction</a></li>
-<li><a href="#gan:7881e86736edb7def2ac8834c09478dd">The GAN</a>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#gan">The GAN</a>
 
 <ul>
-<li><a href="#datasetfiles:7881e86736edb7def2ac8834c09478dd">dataset_files()</a></li>
-<li><a href="#dcgan:7881e86736edb7def2ac8834c09478dd">GAN Class</a>
+<li><a href="#datasetfiles">dataset_files()</a></li>
+<li><a href="#dcgan">GAN Class</a>
 
 <ul>
-<li><a href="#init:7881e86736edb7def2ac8834c09478dd">__init__()</a></li>
-<li><a href="#discriminator:7881e86736edb7def2ac8834c09478dd">discriminator()</a></li>
-<li><a href="#generator:7881e86736edb7def2ac8834c09478dd">generator()</a></li>
-<li><a href="#buildmodel:7881e86736edb7def2ac8834c09478dd">build_model()</a></li>
-<li><a href="#save:7881e86736edb7def2ac8834c09478dd">save()</a></li>
-<li><a href="#load:7881e86736edb7def2ac8834c09478dd">load()</a></li>
-<li><a href="#train:7881e86736edb7def2ac8834c09478dd">train()</a><br /></li>
+<li><a href="#init">__init__()</a></li>
+<li><a href="#discriminator">discriminator()</a></li>
+<li><a href="#generator">generator()</a></li>
+<li><a href="#buildmodel">build_model()</a></li>
+<li><a href="#save">save()</a></li>
+<li><a href="#load">load()</a></li>
+<li><a href="#train">train()</a><br /></li>
 </ul></li>
-<li><a href="#batchnorm:7881e86736edb7def2ac8834c09478dd">Data Functions</a>
+<li><a href="#batchnorm">Data Functions</a>
 
 <ul>
-<li><a href="#batchnorm:7881e86736edb7def2ac8834c09478dd">batch_norm()</a></li>
-<li><a href="#conv2d:7881e86736edb7def2ac8834c09478dd">conv2d()</a></li>
-<li><a href="#relu:7881e86736edb7def2ac8834c09478dd">relu()</a></li>
-<li><a href="#linear:7881e86736edb7def2ac8834c09478dd">linear()</a></li>
-<li><a href="#conv2dtrans:7881e86736edb7def2ac8834c09478dd">conv2d_transpose()</a><br /></li>
+<li><a href="#batchnorm">batch_norm()</a></li>
+<li><a href="#conv2d">conv2d()</a></li>
+<li><a href="#relu">relu()</a></li>
+<li><a href="#linear">linear()</a></li>
+<li><a href="#conv2dtrans">conv2d_transpose()</a><br /></li>
 </ul></li>
 </ul></li>
-<li><a href="#conclusion:7881e86736edb7def2ac8834c09478dd">Conclusion</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 </ol>
 
 <h2 id="intro"> Introduction </h2>
@@ -999,7 +1001,6 @@ def conv2d_transpose(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.
 </ol>
 
 <p>In the final part of the series, we will run this network and take a look at the outputs in TensorBoard.</p>
-
 
   
 <div class="prev-next-post pure-g">

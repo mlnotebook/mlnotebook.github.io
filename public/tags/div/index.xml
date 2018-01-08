@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Div on Machine Learning Notebook</title>
-    <link>/tags/div/</link>
+    <link>/tags/div/index.xml</link>
     <description>Recent content in Div on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Mar 2017 17:21:15 +0000</lastBuildDate>
     <atom:link href="/tags/div/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,7 +14,8 @@
       <pubDate>Sat, 04 Mar 2017 17:21:15 +0000</pubDate>
       
       <guid>/post/webdesign/</guid>
-      <description>&lt;p&gt;So I&amp;rsquo;m quite a bit into getting MLNotebook setup and I&amp;rsquo;ve been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that&amp;rsquo;s what I can do for you here!&lt;/p&gt;
+      <description>&lt;p&gt;So I&amp;rsquo;m quite a bit into getting MLNotebook setup and I&amp;rsquo;ve been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that&amp;rsquo;s what I can do for you here!
+&lt;/p&gt;
 
 &lt;p&gt;I thought I&amp;rsquo;d give an overview of some of the wisdom I&amp;rsquo;ve gained from creating MLNotebook - my adventures in markdown&amp;hellip; and the rest!&lt;/p&gt;
 
@@ -302,8 +302,7 @@ MathJax.Hub.Config({
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/td&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;/td&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

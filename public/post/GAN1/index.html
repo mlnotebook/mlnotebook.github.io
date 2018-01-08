@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Some background and mathematics">
-  <meta name="generator" content="Hugo 0.15" />
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>Generative Adversarial Network (GAN) in TensorFlow - Part 1 &middot; Machine Learning Notebook</title>
 
@@ -288,6 +288,8 @@
 
   <p>We&rsquo;ve seen that CNNs can learn the content of an image for classificationi purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &lsquo;fake&rsquo; image which isn&rsquo;t in the training set. Why? By the end of this tutorial you&rsquo;ll get know why this might be done and how to do it.</p>
 
+<p></p>
+
 <h2 id="intro">  Introduction </h2>
 
 <p>Generative Adversarial Networks (GANs) were proposed by Ian Goodfellow <em>et al</em> in 2014 at annual the Neural Information and Processing Systems (NIPS) conference. The original paper <a href="https://arxiv.org/pdf/1406.2661" title="Generative Adversarial Nets 2014">is available on Arxiv</a> along with a later tutorial by Goodfellow delivered at NIPS in 2016 <a href="https://arxiv.org/pdf/1701.00160" title="NIPS 2016 Tutorial: Generative Adversarial Networks">here</a>. I&rsquo;ve read both of these (and others) as well as taking a look at other tutorials but sometimes things just weren&rsquo;t clear enough for me. <a href="http://bamos.github.io/2016/08/09/deep-completion/#ml-heavy-generative-adversarial-net-gan-building-blocks" title="bamos.github.io">This blog from B. Amos</a> has been helpful in getting my thoughts organised on this series, and hopefully I can build on this a little and make things more concrete.</p>
@@ -407,7 +409,6 @@ $$
 <p>In the next post, we&rsquo;ll get ourselves organised, make sure we have some dependencies, create some files and get our training data sorted.</p>
 
 <p>As always, if there&rsquo;s anything wrong or that doesn&rsquo;t make send <strong>please</strong> get in contact and let me know. A comment here is great.</p>
-
 
   
 <div class="prev-next-post pure-g">

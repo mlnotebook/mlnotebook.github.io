@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Maths on Machine Learning Notebook</title>
-    <link>/tags/maths/</link>
+    <link>/tags/maths/index.xml</link>
     <description>Recent content in Maths on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Mar 2017 10:33:08 +0000</lastBuildDate>
     <atom:link href="/tags/maths/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,6 +15,8 @@
       
       <guid>/post/nn-more-maths/</guid>
       <description>&lt;p&gt;The third in our series of tutorials on Simple Neural Networks. This time, we&amp;rsquo;re looking a bit deeper into the maths, specifically focusing on vectorisation. This is an important step before we can translate our maths in a functioning script in Python.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;So we&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;been through the maths&lt;/a&gt; of a neural network (NN) using back propagation and taken a look at the &lt;a href=&#34;/post/transfer-functions&#34;&gt;different activation functions&lt;/a&gt; that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!&lt;/p&gt;
 
@@ -485,8 +486,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;nextsteps&#34;&gt; What&#39;s next? &lt;/h2&gt;
 
-&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;
-</description>
+&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;</description>
     </item>
     
   </channel>

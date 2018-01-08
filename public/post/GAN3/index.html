@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Image Import and Export Functions">
-  <meta name="generator" content="Hugo 0.15" />
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>Generative Adversarial Network (GAN) in TensorFlow - Part 3 &middot; Machine Learning Notebook</title>
 
@@ -290,31 +290,33 @@
 
   <p>We&rsquo;re ready to code! In <a href="/content/post/GAN1 &quot;GAN Tutorial - Part 1">Part 1</a> we looked at how GANs work and <a href="/content/post/GAN2 &quot;GAN Tutorial - Part 2">Part 2</a> showed how to get the data ready. In this Part, we will begin creating the functions that handle the image data including some pre-procesing and data normalisation.</p>
 
+<p></p>
+
 <div id="toctop"></div>
 
 <ol>
-<li><a href="#intro:9d5738b7233f8f739ad33e6120f81eb1">Introduction</a></li>
-<li><a href="#imagefuncs:9d5738b7233f8f739ad33e6120f81eb1">Image Functions</a>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#imagefuncs">Image Functions</a>
 
 <ol>
-<li><a href="#importfuncs:9d5738b7233f8f739ad33e6120f81eb1">Importing Functions</a>
+<li><a href="#importfuncs">Importing Functions</a>
 
 <ul>
-<li><a href="#imread:9d5738b7233f8f739ad33e6120f81eb1">imread()</a></li>
-<li><a href="#transform:9d5738b7233f8f739ad33e6120f81eb1">transform()</a></li>
-<li><a href="#centercrop:9d5738b7233f8f739ad33e6120f81eb1">center_crop()</a></li>
-<li><a href="#getimage:9d5738b7233f8f739ad33e6120f81eb1">get_image()</a></li>
+<li><a href="#imread">imread()</a></li>
+<li><a href="#transform">transform()</a></li>
+<li><a href="#centercrop">center_crop()</a></li>
+<li><a href="#getimage">get_image()</a></li>
 </ul></li>
-<li><a href="#savingfuncs:9d5738b7233f8f739ad33e6120f81eb1">Saving Functions</a>
+<li><a href="#savingfuncs">Saving Functions</a>
 
 <ul>
-<li><a href="#invtransform:9d5738b7233f8f739ad33e6120f81eb1">inverse_transform</a></li>
-<li><a href="#merge:9d5738b7233f8f739ad33e6120f81eb1">merge()</a></li>
-<li><a href="#imsave:9d5738b7233f8f739ad33e6120f81eb1">imsave()</a></li>
-<li><a href="#saveimages:9d5738b7233f8f739ad33e6120f81eb1">save_images()</a></li>
+<li><a href="#invtransform">inverse_transform</a></li>
+<li><a href="#merge">merge()</a></li>
+<li><a href="#imsave">imsave()</a></li>
+<li><a href="#saveimages">save_images()</a></li>
 </ul></li>
 </ol></li>
-<li><a href="#conclusion:9d5738b7233f8f739ad33e6120f81eb1">Conclusion</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 </ol>
 
 <h2 id="intro"> Introduction </h2> 
@@ -620,7 +622,6 @@ import scipy.misc
 </code></pre>
 
 <p>The complete script can be found <a href="/docs/GAN/gantut_imgfuncs_complete.py" title="gantut_imgfuncs_complete.py">here</a>. In the next post, we will be working on the GAN itself and building the <code>gantut_datafuncs.py</code> functions as we go.</p>
-
 
   
 <div class="prev-next-post pure-g">

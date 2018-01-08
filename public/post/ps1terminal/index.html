@@ -4,8 +4,8 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Making easier to identify which computer we&#39;re working on when we `ssh` a lot">
-  <meta name="generator" content="Hugo 0.15" />
+  <meta name="description" content="Making it easier to identify which computer we&#39;re working on when we `ssh`">
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>Modifying the Terminal Prompt for Sanity &middot; Machine Learning Notebook</title>
 
@@ -220,7 +220,7 @@
 
 <div class="header">
   <h1>Modifying the Terminal Prompt for Sanity</h1>
-  <h2>Making easier to identify which computer we&#39;re working on when we `ssh` a lot</h2>
+  <h2>Making it easier to identify which computer we&#39;re working on when we `ssh`</h2>
 </div>
 <div class="content">
 
@@ -283,6 +283,8 @@
 
 
   <p>If you&rsquo;re working with more than one computer at a time, then you&rsquo;re probably using some form of remote access framework - most likely <code>ssh</code>. This is common in machine learning where our scripts are run on some other host with more capabilities. In this post we&rsquo;ll look at how to modify the terminal prompt layout and colours to give us information we need at a glance: the current user; whether they&rsquo;re <code>root</code>; what computer we&rsquo;re working on; what folder in and the time that the last command was given.</p>
+
+<p></p>
 
 <p>When we <code>ssh</code> into another computer, the terminal prompt will most likely change. Often it becomes colourless (usually all-white text) and the structure may change based on the initial setup. I&rsquo;ve often issued commands to the wrong computer because of this so it would be useful if we were able to clearly see which computer we&rsquo;re working on at a glance.</p>
 
@@ -367,7 +369,6 @@ fi
 </div>
 
 <p>For my full PS1 variable, I have the colours, the bold host and I also added some square brackets (not escaped!) to make it a little more visually pleasing. You can change the <code>~/.bashrc</code> file for each user on each computer. So if you have a regular user account <em>and</em> a root account on the same machine, you can create a different PS1 for both by editing their respecitve files. So feel free to change colours and formats as you wish!</p>
-
 
   
 <div class="prev-next-post pure-g">

@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Back Propagation on Machine Learning Notebook</title>
-    <link>/tags/back-propagation/</link>
+    <link>/tags/back-propagation/index.xml</link>
     <description>Recent content in Back Propagation on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Mar 2017 09:55:00 +0000</lastBuildDate>
     <atom:link href="/tags/back-propagation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,27 +14,28 @@
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
       
       <guid>/post/nn-in-python/</guid>
-      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)&lt;/p&gt;
+      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)
+&lt;/p&gt;
 
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#intro:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferfunction:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backpropclass:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Back Propagation Class&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backpropclass&#34;&gt;Back Propagation Class&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#initialisation:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#forwardpass:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backprop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initialisation&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#forwardpass&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backprop&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#testing:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#iterating:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#testing&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#iterating&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h3 id=&#34;intro&#34;&gt; Introduction &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;ploughed through the maths&lt;/a&gt;, then &lt;a href=&#34;/post/nn-more-maths&#34;&gt;some more&lt;/a&gt;, now we&amp;rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&amp;rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&amp;hellip;) we&amp;rsquo;re only going to use numpy!&lt;/p&gt;
 
@@ -54,15 +54,15 @@
 
 &lt;p&gt;First things first&amp;hellip; lets import numpy:&lt;/p&gt;
 
-
-import numpy as np
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;np&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now let&amp;rsquo;s go ahead and get the first bit done:&lt;/p&gt;
 
 &lt;h2 id=&#34;transferfunction&#34;&gt; Transfer Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;To begin with, we&amp;rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a &lt;a href=&#34;/post/transfer-functions&#34;&gt;previous post&lt;/a&gt; this is very easy to code up because of its simple derivative:&lt;/p&gt;
 
@@ -83,7 +83,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backpropclass&#34;&gt; Back Propagation Class &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of &lt;a href=&#34;https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6&#34;&gt;Ryan on YouTube&lt;/a&gt;. Some of his hacks were very useful so I&amp;rsquo;ve taken some of those on board, but i&amp;rsquo;ve made a lot of the variables more self-explanatory.&lt;/p&gt;
 
@@ -119,7 +119,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;initialisation&#34;&gt; Initialisation &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: &lt;code&gt;numNodes&lt;/code&gt;. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.&lt;/p&gt;
 
@@ -185,7 +185,7 @@ self._layerOutput = []
 
 &lt;h3 id=&#34;forwardpass&#34;&gt; Forward Pass &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).&lt;/p&gt;
 
@@ -259,7 +259,7 @@ self._layerOutput.append(sigmoid(layerInput))
 
 &lt;h3 id=&#34;backprop&#34;&gt;Back Propagation&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights &lt;strong&gt;and&lt;/strong&gt; we&amp;rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:&lt;/p&gt;
 
@@ -391,9 +391,9 @@ for index in reversed(range(self.numLayers)):
 
 &lt;h2 id=&#34;testing&#34;&gt; A Toy Example&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py [here][5]&lt;/p&gt;
+&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py &lt;a href=&#34;/docs/simpleNN.py&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s test it!&lt;/p&gt;
 
@@ -423,7 +423,7 @@ for i in range(Input.shape[0]):
 
 &lt;h2 id=&#34;iterating&#34;&gt; Iterating &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Iteration is very straight forward. We just tell our algorithm to repeat a maximum of &lt;code&gt;maxIterations&lt;/code&gt; times or until the &lt;code&gt;Error&lt;/code&gt; is below &lt;code&gt;minError&lt;/code&gt; (whichever comes first). As the weights are stored internally within &lt;code&gt;NN&lt;/code&gt; every time we call the &lt;code&gt;backProp&lt;/code&gt; method, it uses the latest, internally stored weights and doesn&amp;rsquo;t start again - the weights are only initialised once upon creation of &lt;code&gt;NN&lt;/code&gt;.&lt;/p&gt;
 
@@ -451,10 +451,7 @@ Input 	Output 		Target
 
 &lt;p&gt;Much better! The error is very small and the outputs are very close to the correct value. However, they&amp;rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;
-
-&lt;p&gt;[5]: /docs/simpleNN.py&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -464,6 +461,8 @@ Input 	Output 		Target
       
       <guid>/post/nn-more-maths/</guid>
       <description>&lt;p&gt;The third in our series of tutorials on Simple Neural Networks. This time, we&amp;rsquo;re looking a bit deeper into the maths, specifically focusing on vectorisation. This is an important step before we can translate our maths in a functioning script in Python.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;So we&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;been through the maths&lt;/a&gt; of a neural network (NN) using back propagation and taken a look at the &lt;a href=&#34;/post/transfer-functions&#34;&gt;different activation functions&lt;/a&gt; that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!&lt;/p&gt;
 
@@ -933,8 +932,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;nextsteps&#34;&gt; What&#39;s next? &lt;/h2&gt;
 
-&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;
-</description>
+&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -948,18 +946,18 @@ $$&lt;/div&gt;
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#nnarchitecture:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Neural Network Architecture&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferFunction:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#feedforward:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Feed-forward&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#error:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Error&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backPropagationGrads:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Back Propagation - the Gradients&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#bias:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Bias&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backPropagationAlgorithm:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Back Propagaton - the Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nnarchitecture&#34;&gt;Neural Network Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferFunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#feedforward&#34;&gt;Feed-forward&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#error&#34;&gt;Error&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backPropagationGrads&#34;&gt;Back Propagation - the Gradients&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bias&#34;&gt;Bias&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backPropagationAlgorithm&#34;&gt;Back Propagaton - the Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;nnarchitecture&#34;&gt;1. Neural Network Architecture &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;By now, you may well have come across diagrams which look very similar to the one below. It shows some input node, connected to some output node via an intermediate node in what is called a &amp;lsquo;hidden layer&amp;rsquo; - &amp;lsquo;hidden&amp;rsquo; because in the use of NN only the input and output is of concern to the user, the &amp;lsquo;under-the-hood&amp;rsquo; stuff may not be interesting to them. In real, high-performing NN there are usually more hidden layers.&lt;/p&gt;
 
@@ -976,7 +974,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;transferFunction&#34;&gt;2. Transfer Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;At each node in the hidden and output layers of the NN, an &lt;em&gt;activation&lt;/em&gt; or &lt;em&gt;transfer&lt;/em&gt; function is executed. This function takes in the output of the previous node, and multiplies it by some &lt;em&gt;weight&lt;/em&gt;. These weights are the lines which connect the nodes. The weights that come out of one node can all be different, that is they will &lt;em&gt;activate&lt;/em&gt; different neurons. There can be many forms of the transfer function, we will first look at the &lt;em&gt;sigmoid&lt;/em&gt; transfer function as it seems traditional.&lt;/p&gt;
 
@@ -1019,7 +1017,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;feedforward&#34;&gt;3. Feed-forward &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;During a feed-forward pass, the network takes in the input values and gives us some output values. To see how this is done, let&amp;rsquo;s first consider a 2-layer neural network like the one in Figure 1. Here we are going to refer to:&lt;/p&gt;
 
@@ -1065,7 +1063,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;error&#34;&gt;4. Error &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We measure error at the end of each foward pass. This allows us to quantify how well our network has performed in getting the correct output. Let&amp;rsquo;s define $t_{k}$ as the expected or &lt;em&gt;target&lt;/em&gt; value of the $k^{\text{th}}$ node of the output layer $K$. Then the error $E$ on the entire output is:&lt;/p&gt;
 
@@ -1159,7 +1157,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backPropagationGrads&#34;&gt;5. Back Propagation - the gradients&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Back propagation takes the error function we found in the previous section, uses it to calculate the error on the current layer and updates the weights to that layer by some amount.&lt;/p&gt;
 
@@ -1248,7 +1246,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;bias&#34;&gt;6.  Bias &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Lets remind ourselves what happens inside our hidden layer nodes:&lt;/p&gt;
 
@@ -1293,7 +1291,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backPropagationAlgorithm&#34;&gt;7. Back Propagation - the algorithm&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now we have all of the pieces! We&amp;rsquo;ve got the initial outputs after our feed-forward, we have the equations for the delta terms (the amount by which the error is based on the different weights) and we know we need to update our bias term too. So what does it look like:&lt;/p&gt;
 
@@ -1310,7 +1308,8 @@ $$&lt;/div&gt;&lt;/li&gt;
 
 &lt;div&gt;$$
 \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
-$$&lt;/div&gt;&lt;/li&gt;
+$$&lt;/div&gt;
+    &lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Calculate the changes that need to be made to the weights and bias terms:&lt;/p&gt;
 
@@ -1319,7 +1318,8 @@ $$&lt;/div&gt;&lt;/li&gt;
 \Delta W &amp;= -\eta \ \delta_{l} \ \mathcal{O}_{l-1} \\
 \Delta\theta &amp;= -\eta \ \delta_{l}
 \end{align}
-$$&lt;/div&gt;&lt;/li&gt;
+$$&lt;/div&gt;
+    &lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Update the weights and biases across the network:&lt;/p&gt;
 
@@ -1328,15 +1328,15 @@ $$&lt;/div&gt;&lt;/li&gt;
 W + \Delta W &amp;\rightarrow W \\
 \theta + \Delta\theta &amp;\rightarrow \theta
 \end{align}
-$$&lt;/div&gt;&lt;/li&gt;
+$$&lt;/div&gt;
+    &lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Here, $\eta$ is just a small number that limit the size of the deltas that we compute: we don&amp;rsquo;t want the network jumping around everywhere. The $l$ subscript denotes the deltas and output for that layer $l$. That is, we compute the delta for each of the nodes in a layer and vectorise them. Thus we can compute the element-wise product with the output values of the previous layer and get our update $\Delta W$ for the weights of the current later. Similarly with the bias term.&lt;/p&gt;
 
 &lt;p&gt;This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &amp;lsquo;epoch&amp;rsquo; or run through of this algorithm.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Some of the ideas and notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;em&gt;Some of the ideas and notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
