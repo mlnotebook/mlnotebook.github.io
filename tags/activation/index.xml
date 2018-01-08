@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Activation on Machine Learning Notebook</title>
-    <link>/tags/activation/index.xml</link>
+    <link>/tags/activation/</link>
     <description>Recent content in Activation on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Wed, 08 Mar 2017 10:43:07 +0000</lastBuildDate>
     <atom:link href="/tags/activation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -14,32 +15,32 @@
       <pubDate>Wed, 08 Mar 2017 10:43:07 +0000</pubDate>
       
       <guid>/post/transfer-functions/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.&lt;/p&gt;
+      <description>
 
-&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.&lt;/p&gt;
 
 &lt;p&gt;As promised in the previous post, we&amp;rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again &lt;strong&gt;please&lt;/strong&gt; let me know if there&amp;rsquo;s anything I&amp;rsquo;ve gotten totally wrong - I&amp;rsquo;m very much learning too.&lt;/p&gt;
 
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#linear&#34;&gt;Linear Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#sigmoid&#34;&gt;Sigmoid Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#tanh&#34;&gt;Hyperbolic Tangent Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#gaussian&#34;&gt;Gaussian Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#step&#34;&gt;Heaviside (step) Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#ramp&#34;&gt;Ramp Function&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#linear:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Linear Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sigmoid:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Sigmoid Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#tanh:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Hyperbolic Tangent Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#gaussian:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Gaussian Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#step:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Heaviside (step) Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#ramp:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Ramp Function&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#relu&#34;&gt;Rectified Linear Unit (ReLU)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#relu:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Rectified Linear Unit (ReLU)&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;linear&#34;&gt; Linear (Identity) Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -50,13 +51,13 @@
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div&gt;$$
 f \left( x_{i} \right) = x_{i}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def linear(x, Derivative=False):
     if not Derivative:
@@ -65,7 +66,7 @@ $$&lt;/div&gt;
         return 1.0
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;If there&amp;rsquo;s a situation where we want a node to give its output without applying any thresholds, then the identity (or linear) function is the way to go.&lt;/p&gt;
 
@@ -83,9 +84,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;sigmoid&#34;&gt; The Sigmoid (or Fermi) Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-1&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig2&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -96,14 +97,14 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-1&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div &gt;$$
 f\left(x_{i} \right) = \frac{1}{1 + e^{  - x_{i}  }}, \ \
 f^{\prime}\left( x_{i} \right) = \sigma(x_{i}) \left( 1 -  \sigma(x_{i}) \right)
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code-1&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def sigmoid(x,Derivative=False):
     if not Derivative:
@@ -113,7 +114,7 @@ $$&lt;/div&gt;
         return out * (1 - out)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used-1&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;This function maps the input to a value between 0 and 1 (but not equal to 0 or 1). This means the output from the node will be a high signal (if the input is positive) or a low one (if the input is negative). This function is often chosen as it is one of the easiest to hard-code in terms of its derivative. The simplicity of its derivative allows us to efficiently perform back propagation without using any fancy packages or approximations. The fact that this function is smooth, continuous (differentiable), monotonic and bounded means that back propagation will work well.&lt;/p&gt;
 
@@ -125,9 +126,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;tanh&#34;&gt; Hyperbolic Tangent Function ( $\tanh(x)$ ) &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-2&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig3&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -138,14 +139,14 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-2&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div &gt;$$
 f\left(x_{i} \right) = \tanh\left(x_{i}\right),
 f^{\prime}\left(x_{i} \right) = 1 - \tanh\left(x_{i}\right)^{2}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;why-is-it-used-2&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;This is a very similar function to the previous sigmoid function and has much of the same properties: even its derivative is straight forward to compute. However, this function allows us to map the input to any value between -1 and 1 (but not inclusive of those). In effect, this allows us to apply a plenalty to the node (negative) rather than just have the node not fire at all. It also gives us a larger range of output to play with in the positive end of the scale meaning finer adjustments can be made.&lt;/p&gt;
 
@@ -156,7 +157,7 @@ $$&lt;/div&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;what-s-the-difference-between-the-sigmoid-and-hyperbolic-tangent&#34;&gt;What&amp;rsquo;s the difference between the sigmoid and hyperbolic tangent?&lt;/h2&gt;
+&lt;h2 id=&#34;what-s-the-difference-between-the-sigmoid-and-hyperbolic-tangent:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What&amp;rsquo;s the difference between the sigmoid and hyperbolic tangent?&lt;/h2&gt;
 
 &lt;p&gt;They both achieve a similar mapping, are both continuous, smooth, monotonic and differentiable, but give out different values. For a sigmoid function, a large negative input generates an almost zero output. This lack of output will affect all subsequent weights in the network which may not be desirable - effectively stopping the next nodes from learning. In contrast, the $\tanh$ function supplies -1 for negative values, maintaining the output of the node and allowing subsequent nodes to learn from it.&lt;/p&gt;
 
@@ -164,9 +165,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;gaussian&#34;&gt; Gaussian Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig4&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -177,14 +178,14 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div &gt;$$
 f\left( x_{i}\right ) = e^{ -x_{i}^{2}}, \ \
 f^{\prime}\left( x_{i}\right ) = - 2x e^{ - x_{i}^{2}}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code-2&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def gaussian(x, Derivative=False):
     if not Derivative:
@@ -193,7 +194,7 @@ $$&lt;/div&gt;
         return -2 * x * np.exp(-x**2)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used-3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;The gaussian function is an even function, thus is gives the same output for equally positive and negative values of input. It gives its maximal output when there is no input and has decreasing output with increasing distance from zero. We can perhaps imagine this function is used in a node where the input feature is less likely to contribute to the final result.&lt;/p&gt;
 
@@ -203,9 +204,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;step&#34;&gt; Step (or Heaviside) Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-4&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-4:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig5&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -216,7 +217,7 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-4&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-4:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div&gt;$$
     f(x)= 
@@ -228,7 +229,7 @@ $$&lt;/div&gt;
 \end{cases}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;why-is-it-used-4&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-4:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;Some cases call for a function which applies a hard thresold: either the output is precisely a single value, or not. The other functions we&amp;rsquo;ve looked at have an intrinsic probablistic output to them i.e. a higher output in decimal format implying a greater probability of being 1 (or a high output). The step function does away with this opting for a definite high or low output depending on some threshold on the input $T$.&lt;/p&gt;
 
@@ -240,9 +241,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;ramp&#34;&gt; Ramp Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-5&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-5:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig6&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -253,7 +254,7 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-5&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-5:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div&gt;$$
     f(x)= 
@@ -266,7 +267,7 @@ $$&lt;/div&gt;
 \end{cases}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code-3&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def ramp(x, Derivative=False, T1=0, T2=np.max(x)):
     out = np.ones(x.shape)
@@ -281,7 +282,7 @@ $$&lt;/div&gt;
         return out
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used-5&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-5:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;The ramp function is a truncated version of the linear function. From its shape, the ramp function looks like a more definitive version of the sigmoid function in that its maps a range of inputs to outputs over the range (0 1) but this time with definitive cut off points $T1$ and $T2$. This gives the function the ability to fire the node very definitively above a threshold, but still have some uncertainty in the lower regions. It may not be common to see $T1$ in the negative region unless the ramp is equally distributed about $0$.&lt;/p&gt;
 
@@ -307,7 +308,8 @@ $$&lt;/div&gt;
         out = np.ones(x.shape)
         out[(x &amp;lt; 0)]=0
         return out
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;
+</description>
     </item>
     
   </channel>

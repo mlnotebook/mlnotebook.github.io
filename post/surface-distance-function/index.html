@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Surface distance evaluation function in Python">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.15" />
 
   <title>Surface Distance Function &middot; Machine Learning Notebook</title>
 
@@ -286,14 +286,15 @@
 </div>
 
 
-  <p>Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).
-</p>
+  
 
-<h2 id="background">Background</h2>
+<p>Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).</p>
+
+<h2 id="background:94ec62cf158a10fb7bb0feb45584322e">Background</h2>
 
 <p>Recently, I have been doing a <strong>lot</strong> of segmentation evaluation - seeing how good a segmentation done by a machine compares with one that&rsquo;s done manual, a &lsquo;ground truth&rsquo; (GT). Traditionally, such verification is done by comparing the overlap between the two e.g. Dice Simlarity Coefficient (DSC) [1]. There are a few different calculations that can be done (there&rsquo;ll be a longer post on just that) and &lsquo;surface distance&rsquo; calculations are one of them.</p>
 
-<h2 id="method">Method</h2>
+<h2 id="method:94ec62cf158a10fb7bb0feb45584322e">Method</h2>
 
 <p>For this calculation, we need to be able to find the outline of the segmentation and compare it to the outline of the GT. We can then take measurements of how far each segmentation pixel is from its corresponding pixel in the GT outline.</p>
 
@@ -375,7 +376,7 @@ from scipy.ndimage import morphology
     return sds
 </code></pre>
 
-<h2 id="how-is-it-used">How is it used?</h2>
+<h2 id="how-is-it-used:94ec62cf158a10fb7bb0feb45584322e">How is it used?</h2>
 
 <p>The function example below takes two segmentations (which both have multiple classes). The sampling vector is a typical pixel-size from an MRI scan and the 1 indicated I&rsquo;d like a 6 neighbour (cross-shaped) kernel for finding the edges.</p>
 
@@ -390,7 +391,7 @@ from scipy.ndimage import morphology
                    GT_seg(GT_seg==1), [1.25, 1.25, 10],1)
 </code></pre>
 
-<h2 id="what-do-the-results-mean">What do the results mean?</h2>
+<h2 id="what-do-the-results-mean:94ec62cf158a10fb7bb0feb45584322e">What do the results mean?</h2>
 
 <p>The returned surface distances can be used to calculate:</p>
 
@@ -423,9 +424,10 @@ from scipy.ndimage import morphology
 
 <hr />
 
-<h3 id="references">References</h3>
+<h3 id="references:94ec62cf158a10fb7bb0feb45584322e">References</h3>
 
 <p>[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. <a href="https://doi.org/10.2307/1932409">https://doi.org/10.2307/1932409</a></p>
+
 
   
 <div class="prev-next-post pure-g">

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Making easier to identify which computer we&#39;re working on when we `ssh` a lot">
+  <meta name="generator" content="Hugo 0.15" />
+
+  <title>Modifying the Terminal Prompt for Sanity &middot; Machine Learning Notebook</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="http://www.w3schools.com/lib/w3data.js"></script>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+
+
+  <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" />
+
+  
+    <link rel="stylesheet" href="/css/additional.css">
+  
+    <link rel="stylesheet" href="/css/toc.css">
+  
+  
+    <script src="/js/toc.js"></script>
+  
+  
+  <meta name="google-site-verification" content="9K5gUhw2zLi94y-8-ZbWmpsZW1Ke4J3zvl62FYxm-pY" />
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+  <a class="pure-menu-heading brand" href="/">MLNotebook</a>
+
+
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/about/"><i class='fa fa-user fa-fw'></i>About</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://twitter.com/mlnotebook" target="_blank"><i class="fa fa-twitter-square fa-fw"></i>Twitter</a>
+    </li>
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://facebook.com/machineln" target="_blank"><i class="fa fa-facebook-square fa-fw"></i>Facebook</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://linkedin.com/in/robdrobinson" target="_blank"><i class="fa fa-linkedin-square fa-fw"></i>LinkedIn</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <li class="pure-menu-item">
+      <a class="pure-menu-link" href="https://github.com/mlnotebook" target="_blank"><i class="fa fa-github-square fa-fw"></i>GitHub</a>
+    </li>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>Modifying the Terminal Prompt for Sanity</h1>
+  <h2>Making easier to identify which computer we&#39;re working on when we `ssh` a lot</h2>
+</div>
+<div class="content">
+
+<div class="header_container">
+
+<div class="featured_image_container">
+
+  <img class="featured_image" src="/img/ps1img.png">
+
+ </div>
+ 
+ <div class="post_meta_container">
+  
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>08 Aug 2017, 10:05</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-topic" href="/topics/productivity">productivity</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/linux">linux</a>
+    
+  </div>
+  
+  
+  
+<ul class="share-buttons"><li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmlnotebook.github.io&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Share on facebook" src="/img/facebook.png"></a></li>
+  <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fmlnotebook.github.io&text=:%20https%3A%2F%2Fmlnotebook.github.io&via=mlnotebook" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL),'','width=500,height=300'); return false;"><img alt="Tweet" src="/img/twitter.png"></a></li>
+  <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fmlnotebook.github.io&title=" target="_blank" title="Submit to Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Submit to Reddit" src="/img/reddit.png"></a></li>
+  <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fmlnotebook.github.io&title=&summary=&source=https%3A%2F%2Fmlnotebook.github.io" target="_blank" title="Share on LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title),'','width=500,height=300'); return false;"><img alt="Share on LinkedIn" src="/img/linkedin.png"></a></li></ul>	
+  
+</div>
+
+
+</div>
+
+</div>
+
+
+  <p>If you&rsquo;re working with more than one computer at a time, then you&rsquo;re probably using some form of remote access framework - most likely <code>ssh</code>. This is common in machine learning where our scripts are run on some other host with more capabilities. In this post we&rsquo;ll look at how to modify the terminal prompt layout and colours to give us information we need at a glance: the current user; whether they&rsquo;re <code>root</code>; what computer we&rsquo;re working on; what folder in and the time that the last command was given.</p>
+
+<p>When we <code>ssh</code> into another computer, the terminal prompt will most likely change. Often it becomes colourless (usually all-white text) and the structure may change based on the initial setup. I&rsquo;ve often issued commands to the wrong computer because of this so it would be useful if we were able to clearly see which computer we&rsquo;re working on at a glance.</p>
+
+<p>Many users don&rsquo;t know that they can edit their terminal prompt <em>without root privileges</em> to give them better indications of their user, host and location. This is done by editing the <code>PS1</code> variable in the <code>~/.bashrc</code> file. <code>~/.bashrc</code> (where <code>~</code> is the shortcut to our <code>/home/&lt;username&gt;</code> folder and <code>.</code> indicates a hidden file) is a set of commands that is run every time a new terminal window is opened. This has a lot to do with how the terminal window functions as well as <code>alias</code> shortcuts to longer commands. We edit this with an editor like <code>nano</code>:</p>
+
+<pre><code class="language-bash">nano ~/.bashrc
+</code></pre>
+
+<p>The first thing we will do is to make sure that whenever we are in a terminal window (<code>ssh</code> or otherwise) as the current user, we are seeing colours in the terminal - this is useful for certain text editors as well as the prompt. Find the line that is currently commented out, and uncomment it:</p>
+
+<pre><code class="language-bash"># uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+</code></pre>
+
+<p>Now for the prompt. In this file, we need to find the line where the PS1 format is defined. PS1 is the name for the terminal prompt. It should be a couple of blocks after the <code>force_color_prompt</code> variable.</p>
+
+<pre><code class="language-bash">if [ &quot;$color_prompt&quot; = yes ]; then
+    PS1='\A [\[\e[0;36m\]\u\[\e[0m\]@\[\e[1;36m\]\h\[\e[0m\]:\w\[\$ '
+else
+    PS1='\u@\h:\w\$ '
+fi
+</code></pre>
+
+<p>Here you&rsquo;ll see the differece that the <code>force_color_prompt</code> variable makes: there is a lot more formatting code in the <code>true</code> part of this <code>if</code> block that adds color. The above formatting creates the prompt below from one of my machines:</p>
+
+<div style="width:100%; text-align:center;">
+<div style="text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;">
+<img title="Natural Image RGB" width=700px src="/img/ps1/exampleuser.png" ><br>
+<b>Example terminal prompt for regular user account</b>
+</div>
+</div>
+
+<p>I&rsquo;ll identify the different components here, but you can find a list of all of the possible elements that can be included <a href="https://ss64.com/bash/syntax-prompt.html" title="PS1 Prompt Variables">here</a>.</p>
+
+<ul>
+<li><code>\A</code> - the current time in <code>hh:mm</code> format</li>
+<li><code>\u</code> - the current user</li>
+<li><code>\h</code> - the current host</li>
+<li><code>\w</code> - the current working directory</li>
+<li><code>\$</code> - the $ character (if it&rsquo;s not escaped, the shell reads this as if it&rsquo;s trying to find a variable as in <code>$PATH</code>)</li>
+</ul>
+
+<p>Any characters which are not escaped (i.e. preceeded by backslash &lsquo;<code>\</code>&rsquo;) are printed as they appear: e.g. <code>@</code> and <code>$</code>. Assigning the PS1 variable the value: &lsquo;<code>\A \u@\h:\w\$</code>&rsquo; we get `time user@host:/directory$&rsquo; like this:</p>
+
+<div style="width:100%; text-align:center;">
+<div style="text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;">
+<img title="Natural Image RGB" width=700px src="/img/ps1/plainexample.png" ><br>
+<b>Example terminal prompt with no formatting</b>
+</div>
+</div>
+
+<p>In order to get colors in the prompt, we need to surround our variables e.g. &lsquo;<code>\A</code>&rsquo;, with some (very ugly) specific syntax. Where we want the color to start, we write &lsquo;[\e[0;XXm]&rsquo; and where we want to finish the colour and return to normal, we can write &lsquo;[\e[0m]&rsquo;. The &lsquo;XX&rsquo; in the first term is a 2-digit code that refers to a color. For example, to make the username green, we change the PS1 variable to this:</p>
+
+<pre><code class="language-bash">PS1='\A \[\e[0;32m\]\u\[\e[0m\]@\h:\w\$ '
+</code></pre>
+
+<div style="width:100%; text-align:center;">
+<div style="text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;">
+<img title="Natural Image RGB" width=700px src="/img/ps1/greenuser.png" ><br>
+<b>Example terminal prompt with green username</b>
+</div>
+</div>
+
+<p>A list of colors and their respective numbers can be found <a href="https://unix.stackexchange.com/a/124408" title="PS1 Prompt Colors">here</a>. I choose green if we&rsquo;re logged in as a regular user (as in green for go) but I choose red if the user is <code>root</code>. This means I can always see at a glance if I should be careful with the commands that I write.</p>
+
+<p>You&rsquo;ll also notice that we can change the <em>style</em> of the font along with the color. I find this useful for making the <code>host</code> standout by making it bold. This is done by changing the <code>0</code> before the &lsquo;XX&rsquo; color to <code>1</code>.</p>
+
+<pre><code class="language-bash">if [ &quot;$color_prompt&quot; = yes ]; then
+    PS1='\A [\[\e[0;31m\]\u\[\e[0m\]@\[\e[1;36m\]\h\[\e[0m\]:\w\[\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+</code></pre>
+
+<div style="width:100%; text-align:center;">
+<div style="text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;">
+<img title="Natural Image RGB" width=700px src="/img/ps1/exampleroot.png" ><br>
+<b>Example terminal prompt for a `root` user</b>
+</div>
+</div>
+
+<p>For my full PS1 variable, I have the colours, the bold host and I also added some square brackets (not escaped!) to make it a little more visually pleasing. You can change the <code>~/.bashrc</code> file for each user on each computer. So if you have a regular user account <em>and</em> a root account on the same machine, you can create a different PS1 for both by editing their respecitve files. So feel free to change colours and formats as you wish!</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+    <a href="/post/GAN5/"><i class="fa fa-chevron-left"></i></a>
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="prev">
+      <a href="/post/GAN5/">Generative Adversarial Network (GAN) in TensorFlow - Part 5</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+    <nav class="next">
+      <a href="/post/dataaug/">Data Augmentations for n-Dimensional Image Input to CNNs</a>
+    </nav>
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+    <a href="/post/dataaug/"><i class="fa fa-chevron-right"></i></a>
+    
+  </div>
+</div>
+
+
+
+  
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+    
+    
+    if (window.location.hostname == "localhost")
+        return;
+
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var disqus_shortname = 'mlnotebook-1';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</div>
+
+</div>
+</div>
+<script src="/js/ui.js"></script>
+
+
+
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\\[','\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { 	equationNumbers: { autoNumber: "AMS" },
+         	extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5586925126063559",
+    enable_page_level_ads: true
+  });
+</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92930264-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+</html>
+

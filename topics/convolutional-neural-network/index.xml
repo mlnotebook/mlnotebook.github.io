@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Convolutional Neural Network on Machine Learning Notebook</title>
-    <link>/topics/convolutional-neural-network/index.xml</link>
+    <link>/topics/convolutional-neural-network/</link>
     <description>Recent content in Convolutional Neural Network on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 04 Jan 2018 10:13:20 +0000</lastBuildDate>
     <atom:link href="/topics/convolutional-neural-network/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,8 +16,6 @@
       
       <guid>/post/dataaug/</guid>
       <description>&lt;p&gt;One of the greatest limiting factors for training effective deep learning frameworks is the availability, quality and organisation of the &lt;em&gt;training data&lt;/em&gt;. To be good at classification tasks, we need to show our CNNs &lt;em&gt;etc.&lt;/em&gt; as many examples as we possibly can. However, this is not always possible especially in situations where the training data is hard to collect e.g. medical image data. In this post, we will learn how to apply &lt;em&gt;data augmentation&lt;/em&gt; strategies to n-Dimensional images get the most of our limited number of examples.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
 
@@ -424,7 +423,8 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
 &lt;li&gt;There&amp;rsquo;s a commented out part which is what I used to save the images created in this post&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;</description>
+&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

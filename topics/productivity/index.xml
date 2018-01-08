@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Productivity on Machine Learning Notebook</title>
+    <link>/topics/productivity/</link>
+    <description>Recent content in Productivity on Machine Learning Notebook</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 08 Aug 2017 10:05:14 +0000</lastBuildDate>
+    <atom:link href="/topics/productivity/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Modifying the Terminal Prompt for Sanity</title>
+      <link>/post/ps1terminal/</link>
+      <pubDate>Tue, 08 Aug 2017 10:05:14 +0000</pubDate>
+      
+      <guid>/post/ps1terminal/</guid>
+      <description>&lt;p&gt;If you&amp;rsquo;re working with more than one computer at a time, then you&amp;rsquo;re probably using some form of remote access framework - most likely &lt;code&gt;ssh&lt;/code&gt;. This is common in machine learning where our scripts are run on some other host with more capabilities. In this post we&amp;rsquo;ll look at how to modify the terminal prompt layout and colours to give us information we need at a glance: the current user; whether they&amp;rsquo;re &lt;code&gt;root&lt;/code&gt;; what computer we&amp;rsquo;re working on; what folder in and the time that the last command was given.&lt;/p&gt;
+
+&lt;p&gt;When we &lt;code&gt;ssh&lt;/code&gt; into another computer, the terminal prompt will most likely change. Often it becomes colourless (usually all-white text) and the structure may change based on the initial setup. I&amp;rsquo;ve often issued commands to the wrong computer because of this so it would be useful if we were able to clearly see which computer we&amp;rsquo;re working on at a glance.&lt;/p&gt;
+
+&lt;p&gt;Many users don&amp;rsquo;t know that they can edit their terminal prompt &lt;em&gt;without root privileges&lt;/em&gt; to give them better indications of their user, host and location. This is done by editing the &lt;code&gt;PS1&lt;/code&gt; variable in the &lt;code&gt;~/.bashrc&lt;/code&gt; file. &lt;code&gt;~/.bashrc&lt;/code&gt; (where &lt;code&gt;~&lt;/code&gt; is the shortcut to our &lt;code&gt;/home/&amp;lt;username&amp;gt;&lt;/code&gt; folder and &lt;code&gt;.&lt;/code&gt; indicates a hidden file) is a set of commands that is run every time a new terminal window is opened. This has a lot to do with how the terminal window functions as well as &lt;code&gt;alias&lt;/code&gt; shortcuts to longer commands. We edit this with an editor like &lt;code&gt;nano&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;nano ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The first thing we will do is to make sure that whenever we are in a terminal window (&lt;code&gt;ssh&lt;/code&gt; or otherwise) as the current user, we are seeing colours in the terminal - this is useful for certain text editors as well as the prompt. Find the line that is currently commented out, and uncomment it:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now for the prompt. In this file, we need to find the line where the PS1 format is defined. PS1 is the name for the terminal prompt. It should be a couple of blocks after the &lt;code&gt;force_color_prompt&lt;/code&gt; variable.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;if [ &amp;quot;$color_prompt&amp;quot; = yes ]; then
+    PS1=&#39;\A [\[\e[0;36m\]\u\[\e[0m\]@\[\e[1;36m\]\h\[\e[0m\]:\w\[\$ &#39;
+else
+    PS1=&#39;\u@\h:\w\$ &#39;
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here you&amp;rsquo;ll see the differece that the &lt;code&gt;force_color_prompt&lt;/code&gt; variable makes: there is a lot more formatting code in the &lt;code&gt;true&lt;/code&gt; part of this &lt;code&gt;if&lt;/code&gt; block that adds color. The above formatting creates the prompt below from one of my machines:&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34; width=700px src=&#34;/img/ps1/exampleuser.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Example terminal prompt for regular user account&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I&amp;rsquo;ll identify the different components here, but you can find a list of all of the possible elements that can be included &lt;a href=&#34;https://ss64.com/bash/syntax-prompt.html&#34; title=&#34;PS1 Prompt Variables&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;\A&lt;/code&gt; - the current time in &lt;code&gt;hh:mm&lt;/code&gt; format&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\u&lt;/code&gt; - the current user&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\h&lt;/code&gt; - the current host&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\w&lt;/code&gt; - the current working directory&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\$&lt;/code&gt; - the $ character (if it&amp;rsquo;s not escaped, the shell reads this as if it&amp;rsquo;s trying to find a variable as in &lt;code&gt;$PATH&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Any characters which are not escaped (i.e. preceeded by backslash &amp;lsquo;&lt;code&gt;\&lt;/code&gt;&amp;rsquo;) are printed as they appear: e.g. &lt;code&gt;@&lt;/code&gt; and &lt;code&gt;$&lt;/code&gt;. Assigning the PS1 variable the value: &amp;lsquo;&lt;code&gt;\A \u@\h:\w\$&lt;/code&gt;&amp;rsquo; we get `time user@host:/directory$&amp;rsquo; like this:&lt;/p&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34; width=700px src=&#34;/img/ps1/plainexample.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Example terminal prompt with no formatting&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In order to get colors in the prompt, we need to surround our variables e.g. &amp;lsquo;&lt;code&gt;\A&lt;/code&gt;&amp;rsquo;, with some (very ugly) specific syntax. Where we want the color to start, we write &amp;lsquo;[\e[0;XXm]&amp;rsquo; and where we want to finish the colour and return to normal, we can write &amp;lsquo;[\e[0m]&amp;rsquo;. The &amp;lsquo;XX&amp;rsquo; in the first term is a 2-digit code that refers to a color. For example, to make the username green, we change the PS1 variable to this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;PS1=&#39;\A \[\e[0;32m\]\u\[\e[0m\]@\h:\w\$ &#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34; width=700px src=&#34;/img/ps1/greenuser.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Example terminal prompt with green username&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A list of colors and their respective numbers can be found &lt;a href=&#34;https://unix.stackexchange.com/a/124408&#34; title=&#34;PS1 Prompt Colors&#34;&gt;here&lt;/a&gt;. I choose green if we&amp;rsquo;re logged in as a regular user (as in green for go) but I choose red if the user is &lt;code&gt;root&lt;/code&gt;. This means I can always see at a glance if I should be careful with the commands that I write.&lt;/p&gt;
+
+&lt;p&gt;You&amp;rsquo;ll also notice that we can change the &lt;em&gt;style&lt;/em&gt; of the font along with the color. I find this useful for making the &lt;code&gt;host&lt;/code&gt; standout by making it bold. This is done by changing the &lt;code&gt;0&lt;/code&gt; before the &amp;lsquo;XX&amp;rsquo; color to &lt;code&gt;1&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;if [ &amp;quot;$color_prompt&amp;quot; = yes ]; then
+    PS1=&#39;\A [\[\e[0;31m\]\u\[\e[0m\]@\[\e[1;36m\]\h\[\e[0m\]:\w\[\$ &#39;
+else
+    PS1=&#39;${debian_chroot:+($debian_chroot)}\u@\h:\w\$ &#39;
+fi
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div style=&#34;width:100%; text-align:center;&#34;&gt;
+&lt;div style=&#34;text-align:center; display:inline-block; width:100%; margin:auto;min-width:325px;&#34;&gt;
+&lt;img title=&#34;Natural Image RGB&#34; width=700px src=&#34;/img/ps1/exampleroot.png&#34; &gt;&lt;br&gt;
+&lt;b&gt;Example terminal prompt for a `root` user&lt;/b&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For my full PS1 variable, I have the colours, the bold host and I also added some square brackets (not escaped!) to make it a little more visually pleasing. You can change the &lt;code&gt;~/.bashrc&lt;/code&gt; file for each user on each computer. So if you have a regular user account &lt;em&gt;and&lt;/em&gt; a root account on the same machine, you can create a different PS1 for both by editing their respecitve files. So feel free to change colours and formats as you wish!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

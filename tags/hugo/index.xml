@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on Machine Learning Notebook</title>
-    <link>/tags/hugo/index.xml</link>
+    <link>/tags/hugo/</link>
     <description>Recent content in Hugo on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sat, 04 Mar 2017 17:21:15 +0000</lastBuildDate>
     <atom:link href="/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -14,8 +15,7 @@
       <pubDate>Sat, 04 Mar 2017 17:21:15 +0000</pubDate>
       
       <guid>/post/webdesign/</guid>
-      <description>&lt;p&gt;So I&amp;rsquo;m quite a bit into getting MLNotebook setup and I&amp;rsquo;ve been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that&amp;rsquo;s what I can do for you here!
-&lt;/p&gt;
+      <description>&lt;p&gt;So I&amp;rsquo;m quite a bit into getting MLNotebook setup and I&amp;rsquo;ve been learning a hell of a lot about web design using Hugo (a static site generator). There are a few things around the internet that could be explained more clearly or where more examples could be given, so hopefully that&amp;rsquo;s what I can do for you here!&lt;/p&gt;
 
 &lt;p&gt;I thought I&amp;rsquo;d give an overview of some of the wisdom I&amp;rsquo;ve gained from creating MLNotebook - my adventures in markdown&amp;hellip; and the rest!&lt;/p&gt;
 
@@ -302,7 +302,8 @@ MathJax.Hub.Config({
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;/td&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;/td&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -312,8 +313,6 @@ MathJax.Hub.Config({
       
       <guid>/post/my-first-post/</guid>
       <description>&lt;p&gt;This is the first post on the Machine Learning Notebook (MLN)! I&amp;rsquo;ll give a brief overview of what the site is for, how I&amp;rsquo;m constructing it and the kinds of things I&amp;rsquo;m learning along the way.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m a n00b when it comes to Github Pages and relatively new to working with Github at all! It took me a while to decide what platform to use for creating this humble resource. I was initially looking at writing everything in iPython notebooks, but it was confusing to figure out how to keep the scripts live rather than coverting them to static sites.&lt;/p&gt;
 
@@ -331,7 +330,8 @@ MathJax.Hub.Config({
 &lt;pre&gt;&lt;code class=&#34;python&#34;
 &gt;def hello_world():
     print &amp;ldquo;Hello there!&amp;rdquo;
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>
