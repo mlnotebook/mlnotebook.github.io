@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Evaluation on Machine Learning Notebook</title>
-    <link>/tags/evaluation/</link>
+    <link>/tags/evaluation/index.xml</link>
     <description>Recent content in Evaluation on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Mar 2017 19:27:27 +0000</lastBuildDate>
     <atom:link href="/tags/evaluation/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,15 +14,14 @@
       <pubDate>Wed, 01 Mar 2017 19:27:27 +0000</pubDate>
       
       <guid>/post/surface-distance-function/</guid>
-      <description>
+      <description>&lt;p&gt;Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&amp;rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&amp;rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).
+&lt;/p&gt;
 
-&lt;p&gt;Surface Distance measures are a good way of evaluating the accuracy of an image-segmentation if we already know the ground truth (GT). The problem is that there is no nicely packaged function in Python to do this directly. In this post, we&amp;rsquo;ll write a surface distance function in Python which uses numpy and scipy. It&amp;rsquo;ll help us to calculate Mean Surface Distance (MSD), Residual Mean-Square Error (RMS) and the Hausdorff Distance (HD).&lt;/p&gt;
-
-&lt;h2 id=&#34;background:94ec62cf158a10fb7bb0feb45584322e&#34;&gt;Background&lt;/h2&gt;
+&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
 
 &lt;p&gt;Recently, I have been doing a &lt;strong&gt;lot&lt;/strong&gt; of segmentation evaluation - seeing how good a segmentation done by a machine compares with one that&amp;rsquo;s done manual, a &amp;lsquo;ground truth&amp;rsquo; (GT). Traditionally, such verification is done by comparing the overlap between the two e.g. Dice Simlarity Coefficient (DSC) [1]. There are a few different calculations that can be done (there&amp;rsquo;ll be a longer post on just that) and &amp;lsquo;surface distance&amp;rsquo; calculations are one of them.&lt;/p&gt;
 
-&lt;h2 id=&#34;method:94ec62cf158a10fb7bb0feb45584322e&#34;&gt;Method&lt;/h2&gt;
+&lt;h2 id=&#34;method&#34;&gt;Method&lt;/h2&gt;
 
 &lt;p&gt;For this calculation, we need to be able to find the outline of the segmentation and compare it to the outline of the GT. We can then take measurements of how far each segmentation pixel is from its corresponding pixel in the GT outline.&lt;/p&gt;
 
@@ -105,7 +103,7 @@ from scipy.ndimage import morphology
     return sds
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;how-is-it-used:94ec62cf158a10fb7bb0feb45584322e&#34;&gt;How is it used?&lt;/h2&gt;
+&lt;h2 id=&#34;how-is-it-used&#34;&gt;How is it used?&lt;/h2&gt;
 
 &lt;p&gt;The function example below takes two segmentations (which both have multiple classes). The sampling vector is a typical pixel-size from an MRI scan and the 1 indicated I&amp;rsquo;d like a 6 neighbour (cross-shaped) kernel for finding the edges.&lt;/p&gt;
 
@@ -120,7 +118,7 @@ from scipy.ndimage import morphology
                    GT_seg(GT_seg==1), [1.25, 1.25, 10],1)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;what-do-the-results-mean:94ec62cf158a10fb7bb0feb45584322e&#34;&gt;What do the results mean?&lt;/h2&gt;
+&lt;h2 id=&#34;what-do-the-results-mean&#34;&gt;What do the results mean?&lt;/h2&gt;
 
 &lt;p&gt;The returned surface distances can be used to calculate:&lt;/p&gt;
 
@@ -153,10 +151,9 @@ from scipy.ndimage import morphology
 
 &lt;hr /&gt;
 
-&lt;h3 id=&#34;references:94ec62cf158a10fb7bb0feb45584322e&#34;&gt;References&lt;/h3&gt;
+&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
 
-&lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;[1]     Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. Ecology, 26(3), 297–302. &lt;a href=&#34;https://doi.org/10.2307/1932409&#34;&gt;https://doi.org/10.2307/1932409&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

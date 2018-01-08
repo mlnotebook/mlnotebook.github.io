@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Getting the most of our training data and improving performance">
-  <meta name="generator" content="Hugo 0.15" />
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>Data Augmentations for n-Dimensional Image Input to CNNs &middot; Machine Learning Notebook</title>
 
@@ -287,6 +287,8 @@
 
 
   <p>One of the greatest limiting factors for training effective deep learning frameworks is the availability, quality and organisation of the <em>training data</em>. To be good at classification tasks, we need to show our CNNs <em>etc.</em> as many examples as we possibly can. However, this is not always possible especially in situations where the training data is hard to collect e.g. medical image data. In this post, we will learn how to apply <em>data augmentation</em> strategies to n-Dimensional images get the most of our limited number of examples.</p>
+
+<p></p>
 
 <h2 id="intro"> Introduction </h2>
 
@@ -695,7 +697,6 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
 </ul>
 
 <p>In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&rsquo;ll take a look at this as an example in the next post.</p>
-
 
   
 <div class="prev-next-post pure-g">

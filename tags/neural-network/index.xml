@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Neural Network on Machine Learning Notebook</title>
-    <link>/tags/neural-network/</link>
+    <link>/tags/neural-network/index.xml</link>
     <description>Recent content in Neural Network on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Jan 2018 10:13:20 +0000</lastBuildDate>
     <atom:link href="/tags/neural-network/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,6 +15,8 @@
       
       <guid>/post/dataaug/</guid>
       <description>&lt;p&gt;One of the greatest limiting factors for training effective deep learning frameworks is the availability, quality and organisation of the &lt;em&gt;training data&lt;/em&gt;. To be good at classification tasks, we need to show our CNNs &lt;em&gt;etc.&lt;/em&gt; as many examples as we possibly can. However, this is not always possible especially in situations where the training data is hard to collect e.g. medical image data. In this post, we will learn how to apply &lt;em&gt;data augmentation&lt;/em&gt; strategies to n-Dimensional images get the most of our limited number of examples.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
 
@@ -423,8 +424,7 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
 &lt;li&gt;There&amp;rsquo;s a commented out part which is what I used to save the images created in this post&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;
-</description>
+&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -434,6 +434,8 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
       
       <guid>/post/tensorflow-basics/</guid>
       <description>&lt;p&gt;We&amp;rsquo;ve looked at the principles behind how a CNN works, but how do we actually implement this in Python? This tutorial will look at the basic idea behind Google&amp;rsquo;s TensorFlow: an efficient way to build a CNN using purpose-build Python libraries.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;div style=&#34;text-align:center;&#34;&gt;&lt;img width=30% title=&#34;TensorFlow&#34; src=&#34;/img/CNN/TF_logo.png&#34;&gt;&lt;/div&gt;
 
@@ -657,8 +659,7 @@ def doPool(inputs):
 
 &lt;p&gt;If you look around online, you will see many methods for using TF that will get you similar results. I actually prefer some methods that are a little more explicit. The tutorial on Google for example has some room to allow us to including more logging features.&lt;/p&gt;
 
-&lt;p&gt;In future posts, we will look more into logging and TensorBoard, but for now, happy coding!&lt;/p&gt;
-</description>
+&lt;p&gt;In future posts, we will look more into logging and TensorBoard, but for now, happy coding!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -668,6 +669,8 @@ def doPool(inputs):
       
       <guid>/post/CNN1/</guid>
       <description>&lt;p&gt;This series will give some background to CNNs, their architecture, coding and tuning. In particular, this tutorial covers some of the background to CNNs and Deep Learning. We won&amp;rsquo;t go over any coding in this session, but that will come in the next one. What&amp;rsquo;s the big deal about CNNs? What do they look like? Why do they work? Find out in this tutorial.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt;  Introduction &lt;/h2&gt;
 
@@ -880,8 +883,7 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;li&gt;hyperparameters (learning rate, regularisation weights, batch size, iterations&amp;hellip;)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&amp;hellip;&lt;/p&gt;
-</description>
+&lt;p&gt;There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&amp;hellip;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -892,23 +894,25 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
       <guid>/post/nn-python-tweaks/</guid>
       <description>&lt;p&gt;The 5th installment of our tutorial on implementing a neural network (NN) in Python. By the end of this tutorial, our NN should perform much more efficiently giving good results with fewer iterations. We will do this by implementing &amp;ldquo;momentum&amp;rdquo; into our network. We will also put in the other transfer functions for each layer.&lt;/p&gt;
 
+&lt;p&gt;&lt;/p&gt;
+
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#intro:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#momentum:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Momentum&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentum&#34;&gt;Momentum&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#momentumbackground:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#momentumpython:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Momentum in Python&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#momentumtesting:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumbackground&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumpython&#34;&gt;Momentum in Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumtesting&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferfunctions:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Transfer Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunctions&#34;&gt;Transfer Functions&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve come so far! The intial &lt;a href=&#34;/post/neuralnetwork&#34;&gt;maths&lt;/a&gt; was a bit of a slog, as was the &lt;a href=&#34;/post/nn-more-maths&#34;&gt;vectorisation&lt;/a&gt; of that maths, but it was important to be able to implement our NN in Python which we did in our &lt;a href=&#34;/post/nn-in-python&#34;&gt;previous post&lt;/a&gt;. So what now? Well, you may have noticed when running the NN as it stands that it isn&amp;rsquo;t overly quick, depening on the randomly initialised weights, it may take the network the full number of &lt;code&gt;maxIterations&lt;/code&gt; to converge, and then it may not converge at all! But there is something we can do about it. Let&amp;rsquo;s learn about, and implement, &amp;lsquo;momentum&amp;rsquo;.&lt;/p&gt;
 
@@ -916,7 +920,7 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 
 &lt;h3 id=&#34;momentumbackground&#34;&gt; Background &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s revisit our equation for error in the NN:&lt;/p&gt;
 
@@ -966,7 +970,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;momentumpython&#34;&gt; Momentum in Python &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;So, implementing momentum into our NN should be pretty easy. We will need to provide a momentum term to the &lt;code&gt;backProp&lt;/code&gt; method of the NN and also create a new matrix in which to store the weight deltas from the current epoch for use in the subsequent one.&lt;/p&gt;
 
@@ -1004,7 +1008,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;momentumtesting&#34;&gt; Testing &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Our default values for learning rate and momentum are 0.2 and 0,5 respectively. We can change either of these by including them in the call to &lt;code&gt;backProp&lt;/code&gt;. Thi is the only change to the iteration process:&lt;/p&gt;
 
@@ -1030,7 +1034,7 @@ Input 	Output 		Target
 
 &lt;h3 id=&#34;transferfunctions&#34;&gt; Transfer Functions &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve already gone through writing the transfer functions in Python in the &lt;a href=&#34;/post/transfer-functions&#34;&gt;transfer functions&lt;/a&gt; post. We&amp;rsquo;ll just put these under the sigmoid function we defined earlier. I&amp;rsquo;m going to use &lt;code&gt;sigmoid&lt;/code&gt;, &lt;code&gt;linear&lt;/code&gt;, &lt;code&gt;gaussian&lt;/code&gt; and &lt;code&gt;tanh&lt;/code&gt; here.&lt;/p&gt;
 
@@ -1068,7 +1072,7 @@ Input 	Output 		Target
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;self.tFunctions[index](layerInput)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Check the updated code [here][5] if that&amp;rsquo;s confusing.&lt;/p&gt;
+&lt;p&gt;Check the updated code &lt;a href=&#34;/docs/simpleNN-improvements.py&#34;&gt;here&lt;/a&gt; if that&amp;rsquo;s confusing.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s test this out! We&amp;rsquo;ll modify the call to initialising the NN by adding a list of functions like so:&lt;/p&gt;
 
@@ -1095,10 +1099,7 @@ Input 	Output 		Target
 [1 0]	 [ 0.99877479] 	[ 1.]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Play around with the number of layers and different combinations of transfer functions as well as tweaking the learning rate and momentum. You&amp;rsquo;ll soon get a feel for how each changes the performance of the NN.&lt;/p&gt;
-
-&lt;p&gt;[5]: /docs/simpleNN-improvements.py&lt;/p&gt;
-</description>
+&lt;p&gt;Play around with the number of layers and different combinations of transfer functions as well as tweaking the learning rate and momentum. You&amp;rsquo;ll soon get a feel for how each changes the performance of the NN.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1107,27 +1108,28 @@ Input 	Output 		Target
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
       
       <guid>/post/nn-in-python/</guid>
-      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)&lt;/p&gt;
+      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)
+&lt;/p&gt;
 
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#intro:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferfunction:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backpropclass:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Back Propagation Class&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backpropclass&#34;&gt;Back Propagation Class&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#initialisation:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#forwardpass:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backprop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initialisation&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#forwardpass&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backprop&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#testing:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#iterating:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#testing&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#iterating&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h3 id=&#34;intro&#34;&gt; Introduction &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;ploughed through the maths&lt;/a&gt;, then &lt;a href=&#34;/post/nn-more-maths&#34;&gt;some more&lt;/a&gt;, now we&amp;rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&amp;rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&amp;hellip;) we&amp;rsquo;re only going to use numpy!&lt;/p&gt;
 
@@ -1146,15 +1148,15 @@ Input 	Output 		Target
 
 &lt;p&gt;First things first&amp;hellip; lets import numpy:&lt;/p&gt;
 
-
-import numpy as np
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;np&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now let&amp;rsquo;s go ahead and get the first bit done:&lt;/p&gt;
 
 &lt;h2 id=&#34;transferfunction&#34;&gt; Transfer Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;To begin with, we&amp;rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a &lt;a href=&#34;/post/transfer-functions&#34;&gt;previous post&lt;/a&gt; this is very easy to code up because of its simple derivative:&lt;/p&gt;
 
@@ -1175,7 +1177,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backpropclass&#34;&gt; Back Propagation Class &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of &lt;a href=&#34;https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6&#34;&gt;Ryan on YouTube&lt;/a&gt;. Some of his hacks were very useful so I&amp;rsquo;ve taken some of those on board, but i&amp;rsquo;ve made a lot of the variables more self-explanatory.&lt;/p&gt;
 
@@ -1211,7 +1213,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;initialisation&#34;&gt; Initialisation &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: &lt;code&gt;numNodes&lt;/code&gt;. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.&lt;/p&gt;
 
@@ -1277,7 +1279,7 @@ self._layerOutput = []
 
 &lt;h3 id=&#34;forwardpass&#34;&gt; Forward Pass &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).&lt;/p&gt;
 
@@ -1351,7 +1353,7 @@ self._layerOutput.append(sigmoid(layerInput))
 
 &lt;h3 id=&#34;backprop&#34;&gt;Back Propagation&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights &lt;strong&gt;and&lt;/strong&gt; we&amp;rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:&lt;/p&gt;
 
@@ -1483,9 +1485,9 @@ for index in reversed(range(self.numLayers)):
 
 &lt;h2 id=&#34;testing&#34;&gt; A Toy Example&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py [here][5]&lt;/p&gt;
+&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py &lt;a href=&#34;/docs/simpleNN.py&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s test it!&lt;/p&gt;
 
@@ -1515,7 +1517,7 @@ for i in range(Input.shape[0]):
 
 &lt;h2 id=&#34;iterating&#34;&gt; Iterating &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Iteration is very straight forward. We just tell our algorithm to repeat a maximum of &lt;code&gt;maxIterations&lt;/code&gt; times or until the &lt;code&gt;Error&lt;/code&gt; is below &lt;code&gt;minError&lt;/code&gt; (whichever comes first). As the weights are stored internally within &lt;code&gt;NN&lt;/code&gt; every time we call the &lt;code&gt;backProp&lt;/code&gt; method, it uses the latest, internally stored weights and doesn&amp;rsquo;t start again - the weights are only initialised once upon creation of &lt;code&gt;NN&lt;/code&gt;.&lt;/p&gt;
 
@@ -1543,10 +1545,7 @@ Input 	Output 		Target
 
 &lt;p&gt;Much better! The error is very small and the outputs are very close to the correct value. However, they&amp;rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;
-
-&lt;p&gt;[5]: /docs/simpleNN.py&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1556,6 +1555,8 @@ Input 	Output 		Target
       
       <guid>/post/nn-more-maths/</guid>
       <description>&lt;p&gt;The third in our series of tutorials on Simple Neural Networks. This time, we&amp;rsquo;re looking a bit deeper into the maths, specifically focusing on vectorisation. This is an important step before we can translate our maths in a functioning script in Python.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;So we&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;been through the maths&lt;/a&gt; of a neural network (NN) using back propagation and taken a look at the &lt;a href=&#34;/post/transfer-functions&#34;&gt;different activation functions&lt;/a&gt; that we could implement. This post will translate the mathematics into Python which we can piece together at the end into a functioning NN!&lt;/p&gt;
 
@@ -2025,8 +2026,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;nextsteps&#34;&gt; What&#39;s next? &lt;/h2&gt;
 
-&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;
-</description>
+&lt;p&gt;Although this kinds of mathematics can be tedious and sometimes hard to follow (and probably with numerous notation mistakes&amp;hellip; please let me know if you find them!), it is necessary in order to write a quick, efficient NN. Our next step is to implement this setup in Python.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2035,32 +2035,32 @@ $$&lt;/div&gt;
       <pubDate>Wed, 08 Mar 2017 10:43:07 +0000</pubDate>
       
       <guid>/post/transfer-functions/</guid>
-      <description>
+      <description>&lt;p&gt;We&amp;rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.&lt;/p&gt;
 
-&lt;p&gt;We&amp;rsquo;re going to write a little bit of Python in this tutorial on Simple Neural Networks (Part 2). It will focus on the different types of activation (or transfer) functions, their properties and how to write each of them (and their derivatives) in Python.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;As promised in the previous post, we&amp;rsquo;ll take a look at some of the different activation functions that could be used in our nodes. Again &lt;strong&gt;please&lt;/strong&gt; let me know if there&amp;rsquo;s anything I&amp;rsquo;ve gotten totally wrong - I&amp;rsquo;m very much learning too.&lt;/p&gt;
 
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#linear:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Linear Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#sigmoid:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Sigmoid Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#tanh:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Hyperbolic Tangent Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#gaussian:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Gaussian Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#step:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Heaviside (step) Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#ramp:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Ramp Function&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#linear&#34;&gt;Linear Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sigmoid&#34;&gt;Sigmoid Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#tanh&#34;&gt;Hyperbolic Tangent Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#gaussian&#34;&gt;Gaussian Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#step&#34;&gt;Heaviside (step) Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#ramp&#34;&gt;Ramp Function&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#relu:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Rectified Linear Unit (ReLU)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#relu&#34;&gt;Rectified Linear Unit (ReLU)&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;linear&#34;&gt; Linear (Identity) Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig1&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -2071,13 +2071,13 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div&gt;$$
 f \left( x_{i} \right) = x_{i}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def linear(x, Derivative=False):
     if not Derivative:
@@ -2086,7 +2086,7 @@ $$&lt;/div&gt;
         return 1.0
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;If there&amp;rsquo;s a situation where we want a node to give its output without applying any thresholds, then the identity (or linear) function is the way to go.&lt;/p&gt;
 
@@ -2104,9 +2104,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;sigmoid&#34;&gt; The Sigmoid (or Fermi) Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-1&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig2&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -2117,14 +2117,14 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-1&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div &gt;$$
 f\left(x_{i} \right) = \frac{1}{1 + e^{  - x_{i}  }}, \ \
 f^{\prime}\left( x_{i} \right) = \sigma(x_{i}) \left( 1 -  \sigma(x_{i}) \right)
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code-1&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def sigmoid(x,Derivative=False):
     if not Derivative:
@@ -2134,7 +2134,7 @@ $$&lt;/div&gt;
         return out * (1 - out)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used-1:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-1&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;This function maps the input to a value between 0 and 1 (but not equal to 0 or 1). This means the output from the node will be a high signal (if the input is positive) or a low one (if the input is negative). This function is often chosen as it is one of the easiest to hard-code in terms of its derivative. The simplicity of its derivative allows us to efficiently perform back propagation without using any fancy packages or approximations. The fact that this function is smooth, continuous (differentiable), monotonic and bounded means that back propagation will work well.&lt;/p&gt;
 
@@ -2146,9 +2146,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;tanh&#34;&gt; Hyperbolic Tangent Function ( $\tanh(x)$ ) &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-2&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig3&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -2159,14 +2159,14 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-2&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div &gt;$$
 f\left(x_{i} \right) = \tanh\left(x_{i}\right),
 f^{\prime}\left(x_{i} \right) = 1 - \tanh\left(x_{i}\right)^{2}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;why-is-it-used-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-2&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;This is a very similar function to the previous sigmoid function and has much of the same properties: even its derivative is straight forward to compute. However, this function allows us to map the input to any value between -1 and 1 (but not inclusive of those). In effect, this allows us to apply a plenalty to the node (negative) rather than just have the node not fire at all. It also gives us a larger range of output to play with in the positive end of the scale meaning finer adjustments can be made.&lt;/p&gt;
 
@@ -2177,7 +2177,7 @@ $$&lt;/div&gt;
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;what-s-the-difference-between-the-sigmoid-and-hyperbolic-tangent:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What&amp;rsquo;s the difference between the sigmoid and hyperbolic tangent?&lt;/h2&gt;
+&lt;h2 id=&#34;what-s-the-difference-between-the-sigmoid-and-hyperbolic-tangent&#34;&gt;What&amp;rsquo;s the difference between the sigmoid and hyperbolic tangent?&lt;/h2&gt;
 
 &lt;p&gt;They both achieve a similar mapping, are both continuous, smooth, monotonic and differentiable, but give out different values. For a sigmoid function, a large negative input generates an almost zero output. This lack of output will affect all subsequent weights in the network which may not be desirable - effectively stopping the next nodes from learning. In contrast, the $\tanh$ function supplies -1 for negative values, maintaining the output of the node and allowing subsequent nodes to learn from it.&lt;/p&gt;
 
@@ -2185,9 +2185,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;gaussian&#34;&gt; Gaussian Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-3&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig4&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -2198,14 +2198,14 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-3&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div &gt;$$
 f\left( x_{i}\right ) = e^{ -x_{i}^{2}}, \ \
 f^{\prime}\left( x_{i}\right ) = - 2x e^{ - x_{i}^{2}}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code-2:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code-2&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def gaussian(x, Derivative=False):
     if not Derivative:
@@ -2214,7 +2214,7 @@ $$&lt;/div&gt;
         return -2 * x * np.exp(-x**2)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-3&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;The gaussian function is an even function, thus is gives the same output for equally positive and negative values of input. It gives its maximal output when there is no input and has decreasing output with increasing distance from zero. We can perhaps imagine this function is used in a node where the input feature is less likely to contribute to the final result.&lt;/p&gt;
 
@@ -2224,9 +2224,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;step&#34;&gt; Step (or Heaviside) Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-4:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-4&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig5&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -2237,7 +2237,7 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-4:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-4&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div&gt;$$
     f(x)= 
@@ -2249,7 +2249,7 @@ $$&lt;/div&gt;
 \end{cases}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;why-is-it-used-4:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-4&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;Some cases call for a function which applies a hard thresold: either the output is precisely a single value, or not. The other functions we&amp;rsquo;ve looked at have an intrinsic probablistic output to them i.e. a higher output in decimal format implying a greater probability of being 1 (or a high output). The step function does away with this opting for a definite high or low output depending on some threshold on the input $T$.&lt;/p&gt;
 
@@ -2261,9 +2261,9 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;ramp&#34;&gt; Ramp Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;what-does-it-look-like-5:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;What does it look like?&lt;/h3&gt;
+&lt;h3 id=&#34;what-does-it-look-like-5&#34;&gt;What does it look like?&lt;/h3&gt;
 
 &lt;div  id=&#34;fig6&#34; class=&#34;figure_container&#34;&gt;
         &lt;div class=&#34;figure_images&#34;&gt;
@@ -2274,7 +2274,7 @@ $$&lt;/div&gt;
         &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&#34;formulae-5:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Formulae&lt;/h3&gt;
+&lt;h3 id=&#34;formulae-5&#34;&gt;Formulae&lt;/h3&gt;
 
 &lt;div&gt;$$
     f(x)= 
@@ -2287,7 +2287,7 @@ $$&lt;/div&gt;
 \end{cases}
 $$&lt;/div&gt;
 
-&lt;h3 id=&#34;python-code-3:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Python Code&lt;/h3&gt;
+&lt;h3 id=&#34;python-code-3&#34;&gt;Python Code&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def ramp(x, Derivative=False, T1=0, T2=np.max(x)):
     out = np.ones(x.shape)
@@ -2302,7 +2302,7 @@ $$&lt;/div&gt;
         return out
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;why-is-it-used-5:86db7ff2c3b366fe24b251eb8feabdd3&#34;&gt;Why is it used?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-it-used-5&#34;&gt;Why is it used?&lt;/h3&gt;
 
 &lt;p&gt;The ramp function is a truncated version of the linear function. From its shape, the ramp function looks like a more definitive version of the sigmoid function in that its maps a range of inputs to outputs over the range (0 1) but this time with definitive cut off points $T1$ and $T2$. This gives the function the ability to fire the node very definitively above a threshold, but still have some uncertainty in the lower regions. It may not be common to see $T1$ in the negative region unless the ramp is equally distributed about $0$.&lt;/p&gt;
 
@@ -2328,8 +2328,7 @@ $$&lt;/div&gt;
         out = np.ones(x.shape)
         out[(x &amp;lt; 0)]=0
         return out
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -2343,18 +2342,18 @@ $$&lt;/div&gt;
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#nnarchitecture:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Neural Network Architecture&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferFunction:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#feedforward:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Feed-forward&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#error:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Error&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backPropagationGrads:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Back Propagation - the Gradients&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#bias:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Bias&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backPropagationAlgorithm:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;Back Propagaton - the Algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#nnarchitecture&#34;&gt;Neural Network Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferFunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#feedforward&#34;&gt;Feed-forward&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#error&#34;&gt;Error&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backPropagationGrads&#34;&gt;Back Propagation - the Gradients&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bias&#34;&gt;Bias&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backPropagationAlgorithm&#34;&gt;Back Propagaton - the Algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;nnarchitecture&#34;&gt;1. Neural Network Architecture &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;By now, you may well have come across diagrams which look very similar to the one below. It shows some input node, connected to some output node via an intermediate node in what is called a &amp;lsquo;hidden layer&amp;rsquo; - &amp;lsquo;hidden&amp;rsquo; because in the use of NN only the input and output is of concern to the user, the &amp;lsquo;under-the-hood&amp;rsquo; stuff may not be interesting to them. In real, high-performing NN there are usually more hidden layers.&lt;/p&gt;
 
@@ -2371,7 +2370,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;transferFunction&#34;&gt;2. Transfer Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;At each node in the hidden and output layers of the NN, an &lt;em&gt;activation&lt;/em&gt; or &lt;em&gt;transfer&lt;/em&gt; function is executed. This function takes in the output of the previous node, and multiplies it by some &lt;em&gt;weight&lt;/em&gt;. These weights are the lines which connect the nodes. The weights that come out of one node can all be different, that is they will &lt;em&gt;activate&lt;/em&gt; different neurons. There can be many forms of the transfer function, we will first look at the &lt;em&gt;sigmoid&lt;/em&gt; transfer function as it seems traditional.&lt;/p&gt;
 
@@ -2414,7 +2413,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;feedforward&#34;&gt;3. Feed-forward &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;During a feed-forward pass, the network takes in the input values and gives us some output values. To see how this is done, let&amp;rsquo;s first consider a 2-layer neural network like the one in Figure 1. Here we are going to refer to:&lt;/p&gt;
 
@@ -2460,7 +2459,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;error&#34;&gt;4. Error &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We measure error at the end of each foward pass. This allows us to quantify how well our network has performed in getting the correct output. Let&amp;rsquo;s define $t_{k}$ as the expected or &lt;em&gt;target&lt;/em&gt; value of the $k^{\text{th}}$ node of the output layer $K$. Then the error $E$ on the entire output is:&lt;/p&gt;
 
@@ -2554,7 +2553,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backPropagationGrads&#34;&gt;5. Back Propagation - the gradients&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Back propagation takes the error function we found in the previous section, uses it to calculate the error on the current layer and updates the weights to that layer by some amount.&lt;/p&gt;
 
@@ -2643,7 +2642,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;bias&#34;&gt;6.  Bias &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Lets remind ourselves what happens inside our hidden layer nodes:&lt;/p&gt;
 
@@ -2688,7 +2687,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backPropagationAlgorithm&#34;&gt;7. Back Propagation - the algorithm&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:4e6eaeb4d3e1db3d0950e0d136604a94&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now we have all of the pieces! We&amp;rsquo;ve got the initial outputs after our feed-forward, we have the equations for the delta terms (the amount by which the error is based on the different weights) and we know we need to update our bias term too. So what does it look like:&lt;/p&gt;
 
@@ -2705,7 +2704,8 @@ $$&lt;/div&gt;&lt;/li&gt;
 
 &lt;div&gt;$$
 \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
-$$&lt;/div&gt;&lt;/li&gt;
+$$&lt;/div&gt;
+    &lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Calculate the changes that need to be made to the weights and bias terms:&lt;/p&gt;
 
@@ -2714,7 +2714,8 @@ $$&lt;/div&gt;&lt;/li&gt;
 \Delta W &amp;= -\eta \ \delta_{l} \ \mathcal{O}_{l-1} \\
 \Delta\theta &amp;= -\eta \ \delta_{l}
 \end{align}
-$$&lt;/div&gt;&lt;/li&gt;
+$$&lt;/div&gt;
+    &lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Update the weights and biases across the network:&lt;/p&gt;
 
@@ -2723,15 +2724,15 @@ $$&lt;/div&gt;&lt;/li&gt;
 W + \Delta W &amp;\rightarrow W \\
 \theta + \Delta\theta &amp;\rightarrow \theta
 \end{align}
-$$&lt;/div&gt;&lt;/li&gt;
+$$&lt;/div&gt;
+    &lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Here, $\eta$ is just a small number that limit the size of the deltas that we compute: we don&amp;rsquo;t want the network jumping around everywhere. The $l$ subscript denotes the deltas and output for that layer $l$. That is, we compute the delta for each of the nodes in a layer and vectorise them. Thus we can compute the element-wise product with the output values of the previous layer and get our update $\Delta W$ for the weights of the current later. Similarly with the bias term.&lt;/p&gt;
 
 &lt;p&gt;This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &amp;lsquo;epoch&amp;rsquo; or run through of this algorithm.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Some of the ideas and notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;em&gt;Some of the ideas and notation in this tutorial comes from the good videos by &lt;a href=&#34;https://www.youtube.com/playlist?list=PL29C61214F2146796&#34; title=&#34; NN Videos&#34;&gt;Ryan Harris&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

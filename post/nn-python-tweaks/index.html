@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tweaking the NN in Python to make it Faster">
-  <meta name="generator" content="Hugo 0.15" />
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>A Simple Neural Network - Simple Performance Improvements &middot; Machine Learning Notebook</title>
 
@@ -290,23 +290,25 @@
 
   <p>The 5th installment of our tutorial on implementing a neural network (NN) in Python. By the end of this tutorial, our NN should perform much more efficiently giving good results with fewer iterations. We will do this by implementing &ldquo;momentum&rdquo; into our network. We will also put in the other transfer functions for each layer.</p>
 
+<p></p>
+
 <div id="toctop"></div>
 
 <ol>
-<li><a href="#intro:461b95b1eb366b73f8031e88185ea18c">Introduction</a></li>
-<li><a href="#momentum:461b95b1eb366b73f8031e88185ea18c">Momentum</a>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#momentum">Momentum</a>
 
 <ol>
-<li><a href="#momentumbackground:461b95b1eb366b73f8031e88185ea18c">Background</a></li>
-<li><a href="#momentumpython:461b95b1eb366b73f8031e88185ea18c">Momentum in Python</a></li>
-<li><a href="#momentumtesting:461b95b1eb366b73f8031e88185ea18c">Testing</a></li>
+<li><a href="#momentumbackground">Background</a></li>
+<li><a href="#momentumpython">Momentum in Python</a></li>
+<li><a href="#momentumtesting">Testing</a></li>
 </ol></li>
-<li><a href="#transferfunctions:461b95b1eb366b73f8031e88185ea18c">Transfer Functions</a></li>
+<li><a href="#transferfunctions">Transfer Functions</a></li>
 </ol>
 
 <h2 id="intro"> Introduction </h2>
 
-<p><a href="#toctop:461b95b1eb366b73f8031e88185ea18c">To contents</a></p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>We&rsquo;ve come so far! The intial <a href="/post/neuralnetwork">maths</a> was a bit of a slog, as was the <a href="/post/nn-more-maths">vectorisation</a> of that maths, but it was important to be able to implement our NN in Python which we did in our <a href="/post/nn-in-python">previous post</a>. So what now? Well, you may have noticed when running the NN as it stands that it isn&rsquo;t overly quick, depening on the randomly initialised weights, it may take the network the full number of <code>maxIterations</code> to converge, and then it may not converge at all! But there is something we can do about it. Let&rsquo;s learn about, and implement, &lsquo;momentum&rsquo;.</p>
 
@@ -314,7 +316,7 @@
 
 <h3 id="momentumbackground"> Background </h3>
 
-<p><a href="#toctop:461b95b1eb366b73f8031e88185ea18c">To contents</a></p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>Let&rsquo;s revisit our equation for error in the NN:</p>
 
@@ -364,7 +366,7 @@ $$</div>
 
 <h3 id="momentumpython"> Momentum in Python </h3>
 
-<p><a href="#toctop:461b95b1eb366b73f8031e88185ea18c">To contents</a></p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>So, implementing momentum into our NN should be pretty easy. We will need to provide a momentum term to the <code>backProp</code> method of the NN and also create a new matrix in which to store the weight deltas from the current epoch for use in the subsequent one.</p>
 
@@ -402,7 +404,7 @@ $$</div>
 
 <h3 id="momentumtesting"> Testing </h3>
 
-<p><a href="#toctop:461b95b1eb366b73f8031e88185ea18c">To contents</a></p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>Our default values for learning rate and momentum are 0.2 and 0,5 respectively. We can change either of these by including them in the call to <code>backProp</code>. Thi is the only change to the iteration process:</p>
 
@@ -428,7 +430,7 @@ Input 	Output 		Target
 
 <h3 id="transferfunctions"> Transfer Functions </h3>
 
-<p><a href="#toctop:461b95b1eb366b73f8031e88185ea18c">To contents</a></p>
+<p><a href="#toctop">To contents</a></p>
 
 <p>We&rsquo;ve already gone through writing the transfer functions in Python in the <a href="/post/transfer-functions">transfer functions</a> post. We&rsquo;ll just put these under the sigmoid function we defined earlier. I&rsquo;m going to use <code>sigmoid</code>, <code>linear</code>, <code>gaussian</code> and <code>tanh</code> here.</p>
 
@@ -466,7 +468,7 @@ Input 	Output 		Target
 <pre><code class="language-python">self.tFunctions[index](layerInput)
 </code></pre>
 
-<p>Check the updated code [here][5] if that&rsquo;s confusing.</p>
+<p>Check the updated code <a href="/docs/simpleNN-improvements.py">here</a> if that&rsquo;s confusing.</p>
 
 <p>Let&rsquo;s test this out! We&rsquo;ll modify the call to initialising the NN by adding a list of functions like so:</p>
 
@@ -494,9 +496,6 @@ Input 	Output 		Target
 </code></pre>
 
 <p>Play around with the number of layers and different combinations of transfer functions as well as tweaking the learning rate and momentum. You&rsquo;ll soon get a feel for how each changes the performance of the NN.</p>
-
-<p>[5]: /docs/simpleNN-improvements.py</p>
-
 
   
 <div class="prev-next-post pure-g">

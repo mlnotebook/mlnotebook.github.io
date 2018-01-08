@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on Machine Learning Notebook</title>
-    <link>/topics/linux/</link>
+    <link>/topics/linux/index.xml</link>
     <description>Recent content in Linux on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Aug 2017 10:05:14 +0000</lastBuildDate>
     <atom:link href="/topics/linux/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,6 +15,8 @@
       
       <guid>/post/ps1terminal/</guid>
       <description>&lt;p&gt;If you&amp;rsquo;re working with more than one computer at a time, then you&amp;rsquo;re probably using some form of remote access framework - most likely &lt;code&gt;ssh&lt;/code&gt;. This is common in machine learning where our scripts are run on some other host with more capabilities. In this post we&amp;rsquo;ll look at how to modify the terminal prompt layout and colours to give us information we need at a glance: the current user; whether they&amp;rsquo;re &lt;code&gt;root&lt;/code&gt;; what computer we&amp;rsquo;re working on; what folder in and the time that the last command was given.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;When we &lt;code&gt;ssh&lt;/code&gt; into another computer, the terminal prompt will most likely change. Often it becomes colourless (usually all-white text) and the structure may change based on the initial setup. I&amp;rsquo;ve often issued commands to the wrong computer because of this so it would be useful if we were able to clearly see which computer we&amp;rsquo;re working on at a glance.&lt;/p&gt;
 
@@ -99,8 +100,7 @@ fi
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;p&gt;For my full PS1 variable, I have the colours, the bold host and I also added some square brackets (not escaped!) to make it a little more visually pleasing. You can change the &lt;code&gt;~/.bashrc&lt;/code&gt; file for each user on each computer. So if you have a regular user account &lt;em&gt;and&lt;/em&gt; a root account on the same machine, you can create a different PS1 for both by editing their respecitve files. So feel free to change colours and formats as you wish!&lt;/p&gt;
-</description>
+&lt;p&gt;For my full PS1 variable, I have the colours, the bold host and I also added some square brackets (not escaped!) to make it a little more visually pleasing. You can change the &lt;code&gt;~/.bashrc&lt;/code&gt; file for each user on each computer. So if you have a regular user account &lt;em&gt;and&lt;/em&gt; a root account on the same machine, you can create a different PS1 for both by editing their respecitve files. So feel free to change colours and formats as you wish!&lt;/p&gt;</description>
     </item>
     
   </channel>

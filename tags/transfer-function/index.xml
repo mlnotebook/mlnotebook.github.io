@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Transfer Function on Machine Learning Notebook</title>
-    <link>/tags/transfer-function/</link>
+    <link>/tags/transfer-function/index.xml</link>
     <description>Recent content in Transfer Function on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Mar 2017 08:53:55 +0000</lastBuildDate>
     <atom:link href="/tags/transfer-function/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -17,23 +16,25 @@
       <guid>/post/nn-python-tweaks/</guid>
       <description>&lt;p&gt;The 5th installment of our tutorial on implementing a neural network (NN) in Python. By the end of this tutorial, our NN should perform much more efficiently giving good results with fewer iterations. We will do this by implementing &amp;ldquo;momentum&amp;rdquo; into our network. We will also put in the other transfer functions for each layer.&lt;/p&gt;
 
+&lt;p&gt;&lt;/p&gt;
+
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#intro:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#momentum:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Momentum&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentum&#34;&gt;Momentum&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#momentumbackground:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#momentumpython:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Momentum in Python&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#momentumtesting:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumbackground&#34;&gt;Background&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumpython&#34;&gt;Momentum in Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#momentumtesting&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferfunctions:461b95b1eb366b73f8031e88185ea18c&#34;&gt;Transfer Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunctions&#34;&gt;Transfer Functions&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve come so far! The intial &lt;a href=&#34;/post/neuralnetwork&#34;&gt;maths&lt;/a&gt; was a bit of a slog, as was the &lt;a href=&#34;/post/nn-more-maths&#34;&gt;vectorisation&lt;/a&gt; of that maths, but it was important to be able to implement our NN in Python which we did in our &lt;a href=&#34;/post/nn-in-python&#34;&gt;previous post&lt;/a&gt;. So what now? Well, you may have noticed when running the NN as it stands that it isn&amp;rsquo;t overly quick, depening on the randomly initialised weights, it may take the network the full number of &lt;code&gt;maxIterations&lt;/code&gt; to converge, and then it may not converge at all! But there is something we can do about it. Let&amp;rsquo;s learn about, and implement, &amp;lsquo;momentum&amp;rsquo;.&lt;/p&gt;
 
@@ -41,7 +42,7 @@
 
 &lt;h3 id=&#34;momentumbackground&#34;&gt; Background &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s revisit our equation for error in the NN:&lt;/p&gt;
 
@@ -91,7 +92,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;momentumpython&#34;&gt; Momentum in Python &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;So, implementing momentum into our NN should be pretty easy. We will need to provide a momentum term to the &lt;code&gt;backProp&lt;/code&gt; method of the NN and also create a new matrix in which to store the weight deltas from the current epoch for use in the subsequent one.&lt;/p&gt;
 
@@ -129,7 +130,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;momentumtesting&#34;&gt; Testing &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Our default values for learning rate and momentum are 0.2 and 0,5 respectively. We can change either of these by including them in the call to &lt;code&gt;backProp&lt;/code&gt;. Thi is the only change to the iteration process:&lt;/p&gt;
 
@@ -155,7 +156,7 @@ Input 	Output 		Target
 
 &lt;h3 id=&#34;transferfunctions&#34;&gt; Transfer Functions &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:461b95b1eb366b73f8031e88185ea18c&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve already gone through writing the transfer functions in Python in the &lt;a href=&#34;/post/transfer-functions&#34;&gt;transfer functions&lt;/a&gt; post. We&amp;rsquo;ll just put these under the sigmoid function we defined earlier. I&amp;rsquo;m going to use &lt;code&gt;sigmoid&lt;/code&gt;, &lt;code&gt;linear&lt;/code&gt;, &lt;code&gt;gaussian&lt;/code&gt; and &lt;code&gt;tanh&lt;/code&gt; here.&lt;/p&gt;
 
@@ -193,7 +194,7 @@ Input 	Output 		Target
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;self.tFunctions[index](layerInput)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Check the updated code [here][5] if that&amp;rsquo;s confusing.&lt;/p&gt;
+&lt;p&gt;Check the updated code &lt;a href=&#34;/docs/simpleNN-improvements.py&#34;&gt;here&lt;/a&gt; if that&amp;rsquo;s confusing.&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s test this out! We&amp;rsquo;ll modify the call to initialising the NN by adding a list of functions like so:&lt;/p&gt;
 
@@ -220,10 +221,7 @@ Input 	Output 		Target
 [1 0]	 [ 0.99877479] 	[ 1.]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Play around with the number of layers and different combinations of transfer functions as well as tweaking the learning rate and momentum. You&amp;rsquo;ll soon get a feel for how each changes the performance of the NN.&lt;/p&gt;
-
-&lt;p&gt;[5]: /docs/simpleNN-improvements.py&lt;/p&gt;
-</description>
+&lt;p&gt;Play around with the number of layers and different combinations of transfer functions as well as tweaking the learning rate and momentum. You&amp;rsquo;ll soon get a feel for how each changes the performance of the NN.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -232,27 +230,28 @@ Input 	Output 		Target
       <pubDate>Wed, 15 Mar 2017 09:55:00 +0000</pubDate>
       
       <guid>/post/nn-in-python/</guid>
-      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)&lt;/p&gt;
+      <description>&lt;p&gt;Part 4 of our tutorial series on Simple Neural Networks. We&amp;rsquo;re ready to write our Python script! Having gone through the maths, vectorisation and activation functions, we&amp;rsquo;re now ready to put it all together and write it up. By the end of this tutorial, you will have a working NN in Python, using only numpy, which can be used to learn the output of logic gates (e.g. XOR)
+&lt;/p&gt;
 
 &lt;div id=&#34;toctop&#34;&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#intro:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#transferfunction:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backpropclass:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Back Propagation Class&lt;/a&gt;
+&lt;li&gt;&lt;a href=&#34;#intro&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transferfunction&#34;&gt;Transfer Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backpropclass&#34;&gt;Back Propagation Class&lt;/a&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;#initialisation:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#forwardpass:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#backprop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#initialisation&#34;&gt;Initialisation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#forwardpass&#34;&gt;Forward Pass&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#backprop&#34;&gt;Back Propagation&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#testing:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#iterating:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#testing&#34;&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#iterating&#34;&gt;Iterating&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h3 id=&#34;intro&#34;&gt; Introduction &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve &lt;a href=&#34;/post/neuralnetwork&#34;&gt;ploughed through the maths&lt;/a&gt;, then &lt;a href=&#34;/post/nn-more-maths&#34;&gt;some more&lt;/a&gt;, now we&amp;rsquo;re finally here! This tutorial will run through the coding up of a simple neural network (NN) in Python. We&amp;rsquo;re not going to use any fancy packages (though they obviously have their advantages in tools, speed, efficiency&amp;hellip;) we&amp;rsquo;re only going to use numpy!&lt;/p&gt;
 
@@ -271,15 +270,15 @@ Input 	Output 		Target
 
 &lt;p&gt;First things first&amp;hellip; lets import numpy:&lt;/p&gt;
 
-
-import numpy as np
+&lt;div class=&#34;highlight&#34; style=&#34;background: #272822&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #f92672&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #f92672&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #f8f8f2&#34;&gt;np&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Now let&amp;rsquo;s go ahead and get the first bit done:&lt;/p&gt;
 
 &lt;h2 id=&#34;transferfunction&#34;&gt; Transfer Function &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;To begin with, we&amp;rsquo;ll focus on getting the network working with just one transfer function: the sigmoid function. As we discussed in a &lt;a href=&#34;/post/transfer-functions&#34;&gt;previous post&lt;/a&gt; this is very easy to code up because of its simple derivative:&lt;/p&gt;
 
@@ -300,7 +299,7 @@ $$&lt;/div&gt;
 
 &lt;h2 id=&#34;backpropclass&#34;&gt; Back Propagation Class &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m fairly new to building my own classes in Python, but for this tutorial, I really relied on the videos of &lt;a href=&#34;https://www.youtube.com/playlist?list=PLRyu4ecIE9tibdzuhJr94uQeKnOFkkbq6&#34;&gt;Ryan on YouTube&lt;/a&gt;. Some of his hacks were very useful so I&amp;rsquo;ve taken some of those on board, but i&amp;rsquo;ve made a lot of the variables more self-explanatory.&lt;/p&gt;
 
@@ -336,7 +335,7 @@ $$&lt;/div&gt;
 
 &lt;h3 id=&#34;initialisation&#34;&gt; Initialisation &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;re going to make the user supply an input variablewhich is the size of the layers in the network i.e. the number of nodes in each layer: &lt;code&gt;numNodes&lt;/code&gt;. This will be an array which is the length of the number of layers (including the input and output layers) where each element is the number of nodes in that layer.&lt;/p&gt;
 
@@ -402,7 +401,7 @@ self._layerOutput = []
 
 &lt;h3 id=&#34;forwardpass&#34;&gt; Forward Pass &lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve now initialised out network enough to be able to focus on the forward pass (FP).&lt;/p&gt;
 
@@ -476,7 +475,7 @@ self._layerOutput.append(sigmoid(layerInput))
 
 &lt;h3 id=&#34;backprop&#34;&gt;Back Propagation&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;We&amp;rsquo;ve successfully sent the data from the input layer to the output layer using some initially randomised weights &lt;strong&gt;and&lt;/strong&gt; we&amp;rsquo;ve included the bias term (a kind of threshold on the activation functions). Our vectorised equations from the previous post will now come into play:&lt;/p&gt;
 
@@ -608,9 +607,9 @@ for index in reversed(range(self.numLayers)):
 
 &lt;h2 id=&#34;testing&#34;&gt; A Toy Example&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py [here][5]&lt;/p&gt;
+&lt;p&gt;Believe it or not, that&amp;rsquo;s it! The fundamentals of forward and back propagation have now been implemented in Python. If you want to double check your code, have a look at my completed .py &lt;a href=&#34;/docs/simpleNN.py&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s test it!&lt;/p&gt;
 
@@ -640,7 +639,7 @@ for i in range(Input.shape[0]):
 
 &lt;h2 id=&#34;iterating&#34;&gt; Iterating &lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;#toctop:2c06547cf17e7c942a14a9dd3a10cfd4&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#toctop&#34;&gt;To contents&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Iteration is very straight forward. We just tell our algorithm to repeat a maximum of &lt;code&gt;maxIterations&lt;/code&gt; times or until the &lt;code&gt;Error&lt;/code&gt; is below &lt;code&gt;minError&lt;/code&gt; (whichever comes first). As the weights are stored internally within &lt;code&gt;NN&lt;/code&gt; every time we call the &lt;code&gt;backProp&lt;/code&gt; method, it uses the latest, internally stored weights and doesn&amp;rsquo;t start again - the weights are only initialised once upon creation of &lt;code&gt;NN&lt;/code&gt;.&lt;/p&gt;
 
@@ -668,10 +667,7 @@ Input 	Output 		Target
 
 &lt;p&gt;Much better! The error is very small and the outputs are very close to the correct value. However, they&amp;rsquo;re note completely right. We can do better, by implementing different activation functions which we will do in the next tutorial.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;
-
-&lt;p&gt;[5]: /docs/simpleNN.py&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;strong&gt;Please&lt;/strong&gt; let me know if anything is unclear, or there are mistakes. Let me know how you get on!&lt;/p&gt;</description>
     </item>
     
   </channel>
