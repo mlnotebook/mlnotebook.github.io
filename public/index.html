@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.15" />
 
   <title>Machine Learning Notebook</title>
 
@@ -301,7 +301,6 @@
   <p>
   <p>One of the greatest limiting factors for training effective deep learning frameworks is the availability, quality and organisation of the <em>training data</em>. To be good at classification tasks, we need to show our CNNs <em>etc.</em> as many examples as we possibly can. However, this is not always possible especially in situations where the training data is hard to collect e.g. medical image data. In this post, we will learn how to apply <em>data augmentation</em> strategies to n-Dimensional images get the most of our limited number of examples.</p>
 
-<p></p>
   </p>
   
   </div>
@@ -312,6 +311,80 @@
 
   <footer>
     <a href="/post/dataaug/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
+  </footer>
+  
+</article>
+
+	  
+	    <article>
+
+  <header>
+    <h2><a href="/post/ps1terminal/">Modifying the Terminal Prompt for Sanity</a></h2>
+
+
+  </header>
+  
+<div class="summary_container">
+
+<div class="summary_image">
+<a href="/post/ps1terminal/">
+
+<img class="featured_image" src="/img/ps1img.png">
+</a>
+</div>
+
+  <div class="summary_text">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>08 Aug 2017, 10:05</time>
+  </div>
+
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-folder fa-fw"></i>
+    
+      <a class="post-taxonomy-topic" href="/topics/linux">linux</a>&nbsp;&#47;
+    
+      <a class="post-taxonomy-topic" href="/topics/productivity">productivity</a>
+    
+  </div>
+  
+  
+
+  
+  
+  
+  <div>
+    <i class="fa fa-tags fa-fw"></i>
+    
+      <a class="post-taxonomy-tag" href="/tags/linux">linux</a>
+    
+  </div>
+  
+  
+</div>
+
+  
+  <p>
+  <p>If you&rsquo;re working with more than one computer at a time, then you&rsquo;re probably using some form of remote access framework - most likely <code>ssh</code>. This is common in machine learning where our scripts are run on some other host with more capabilities. In this post we&rsquo;ll look at how to modify the terminal prompt layout and colours to give us information we need at a glance: the current user; whether they&rsquo;re <code>root</code>; what computer we&rsquo;re working on; what folder in and the time that the last command was given.</p>
+
+  </p>
+  
+  </div>
+
+  </div>
+
+  
+
+  <footer>
+    <a href="/post/ps1terminal/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>
@@ -382,7 +455,6 @@
   <p>
   <p>This is the final part in our series on Generative Adversarial Networks (GAN). We will write our training script and look at how to run the GAN. We will also take a look at the results we get out. Can you tell the difference between the real and generated faces?</p>
 
-<p></p>
   </p>
   
   </div>
@@ -463,7 +535,6 @@
   <p>
   <p>Now that we&rsquo;re able to import images into our network, we really need to build the GAN iteself. This tuorial will build the GAN <code>class</code> including the methods needed to create the generator and discriminator. We&rsquo;ll also be looking at some of the data functions needed to make this work.</p>
 
-<p></p>
   </p>
   
   </div>
@@ -544,7 +615,6 @@
   <p>
   <p>We&rsquo;re ready to code! In <a href="/content/post/GAN1 &quot;GAN Tutorial - Part 1">Part 1</a> we looked at how GANs work and <a href="/content/post/GAN2 &quot;GAN Tutorial - Part 2">Part 2</a> showed how to get the data ready. In this Part, we will begin creating the functions that handle the image data including some pre-procesing and data normalisation.</p>
 
-<p></p>
   </p>
   
   </div>
@@ -555,87 +625,6 @@
 
   <footer>
     <a href="/post/GAN3/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
-  </footer>
-  
-</article>
-
-	  
-	    <article>
-
-  <header>
-    <h2><a href="/post/GAN2/">Generative Adversarial Network (GAN) in TensorFlow - Part 2</a></h2>
-
-
-  </header>
-  
-<div class="summary_container">
-
-<div class="summary_image">
-<a href="/post/GAN2/">
-
-<img class="featured_image" src="/img/featgan2.png">
-</a>
-</div>
-
-  <div class="summary_text">
-
-  <div class="post-meta">
-
-  <div>
-    <i class="fa fa-calendar fa-fw"></i>
-    <time>12 Jul 2017, 11:59</time>
-  </div>
-
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-folder fa-fw"></i>
-    
-      <a class="post-taxonomy-topic" href="/topics/tutorial">tutorial</a>
-    
-  </div>
-  
-  
-
-  
-  
-  
-  <div>
-    <i class="fa fa-tags fa-fw"></i>
-    
-      <a class="post-taxonomy-tag" href="/tags/gan">GAN</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/cnn">CNN</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/machine-learning">machine learning</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/generative">generative</a>&nbsp;&#47;
-    
-      <a class="post-taxonomy-tag" href="/tags/tensorflow">tensorflow</a>
-    
-  </div>
-  
-  
-</div>
-
-  
-  <p>
-  <p>This tutorial will provide the data that we will use when using our Generative Adversarial Networks. It will also take an overview on the structure of the necessary code for creating a GAN and provide some skeleton code which we can work on in the next post. If you&rsquo;re not up to speed on GANs, please do read the brief introduction in <a href="/post/GAN1" title="GAN Part 1 - Some Background and Mathematics">Part 1</a> of this series on Generative Adversarial Networks.</p>
-
-<p></p>
-  </p>
-  
-  </div>
-
-  </div>
-
-  
-
-  <footer>
-    <a href="/post/GAN2/">Read more<i class="fa fa-angle-double-right fa-fw"></i></a>
   </footer>
   
 </article>

@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Running the GAN and Results">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.15" />
 
   <title>Generative Adversarial Network (GAN) in TensorFlow - Part 5 &middot; Machine Learning Notebook</title>
 
@@ -290,8 +290,6 @@
 
   <p>This is the final part in our series on Generative Adversarial Networks (GAN). We will write our training script and look at how to run the GAN. We will also take a look at the results we get out. Can you tell the difference between the real and generated faces?</p>
 
-<p></p>
-
 <h2 id="introduction"> Introduction </h2>
 
 <p>In this series we started out with a <a href="/post/GAN1" title="GAN - Part 1">background to GAN</a> including some of the mathematics behind them. We then downloaded and processed our <a href="/post/GAN2" title="GAN - Part 2">dataset</a>. In the subsequent posts, we wrote some <a href="/post/GAN3" title="GAN - Part 3">image helper functions</a> before completing some <a href="/post/GAN4" title="GAN - Part 4">data processing functions</a> and the <a href="/post/GAN4" title="GAN - Part 4">GAN Class itself</a>.</p>
@@ -453,6 +451,7 @@ config = tf.ConfigProto(intra_op_parallelism_threads=8)
 
 <p>GANs are powerful networks, but work in a relatively simple way by trying to trick a discriminator by generating more and more realistic-looking images.</p>
 
+
   
 <div class="prev-next-post pure-g">
   <div class="pure-u-1-24" style="text-align: left;">
@@ -473,13 +472,13 @@ config = tf.ConfigProto(intra_op_parallelism_threads=8)
   <div class="pure-u-10-24">
     
     <nav class="next">
-      <a href="/post/dataaug/">Data Augmentations for n-Dimensional Image Input to CNNs</a>
+      <a href="/post/ps1terminal/">Modifying the Terminal Prompt for Sanity</a>
     </nav>
     
   </div>
   <div class="pure-u-1-24" style="text-align: right;">
     
-    <a href="/post/dataaug/"><i class="fa fa-chevron-right"></i></a>
+    <a href="/post/ps1terminal/"><i class="fa fa-chevron-right"></i></a>
     
   </div>
 </div>

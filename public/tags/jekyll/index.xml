@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jekyll on Machine Learning Notebook</title>
-    <link>/tags/jekyll/index.xml</link>
+    <link>/tags/jekyll/</link>
     <description>Recent content in Jekyll on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Wed, 01 Mar 2017 10:38:47 +0000</lastBuildDate>
     <atom:link href="/tags/jekyll/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,8 +16,6 @@
       
       <guid>/post/my-first-post/</guid>
       <description>&lt;p&gt;This is the first post on the Machine Learning Notebook (MLN)! I&amp;rsquo;ll give a brief overview of what the site is for, how I&amp;rsquo;m constructing it and the kinds of things I&amp;rsquo;m learning along the way.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m a n00b when it comes to Github Pages and relatively new to working with Github at all! It took me a while to decide what platform to use for creating this humble resource. I was initially looking at writing everything in iPython notebooks, but it was confusing to figure out how to keep the scripts live rather than coverting them to static sites.&lt;/p&gt;
 
@@ -34,7 +33,8 @@
 &lt;pre&gt;&lt;code class=&#34;python&#34;
 &gt;def hello_world():
     print &amp;ldquo;Hello there!&amp;rdquo;
-&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
+</description>
     </item>
     
   </channel>

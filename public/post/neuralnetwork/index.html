@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Understanding the maths of Neural Networks">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.15" />
 
   <title>A Simple Neural Network - Mathematics &middot; Machine Learning Notebook</title>
 
@@ -289,18 +289,18 @@
 <div id="toctop"></div>
 
 <ol>
-<li><a href="#nnarchitecture">Neural Network Architecture</a></li>
-<li><a href="#transferFunction">Transfer Function</a></li>
-<li><a href="#feedforward">Feed-forward</a></li>
-<li><a href="#error">Error</a></li>
-<li><a href="#backPropagationGrads">Back Propagation - the Gradients</a></li>
-<li><a href="#bias">Bias</a></li>
-<li><a href="#backPropagationAlgorithm">Back Propagaton - the Algorithm</a></li>
+<li><a href="#nnarchitecture:4e6eaeb4d3e1db3d0950e0d136604a94">Neural Network Architecture</a></li>
+<li><a href="#transferFunction:4e6eaeb4d3e1db3d0950e0d136604a94">Transfer Function</a></li>
+<li><a href="#feedforward:4e6eaeb4d3e1db3d0950e0d136604a94">Feed-forward</a></li>
+<li><a href="#error:4e6eaeb4d3e1db3d0950e0d136604a94">Error</a></li>
+<li><a href="#backPropagationGrads:4e6eaeb4d3e1db3d0950e0d136604a94">Back Propagation - the Gradients</a></li>
+<li><a href="#bias:4e6eaeb4d3e1db3d0950e0d136604a94">Bias</a></li>
+<li><a href="#backPropagationAlgorithm:4e6eaeb4d3e1db3d0950e0d136604a94">Back Propagaton - the Algorithm</a></li>
 </ol>
 
 <h2 id="nnarchitecture">1. Neural Network Architecture </h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>By now, you may well have come across diagrams which look very similar to the one below. It shows some input node, connected to some output node via an intermediate node in what is called a &lsquo;hidden layer&rsquo; - &lsquo;hidden&rsquo; because in the use of NN only the input and output is of concern to the user, the &lsquo;under-the-hood&rsquo; stuff may not be interesting to them. In real, high-performing NN there are usually more hidden layers.</p>
 
@@ -317,7 +317,7 @@
 
 <h2 id="transferFunction">2. Transfer Function </h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>At each node in the hidden and output layers of the NN, an <em>activation</em> or <em>transfer</em> function is executed. This function takes in the output of the previous node, and multiplies it by some <em>weight</em>. These weights are the lines which connect the nodes. The weights that come out of one node can all be different, that is they will <em>activate</em> different neurons. There can be many forms of the transfer function, we will first look at the <em>sigmoid</em> transfer function as it seems traditional.</p>
 
@@ -360,7 +360,7 @@ $$</div>
 
 <h2 id="feedforward">3. Feed-forward </h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>During a feed-forward pass, the network takes in the input values and gives us some output values. To see how this is done, let&rsquo;s first consider a 2-layer neural network like the one in Figure 1. Here we are going to refer to:</p>
 
@@ -406,7 +406,7 @@ $$</div>
 
 <h2 id="error">4. Error </h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>We measure error at the end of each foward pass. This allows us to quantify how well our network has performed in getting the correct output. Let&rsquo;s define $t_{k}$ as the expected or <em>target</em> value of the $k^{\text{th}}$ node of the output layer $K$. Then the error $E$ on the entire output is:</p>
 
@@ -500,7 +500,7 @@ $$</div>
 
 <h2 id="backPropagationGrads">5. Back Propagation - the gradients</h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>Back propagation takes the error function we found in the previous section, uses it to calculate the error on the current layer and updates the weights to that layer by some amount.</p>
 
@@ -589,7 +589,7 @@ $$</div>
 
 <h2 id="bias">6.  Bias </h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>Lets remind ourselves what happens inside our hidden layer nodes:</p>
 
@@ -634,7 +634,7 @@ $$</div>
 
 <h2 id="backPropagationAlgorithm">7. Back Propagation - the algorithm</h2>
 
-<p><a href="#toctop">To contents</a></p>
+<p><a href="#toctop:4e6eaeb4d3e1db3d0950e0d136604a94">To contents</a></p>
 
 <p>Now we have all of the pieces! We&rsquo;ve got the initial outputs after our feed-forward, we have the equations for the delta terms (the amount by which the error is based on the different weights) and we know we need to update our bias term too. So what does it look like:</p>
 
@@ -651,8 +651,7 @@ $$</div></li>
 
 <div>$$
 \delta_{j} = \mathcal{O}_{i} \left( 1 - \mathcal{O}_{j} \right)   \sum_{k \in K} \delta_{k} W_{jk}
-$$</div>
-    </li>
+$$</div></li>
 
 <li><p>Calculate the changes that need to be made to the weights and bias terms:</p>
 
@@ -661,8 +660,7 @@ $$</div>
 \Delta W &= -\eta \ \delta_{l} \ \mathcal{O}_{l-1} \\
 \Delta\theta &= -\eta \ \delta_{l}
 \end{align}
-$$</div>
-    </li>
+$$</div></li>
 
 <li><p>Update the weights and biases across the network:</p>
 
@@ -671,8 +669,7 @@ $$</div>
 W + \Delta W &\rightarrow W \\
 \theta + \Delta\theta &\rightarrow \theta
 \end{align}
-$$</div>
-    </li>
+$$</div></li>
 </ol>
 
 <p>Here, $\eta$ is just a small number that limit the size of the deltas that we compute: we don&rsquo;t want the network jumping around everywhere. The $l$ subscript denotes the deltas and output for that layer $l$. That is, we compute the delta for each of the nodes in a layer and vectorise them. Thus we can compute the element-wise product with the output values of the previous layer and get our update $\Delta W$ for the weights of the current later. Similarly with the bias term.</p>
@@ -680,6 +677,7 @@ $$</div>
 <p>This algorithm is looped over and over until the error between the output and the target values is below some set threshold. Depending on the size of the network i.e. the number of layers and number of nodes per layer, it can take a long time to complete one &lsquo;epoch&rsquo; or run through of this algorithm.</p>
 
 <p><em>Some of the ideas and notation in this tutorial comes from the good videos by <a href="https://www.youtube.com/playlist?list=PL29C61214F2146796" title=" NN Videos">Ryan Harris</a></em></p>
+
 
   
 <div class="prev-next-post pure-g">

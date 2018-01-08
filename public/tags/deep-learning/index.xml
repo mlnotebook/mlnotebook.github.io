@@ -2,10 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Deep Learning on Machine Learning Notebook</title>
-    <link>/tags/deep-learning/index.xml</link>
+    <link>/tags/deep-learning/</link>
     <description>Recent content in Deep Learning on Machine Learning Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 04 Jan 2018 10:13:20 +0000</lastBuildDate>
     <atom:link href="/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,8 +16,6 @@
       
       <guid>/post/dataaug/</guid>
       <description>&lt;p&gt;One of the greatest limiting factors for training effective deep learning frameworks is the availability, quality and organisation of the &lt;em&gt;training data&lt;/em&gt;. To be good at classification tasks, we need to show our CNNs &lt;em&gt;etc.&lt;/em&gt; as many examples as we possibly can. However, this is not always possible especially in situations where the training data is hard to collect e.g. medical image data. In this post, we will learn how to apply &lt;em&gt;data augmentation&lt;/em&gt; strategies to n-Dimensional images get the most of our limited number of examples.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
 
@@ -424,7 +423,8 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
 &lt;li&gt;There&amp;rsquo;s a commented out part which is what I used to save the images created in this post&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;</description>
+&lt;p&gt;In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&amp;rsquo;ll take a look at this as an example in the next post.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -434,8 +434,6 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
       
       <guid>/post/CNN1/</guid>
       <description>&lt;p&gt;This series will give some background to CNNs, their architecture, coding and tuning. In particular, this tutorial covers some of the background to CNNs and Deep Learning. We won&amp;rsquo;t go over any coding in this session, but that will come in the next one. What&amp;rsquo;s the big deal about CNNs? What do they look like? Why do they work? Find out in this tutorial.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt;  Introduction &lt;/h2&gt;
 
@@ -648,7 +646,8 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 &lt;li&gt;hyperparameters (learning rate, regularisation weights, batch size, iterations&amp;hellip;)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&amp;hellip;&lt;/p&gt;</description>
+&lt;p&gt;There may well be other posts which consider these kinds of things in more detail, but for now I hope you have some insight into how CNNs function. Now, lets code it up&amp;hellip;&lt;/p&gt;
+</description>
     </item>
     
   </channel>
