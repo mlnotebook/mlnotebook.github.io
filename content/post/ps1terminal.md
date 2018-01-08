@@ -1,6 +1,6 @@
 +++
 date = "2017-08-08T10:05:14Z"
-description = "Making easier to identify which computer we're working on when we `ssh` a lot"
+description = "Making it easier to identify which computer we're working on when we `ssh`"
 tags = ['linux']
 title = "Modifying the Terminal Prompt for Sanity"
 topics = ['linux', 'productivity']
