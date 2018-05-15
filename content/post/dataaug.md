@@ -427,6 +427,9 @@ Putting this together in a script makes testing the augmenter easier: you can do
 
 In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We'll take a look at this as an example in the next post.
 
+**Edit: 15/05/2018**
+
+* Added a `sliceshift` function to `transforms.py`. This takes in a 3D image and randomly shifts a `fraction` of the slices using our `translateit` function (which I've also updated slightly). This allows us to simulate motion in medical images.
 
 
 
