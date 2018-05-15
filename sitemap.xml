@@ -227,13 +227,13 @@
   </url>
   
   <url>
-    <loc>/tags/linux/</loc>
+    <loc>/topics/linux/</loc>
     <lastmod>2017-08-08T10:05:14+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/topics/linux/</loc>
+    <loc>/tags/linux/</loc>
     <lastmod>2017-08-08T10:05:14+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -305,14 +305,14 @@
   </url>
   
   <url>
-    <loc>/tags/python/</loc>
-    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
+    <loc>/topics/python/</loc>
+    <lastmod>2017-03-01T19:27:27+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/topics/python/</loc>
-    <lastmod>2017-03-01T19:27:27+00:00</lastmod>
+    <loc>/tags/python/</loc>
+    <lastmod>2017-03-17T08:53:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   

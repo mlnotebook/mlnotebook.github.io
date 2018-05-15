@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Getting the most of our training data and improving performance">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
 
   <title>Data Augmentations for n-Dimensional Image Input to CNNs &middot; Machine Learning Notebook</title>
 
@@ -83,12 +83,6 @@
       
       
         <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
           <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
         </li>
@@ -102,6 +96,12 @@
       
         <li class="pure-menu-item">
           <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
@@ -697,6 +697,12 @@ thisseg         = resampleit(thisseg, dims, isseg=True) if withseg else np.zeros
 </ul>
 
 <p>In a live setting where we want to do data-augmentation on the fly, we would essentially call this script with the filenames or image arrays to augment and create as many augmentations of the images as we wish. We&rsquo;ll take a look at this as an example in the next post.</p>
+
+<p><strong>Edit: 15/05/2018</strong></p>
+
+<ul>
+<li>Added a <code>sliceshift</code> function to <code>transforms.py</code>. This takes in a 3D image and randomly shifts a <code>fraction</code> of the slices using our <code>translateit</code> function (which I&rsquo;ve also updated slightly). This allows us to simulate motion in medical images.</li>
+</ul>
 
   
 <div class="prev-next-post pure-g">
