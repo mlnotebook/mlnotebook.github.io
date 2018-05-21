@@ -328,7 +328,7 @@
 
 <h3 id="translate"> Translation </h3>
 
-<p>In our functions, <code>image</code> is a 2 or 3D array - if it&rsquo;s a 3D array, we need to be careful about specifying our translation directions in the argument called <code>offset</code>. We don&rsquo;t really want to move images in the <code>z</code> direction for a couple of reasons: firstly, if it&rsquo;s a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it <code>-2</code>, <code>2</code> or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the <code>offset</code> is given as a length 2 array defining the shift in the <code>y</code> and <code>x</code> directions respectively (dont forget index 0 is which horizontal row we&rsquo;re at in python). We hard-code z-direction to<code>0</code> but you&rsquo;re welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type <code>int</code> too.</p>
+<p>In our functions, <code>image</code> is a 2 or 3D array - if it&rsquo;s a 3D array, we need to be careful about specifying our translation directions in the argument called <code>offset</code>. We don&rsquo;t really want to move images in the <code>z</code> direction for a couple of reasons: firstly, if it&rsquo;s a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it <code>-2</code>, <code>2</code> or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the <code>offset</code> is given as a length 2 array defining the shift in the <code>y</code> and <code>x</code> directions respectively (dont forget index 0 is which horizontal row we&rsquo;re at in python). We hard-code z-direction to <code>0</code> but you&rsquo;re welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type <code>int</code> too.</p>
 
 <pre><code class="language-python">def translateit(image, offset, isseg=False):
     order = 0 if isseg == True else 5
@@ -437,12 +437,12 @@
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
 <img title="CMR Image" height=300 src="/img/augmentation/cmrimgscale1.png">
-<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegtrans1.png"><br>
+<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegscale1.png"><br>
 <b>Scale-factor 1.07</b>
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
 <img title="CMR Image" height=300 src="/img/augmentation/cmrimgscale2.png">
-<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegtrans2.png"><br>
+<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegscale2.png"><br>
 <b>Scale-factor 0.95</b>
 </div>
 </div>
@@ -498,13 +498,13 @@
 <b>Original Image and Segmentation</b>
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
-<img title="CMR Image" height=300 src="/img/augmentation/cmrimgscale1.png">
+<img title="CMR Image" height=300 src="/img/augmentation/cmrimgrotate1.png">
 <img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegrotate1.png"><br>
 <b>Theta = 6.18</b>
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
 <img title="CMR Image" height=300 src="/img/augmentation/cmrimgrotate2.png">
-<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegtrans2.png"><br>
+<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegrotate2.png"><br>
 <b>Theta = -1.91</b>
 </div>
 </div>

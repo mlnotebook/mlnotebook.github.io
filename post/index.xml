@@ -57,7 +57,7 @@
 
 &lt;h3 id=&#34;translate&#34;&gt; Translation &lt;/h3&gt;
 
-&lt;p&gt;In our functions, &lt;code&gt;image&lt;/code&gt; is a 2 or 3D array - if it&amp;rsquo;s a 3D array, we need to be careful about specifying our translation directions in the argument called &lt;code&gt;offset&lt;/code&gt;. We don&amp;rsquo;t really want to move images in the &lt;code&gt;z&lt;/code&gt; direction for a couple of reasons: firstly, if it&amp;rsquo;s a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it &lt;code&gt;-2&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt; or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the &lt;code&gt;offset&lt;/code&gt; is given as a length 2 array defining the shift in the &lt;code&gt;y&lt;/code&gt; and &lt;code&gt;x&lt;/code&gt; directions respectively (dont forget index 0 is which horizontal row we&amp;rsquo;re at in python). We hard-code z-direction to&lt;code&gt;0&lt;/code&gt; but you&amp;rsquo;re welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type &lt;code&gt;int&lt;/code&gt; too.&lt;/p&gt;
+&lt;p&gt;In our functions, &lt;code&gt;image&lt;/code&gt; is a 2 or 3D array - if it&amp;rsquo;s a 3D array, we need to be careful about specifying our translation directions in the argument called &lt;code&gt;offset&lt;/code&gt;. We don&amp;rsquo;t really want to move images in the &lt;code&gt;z&lt;/code&gt; direction for a couple of reasons: firstly, if it&amp;rsquo;s a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it &lt;code&gt;-2&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt; or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the &lt;code&gt;offset&lt;/code&gt; is given as a length 2 array defining the shift in the &lt;code&gt;y&lt;/code&gt; and &lt;code&gt;x&lt;/code&gt; directions respectively (dont forget index 0 is which horizontal row we&amp;rsquo;re at in python). We hard-code z-direction to &lt;code&gt;0&lt;/code&gt; but you&amp;rsquo;re welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type &lt;code&gt;int&lt;/code&gt; too.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def translateit(image, offset, isseg=False):
     order = 0 if isseg == True else 5
@@ -166,12 +166,12 @@
 &lt;/div&gt;
 &lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
 &lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgscale1.png&#34;&gt;
-&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans1.png&#34;&gt;&lt;br&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegscale1.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Scale-factor 1.07&lt;/b&gt;
 &lt;/div&gt;
 &lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
 &lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgscale2.png&#34;&gt;
-&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans2.png&#34;&gt;&lt;br&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegscale2.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Scale-factor 0.95&lt;/b&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -227,13 +227,13 @@
 &lt;b&gt;Original Image and Segmentation&lt;/b&gt;
 &lt;/div&gt;
 &lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
-&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgscale1.png&#34;&gt;
+&lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgrotate1.png&#34;&gt;
 &lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegrotate1.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Theta = 6.18&lt;/b&gt;
 &lt;/div&gt;
 &lt;div style=&#34;text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;&#34;&gt;
 &lt;img title=&#34;CMR Image&#34; height=300 src=&#34;/img/augmentation/cmrimgrotate2.png&#34;&gt;
-&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegtrans2.png&#34;&gt;&lt;br&gt;
+&lt;img title=&#34;CMR Segmentation&#34; height=300 src=&#34;/img/augmentation/cmrsegrotate2.png&#34;&gt;&lt;br&gt;
 &lt;b&gt;Theta = -1.91&lt;/b&gt;
 &lt;/div&gt;
 &lt;/div&gt;
