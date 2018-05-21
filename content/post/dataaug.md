@@ -50,7 +50,7 @@ As usual, we are going to write our augmentation functions in python. We'll just
 
 <h3 id="translate"> Translation </h3>
 
-In our functions, `image` is a 2 or 3D array - if it's a 3D array, we need to be careful about specifying our translation directions in the argument called `offset`. We don't really want to move images in the `z` direction for a couple of reasons: firstly, if it's a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it `-2`, `2` or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the `offset` is given as a length 2 array defining the shift in the `y` and `x` directions respectively (dont forget index 0 is which horizontal row we're at in python). We hard-code z-direction to`0` but you're welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type `int` too.
+In our functions, `image` is a 2 or 3D array - if it's a 3D array, we need to be careful about specifying our translation directions in the argument called `offset`. We don't really want to move images in the `z` direction for a couple of reasons: firstly, if it's a 2D image, the third dimension will be the colour channel, if we move the image through this dimension the image will either become all red, all blue or all black if we move it `-2`, `2` or greater than these respectively; second, in a full 3D image, the third dimension is often the smallest e.g. most medical scans. In our translation function below, the `offset` is given as a length 2 array defining the shift in the `y` and `x` directions respectively (dont forget index 0 is which horizontal row we're at in python). We hard-code z-direction to `0` but you're welcome to change this if your use-case demands it. To ensure we get integer-pixel shifts, we enforce type `int` too.
 
 ~~~python
 def translateit(image, offset, isseg=False):
@@ -161,12 +161,12 @@ There are three possibilities that we need to consider - we are scaling up, down
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
 <img title="CMR Image" height=300 src="/img/augmentation/cmrimgscale1.png">
-<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegtrans1.png"><br>
+<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegscale1.png"><br>
 <b>Scale-factor 1.07</b>
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
 <img title="CMR Image" height=300 src="/img/augmentation/cmrimgscale2.png">
-<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegtrans2.png"><br>
+<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegscale2.png"><br>
 <b>Scale-factor 0.95</b>
 </div>
 </div>
@@ -224,13 +224,13 @@ def rotateit(image, theta, isseg=False):
 <b>Original Image and Segmentation</b>
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
-<img title="CMR Image" height=300 src="/img/augmentation/cmrimgscale1.png">
+<img title="CMR Image" height=300 src="/img/augmentation/cmrimgrotate1.png">
 <img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegrotate1.png"><br>
 <b>Theta = 6.18</b>
 </div>
 <div style="text-align:center; min-width:325px;display:inline-block; width:29%;margin:auto;">
 <img title="CMR Image" height=300 src="/img/augmentation/cmrimgrotate2.png">
-<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegtrans2.png"><br>
+<img title="CMR Segmentation" height=300 src="/img/augmentation/cmrsegrotate2.png"><br>
 <b>Theta = -1.91</b>
 </div>
 </div>
