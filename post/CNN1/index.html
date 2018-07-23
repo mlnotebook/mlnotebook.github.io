@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="An Introduction to CNNs and Deep Learning">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.18.1" />
 
   <title>Convolutional Neural Networks - Basics &middot; Machine Learning Notebook</title>
 
@@ -90,6 +90,12 @@
       
       
         <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
           <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
       
         </li>
@@ -103,12 +109,6 @@
       
         <li class="pure-menu-item">
           <a class="pure-menu-link" href="/contact/"><i class='fa fa-phone fa-fw'></i>Contact</a>
-      
-        </li>
-      
-      
-        <li class="pure-menu-item">
-          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
       
         </li>
       
@@ -317,7 +317,7 @@
 <h2 id="deep">  CNN or Deep Learning? </h2>
 
 <p>
-You would be forgiven for thinking that Deep Learning (DL) takes its name from the number of layers in a neural network, but the root is a little more complex than that. In fact, some powerful neural networks, even CNNs, only consist of a few layers. The 'deep' in DL acknowledges that each layer of the network has 'layers' of its own. More on this later.
+The "deep" part of deep learning comes in a couple of places: the number of layers and the number of features. Firstly, as one may expect, there are usually more layers in a deep learning framework than in your average multi-layer perceptron or standard neural network. We have some architectures that are 150 layers deep. Secondly, each layer of a CNN will learn multiple 'features' (multiple sets of weights) that connect it to the previous layer; so in this sense it's much deeper than a normal neural net too. In fact, some powerful neural networks, even CNNs, only consist of a few layers. So the 'deep' in DL acknowledges that each layer of the network learns multiple features. More on this later.
 </p><p>
 Often you may see a conflation of CNNs with DL, but the concept of DL comes some time before CNNs were first introduced. Connecting multiple neural networks together, altering the directionality of their weights and stacking such machines all gave rise to the increasing power and popularity of DL.
 </p><p>
@@ -358,14 +358,14 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 </div>
 </div>
 
-<p>A kernel is placed in the top-left corner of the image. The pixel values covered by the kernel are multiplied with the corresponing kernel values and the products are summated. The result is placed in the new image at the point corresponding the centre of the kernel. An example for this first step is shown in the diagram below. This takes the vertical Sobel filter (used for edge-detection) and applies it to the pixels of the image.</p>
+<p>A kernel is placed in the top-left corner of the image. The pixel values covered by the kernel are multiplied with the corresponing kernel values and the products are summated. The result is placed in the new image at the point corresponding to the centre of the kernel. An example for this first step is shown in the diagram below. This takes the vertical Sobel filter (used for edge-detection) and applies it to the pixels of the image.</p>
 
 <div style="text-align:center; display:inline-block; width:100%;margin:auto;">
 <img title="Conv Example" height="350" src="/img/CNN/convExample.png"><br>
 <b>A step in the Convolution Process.</b>
 </div>
 
-<p>The kernel is moved over by one pixel and this process is repated until all of the possible locations in the image are filtered as below, this time for the horizontal Sobel filter. Notice that there is a border of empty values around the convolved image. This is because the result of convolution is placed at the centre of the kernel. To deal with this, a process called &lsquo;padding&rsquo; or more commonly &lsquo;zero-padding&rsquo; is used. This simply means that a border of zeros is places around the original image to make it a pixel wider all around. The convolution is then done as normal, but the convolution result will now produce an image that is of equal size to the original.</p>
+<p>The kernel is moved over by one pixel and this process is repated until all of the possible locations in the image are filtered as below, this time for the horizontal Sobel filter. Notice that there is a border of empty values around the convolved image. This is because the result of convolution is placed at the centre of the kernel. To deal with this, a process called &lsquo;padding&rsquo; or more commonly &lsquo;zero-padding&rsquo; is used. This simply means that a border of zeros is placed around the original image to make it a pixel wider all around. The convolution is then done as normal, but the convolution result will now produce an image that is of equal size to the original.</p>
 
 <div style="width:100%;margin:auto; text-align:center;">
 <div style="text-align:center; display:inline-block; width:45%;min-width:455px;margin:auto;">
@@ -425,7 +425,7 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 
 <p>These weights that connect to the nodes need to be learned in exactly the same way as in a regular neural network. The image is passed through these nodes (by being convolved with the weights a.k.a the kernel) and the result is compared to some output (the error of which is then backpropagated and optimised).</p>
 
-<p>In reality, it isn&rsquo;t just the weights or the kernel for one 2D set of nodes that has to be learned, there is a whole array of nodes which all look at the same area of the image (called the <strong>receptive field</strong>*). Each of the nodes in this row (or <strong>fibre</strong>) tries to learn different kernels (different weights) that will show up some different features of the image, like edges. So the hidden-layer may look something more like this:</p>
+<p>In reality, it isn&rsquo;t just the weights or the kernel for one 2D set of nodes that has to be learned, there is a whole array of nodes which all look at the same area of the image (sometimes, but possibly incorrectly, called the <strong>receptive field</strong>*). Each of the nodes in this row (or <strong>fibre</strong>) tries to learn different kernels (different weights) that will show up some different features of the image, like edges. So the hidden-layer may look something more like this:</p>
 
 <p>* <em>Note: we&rsquo;ll talk more about the receptive field after looking at the pooling layer below</em></p>
 
@@ -440,19 +440,19 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 </div>
 </div>  
 
-<p>Now <strong>this</strong> is why deep learning is called <strong>deep</strong> learning. Each hidden layer of the convolutional neural network is capable of learning a large number of kernels. The output from this hidden-layer is passed to more layers which are able to learn their own kernels based on the <em>convolved</em> image output from this layer. This is what gives the CNN the ability to see the edges of an image and build them up into larger features.</p>
+<p>Now <strong>this</strong> is why deep learning is called <strong>deep</strong> learning. Each hidden layer of the convolutional neural network is capable of learning a large number of kernels. The output from this hidden-layer is passed to more layers which are able to learn their own kernels based on the <em>convolved</em> image output from this layer (after some pooling operation to reduce the size of the convolved output). This is what gives the CNN the ability to see the edges of an image and build them up into larger features.</p>
 
 <h2 id="CNN Architecture">  CNN Archiecture </h2>
 
-<p>It is the <em>architecture</em> of a CNN that gives it its power. In fact, most papers that are puplished these days on CNNs tend to be about a new achitecture i.e. the number and ordering of different layers and how many kernels are learnt. Let&rsquo;s take a look at the other layers in a CNN.</p>
+<p>It is the <em>architecture</em> of a CNN that gives it its power. A lot of papers that are puplished on CNNs tend to be about a new achitecture i.e. the number and ordering of different layers and how many kernels are learnt. Though often it&rsquo;s the clever tricks applied to older architecures that really give the network power. Let&rsquo;s take a look at the other layers in a CNN.</p>
 
 <h2 id='layers'> Layers </h2>
 
 <h3 id="input">  Input Layer </h3>
 
-<p>The input image is placed into this layer. It can be a single-layer 2D image (grayscale), 2D 3-channel image (RGB colour) or 3D. The main different between how the inputs are arranged comes in the formation of the expected kernel shapes. Kernels need to be learned that are the same depth as the input i.e. 5 x 5 x 3 for a 2D RGB image with a receptive field of 5 x 5.</p>
+<p>The input image is placed into this layer. It can be a single-layer 2D image (grayscale), 2D 3-channel image (RGB colour) or 3D. The main difference between how the inputs are arranged comes in the formation of the expected kernel shapes. Kernels need to be learned that are the same depth as the input i.e. 5 x 5 x 3 for a 2D RGB image with dimensions of 5 x 5.</p>
 
-<p>Input to a CNN seem to work best when they&rsquo;re of certain dimensions. This is because of the behviour of the convolution. Depending on the <em>stride</em> of the kernel and the subsequent <em>pooling layers</em> the outputs may become an &ldquo;illegal&rdquo; size including half-pixels. We&rsquo;ll look at this in the <em>pooling layer</em> section.</p>
+<p>Inputs to a CNN seem to work best when they&rsquo;re of certain dimensions. This is because of the behviour of the convolution. Depending on the <em>stride</em> of the kernel and the subsequent <em>pooling layers</em> the outputs may become an &ldquo;illegal&rdquo; size including half-pixels. We&rsquo;ll look at this in the <em>pooling layer</em> section.</p>
 
 <h3 id="convolution">  Convolutional Layer </h3>
 
@@ -460,13 +460,13 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 
 <h3 id="nonlinear"> Non-linearity</h3>
 
-<p>The &lsquo;non-linearity&rsquo; here isn&rsquo;t its own distinct layer of the CNN, but comes as part of the convolution layer as it is done in the neurons (just like a normal NN). By this, we mean &ldquo;don&rsquo;t take the data forwards as it is (linearity) let&rsquo;s do something to it (non-linearlity) that will help us later on&rdquo;.</p>
+<p>The &lsquo;non-linearity&rsquo; here isn&rsquo;t its own distinct layer of the CNN, but comes as part of the convolution layer as it is done on the output of the neurons (just like a normal NN). By this, we mean &ldquo;don&rsquo;t take the data forwards as it is (linearity) let&rsquo;s do something to it (non-linearlity) that will help us later on&rdquo;.</p>
 
 <p>In our neural network tutorials we looked at different <a href="/post/transfer-functions" title="Transfer Functions">activation functions</a>. These each provide a different mapping of the input to an output, either to [-1 1], [0 1] or some other domain e.g the Rectified Linear Unit thresholds the data at 0: max(0,x). The <em>ReLU</em> is very popular as it doesn&rsquo;t require any expensive computation and it&rsquo;s been <a href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf" title="Krizhevsky et al 2012">shown to speed up the convergence of stochastic gradient descent algorithms</a>.</p>
 
 <h3 id="pool">  Pooling Layer </h3>
 
-<p>The pooling layer is key to making sure that the subsequent layers of the CNN are able to pick up larger-scale detail than just edges and curves. It does this by merging pixel regions in the convolved image together (shrinking the image) before attempting to learn kernels on it. Effectlively, this stage tages another kernel, say [2 x 2] and passes it over the entire image, just like in convolution. It is common to have the stride and kernal size equal i.e. a [2 x 2] kernel has a stride of 2. This example will <em>half</em> the size of the convolved image. The number of feature-maps produced by the learned kernels will remain the same as <strong>pooling</strong> is done on each one in turn. Thus the pooling layer returns an array with the same depth as the convolution layer. The figure below shows the principal.</p>
+<p>The pooling layer is key to making sure that the subsequent layers of the CNN are able to pick up larger-scale detail than just edges and curves. It does this by merging pixel regions in the convolved image together (shrinking the image) before attempting to learn kernels on it. Effectlively, this stage takes another kernel, say [2 x 2] and passes it over the entire image, just like in convolution. It is common to have the stride and kernel size equal i.e. a [2 x 2] kernel has a stride of 2. This example will <em>half</em> the size of the convolved image. The number of feature-maps produced by the learned kernels will remain the same as <strong>pooling</strong> is done on each one in turn. Thus the pooling layer returns an array with the same depth as the convolution layer. The figure below shows the principal.</p>
 
 <div style="text-align:center; display:inline-block; width:100%;margin:auto;">
 <img title="Pooling" height=350 src="/img/CNN/poolfig.gif"><br>
@@ -475,31 +475,35 @@ As with the study of neural networks, the inspiration for CNNs came from nature:
 
 <h3 id="receptiveField"> A Note on the Receptive Field </h3>
 
-<p>This is quite an important, but sometimes neglected, concept. We said that the receptive field of a single neuron is the area of the image which is can &lsquo;see&rsquo;. Each neuron has a different receptive field. While this is true, the full impact of it can only be understood when we see what happens after pooling.</p>
+<p>This is quite an important, but sometimes neglected, concept. We said that the receptive field of a single neuron can be taken to mean the area of the image which it can &lsquo;see&rsquo;. Each neuron therefore has a different receptive field. While this is true, the full impact of it can only be understood when we see what happens after pooling.</p>
 
-<p>For an image of size [12 x 12], say the receptive field (kernel size) in the first conv layer is [3 x 3]. The output of the conv layer (assuming padding and stride of 1) is going to be the [12 x 12 x 10] if we&rsquo;re learning 10 kernels. After pooling with a [3 x 3] kernel, we get an output of [4 x 4 x 10]. This gets fed into the next conv layer. Suppose the kernel in the second conv layer is [2 x 2], would we say that the receptive field here is also [2 x 2]? Well, yes&hellip; but actually, no. In fact, a neuron in this layer is not just seeing the [2 x 2] area of the <em>convolved</em> image, it is actually seeing a [4 x 4] area of the <em>original</em> image. That&rsquo;s the [3 x 3] of the first layer for each of the pixels in the &lsquo;receptive field&rsquo; of the second layer (remembering we had a stride of 1 in the first layer). Continuing this through the rest of the network, it is possible to end up with a final layer with a recpetive field equal to the size of the original image. Understanding this gives us the real insight to how the CNN works, building up the image as it goes.</p>
+<p>Let&rsquo;s take an image of size [12 x 12] and a kernel size in the first conv layer of [3 x 3]. The output of the conv layer (assuming zero-padding and stride of 1) is going to be [12 x 12 x 10] if we&rsquo;re learning 10 kernels. After pooling with a [3 x 3] kernel, we get an output of [4 x 4 x 10]. This gets fed into the next conv layer. Suppose the kernel in the second conv layer is [2 x 2], would we say that the receptive field here is also [2 x 2]? Well, some people do but, actually, no it&rsquo;s not. In fact, a neuron in this layer is not just seeing the [2 x 2] area of the <em>convolved</em> image, it is actually seeing a [4 x 4] area of the <em>original</em> image too. That&rsquo;s the [3 x 3] of the first layer for each of the pixels in the &lsquo;receptive field&rsquo; of the second layer (remembering we had a stride of 1 in the first layer). Continuing this through the rest of the network, it is possible to end up with a final layer with a recpetive field equal to the size of the original image. Understanding this gives us the real insight to how the CNN works, building up the image as it goes.</p>
 
 <h3 id="dense">  Fully-connected (Dense) Layer</h3>
 
-<p>So this layer took me a while to figure out. If I take all of the say [3 x 3 x 64] featuremaps of my final pooling layer I have 3 x 3 x 64 = 576 different weights to consider and update. What I need is to make sure that my training labels match with the outputs from my output layer. We may only have 10 possibilities in our output layer (say the digits 0 - 9 ). Thus we want the final numbers in our output layer to be [? x 10] where the ? represents the number of nodes in the layer before&hellip; this one, the FC layer. If there was only 1 node in this layer, it would have 576 weights attached to it - one for each of the weights coming from the previous pooling layer. This is not very useful as it won&rsquo;t allow us to learn any combinations of these low-dimensional outputs. Increasing the number of neurons to say 1,000+ will allow the FC layer to provide many different combinations of features and learn a potentially non-linear function that represents the feature space. The larger the FC layer, the more complex the function could be (though it may not need to be very big). Sometimes it&rsquo;s seen that there are two FC layers together, this just increases the possibility of learning a complex function. FC layers are 1D vectors.</p>
+<p>So this layer took me a while to figure out, despite its simplicity. If I take all of the say [3 x 3 x 64] featuremaps of my final pooling layer I have 3 x 3 x 64 = 576 different weights to consider and update. I need to make sure that my training labels match with the outputs from my output layer. We may only have 10 possibilities in our output layer (say the digits 0 - 9 in the classic MNIST number classification task). Thus we want the final numbers in our output layer to be [10,] and the layer before this to be [? x 10] where the ? represents the number of nodes in the layer before: the fully-connected (FC) layer. If there was only 1 node in this layer, it would have 576 weights attached to it - one for each of the weights coming from the previous pooling layer. This is not very useful as it won&rsquo;t allow us to learn any combinations of these low-dimensional outputs. Increasing the number of neurons to say 1,000 will allow the FC layer to provide many different combinations of features and learn a more complex non-linear function that represents the feature space. The number of nodes in this layer can be whatever we want it to be and isn&rsquo;t constrained by any previous dimensions - this is the thing that kept confusing me when I looked at other CNNs. Sometimes it&rsquo;s also seen that there are two FC layers together, this just increases the possibility of learning a complex function. FC layers are 1D vectors.</p>
+
+<p>However, FC layers act as &lsquo;black boxes&rsquo; and are notoriously uninterpretable. They&rsquo;re also prone to overfitting so <strong>dropout&rsquo;</strong> is often performed (discussed below).</p>
 
 <h4 id = "fcConv"> Fully-connected as a Convolutional Layer </h4>
 
-<p>If the idea above doesn&rsquo;t help you (as it doesn&rsquo;t for me) lets remove the FC layer and replace it with another convolutional layer. This is very simple - take the output from the pooling layer as before and apply a convolution to it with a kernel that is the same size as a featuremap in the pooling layer. For this to be of use, the input to the conv should be down to around [5 x 5] or [3 x 3] by making sure there have been enough pooling layers in the network. What does this achieve? By convolving a [3 x 3] image with a [3 x 3] kernel we get a 1 pixel output. There is no striding, just one convolution per featuremap. So out output from this layer will be a [1 x k] vector where <em>k</em> is the number of featuremaps. This is very similar to the FC layer, except that the output from the conv is only created from an individual featuremap rather than being connected to all of the featuremaps. This can be powerfulll though as we have represented a very large receptive field by a single pixel. We&rsquo;re able to say, if the value of the output it high, that all of the featuremaps visible to this output have activated enough to represent a &lsquo;cat&rsquo; or whatever it is we are training our network to learn.</p>
+<p>If the idea above doesn&rsquo;t help you lets remove the FC layer and replace it with another convolutional layer. This is very simple - take the output from the pooling layer as before and apply a convolution to it with a kernel that is the same size as a featuremap in the pooling layer. For this to be of use, the input to the conv should be down to around [5 x 5] or [3 x 3] by making sure there have been enough pooling layers in the network. What does this achieve? By convolving a [3 x 3] image with a [3 x 3] kernel we get a 1 pixel output. There is no striding, just one convolution per featuremap. So our output from this layer will be a [1 x k] vector where <em>k</em> is the number of featuremaps. This is very similar to the FC layer, except that the output from the conv is only created from an individual featuremap rather than being connected to all of the featuremaps.</p>
 
-<p>Often, the kernel used in the final layer of a CNN incorporates some average pooling. Considering this as not just an average of the current featuremaps, but all previous featuremaps, then the output will be high if the previous layers were active within the receptive field of the final layer.</p>
+<p>But, isn&rsquo;t this more weights to learn? Yes, so it isn&rsquo;t done. Instead, we perform either <em>global average pooling</em> or <em>global max pooling</em> where the <em>global</em> refers to a whole single feature map (not the whole set of feature maps). So we&rsquo;re taking the average of all points in the feature and repeating this for each feature to get the [1 x k] vector as before. Note that the number of channels (kernels/features) in the last conv layer has to be equal to the number of outputs we want, or else we have to include an FC layer to change the [1 x k] vector to what we need.</p>
+
+<p>This can be powerfull as we have represented a very large receptive field by a single pixel and also removed some spatial information that allows us to try and take into account translations of the input. We&rsquo;re able to say, if the value of the output is high, that all of the featuremaps visible to this output have activated enough to represent a &lsquo;cat&rsquo; or whatever it is we are training our network to learn.</p>
 
 <h3 id="dropout"> Dropout Layer </h3>
 
-<p>The previously mentioned fully-connected layer is connected to all weights in the previous layer - this can be a very large number. As such, an FC layer is prone to <em>overfitting</em> meaning that the network won&rsquo;t generalise well to new data. There are a number of techniques that can be used to reduce overfitting though the most commonly seen in CNNs is the dropout layer. As the name suggests, this causes the network to &lsquo;drop&rsquo; some nodes on each iteration with a particular probability. The <em>keep probability</em> is between 0 and 1, most commonly around 0.2-0.5 it seems. This is the probability that a particular node is dropped during training. When back propagation occurs, the weights connected to these nodes are not updated. They are readded for the next iteration.</p>
+<p>The previously mentioned fully-connected layer is connected to all weights in the previous layer - this can be a very large number. As such, an FC layer is prone to <em>overfitting</em> meaning that the network won&rsquo;t generalise well to new data. There are a number of techniques that can be used to reduce overfitting though the most commonly seen in CNNs is the dropout layer, proposed by Hinton. As the name suggests, this causes the network to &lsquo;drop&rsquo; some nodes on each iteration with a particular probability. The <em>keep probability</em> is between 0 and 1, most commonly around 0.2-0.5 it seems. This is the probability that a particular node is dropped during training. When back propagation occurs, the weights connected to these nodes are not updated. They are readded for the next iteration before another set is chosen for dropout.</p>
 
 <h3 id="output"> Output Layer </h3>
 
-<p>Of course depending on the purpose of your CNN, the output layer will be slightly different. In general, the output layer consists of a number of nodes which have a high value if they are &lsquo;true&rsquo; or activated. Consider a classification problem where a CNN is given a set of images containing cats, dogs and elephants. If we&rsquo;re asking the CNN to learn what a cat, dog and elephant looks like, output layer is going to be a set of three nodes, one for each &lsquo;class&rsquo; or animal. We&rsquo;d expect that when the CNN finds an image of a cat, the value at the node representing &lsquo;cat&rsquo; is higher than the other two. This is the same idea as in a regular neural network. In fact, the FC layer and the output layer can be considered as a traditional NN. Some output layers are probabilities and as such will sum to 1, whilst others will just achieve a value which could be a pixel intensity in the range 0-255.</p>
+<p>Of course depending on the purpose of your CNN, the output layer will be slightly different. In general, the output layer consists of a number of nodes which have a high value if they are &lsquo;true&rsquo; or activated. Consider a classification problem where a CNN is given a set of images containing cats, dogs and elephants. If we&rsquo;re asking the CNN to learn what a cat, dog and elephant looks like, output layer is going to be a set of three nodes, one for each &lsquo;class&rsquo; or animal. We&rsquo;d expect that when the CNN finds an image of a cat, the value at the node representing &lsquo;cat&rsquo; is higher than the other two. This is the same idea as in a regular neural network. In fact, the FC layer and the output layer can be considered as a traditional NN where we also usually include a softmax activation function. Some output layers are probabilities and as such will sum to 1, whilst others will just achieve a value which could be a pixel intensity in the range 0-255. The output can also consist of a single node if we&rsquo;re doing regression or deciding if an image belong to a specific class or not e.g. diseased or healthy. Commonly, however, even binary classificaion is proposed with 2 nodes in the output and trained with labels that are &lsquo;one-hot&rsquo; encoded i.e. [1,0] for class 0 and [0,1] for class 1.</p>
 
 <h3 id="backProp"> A Note on Back Propagation </h3>
 
-<p>I&rsquo;ve found it helpful to consider CNNs in reverse. It didn&rsquo;t sit properly in my mind that the CNN first learns all different types of edges, curves etc. and then builds them up into large features e.g. a face. It came up in a discussion that we could consider the CNN working in reverse, and in fact this is effectively what happens - back propagation updates the weights from the final layer <em>back</em> towards the first. In fact, the error (or loss) minimisation occurs firstly at the final layer and as such, this is where the network is &lsquo;seeing&rsquo; the bigger picture. The gradient (updates to the weights) vanishes towards the input layer and is greatest at the output layer. We can effectively think that the CNN is learning &ldquo;face - has eyes, nose mouth&rdquo; at the output layer, then &ldquo;I don&rsquo;t know what a face is, but here are some eyes, noses, mouths&rdquo; in the previous one, then &ldquo;What are eyes? I&rsquo;m only seeing circles, some white bits and a black hole&rdquo; followed by &ldquo;woohoo! round things!&rdquo; and initially by &ldquo;I think that&rsquo;s what a line looks like&rdquo;. Possibly we could think of the CNN as being less sure about life at the first layers and being more advanced at the end.</p>
+<p>I&rsquo;ve found it helpful to consider CNNs in reverse. It didn&rsquo;t sit properly in my mind that the CNN first learns all different types of edges, curves etc. and then builds them up into large features e.g. a face. It came up in a discussion with a colleague that we could consider the CNN working in reverse, and in fact this is effectively what happens - back propagation updates the weights from the final layer <em>back</em> towards the first. In fact, the error (or loss) minimisation occurs firstly at the final layer and as such, this is where the network is &lsquo;seeing&rsquo; the bigger picture. The gradient (updates to the weights) vanishes towards the input layer and is greatest at the output layer. We can effectively think that the CNN is learning &ldquo;face - has eyes, nose mouth&rdquo; at the output layer, then &ldquo;I don&rsquo;t know what a face is, but here are some eyes, noses, mouths&rdquo; in the previous one, then &ldquo;What are eyes? I&rsquo;m only seeing circles, some white bits and a black hole&rdquo; followed by &ldquo;woohoo! round things!&rdquo; and initially by &ldquo;I think that&rsquo;s what a line looks like&rdquo;. Possibly we could think of the CNN as being less sure about itself at the first layers and being more advanced at the end.</p>
 
 <p>CNNs can be used for segmentation, classification, regression and a whole manner of other processes. On the whole, they only differ by four things:</p>
 
