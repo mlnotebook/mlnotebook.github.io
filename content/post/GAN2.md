@@ -8,13 +8,13 @@ social=true
 featured_image="/img/featgan2.png"
 +++
 
-This tutorial will provide the data that we will use when using our Generative Adversarial Networks. It will also take an overview on the structure of the necessary code for creating a GAN and provide some skeleton code which we can work on in the next post. If you're not up to speed on GANs, please do read the brief introduction in [Part 1]( /post/GAN1 "GAN Part 1 - Some Background and Mathematics") of this series on Generative Adversarial Networks.
+This tutorial will provide the data that we will use when training our Generative Adversarial Networks. It will also take an overview on the structure of the necessary code for creating a GAN and provide some skeleton code which we can work on in the next post. If you're not up to speed on GANs, please do read the brief introduction in [Part 1]( /post/GAN1 "GAN Part 1 - Some Background and Mathematics") of this series on Generative Adversarial Networks.
 
 <!--more-->
 
 <h2 id="intro"> Introduction </h2>
 
-We've look at [how a GAN works]( /post/GAN1 "GAN Part 1 - Some Background and Mathematics")  and how it is trained, but how do we implement this in Python? There are several stages to this task:
+We've looked at [how a GAN works]( /post/GAN1 "GAN Part 1 - Some Background and Mathematics")  and how it is trained, but how do we implement this in Python? There are several stages to this task:
 
 1. Create some initial functions that will read in our training data
 2. Create some functions that will perform the steps in the CNN

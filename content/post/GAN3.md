@@ -80,7 +80,7 @@ These are the functions needed to get the data from the hard-disk into our netwo
 
 1. `get_image` which calls
 2. `imread` and 
-3. `transform`which calls
+3. `transform` which calls
 4. `center_crop`
 
 <h4 id="imread"> imread() </h4>
@@ -105,11 +105,12 @@ def imread(path):
 
 <hr>
 
-<h4 id="transform"> transform() [to top][100]</h4>
+<h4 id="transform"> transform() </h4>
+[to top][100]
 
 This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we've done some registration/alignment etc.
 
-We do a check on whether we want to crop the image, if we do call the `center_crop` function, other wise, just take the `image` as it is.
+We do a check on whether we want to crop the image, if we do then call the `center_crop` function, other wise, just take the `image` as it is.
 
 Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1. 
 

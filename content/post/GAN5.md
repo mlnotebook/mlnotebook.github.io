@@ -159,7 +159,7 @@ Here it is, the output from our GAN (after 14 epochs in this case) showing how w
 						
 	</div>
 	<div class="figure_caption">
-		<font color="blue">Figure 3</font>: The output of our GAN at the end of each epoch ending at epoch 14. (created at [gifmaker.me](http://gifmaker.me "gifmaker")).
+		<font color="blue">Figure 3</font>: The output of our GAN at the end of each epoch ending at epoch 14. (created at gifmaker.me).
 		
 	</div>
 </div>
