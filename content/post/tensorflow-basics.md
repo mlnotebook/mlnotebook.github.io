@@ -16,7 +16,7 @@ We've looked at the principles behind how a CNN works, but how do we actually im
 
 <h2 id="intro">  Introduction </h2>
 
-Building a CNN from scratch in Python is perfectly possible, but very memory intensive. It can also lead to very long pieces of code. Several libraries have been developed by the community to solve this problem by wrapping the most common parts of CNNs into special methods called from their own libraries. Theano, Keras and Caffe are notable libraries being used today that are all opensource. However, since TensorFlow was released and Google announced their machine-learning-specific hardware, the Tensor Processing Unit (TPU), TensorFlow has quickly become a much-used tool in the field. If any applications being built today are intended for use on mobile devices, TensorFlow is the way to go as the mobile TPU in the upcoming Google phones will be able to perform inference from machine learning models in the User's hand. Of course, being a relative newcomer and very much still controlled by Google, TensorFlow may not have the huge body of support that has built up with Theano, say.
+Building a CNN from scratch in Python is perfectly possible, but very memory intensive. It can also lead to very long pieces of code. Several libraries have been developed by the community to solve this problem by wrapping the most common parts of CNNs into special methods called from their own libraries. Theano, Keras and PyTorch are notable libraries being used today that are all opensource. However, since TensorFlow was released and Google announced their machine-learning-specific hardware, the Tensor Processing Unit (TPU), TensorFlow has quickly become a much-used tool in the field. If any applications being built today are intended for use on mobile devices, TensorFlow is the way to go as the mobile TPU in the upcoming Google phones will be able to perform inference from machine learning models in the User's hand. Of course, being a relative newcomer and updates still very much controlled by Google, TensorFlow may not have the huge body of support that has built up with Theano, say.
 
 Nevertheless, TensorFlow is powerful and quick to setup so long as you know how: read on to find out. Much of this tutorial is based around the documentation provided by Google, but gives a lot more information that many be useful to less experienced users.
 
@@ -26,7 +26,7 @@ TensorFlow is just another set of Python libraries distributed by Google via the
 
 Go ahead and install the TensorFlow libraries. I would say that even though they suggest using TF in a virtual environment, we will be coding up our CNN in a Python script so don't worry about that if you're not comfortable with it.
 
-One of the most frustrating things you will find with TF is that much of the documentation on various websites is already out-of-date. Some of the commands have been re-written or renamed since the support was put in place. Even some of Google's own tutorials are now old and require tweaking. Nonetheless, the code written here will work on all versions, but may throw some 'depreication' warnings.
+One of the most frustrating things you will find with TF is that much of the documentation on various websites is already out-of-date. Some of the commands have been re-written or renamed since the support was put in place. Even some of Google's own tutorials are now old and require tweaking. Currently, the code written here will work on all versions, but may throw some 'depreication' warnings.
 
 <h2 id="structure"> TensorFlow Structure </h2>
 
@@ -46,7 +46,7 @@ from tensorflow.contrib.learn.python.learn.estimators import model_fn as model_f
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 ```
- We've included multiple Tf lines to save on the typing later.
+ We've included multiple TF lines to save on the typing later.
  
 <h3 id="graph"> The Graph </h3>
 
@@ -96,7 +96,7 @@ But what about the `conv` and `pool` layers? Well, to keep the code nice and tid
 ```python
 def doConv(inputs):
     convOut = tf.layers.conv2d(inputs=inputs, filters=numK, kernel_size=[sizeConvK, sizeConvK], \
-    	padding="same", activation=tf.nn.relu)    
+    	padding="SAME", activation=tf.nn.relu)    
     return convOut
     
 def doPool(inputs):
@@ -104,11 +104,11 @@ def doPool(inputs):
     return poolOut
 ```
 
-Again, both the `conv` and `pool` layers are simple one-liners. They both take in some input data and need to know the size of the kernel you want them to use (which we defined earlier on). The `conv` layer need to know how many `filters` to learn too. Alongside this, we need to take care of any mis-match between the image size and the size of the kernels to ensure that we're not changing the size of the image when we get the output. This is easily done in TF by setting the `padding` attribute to `"same"`. We've got our non-linearity at the end here too. We've hard-coded that the pooling layer will have `strides=2`.
+Again, both the `conv` and `pool` layers are simple one-liners. They both take in some input data and need to know the size of the kernel you want them to use (which we defined earlier on). The `conv` layer needs to know how many `filters` to learn too. Alongside this, we need to take care of any mis-match between the image size and the size of the kernels to ensure that we're not changing the size of the image when we get the output. This is easily done in TF by setting the `padding` attribute to `"SAME"`. We've got our non-linearity at the end here too. We've hard-coded that the pooling layer will have `strides=2` and will therefore half in size at each pooling layer.
 
 Now we have the main part of our network coded-up. But it wont do very much unless we ask TF to give us some outputs and compare them to some training data.
 
-As the MNIST data is used for image-classification problems, we'll be trying to get the network to output probabilities that the image it is given belong to a specific class i.e. a number 0-9. The MNIST dataset only provides the numbers 0-9 which, if we provided this to the network, would start to output guesses of decimal values 0.143, 4.765, 8.112 or whatever. We need to change this data so that each class can have its own specific box which the network can assign a probability. We use the idea of 'one-hot' labels for this. For example, class 3 becomes [0 0 0 1 0 0 0 0 0 0] and class 9 becomes [0 0 0 0 0 0 0 0 0 1]. This way we're not asking the network to predict the number associated with each class but rather how likely is the test-image to be in this class.
+As the MNIST data is used for image-classification problems, we'll be trying to get the network to output probabilities that the image it is given belongs to a specific class i.e. a number 0-9. The MNIST dataset provides the numbers 0-9 which, if we provided this to the network, would start to output guesses of decimal values 0.143, 4.765, 8.112 or whatever. We need to change this data so that each class can have its own specific box which the network can assign a probability. We use the idea of 'one-hot' labels for this. For example, class 3 becomes [0 0 0 1 0 0 0 0 0 0] and class 9 becomes [0 0 0 0 0 0 0 0 0 1]. This way we're not asking the network to predict the number associated with each class but rather how likely is the test-image to be in this class.
 
 TF has a very handy function for changing class labels into 'one-hot' labels. Let's continue coding our graph in the `convNet` function.
 
@@ -131,13 +131,13 @@ TF has a very handy function for changing class labels into 'one-hot' labels. Le
             learning_rate=learning_rate, optimizer="SGD")
 ```
 
-`logits` here is the output of the network which corresponds to the 10 classes of the training labels. The next two sections check whether we should be training the weights right now, or checking how well we've done. First we check our progress: we use `tf.one_hot` to create the one-hot labels form the numeric training labels given to the network in `labels`. We've performed a `tf.cast` operation to make sure that the data is of the correct type before doing the conversion.
+`logits` here is the output of the network which corresponds to the 10 classes of the training labels. The next two sections check whether we should be training the weights right now, or checking how well we've done. First we check our progress: we use `tf.one_hot` to create the one-hot labels from the numeric training labels given to the network in `labels`. We've performed a `tf.cast` operation to make sure that the data is of the correct type before doing the conversion.
 
 Our loss-function is an important part of a CNN (or any machine learning algorithm). There are many different loss functions already built-in with TensorFlow from simple `absolute_difference` to more complex functions like our `softmax_cross_entropy`. We won't delve into how this is calculated, just know that we can pick any loss function. More advanced users can write their own loss-functions. The loss function takes in the output of the network `logits` and compares it to our `onehot_labels`.
 
-When this is done, we ask TF to perform some updating or 'optimization' of the network based on the loss that we just calculated. the `train_op` in TF is the name given in support documnets to the function that performs any background changes to the fundamentals of the network or updates values. Our `train_op` here is a simple loss-optimiser that tries to find the minimum loss for our data. As with all machine learning algorithms, the parameters of this optimiser are subject to much research. Using a pre-build optimiser such as those included with TF will ensure that your network performs efficiently and trains as quickly as possible. The `learning_rate` can be set as a variable at the beginning of our script along with the other parameters. We tend to stick with `0.001` to begin with and move in orders of magnitude if we need to e.g. `0.01` or `0.0001`. Just like the loss functions, there are a number of optimisers to use, some will take longer than others if they are more complex. For our purposes on the MNIST dataset, simple stochastic gradient descent (`SGD`) will suffice.
+When this is done, we ask TF to perform some updating or 'optimization' of the network based on the loss that we just calculated. the `train_op` in TF is the name given in support documents to the function that performs any background changes to the fundamentals of the network or updates values. Our `train_op` here is a simple loss-optimiser that tries to find the minimum loss for our data. As with all machine learning algorithms, the parameters of this optimiser are subject to much research. Using a pre-built optimiser such as those included with TF will ensure that your network performs efficiently and trains as quickly as possible. The `learning_rate` can be set as a variable at the beginning of our script along with the other parameters. We tend to stick with `0.001` to begin with and move in orders of magnitude if we need to e.g. `0.01` or `0.0001`. Just like the loss functions, there are a number of optimisers to use, some will take longer than others if they are more complex. For our purposes on the MNIST dataset, simple stochastic gradient descent (`SGD`) will suffice.
 
-Notice that we are literally just giving TF some instructions: take my network, calculate the loss and do some optimisation based on that loss. There is very little back-end programming involved with TF.
+Notice that we are just giving TF some instructions: take my network, calculate the loss and do some optimisation based on that loss.
 
 We are going to want to show what the network has learned, so we output the current predictions by definiing a dictionary of data. The raw logits information and the associated probabilities (found by taking the softmax of the logits tensor).
 
@@ -151,7 +151,7 @@ We can finish off our graph by making sure it returns the data:
 return model_fn_lib.ModelFnOps(mode=mode, predictions=predictions, loss=loss, train_op=train_op)
 ```
 
-`ModelFnOps` class is returns that contains the current mode of the network (training or inference), the current predictions, loss and the `train_op` that we use to train the network.
+`ModelFnOps` class is returned that contains the current mode of the network (training or inference), the current predictions, loss and the `train_op` that we use to train the network.
 
 <h3 id="setup">Setting up the Script</h3>
 
