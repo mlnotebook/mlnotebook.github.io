@@ -365,7 +365,7 @@
 <ol>
 <li><code>get_image</code> which calls</li>
 <li><code>imread</code> and</li>
-<li><code>transform</code>which calls</li>
+<li><code>transform</code> which calls</li>
 <li><code>center_crop</code></li>
 </ol>
 
@@ -393,40 +393,38 @@ def imread(path):
 
 <hr>
 
-<h4 id="transform"> transform() [to top][100]</h4>
+<h4 id="transform"> transform() </h4>
+[to top][100]
 
-<p>This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we&rsquo;ve done some registration/alignment etc.</p>
+This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we've done some registration/alignment etc.
 
-<p>We do a check on whether we want to crop the image, if we do call the <code>center_crop</code> function, other wise, just take the <code>image</code> as it is.</p>
+We do a check on whether we want to crop the image, if we do then call the `center_crop` function, other wise, just take the `image` as it is.
 
-<p>Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1.</p>
+Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1. 
 
-<p>We will define the cropping function next, but note that the returned image is a simply a <code>numpy</code> array.</p>
+We will define the cropping function next, but note that the returned image is a simply a `numpy` array.
 
-<p><em>Inputs</em></p>
+*Inputs*
 
-<ul>
-<li><code>image</code>:      the image data to be transformed</li>
-<li><code>npx</code>:        the size of the transformed image [<code>npx</code> x <code>npx</code>]</li>
-<li><code>is_crop</code>:    whether to preform cropping too [<code>True</code> or <code>False</code>]</li>
-</ul>
+* `image`:      the image data to be transformed
+* `npx`:        the size of the transformed image [`npx` x `npx`]
+* `is_crop`:    whether to preform cropping too [`True` or `False`]
 
-<p><em>Returns</em></p>
+*Returns*
 
-<ul>
-<li>the cropped, normalised image</li>
-</ul>
+* the cropped, normalised image
 
-<pre><code class="language-python">&quot;&quot;&quot; Transforms the image by cropping and resizing and 
+```python
+""" Transforms the image by cropping and resizing and 
 normalises intensity values between -1 and 1
-&quot;&quot;&quot;
+"""
 def transform(image, npx=64, is_crop=True):
     if is_crop:
         cropped_image = center_crop(image, npx)
     else:
         cropped_image = image
     return np.array(cropped_image)/127.5 - 1.
-</code></pre>
+```
 
 <hr>
 
