@@ -293,7 +293,7 @@
 </div>
 
 
-  <p>We&rsquo;ve seen that CNNs can learn the content of an image for classificationi purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &lsquo;fake&rsquo; image which isn&rsquo;t in the training set. Why? By the end of this tutorial you&rsquo;ll get know why this might be done and how to do it.</p>
+  <p>We&rsquo;ve seen that CNNs can learn the content of an image for classification purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &lsquo;fake&rsquo; image which isn&rsquo;t in the training set. Why? By the end of this tutorial you&rsquo;ll get know why this might be done and how to do it.</p>
 
 <p></p>
 
@@ -385,7 +385,7 @@ $$
 
 <p>Where $\mathbb{E}$ is the expectation. The advantage of working with neural networks is that we can easily compute gradients and use backpropagation to perform training. This is because the generator and the discriminator are defined by the multi-layer perceptron (MLP) parameters $\theta_g$ and $\theta_d$ respectively.</p>
 
-<p>We will train the networks (the $G$ and the $D$) one at a time, fixing the weights of one whilst training the other. From the GAN Goodfellow <em>et al</em> we get the <em>pseudo</em> code for this procedure:</p>
+<p>We will train the networks (the $G$ and the $D$) one at a time, fixing the weights of one whilst training the other. From the GAN paper by Goodfellow <em>et al</em> we get the <em>pseudo</em> code for this procedure:</p>
 
 <div class="figure_container">
     <div class="figure_images">
@@ -411,7 +411,7 @@ $$
 
 <p>That really is it. The basics of a GAN are just a game between two networks, the generator $G$, which produces images from some latent variables $z$, and the discriminator $D$ which tries to detect the faked images.</p>
 
-<p>Implementing this in Python seems old-hat to many and there are many pre-build solutions available. The work in this tutorial series will mostly follow the base-code from <a href="https://github.com/carpedm20/DCGAN-tensorflow" title="carpedm20/DCGAN-tensorflow">carpedm20&rsquo;s DCGAN-tensorflow repository</a>.</p>
+<p>Implementing this in Python seems old-hat to many and there are many pre-built solutions available. The work in this tutorial series will mostly follow the base-code from <a href="https://github.com/carpedm20/DCGAN-tensorflow" title="carpedm20/DCGAN-tensorflow">carpedm20&rsquo;s DCGAN-tensorflow repository</a>.</p>
 
 <p>In the next post, we&rsquo;ll get ourselves organised, make sure we have some dependencies, create some files and get our training data sorted.</p>
 

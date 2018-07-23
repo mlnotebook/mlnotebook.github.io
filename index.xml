@@ -681,7 +681,7 @@ config = tf.ConfigProto(intra_op_parallelism_threads=8)
                         
     &lt;/div&gt;
     &lt;div class=&#34;figure_caption&#34;&gt;
-        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The output of our GAN at the end of each epoch ending at epoch 14. (created at [gifmaker.me](http://gifmaker.me &#34;gifmaker&#34;)).
+        &lt;font color=&#34;blue&#34;&gt;Figure 3&lt;/font&gt;: The output of our GAN at the end of each epoch ending at epoch 14. (created at gifmaker.me).
         
     &lt;/div&gt;
 &lt;/div&gt;
@@ -1498,7 +1498,7 @@ def conv2d_transpose(input_, output_shape, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;get_image&lt;/code&gt; which calls&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;imread&lt;/code&gt; and&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;transform&lt;/code&gt;which calls&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;transform&lt;/code&gt; which calls&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;center_crop&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1526,40 +1526,38 @@ def imread(path):
 
 &lt;hr&gt;
 
-&lt;h4 id=&#34;transform&#34;&gt; transform() [to top][100]&lt;/h4&gt;
+&lt;h4 id=&#34;transform&#34;&gt; transform() &lt;/h4&gt;
+[to top][100]
 
-&lt;p&gt;This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we&amp;rsquo;ve done some registration/alignment etc.&lt;/p&gt;
+This function we will have to write into the skeleton. We are including this to make sure that the image data are all of the same dimensions. So this function will need to take in the image, the desired width (the output will be square) and whether to perform the cropping or not. We may have already cropped our images (as we have) because we&#39;ve done some registration/alignment etc.
 
-&lt;p&gt;We do a check on whether we want to crop the image, if we do call the &lt;code&gt;center_crop&lt;/code&gt; function, other wise, just take the &lt;code&gt;image&lt;/code&gt; as it is.&lt;/p&gt;
+We do a check on whether we want to crop the image, if we do then call the `center_crop` function, other wise, just take the `image` as it is.
 
-&lt;p&gt;Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1.&lt;/p&gt;
+Before returning our cropped (or uncropped) image, we are going to perform normalisation. Currently the pixels have intensity values in the range $[0 \ 255]$ for each channel (reg, green, blue). It is best not to have this kind of skew on our data, so we will normalise our images to have intensity values in the range $[-1 \ 1]$ by dividing by the mean of the maximum range (127.5) and subtracting 1. i.e. image/127.5 - 1. 
 
-&lt;p&gt;We will define the cropping function next, but note that the returned image is a simply a &lt;code&gt;numpy&lt;/code&gt; array.&lt;/p&gt;
+We will define the cropping function next, but note that the returned image is a simply a `numpy` array.
 
-&lt;p&gt;&lt;em&gt;Inputs&lt;/em&gt;&lt;/p&gt;
+*Inputs*
 
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;image&lt;/code&gt;:      the image data to be transformed&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;npx&lt;/code&gt;:        the size of the transformed image [&lt;code&gt;npx&lt;/code&gt; x &lt;code&gt;npx&lt;/code&gt;]&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;is_crop&lt;/code&gt;:    whether to preform cropping too [&lt;code&gt;True&lt;/code&gt; or &lt;code&gt;False&lt;/code&gt;]&lt;/li&gt;
-&lt;/ul&gt;
+* `image`:      the image data to be transformed
+* `npx`:        the size of the transformed image [`npx` x `npx`]
+* `is_crop`:    whether to preform cropping too [`True` or `False`]
 
-&lt;p&gt;&lt;em&gt;Returns&lt;/em&gt;&lt;/p&gt;
+*Returns*
 
-&lt;ul&gt;
-&lt;li&gt;the cropped, normalised image&lt;/li&gt;
-&lt;/ul&gt;
+* the cropped, normalised image
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Transforms the image by cropping and resizing and 
+```python
+&#34;&#34;&#34; Transforms the image by cropping and resizing and 
 normalises intensity values between -1 and 1
-&amp;quot;&amp;quot;&amp;quot;
+&#34;&#34;&#34;
 def transform(image, npx=64, is_crop=True):
     if is_crop:
         cropped_image = center_crop(image, npx)
     else:
         cropped_image = image
     return np.array(cropped_image)/127.5 - 1.
-&lt;/code&gt;&lt;/pre&gt;
+```
 
 &lt;hr&gt;
 
@@ -1770,13 +1768,13 @@ import scipy.misc
       <pubDate>Wed, 12 Jul 2017 11:59:45 +0100</pubDate>
       
       <guid>/post/GAN2/</guid>
-      <description>&lt;p&gt;This tutorial will provide the data that we will use when using our Generative Adversarial Networks. It will also take an overview on the structure of the necessary code for creating a GAN and provide some skeleton code which we can work on in the next post. If you&amp;rsquo;re not up to speed on GANs, please do read the brief introduction in &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN Part 1 - Some Background and Mathematics&#34;&gt;Part 1&lt;/a&gt; of this series on Generative Adversarial Networks.&lt;/p&gt;
+      <description>&lt;p&gt;This tutorial will provide the data that we will use when training our Generative Adversarial Networks. It will also take an overview on the structure of the necessary code for creating a GAN and provide some skeleton code which we can work on in the next post. If you&amp;rsquo;re not up to speed on GANs, please do read the brief introduction in &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN Part 1 - Some Background and Mathematics&#34;&gt;Part 1&lt;/a&gt; of this series on Generative Adversarial Networks.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;intro&#34;&gt; Introduction &lt;/h2&gt;
 
-&lt;p&gt;We&amp;rsquo;ve look at &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN Part 1 - Some Background and Mathematics&#34;&gt;how a GAN works&lt;/a&gt;  and how it is trained, but how do we implement this in Python? There are several stages to this task:&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve looked at &lt;a href=&#34;/post/GAN1&#34; title=&#34;GAN Part 1 - Some Background and Mathematics&#34;&gt;how a GAN works&lt;/a&gt;  and how it is trained, but how do we implement this in Python? There are several stages to this task:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;Create some initial functions that will read in our training data&lt;/li&gt;
@@ -1880,7 +1878,7 @@ sudo pip install -r requirements.txt
       <pubDate>Tue, 11 Jul 2017 09:15:54 +0100</pubDate>
       
       <guid>/post/GAN1/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;ve seen that CNNs can learn the content of an image for classificationi purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &amp;lsquo;fake&amp;rsquo; image which isn&amp;rsquo;t in the training set. Why? By the end of this tutorial you&amp;rsquo;ll get know why this might be done and how to do it.&lt;/p&gt;
+      <description>&lt;p&gt;We&amp;rsquo;ve seen that CNNs can learn the content of an image for classification purposes, but what else can they do? This tutorial will look at the Generative Adversarial Network (GAN) which is able to learn from a set of images and create an entirely new &amp;lsquo;fake&amp;rsquo; image which isn&amp;rsquo;t in the training set. Why? By the end of this tutorial you&amp;rsquo;ll get know why this might be done and how to do it.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
 
@@ -1972,7 +1970,7 @@ $$
 
 &lt;p&gt;Where $\mathbb{E}$ is the expectation. The advantage of working with neural networks is that we can easily compute gradients and use backpropagation to perform training. This is because the generator and the discriminator are defined by the multi-layer perceptron (MLP) parameters $\theta_g$ and $\theta_d$ respectively.&lt;/p&gt;
 
-&lt;p&gt;We will train the networks (the $G$ and the $D$) one at a time, fixing the weights of one whilst training the other. From the GAN Goodfellow &lt;em&gt;et al&lt;/em&gt; we get the &lt;em&gt;pseudo&lt;/em&gt; code for this procedure:&lt;/p&gt;
+&lt;p&gt;We will train the networks (the $G$ and the $D$) one at a time, fixing the weights of one whilst training the other. From the GAN paper by Goodfellow &lt;em&gt;et al&lt;/em&gt; we get the &lt;em&gt;pseudo&lt;/em&gt; code for this procedure:&lt;/p&gt;
 
 &lt;div class=&#34;figure_container&#34;&gt;
     &lt;div class=&#34;figure_images&#34;&gt;
@@ -1998,7 +1996,7 @@ $$
 
 &lt;p&gt;That really is it. The basics of a GAN are just a game between two networks, the generator $G$, which produces images from some latent variables $z$, and the discriminator $D$ which tries to detect the faked images.&lt;/p&gt;
 
-&lt;p&gt;Implementing this in Python seems old-hat to many and there are many pre-build solutions available. The work in this tutorial series will mostly follow the base-code from &lt;a href=&#34;https://github.com/carpedm20/DCGAN-tensorflow&#34; title=&#34;carpedm20/DCGAN-tensorflow&#34;&gt;carpedm20&amp;rsquo;s DCGAN-tensorflow repository&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Implementing this in Python seems old-hat to many and there are many pre-built solutions available. The work in this tutorial series will mostly follow the base-code from &lt;a href=&#34;https://github.com/carpedm20/DCGAN-tensorflow&#34; title=&#34;carpedm20/DCGAN-tensorflow&#34;&gt;carpedm20&amp;rsquo;s DCGAN-tensorflow repository&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In the next post, we&amp;rsquo;ll get ourselves organised, make sure we have some dependencies, create some files and get our training data sorted.&lt;/p&gt;
 
